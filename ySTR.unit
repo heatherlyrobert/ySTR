@@ -216,6 +216,61 @@ SCRP          v20  verify delimiter count string function                     
 
 #23456789012  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
 #==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)===================================  t  ========(var)======= 
+SCRP          v20  verify delimiter change function                             strldchg                                                                ----------  ----------------------------------------------------------------------  -  -------------------- 
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+
+   COND       v20  change a single space                                        ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , "test spaces"            , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ' '         , ','        , 20                          i_equal     1                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [test,spaces]                                        -                       
+
+   COND       v20  change multiple commas                                       ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , "testing, 1, 2, 3"       , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        , 20                          i_equal     3                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [testing  1  2  3]                                      -                       
+
+   COND       v20  change multiple spaces                                       ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , "testing, 1, 2, 3"       , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ' '         , ','        , 20                          i_equal     3                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [testing,,1,,2,,3]                                      -                       
+
+   COND       v20  change with trailing delimiter                               ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , "testing, 1, 2, 3,"      , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        , 20                          i_equal     4                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [testing  1  2  3 ]                                      -                       
+
+   COND       v20  change with leading delimiter                                ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , ",testing, 1, 2, 3,"     , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        , 20                          i_equal     5                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [ testing  1  2  3 ]                                      -                       
+
+   COND       v20  test the length cutoff being small                           ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , ",testing, 1, 2, 3"      , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        ,  5                          i_equal     1                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [ testing, 1, 2, 3]                                  -                       
+
+   COND       v20  test the length cutoff being one                             ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , ",testing, 1, 2, 3"      , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        ,  1                          i_equal     1                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [ testing, 1, 2, 3]                                  -                       
+
+   COND       v20  test the length cutoff being zero                            ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , ",testing, 1, 2, 3"      , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        ,  0                          i_equal     0                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [,testing, 1, 2, 3]                                  -                       
+
+   COND       v20  test the length cutoff being negative                        ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  copy a string                        strlcpy               its.strtest    , ",testing, 1, 2, 3"      , 20                          i_equal     0                                                                       -                       
+     exec     v20  count a character                    strldchg              its.strtest    , ','         , ' '        , -1                          i_equal     0                                                                       -                       
+     exec     v20  check the string result              ySTR_unit             "string"       , 0                                                      s_equal     ySTR string      : [,testing, 1, 2, 3]                                  -                       
+
+
+
+
+#23456789012  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)===================================  t  ========(var)======= 
 SCRP          v20  verify delimiter removal function                            strlddel                                                                ----------  ----------------------------------------------------------------------  -  -------------------- 
 
    COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 

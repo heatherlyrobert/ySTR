@@ -227,21 +227,6 @@ strltrim           (char *a_src, char a_mode, int a_max)
    }
    /*---(compress)-----------------------*/
    c = strlddel (a_src, m, a_max);
-   /*> s = a_src;                                                                     <* 
-    *> n = a_max;                                                                     <* 
-    *> c = 0;                                                                         <* 
-    *> while (*(s + c) != '\0') {                                                     <* 
-    *>    if (n  <  1)  break;                                                        <* 
-    *>    n--;                                                                        <* 
-    *>    if (*(s + c) == m) {                                                        <* 
-    *>       --x_len;                                                                 <* 
-    *>       c++;                                                                     <* 
-    *>       continue;                                                                <* 
-    *>    }                                                                           <* 
-    *>    *s = *(s + c);                                                              <* 
-    *>    s++;                                                                        <* 
-    *> }                                                                              <* 
-    *> *s = '\0';                                                                     <*/
    /*---(complete)-----------------------*/
    return x_len - c;
 }
@@ -295,6 +280,27 @@ strldpos           (char *a_src, char  a_del, int a_cnt, int a_max)
    }
    /*---(complete)-----------------------*/
    return -1;
+}
+
+int          /*--> change all delimeter in string --------[ ------ [ ------ ]-*/
+strldchg           (char *a_src, char  a_del, char  a_new, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   register char *s        = a_src;
+   register int   n        = a_max;
+   register int   c        = 0;
+   /*---(compress)-----------------------*/
+   while (*s != '\0') {
+      if (n  <  1)  break;
+      if (*s == a_del) {
+         ++c;
+         *s = a_new;
+      }
+      n--;
+      s++;
+   }
+   /*---(complete)-----------------------*/
+   return c;
 }
 
 int          /*--> remove all delimeter in string --------[ ------ [ ------ ]-*/
@@ -467,35 +473,35 @@ strlargs           (char *a_src, int a_max, int a_cnt, int *a_argc, char *a_argv
  *>    default : strcpy (s_string, "(bad mode)");                                                                                         <* 
  *>              DEBUG_YSTR  yLOG_note    ("unknown mode, exiting");                                                                      <* 
  *>              DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                 <* 
- *>              return NULL;                                                                                                             <* 
- *>    }                                                                                                                                  <* 
- *>    DEBUG_YSTR  yLOG_info    ("x_legal"   , x_legal);                                                                                  <* 
- *>    /+---(clear)--------------------------+/                                                                                           <* 
- *>    for (i = 0; i <= x_len; ++i) {                                                                                                     <* 
- *>       if (strchr (x_legal, a_source[i]) != 0)  continue;                                                                              <* 
- *>       if (a_compress == '\0') {                                                                                                       <* 
- *>          for (j = i; j <= x_len; ++j)  a_source[j] = a_source[j + 1];                                                                 <* 
- *>          --x_len;                                                                                                                     <* 
- *>          --i;                                                                                                                         <* 
- *>          continue;                                                                                                                    <* 
- *>       }                                                                                                                               <* 
- *>       a_source [i] = a_compress;                                                                                                      <* 
- *>    }                                                                                                                                  <* 
- *>    /+---(prepare for testing)------------+/                                                                                           <* 
- *>    strncpy (s_string, a_source, MAX_STR);                                                                                             <* 
- *>    /+---(complete)-----------------------+/                                                                                           <* 
- *>    DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                           <* 
- *>    return a_source;                                                                                                                   <* 
- *> }                                                                                                                                     <*/
+*>              return NULL;                                                                                                             <* 
+*>    }                                                                                                                                  <* 
+*>    DEBUG_YSTR  yLOG_info    ("x_legal"   , x_legal);                                                                                  <* 
+*>    /+---(clear)--------------------------+/                                                                                           <* 
+*>    for (i = 0; i <= x_len; ++i) {                                                                                                     <* 
+   *>       if (strchr (x_legal, a_source[i]) != 0)  continue;                                                                              <* 
+      *>       if (a_compress == '\0') {                                                                                                       <* 
+         *>          for (j = i; j <= x_len; ++j)  a_source[j] = a_source[j + 1];                                                                 <* 
+            *>          --x_len;                                                                                                                     <* 
+            *>          --i;                                                                                                                         <* 
+            *>          continue;                                                                                                                    <* 
+            *>       }                                                                                                                               <* 
+            *>       a_source [i] = a_compress;                                                                                                      <* 
+            *>    }                                                                                                                                  <* 
+            *>    /+---(prepare for testing)------------+/                                                                                           <* 
+            *>    strncpy (s_string, a_source, MAX_STR);                                                                                             <* 
+            *>    /+---(complete)-----------------------+/                                                                                           <* 
+            *>    DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                           <* 
+            *>    return a_source;                                                                                                                   <* 
+            *> }                                                                                                                                     <*/
 
 
-/*====================------------------------------------====================*/
-/*===----                    unit testing accessor                     ----===*/
-/*====================------------------------------------====================*/
-static void      o___UNITTEST________________o (void) {;}
+            /*====================------------------------------------====================*/
+            /*===----                    unit testing accessor                     ----===*/
+            /*====================------------------------------------====================*/
+            static void      o___UNITTEST________________o (void) {;}
 
 #define       LEN_TEXT  2000
-char          unit_answer [ LEN_TEXT ];
+            char          unit_answer [ LEN_TEXT ];
 
 char*            /* [------] unit test accessor ------------------------------*/
 ySTR_unit          (char *a_question, int a_num)
