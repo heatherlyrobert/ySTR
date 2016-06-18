@@ -271,6 +271,68 @@ strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
    return c;
 }
 
+int          /*--> clean string characters ---------------[--------[--------]-*/
+strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
+{
+   /*---(design notes)-------------------*/
+   /*
+    *   a = alpha    lower and upper case letters only
+    *   n = alnum    alpha plus numbers
+    *   b = basic    alnum plus space, dash, and underscore
+    *   w = write    basic plus normal punctuation
+    *   e = exten    write plus coding symbols
+    *   p = print    all 7-bit printable ascii characters
+    *   7 = seven    all 7-bit, safe ascii characters
+    *
+    */
+   /*---(locals)-----------+-----------+-*/
+   char       *x_alpha     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+   char       *x_alnum     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";
+   char       *x_basic     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_-";
+   char       *x_write     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&";
+   char       *x_exten     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$";
+   char        x_legal     [200]   = "";
+   int         i, j;                     /* loop iterators -- characters        */
+   int         x_len       = 0;            /* source string length                */
+   int         c           = 0;
+   char           m        = 31;            /* this is the marker char        */
+   /*---(defenses)-----------------------*/
+   if (a_src == NULL)     return  -11;
+   /*---(setup legal characters)---------*/
+   switch (a_mode) {
+   case 'a' : strcpy (x_legal, x_alpha);            break;
+   case '9' : strcpy (x_legal, x_alnum);            break;
+   case 'b' : strcpy (x_legal, x_basic);            break;
+   case 'w' : strcpy (x_legal, x_write);            break;
+   case 'e' : strcpy (x_legal, x_exten);            break;
+   case 'p' : for (i = ' '; i <= '~'; ++i) {
+                 j = i - ' ';
+                 x_legal [j    ] = i;
+                 x_legal [j + 1] = '\0';
+              }
+              break;
+   case '7' : for (i = 1; i <= 127; ++i) {
+                 j = i - 1;
+                 x_legal [j    ] = i;
+                 x_legal [j + 1] = '\0';
+              }
+              break;
+   default : return -12;
+   }
+   /*---(clear)--------------------------*/
+   x_len = strlen(a_src);
+   if (x_len > a_max)  x_len = a_max;
+   for (i = 0; i <= x_len; ++i) {
+      if (strchr (x_legal, a_src [i]) != 0)  continue;
+      ++c;
+      if (a_compress == 'y')  a_src [i] = m;
+      else                    a_src [i] = '_';
+   }
+   if (a_compress == 'y')   strlddel (a_src, m, a_max);
+   /*---(complete)-----------------------*/
+   return c;
+}
+
 
 
 /*====================------------------------------------====================*/

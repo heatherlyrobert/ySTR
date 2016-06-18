@@ -52,8 +52,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2d"
-#define YSTR_VER_TXT   "add strlrepl and its unit testing"
+#define YSTR_VER_NUM   "0.2e"
+#define YSTR_VER_TXT   "add strlclean and its unit testing"
 
 
 #define       ySTR_NOTRUNC   -1
@@ -65,6 +65,13 @@
 #define       ySTR_EVERY     'e'
 #define       ySTR_MAX       'm'
 
+#define       ySTR_ALPHA     'a'
+#define       ySTR_ALNUM     '9'
+#define       ySTR_BASIC     'b'
+#define       ySTR_WRITE     'w'
+#define       ySTR_EXTEN     'e'
+#define       ySTR_PRINT     'p'
+#define       ySTR_SEVEN     '7'
 
 char*       ySTR_version       (void);
 char        ySTR_debug         (char a_flag);
@@ -74,6 +81,8 @@ char        strlcat            (char *a_dst, char *a_src , int  a_max);
 int         strllen            (char *a_src, int   a_max );
 char        strltrunc          (char *a_dst, int   a_max );
 int         strltrim           (char *a_src, char  a_mode, int  a_max);
+int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
+int         strlclean          (char *a_src, char a_mode, char a_compress, int a_max);
 
 int         strldcnt           (char *a_src, char  a_del , int  a_max);
 int         strldpos           (char *a_src, char  a_del , int  a_cnt , int  a_max);
