@@ -1,0 +1,57 @@
+.TH ySTR 3 2015-jun "linux" "heatherly custom tools manual"
+
+.SH NAME
+ySTR \- library of secure and useful string handling functions
+.SH SYNOPSIS
+.nf
+.B #include  <ySTR.h>
+.sp
+.R  ---(production)--------------------------------
+.BI "char strlcpy   (char *" "a_dst" ", char *" "a_src" ", int " "a_max" ");"
+.BI "char strlcat   (char *" "a_dst" ", char *" "a_src" ", int " "a_max" ");"
+.BI "char strllen   (char *" "a_src" ", int " "a_max" ");"
+.BI "char strltrunc (char *" "a_src" ", int " "a_max" " );"
+.BI "char strltrim  (char *" "a_src" ", char " "a_mode" ", int " "a_max" ");"
+.BI "char strldcnt  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
+.BI "char strldpos  (char *" "a_src" ", char " "a_del" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "char strlargs  (char *" "a_src" ", int " "a_cnt" ", int *" "a_argc" ", char **" "a_argv" ", int " "a_max" ");"
+.sp
+.B link with -L/usr/local/libs -lySTR or -lySTR_debug
+.sp
+.R  ---(logging/unit testing)----------------------
+.BI "char *ySTR_version  (void);"
+.BI "char ySTR_debug     (char " "a_flag" ");"
+.BI "char ySTR_testloud  (void);"
+.BI "char ySTR_testquiet (void);"
+.sp
+.B link with -L/usr/local/libs -lySTR_debug
+
+
+.SH SUMMARY
+ySTR is a set of shared c functions to provide flexible, reliable, and
+consistent string handling to nearly all my programs.  its purpose is to take
+a complex and foundational capability, make it more secure and bug resistent,
+and allow them to be tested, maintained, and documented in one place.
+
+.SH PROBLEM and REWARDS (PR)
+the standard c library for string handling is excellent, but can allow buffer
+overruns to creep into programs.  additionally, there are a number of string
+functions which i commonly use which really should be in one shared place.
+this is an opportunity to really clean up as well as understand string
+handling better.  a few of the benefits of having these functions...
+   -- fewer accidental buffer overruns
+   -- higher standard of string handling
+   -- no code migrations of advanced string handling between programs
+   -- more consistent user interface
+   -- much better unit tests on additional string functions
+   -- i gain experience
+
+.SH OBJECTIVES and ALTERNATIVES (OA)
+objectives and ideas for this library are gathered by reviewing other c
+libraries as well as string libraries for other languages.  if we do this
+right, i will replace the c string library with a compatable one and add
+a number of useful additional functions.
+
+phase one is simply to migrate away from strcpy, strncpy, strcat, and strncat.
+i also like moving from strlen. and i must standardize string trimming.
+
