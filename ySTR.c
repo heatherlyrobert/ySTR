@@ -231,6 +231,46 @@ strltrim           (char *a_src, char a_mode, int a_max)
    return x_len - c;
 }
 
+int              /* ---- : count contiguous spaces ---------------------------*/
+strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         = -10;
+   register char  *s           = a_src;         /* source pointer                 */
+   register char    *t           = a_src;         /* source pointer                 */
+   register char    *o           = a_old;         /* search pointer                 */
+   int         n           = 0;
+   int         lenf        = strlen (a_src);
+   int         leno        = strlen (a_old);
+   int         lenn        = strlen (a_new);
+   int         lend        = lenn - leno;
+   int         c           = 0;
+   char        x_final     [2000] = "";
+   /*---(defenses)-----------------------*/
+   --rce;  if (a_src == NULL)     return  rce;
+   --rce;  if (a_old == NULL)     return  rce;
+   --rce;  if (a_new == NULL)     return  rce;
+   --rce;  if (a_max >= 2000)     return  rce;
+   /*---(cycle)--------------------------*/
+   --rce;
+   while (1) {
+      t = strstr (s, o);
+      if (t == NULL)              break;
+      if (c >= a_cnt)             break;
+      if (lenf + lend >= 2000)    break;
+      if (t - a_src + lenn >= a_max)    break;
+      ++c;
+      n = t - s;
+      strncat  (x_final, s, n);
+      strcat   (x_final, a_new);
+      s = t + leno;
+   }
+   strcat   (x_final, s);
+   strlcpy  (a_src, x_final, a_max);
+   /*---(complete)-----------------------*/
+   return c;
+}
+
 
 
 /*====================------------------------------------====================*/

@@ -52,8 +52,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2c"
-#define YSTR_VER_TXT   "add strldchg and its unit testing"
+#define YSTR_VER_NUM   "0.2d"
+#define YSTR_VER_TXT   "add strlrepl and its unit testing"
 
 
 #define       ySTR_NOTRUNC   -1
