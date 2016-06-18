@@ -52,8 +52,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2a"
-#define YSTR_VER_TXT   "prepare for github upload"
+#define YSTR_VER_NUM   "0.2b"
+#define YSTR_VER_TXT   "add strlddel, its testing, and add to strltrim"
 
 
 #define       ySTR_NOTRUNC   -1
@@ -74,8 +74,11 @@ char        strlcat            (char *a_dst, char *a_src , int a_max);
 int         strllen            (char *a_src, int   a_max );
 char        strltrunc          (char *a_dst, int   a_max );
 int         strltrim           (char *a_src, char  a_mode, int a_max);
+
 int         strldcnt           (char *a_src, char  a_del , int a_max);
 int         strldpos           (char *a_src, char  a_del , int a_cnt , int  a_max);
+int         strlddel           (char *a_src, char  a_del , int a_max);
+
 char        strlargs           (char *a_src, int   a_max , int a_cnt , int *a_argc, char *argv[]);
 
 

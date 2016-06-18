@@ -115,54 +115,10 @@ strlcat            (char *a_dst, char *a_src, int a_max)
 }
 
 char             /* ---- : secure version of truncate ------------------------*/
-strltrunc          (char *a_dst, int a_max)
+strltrunc          (char *a_src, int a_max)
 {
-   if (a_max > 0) *(a_dst + a_max) = '\0';
+   if (a_max > 0) *(a_src + a_max) = '\0';
    return 0;
-}
-
-int  
-strldcnt           (char *a_src, char  a_del, int a_max)
-{  /*---(locals)-----------+-----------+-*/
-   register char *s        = a_src;         /* source pointer                 */
-   register int   n        = a_max;
-   register int   c        = 0;
-   register char  l        = '\0';          /* duplicate space skipper        */
-   /*---(search)-------------------------*/
-   while (*s != '\0') {
-      if (n < 1)  break;
-      if (*s == a_del) {
-         if      (a_del != ' ')  ++c;
-         else if (l     != ' ')  ++c;
-      }
-      l = *s;
-      n--;
-      s++;
-   }
-   /*---(complete)-----------------------*/
-   return c;
-}
-
-int              /* ---- : secure variation of strchr ------------------------*/
-strldpos           (char *a_src, char  a_del, int a_cnt, int a_max)
-{  /*---(locals)-----------+-----------+-*/
-   register char *s        = a_src;         /* source pointer                 */
-   register int   n        = a_max;
-   register int   c        = 0;
-   register char  l        = '\0';          /* duplicate space skipper        */
-   /*---(search)-------------------------*/
-   while (*s != '\0') {
-      if (n < 1)  break;
-      if (*s == a_del && l != ' ') {
-         ++c;
-         if (c == a_cnt)  return a_max - n;
-      }
-      l = *s;
-      n--;
-      s++;
-   }
-   /*---(complete)-----------------------*/
-   return -1;
 }
 
 int              /* ---- : secure version of strlen --------------------------*/
@@ -208,7 +164,6 @@ strltrim           (char *a_src, char a_mode, int a_max)
    char           x_str    = '-';
    /*---(get the length)-----------------*/
    x_len = strllen (a_src, a_max);
-   /*> if (x_len < 0) return -1;                                                      <*/
    if (x_len < 0)  {
       a_src [a_max] = '\0';
       x_len         = a_max;
@@ -271,14 +226,90 @@ strltrim           (char *a_src, char a_mode, int a_max)
       }
    }
    /*---(compress)-----------------------*/
-   s = a_src;
-   n = a_max;
-   c = 0;
+   c = strlddel (a_src, m, a_max);
+   /*> s = a_src;                                                                     <* 
+    *> n = a_max;                                                                     <* 
+    *> c = 0;                                                                         <* 
+    *> while (*(s + c) != '\0') {                                                     <* 
+    *>    if (n  <  1)  break;                                                        <* 
+    *>    n--;                                                                        <* 
+    *>    if (*(s + c) == m) {                                                        <* 
+    *>       --x_len;                                                                 <* 
+    *>       c++;                                                                     <* 
+    *>       continue;                                                                <* 
+    *>    }                                                                           <* 
+    *>    *s = *(s + c);                                                              <* 
+    *>    s++;                                                                        <* 
+    *> }                                                                              <* 
+    *> *s = '\0';                                                                     <*/
+   /*---(complete)-----------------------*/
+   return x_len - c;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                           delimeter                          ----===*/
+/*====================------------------------------------====================*/
+static void      o___DELIMITER_______________o (void) {;}
+
+int  
+strldcnt           (char *a_src, char  a_del, int a_max)
+{  /*---(locals)-----------+-----------+-*/
+   register char *s        = a_src;         /* source pointer                 */
+   register int   n        = a_max;
+   register int   c        = 0;
+   register char  l        = '\0';          /* duplicate space skipper        */
+   /*---(search)-------------------------*/
+   while (*s != '\0') {
+      if (n < 1)  break;
+      if (*s == a_del) {
+         if      (a_del != ' ')  ++c;
+         else if (l     != ' ')  ++c;
+      }
+      l = *s;
+      n--;
+      s++;
+   }
+   /*---(complete)-----------------------*/
+   return c;
+}
+
+int          /*--> find next delimiter in string ---------[ ------ [ ------ ]-*/
+strldpos           (char *a_src, char  a_del, int a_cnt, int a_max)
+{  /*---(locals)-----------+-----------+-*/
+   register char *s        = a_src;         /* source pointer                 */
+   register int   n        = a_max;
+   register int   c        = 0;
+   register char  l        = '\0';          /* duplicate space skipper        */
+   /*---(search)-------------------------*/
+   while (*s != '\0') {
+      if (n < 1)  break;
+      if (*s == a_del && l != ' ') {
+         ++c;
+         if (c == a_cnt)  return a_max - n;
+      }
+      l = *s;
+      n--;
+      s++;
+   }
+   /*---(complete)-----------------------*/
+   return -1;
+}
+
+int          /*--> remove all delimeter in string --------[ ------ [ ------ ]-*/
+strlddel           (char *a_src, char  a_del, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   register char *s        = a_src;
+   register char  m        = a_del;
+   register int   n        = a_max;
+   register int   c        = 0;
+   /*---(compress)-----------------------*/
    while (*(s + c) != '\0') {
       if (n  <  1)  break;
       n--;
       if (*(s + c) == m) {
-         --x_len;
          c++;
          continue;
       }
@@ -287,8 +318,15 @@ strltrim           (char *a_src, char a_mode, int a_max)
    }
    *s = '\0';
    /*---(complete)-----------------------*/
-   return x_len;
+   return c;
 }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                           arguments                          ----===*/
+/*====================------------------------------------====================*/
+static void      o___ARGS____________________o (void) {;}
 
 char       /*>---: PURPOSE : break string into an argv[] structure -----------*/
 strlargs           (char *a_src, int a_max, int a_cnt, int *a_argc, char *a_argv[])
@@ -358,125 +396,97 @@ strlargs           (char *a_src, int a_max, int a_cnt, int *a_argc, char *a_argv
    return 0;
 }
 
-char*        /*--> clean string characters ---------------[--------[--------]-*/
-ySTR_clean         (char *a_source, char a_mode, char a_compress)
-{
-   /*---(design notes)-------------------*/
-   /*
-    *   a = alpha    lower and upper case letters only
-    *   n = alnum    alpha plus numbers
-    *   b = basic    alnum plus space, dash, and underscore
-    *   w = write    basic plus normal punctuation
-    *   e = exten    write plus coding symbols
-    *   p = print    all 7-bit printable ascii characters
-    *   7 = seven    all 7-bit, safe ascii characters
-    *
-    */
-   /*---(locals)-----------+-----------+-*/
-   char       *x_alpha     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-   char       *x_alnum     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";
-   char       *x_basic     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_-";
-   char       *x_write     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&";
-   char       *x_exten     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$";
-   char        x_legal     [MAX_STR]   = "";
-   int         i, j;                     /* loop iterators -- characters        */
-   int         x_len       = 0;            /* source string length                */
-   /*---(header)-------------------------*/
-   DEBUG_YSTR  yLOG_enter   (__FUNCTION__);
-   DEBUG_YSTR  yLOG_point   ("a_source"  , a_source);
-   DEBUG_YSTR  yLOG_char    ("a_mode"    , a_mode);
-   DEBUG_YSTR  yLOG_char    ("a_compress", a_compress);
-   /*---(defenses)-----------------------*/
-   strcpy (s_string, "(null)");
-   if (a_source == NULL) {
-      DEBUG_YSTR  yLOG_note    ("null source, exiting");
-      DEBUG_YSTR  yLOG_exit    (__FUNCTION__);
-      return NULL;
-   }
-   DEBUG_YSTR  yLOG_info    ("a_source"  , a_source);
-   x_len = strlen(a_source);
-   DEBUG_YSTR  yLOG_value   ("len"       , x_len);
-   strcpy (s_string, "(empty)");
-   if (x_len    <= 0   ) {
-      DEBUG_YSTR  yLOG_note    ("no length, exiting");
-      DEBUG_YSTR  yLOG_exit    (__FUNCTION__);
-      return NULL;
-   }
-   /*---(setup legal characters)---------*/
-   switch (a_mode) {
-   case 'n' : strncpy (s_string, a_source, MAX_STR);
-              DEBUG_YSTR  yLOG_note    ("no clean mode, exiting");
-              DEBUG_YSTR  yLOG_exit    (__FUNCTION__);
-              return a_source;
-              break;
-   case 'a' : strcpy (x_legal, x_alpha);            break;
-   case '9' : strcpy (x_legal, x_alnum);            break;
-   case 'b' : strcpy (x_legal, x_basic);            break;
-   case 'w' : strcpy (x_legal, x_write);            break;
-   case 'e' : strcpy (x_legal, x_exten);            break;
-   case 'p' : for (i = ' '; i <= '~'; ++i) {
-                 j = i - ' ';
-                 x_legal [j    ] = i;
-                 x_legal [j + 1] = '\0';
-              }
-              break;
-   case '7' : for (i = 1; i <= 127; ++i) {
-                 j = i - 1;
-                 x_legal [j    ] = i;
-                 x_legal [j + 1] = '\0';
-              }
-              break;
-   default : strcpy (s_string, "(bad mode)");
-             DEBUG_YSTR  yLOG_note    ("unknown mode, exiting");
-             DEBUG_YSTR  yLOG_exit    (__FUNCTION__);
-             return NULL;
-   }
-   DEBUG_YSTR  yLOG_info    ("x_legal"   , x_legal);
-   /*---(clear)--------------------------*/
-   for (i = 0; i <= x_len; ++i) {
-      if (strchr (x_legal, a_source[i]) != 0)  continue;
-      if (a_compress == '\0') {
-         for (j = i; j <= x_len; ++j)  a_source[j] = a_source[j + 1];
-         --x_len;
-         --i;
-         continue;
-      }
-      a_source [i] = a_compress;
-   }
-   /*---(prepare for testing)------------*/
-   strncpy (s_string, a_source, MAX_STR);
-   /*---(complete)-----------------------*/
-   DEBUG_YSTR  yLOG_exit    (__FUNCTION__);
-   return a_source;
-}
-
-
-char*      /*LD--: replace one substring with another -----------------------*/
-ySTR_repl          (char *a_source, cchar *a_old, cchar *a_new, cint a_count)
-{
-   /*---(defenses)-----------------------*/
-   if (a_source == NULL) return NULL;
-   /*---(locals)-------------------------*/
-   int       i;
-   int       lens      = strlen(a_source);
-   int       leno      = strlen(a_old);
-   int       lenn      = strlen(a_new);
-   char      new [MAX_STR];
-   char      xfound    = 0;
-   /*---(find old)-----------------------*/
-   for (i = 0; i <= lens; ++i) {
-      if (strncmp(a_source + i, a_old, leno) != 0) continue;
-      snprintf (new, MAX_STR, "%-*.*s%s%s", i, i, a_source, a_new, a_source + i + leno);
-      strncpy (a_source, new, MAX_STR);
-      lens = strlen(a_source);
-      ++xfound;
-      if (xfound >= a_count) break;
-      i = i + lenn;
-   }
-   /*---(complete)-----------------------*/
-   return a_source;
-}
-
+/*> char*        /+--> clean string characters ---------------[--------[--------]-+/                                                      <* 
+ *> ySTR_clean         (char *a_source, char a_mode, char a_compress)                                                                     <* 
+ *> {                                                                                                                                     <* 
+ *>    /+---(design notes)-------------------+/                                                                                           <* 
+ *>    /+                                                                                                                                 <* 
+ *>     *   a = alpha    lower and upper case letters only                                                                                <* 
+ *>     *   n = alnum    alpha plus numbers                                                                                               <* 
+ *>     *   b = basic    alnum plus space, dash, and underscore                                                                           <* 
+ *>     *   w = write    basic plus normal punctuation                                                                                    <* 
+ *>     *   e = exten    write plus coding symbols                                                                                        <* 
+ *>     *   p = print    all 7-bit printable ascii characters                                                                             <* 
+ *>     *   7 = seven    all 7-bit, safe ascii characters                                                                                 <* 
+ *>     *                                                                                                                                 <* 
+ *>     +/                                                                                                                                <* 
+ *>    /+---(locals)-----------+-----------+-+/                                                                                           <* 
+ *>    char       *x_alpha     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";                                                 <* 
+ *>    char       *x_alnum     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";                                       <* 
+ *>    char       *x_basic     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_-";                                     <* 
+ *>    char       *x_write     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&";                        <* 
+ *>    char       *x_exten     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&<>{}[]++/=#@\\^%`~^|$";   <* 
+ *>    char        x_legal     [MAX_STR]   = "";                                                                                          <* 
+ *>    int         i, j;                     /+ loop iterators -- characters        +/                                                    <* 
+ *>    int         x_len       = 0;            /+ source string length                +/                                                  <* 
+ *>    /+---(header)-------------------------+/                                                                                           <* 
+ *>    DEBUG_YSTR  yLOG_enter   (__FUNCTION__);                                                                                           <* 
+ *>    DEBUG_YSTR  yLOG_point   ("a_source"  , a_source);                                                                                 <* 
+ *>    DEBUG_YSTR  yLOG_char    ("a_mode"    , a_mode);                                                                                   <* 
+ *>    DEBUG_YSTR  yLOG_char    ("a_compress", a_compress);                                                                               <* 
+ *>    /+---(defenses)-----------------------+/                                                                                           <* 
+ *>    strcpy (s_string, "(null)");                                                                                                       <* 
+ *>    if (a_source == NULL) {                                                                                                            <* 
+ *>       DEBUG_YSTR  yLOG_note    ("null source, exiting");                                                                              <* 
+ *>       DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                        <* 
+ *>       return NULL;                                                                                                                    <* 
+ *>    }                                                                                                                                  <* 
+ *>    DEBUG_YSTR  yLOG_info    ("a_source"  , a_source);                                                                                 <* 
+ *>    x_len = strlen(a_source);                                                                                                          <* 
+ *>    DEBUG_YSTR  yLOG_value   ("len"       , x_len);                                                                                    <* 
+ *>    strcpy (s_string, "(empty)");                                                                                                      <* 
+ *>    if (x_len    <= 0   ) {                                                                                                            <* 
+ *>       DEBUG_YSTR  yLOG_note    ("no length, exiting");                                                                                <* 
+ *>       DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                        <* 
+ *>       return NULL;                                                                                                                    <* 
+ *>    }                                                                                                                                  <* 
+ *>    /+---(setup legal characters)---------+/                                                                                           <* 
+ *>    switch (a_mode) {                                                                                                                  <* 
+ *>    case 'n' : strncpy (s_string, a_source, MAX_STR);                                                                                  <* 
+ *>               DEBUG_YSTR  yLOG_note    ("no clean mode, exiting");                                                                    <* 
+ *>               DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                <* 
+ *>               return a_source;                                                                                                        <* 
+ *>               break;                                                                                                                  <* 
+ *>    case 'a' : strcpy (x_legal, x_alpha);            break;                                                                            <* 
+ *>    case '9' : strcpy (x_legal, x_alnum);            break;                                                                            <* 
+ *>    case 'b' : strcpy (x_legal, x_basic);            break;                                                                            <* 
+ *>    case 'w' : strcpy (x_legal, x_write);            break;                                                                            <* 
+ *>    case 'e' : strcpy (x_legal, x_exten);            break;                                                                            <* 
+ *>    case 'p' : for (i = ' '; i <= '~'; ++i) {                                                                                          <* 
+ *>                  j = i - ' ';                                                                                                         <* 
+ *>                  x_legal [j    ] = i;                                                                                                 <* 
+ *>                  x_legal [j + 1] = '\0';                                                                                              <* 
+ *>               }                                                                                                                       <* 
+ *>               break;                                                                                                                  <* 
+ *>    case '7' : for (i = 1; i <= 127; ++i) {                                                                                            <* 
+ *>                  j = i - 1;                                                                                                           <* 
+ *>                  x_legal [j    ] = i;                                                                                                 <* 
+ *>                  x_legal [j + 1] = '\0';                                                                                              <* 
+ *>               }                                                                                                                       <* 
+ *>               break;                                                                                                                  <* 
+ *>    default : strcpy (s_string, "(bad mode)");                                                                                         <* 
+ *>              DEBUG_YSTR  yLOG_note    ("unknown mode, exiting");                                                                      <* 
+ *>              DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                 <* 
+ *>              return NULL;                                                                                                             <* 
+ *>    }                                                                                                                                  <* 
+ *>    DEBUG_YSTR  yLOG_info    ("x_legal"   , x_legal);                                                                                  <* 
+ *>    /+---(clear)--------------------------+/                                                                                           <* 
+ *>    for (i = 0; i <= x_len; ++i) {                                                                                                     <* 
+ *>       if (strchr (x_legal, a_source[i]) != 0)  continue;                                                                              <* 
+ *>       if (a_compress == '\0') {                                                                                                       <* 
+ *>          for (j = i; j <= x_len; ++j)  a_source[j] = a_source[j + 1];                                                                 <* 
+ *>          --x_len;                                                                                                                     <* 
+ *>          --i;                                                                                                                         <* 
+ *>          continue;                                                                                                                    <* 
+ *>       }                                                                                                                               <* 
+ *>       a_source [i] = a_compress;                                                                                                      <* 
+ *>    }                                                                                                                                  <* 
+ *>    /+---(prepare for testing)------------+/                                                                                           <* 
+ *>    strncpy (s_string, a_source, MAX_STR);                                                                                             <* 
+ *>    /+---(complete)-----------------------+/                                                                                           <* 
+ *>    DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                           <* 
+ *>    return a_source;                                                                                                                   <* 
+ *> }                                                                                                                                     <*/
 
 
 /*====================------------------------------------====================*/
