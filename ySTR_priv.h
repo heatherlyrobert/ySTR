@@ -15,6 +15,11 @@
 
 
 
+/* rapidly evolving version number to aid with visual change confirmation     */
+#define YSTR_VER_NUM   "0.2f"
+#define YSTR_VER_TXT   "moved to make_program makefile enhancement"
+
+
 
 
 typedef struct cLOCAL tLOCAL;

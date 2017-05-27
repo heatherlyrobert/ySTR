@@ -6,14 +6,23 @@ ySTR \- library of secure and useful string handling functions
 .nf
 .B #include  <ySTR.h>
 .sp
-.R  ---(production)--------------------------------
+.R  ---(strings)-----------------------------------
 .BI "char strlcpy   (char *" "a_dst" ", char *" "a_src" ", int " "a_max" ");"
 .BI "char strlcat   (char *" "a_dst" ", char *" "a_src" ", int " "a_max" ");"
-.BI "char strllen   (char *" "a_src" ", int " "a_max" ");"
+.BI "int  strllen   (char *" "a_src" ", int " "a_max" ");"
 .BI "char strltrunc (char *" "a_src" ", int " "a_max" " );"
-.BI "char strltrim  (char *" "a_src" ", char " "a_mode" ", int " "a_max" ");"
-.BI "char strldcnt  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
-.BI "char strldpos  (char *" "a_src" ", char " "a_del" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "int  strltrim  (char *" "a_src" ", char " "a_mode" ", int " "a_max" ");"
+.BI "int  strltrepl (char *" "a_src" ", char *" "a_old" ", char *" "a_new" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "int  strltclean(char *" "a_src" ", char " "a_mode" ", char " "a_comp" ", int " "a_cnt" ", int " "a_max" ");"
+
+.sp
+.R  ---(delimiters)--------------------------------
+.BI "int  strldcnt  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
+.BI "int  strldpos  (char *" "a_src" ", char " "a_del" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "int  strldchg  (char *" "a_src" ", char " "a_del" ", char " "a_new" ", int " "a_max" ");"
+.BI "int  strldchg  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
+.sp
+.R  ---(args)--------------------------------------
 .BI "char strlargs  (char *" "a_src" ", int " "a_cnt" ", int *" "a_argc" ", char **" "a_argv" ", int " "a_max" ");"
 .sp
 .B link with -L/usr/local/libs -lySTR or -lySTR_debug

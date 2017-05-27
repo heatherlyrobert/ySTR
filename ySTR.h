@@ -51,11 +51,6 @@
 #define YSTR_HGUARD loaded
 
 
-/* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2e"
-#define YSTR_VER_TXT   "add strlclean and its unit testing"
-
-
 #define       ySTR_NOTRUNC   -1
 #define       ySTR_NONE      'n'
 #define       ySTR_HEAD      'h'
