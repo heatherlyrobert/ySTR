@@ -1380,6 +1380,16 @@ SCRP          v21  verify hex conversion to string                            
      exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'D',   5                                  i_fail      0                                                                                                    
      echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                             
 
+   GROUP      v21  long hex with gyges format codes                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'x',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xa59eba                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'X',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'a5'9e'ba                                                                                              
+
    GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
@@ -1485,6 +1495,16 @@ SCRP          v21  verify octal conversion to string                          
      exec     v21  change the source string             strl4oct              23456789.0   , x_print,   5,  'd',  10                                  i_fail      0                                                                                                    
      echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                                        
 
+   GROUP      v21  long octal with gyges format codes                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   3,  'o',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o131366025                                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   3,  'O',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'131'366'025                                                                                              
+
    GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
@@ -1530,7 +1550,7 @@ SCRP          v21  verify binary conversion to string                         
      exec     v21  change the source string             strl4bin                     0.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
      echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'0000'0000'0000                                                                                  
 
-   GROUP      v21  long octal that fills six nibbles                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+   GROUP      v21  long binary that fills six nibbles                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  change the source string             strl4bin              10921638.0   , x_print,   6,  'u',  80                                  i_pass      0                                                                                                    
@@ -1569,6 +1589,16 @@ SCRP          v21  verify binary conversion to string                         
    COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  change the source string             strl4bin              10921638.0   , x_print,   8,  'd',  20                                  i_fail      0                                                                                                    
      echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                               
+
+   GROUP      v21  long binary with gyges format codes                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   6,  'b',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b101001101010011010100110                                                                                            
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   6,  'B',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'1010'0110'1010'0110'1010'0110                                                                                                           
 
    GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 

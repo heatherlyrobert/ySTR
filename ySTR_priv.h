@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2g"
-#define YSTR_VER_TXT   "added conversions to and from bin, oct, and hex"
+#define YSTR_VER_NUM   "0.2h"
+#define YSTR_VER_TXT   "added gyges format codes in formatting functions"
 
 
 

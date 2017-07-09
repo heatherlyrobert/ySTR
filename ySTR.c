@@ -919,7 +919,7 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_form, int a_ma
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
    /*---(create)---------------*/
-   if (a_form == 'd' || a_form == 'D')  ySTR_spaced (x_final, 4);
+   if (a_form == 'd' || a_form == 'D' || a_form == 'B')  ySTR_spaced (x_final, 4);
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
@@ -963,7 +963,7 @@ strl4oct           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
    for (i = x_len / 3; i < a_bytes; ++i)  strcat (x_prefix, "000");
    /*---(create)---------------*/
    sprintf (x_final, "o%s%s" , x_prefix, x_temp);
-   if (a_form == 'd' || a_form == 'D')  ySTR_spaced (x_final, 3);
+   if (a_form == 'd' || a_form == 'D' || a_form == 'O')  ySTR_spaced (x_final, 3);
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
@@ -1000,7 +1000,7 @@ strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
    strlcpy (a_out, "", a_max);
    /*---(translate base)-------*/
    switch (a_form) {
-   case 'u' :  case 'd' :
+   case 'u' :  case 'd' :  case 'x' :  case 'X' :
       sprintf  (x_temp, "%x",       (long)  a_val);
       break;
    case 'U' :  case 'D' :
@@ -1016,7 +1016,7 @@ strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
    for (i = x_len / 2; i < a_bytes; ++i)  strcat (x_prefix, "00");
    /*---(create)---------------*/
    sprintf (x_final, "x%s%s" , x_prefix, x_temp);
-   if (a_form == 'd' || a_form == 'D')  ySTR_spaced (x_final, 2);
+   if (a_form == 'd' || a_form == 'D' || a_form == 'X')  ySTR_spaced (x_final, 2);
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
