@@ -68,6 +68,11 @@
 #define       ySTR_PRINT     'p'
 #define       ySTR_SEVEN     '7'
 
+#define       ySTR_DELIM     'd'
+#define       ySTR_NORMAL    'u'
+#define       ySTR_UDELIM    'D'
+#define       ySTR_UNORMAL   'U'
+
 char*       ySTR_version       (void);
 char        ySTR_debug         (char a_flag);
 
@@ -86,7 +91,15 @@ int         strlddel           (char *a_src, char  a_del , int  a_max);
 
 char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
 
+char        strl2bin           (char   *a_src, double *a_val, int a_max);
+char        strl2oct           (char   *a_src, double *a_val, int a_max);
+char        strl2hex           (char   *a_src, double *a_val, int a_max);
+char        strl2real          (char   *a_src, double *a_val, int a_max);
+char        strl2comma         (char   *a_src, double *a_val, int a_max);
 
+char        strl4bin           (double a_val, char *a_out, int a_nibs , char a_form, int a_max);
+char        strl4oct           (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
+char        strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 
 #endif
 /*===[[ END ]]================================================================*/

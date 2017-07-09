@@ -812,4 +812,766 @@ SCRP          v20  verify argument parsing function                           
 
 
 
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify string conversion to octal                            strl2oct                                                                ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a value holder                - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+
+   COND       v21  input an octal zero                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "00"                 , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a tiny octal                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "01"                 , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  input a larger octal                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.004))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "06"                 , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     6.0                                                                                                  
+
+   COND       v21  input a two-digit octal                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "037"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     31.0                                                                                                 
+
+   COND       v21  input a three-digit octal                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.006))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0755"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     493.0                                                                                                
+
+   COND       v21  input a long octal                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.007))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "075532647"          , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     16168359.0                                                                                           
+
+   COND       v21  try a single lead zero                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.008))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0"                  , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a floating point                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.009))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0.1"                , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a forced positive                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "+0755"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a forced negative                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.011))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "-06"                , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a binary                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0b101010"           , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a hex                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.013))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0xac96f0"           , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try normal number                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.014))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "15"                 , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try with one digit out of range                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.015))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0758"               , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a string                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.016))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "hello"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input an octal zero                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.017))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0o0"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a tiny octal                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.018))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0o1"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  input a larger octal                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.019))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0o6"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     6.0                                                                                                  
+
+   COND       v21  input a two-digit octal                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.020))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0o37"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     31.0                                                                                                 
+
+   COND       v21  input a three-digit octal                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.021))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0o755"              , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     493.0                                                                                                
+
+   COND       v21  input a long octal                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.022))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2oct              "0o75532647"         , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     16168359.0                                                                                           
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify string conversion to binary                           strl2bin                                                                ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a value holder                - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+
+   COND       v21  input an binary zero                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.038))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b0"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a tiny binary                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.039))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b1"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  with a capital B                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.039))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0B1"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  input a two-digit binary                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.040))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b10"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     2.0                                                                                                  
+
+   COND       v21  input a three-digit binary                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.041))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b111"              , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     7.0                                                                                                  
+
+   COND       v21  input a long hex                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.042))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b10110101"         , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     181.0                                                                                                
+
+   COND       v21  try a prefix only                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.043))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b"                 , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a floating point                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.044))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0.1"                , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a forced positive                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.045))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "+0b101"             , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a forced negative                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.046))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "-0b0011"            , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a hex                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.047))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0xac96f0"           , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try normal number                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.048))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "15"                 , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try with one digit out of range                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.049))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "0b120"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a string                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.050))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2bin              "hello"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify string conversion to hexadecimal                      strl2hex                                                                ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a value holder                - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+
+   COND       v21  input an hex zero                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.023))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x0"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a tiny hex                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.024))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x1"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  use an upper case prefix                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.024))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0X1"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  use an simple prefix                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.024))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "x1"                 , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.0                                                                                                  
+
+   COND       v21  input a larger hex                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.025))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x9"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     9.0                                                                                                  
+
+   COND       v21  input a alpha hex                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0xc"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     12.0                                                                                                 
+
+   COND       v21  input a alpha hex in capitals                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "XC"                 , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     12.0                                                                                                 
+
+   COND       v21  input a two-digit hex                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.027))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0xf6"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     246.0                                                                                                
+
+   COND       v21  input a three-digit hex                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.028))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x12c"              , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     300.0                                                                                                
+
+   COND       v21  input a long hex                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0xa59eba"           , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     10854074.0                                                                                           
+
+   COND       v21  input a long hex, short prefix                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "xa59eba"            , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     10854074.0                                                                                           
+
+   COND       v21  try a prefix only                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.030))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x"                 , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a short prefix only                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.030))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "x"                  , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a floating point                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.031))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0.1"                , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a forced positive                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.032))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "+0x12c"             , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a forced negative                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.033))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "-0xf6"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a binary                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.034))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0b101010"           , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try normal number                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.035))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "15"                 , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try with one digit out of range                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.036))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x58h"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a string                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.037))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "hello"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a short hex, with delimiters                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "x'0c"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     12.0                                                                                                 
+
+   COND       v21  input a long hex, with delimiters                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "x'a5'9e'ba"         , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     10854074.0                                                                                           
+
+   COND       v21  try a double delimiter                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.037))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "x'a5''9e'ba"        , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a long hex, with spaces                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2hex              "0x a5 9e ba"        , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify string conversion to real                             strl2real                                                               ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a value holder                - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+
+   COND       v21  input an zero                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.063))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0.0"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a tiny number                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.064))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "1.1"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     1.1                                                                                                  
+
+   COND       v21  input more decimals                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.065))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "3.14159"            , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     3.14159                                                                                              
+
+   COND       v21  input more whole numbers                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.066))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "125476.12"          , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     125476.12                                                                                            
+
+   COND       v21  input a forced positive                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.067))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "+145.16"            , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     145.16                                                                                               
+
+   COND       v21  input a forced negative                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.068))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "-36.2"              , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     -36.2                                                                                                
+
+   COND       v21  input a octal                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.069))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0755"               , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a binary                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.070))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0b10110101"         , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a hex                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.071))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0xac96f0"           , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try with one digit out of range                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.072))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "234z0"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a string                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.073))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "hello"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   GROUP      v21  now to exponentials                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  input an simple zero                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.074))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0.0e1"              , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  input a larger exponent                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.075))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0.12e2"             , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     12.0                                                                                                 
+
+   COND       v21  input a even larger exponent                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.076))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "5.678e5"            , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     567800.0                                                                                             
+
+   COND       v21  input a much larger exponent                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.077))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "5.678e10"           , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     56780000000.0                                                                                        
+
+   COND       v21  input a negative exponent                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.078))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "3.141e-3"           , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.003141                                                                                             
+
+   COND       v21  input a bigger negative exponent                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.079))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "3.141e-8"           , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.00000003141                                                                                        
+
+   COND       v21  use an upper case E                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.080))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0.12E2"             , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     12.0                                                                                                 
+
+   COND       v21  force a negative                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.081))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "-5.6712e2"          , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     -567.12                                                                                              
+
+   COND       v21  force a positive                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.082))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "+5.6712e-2"         , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.056712                                                                                             
+
+   COND       v21  try a decimal power                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.083))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "5e0.2"              , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try a decimal base and decimal power                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.084))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "0.2e5.1"            , &x_value         , 40                            i_fail      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try no decimals                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.085))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "5e2"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     500.0                                                                                                
+
+   COND       v21  try larger integer with power                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.086))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "51e3"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     51000.0                                                                                              
+
+   COND       v21  try a zero exponent                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.087))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "51e0"               , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try missing exponent                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.088))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "51e"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  try missing base                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.089))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl2real             "e15"                , &x_value         , 40                            i_pass      0                                                                                                    
+     echo     v21  check value                          - - - - - - - - - -   x_value                                                                 r_equal     0.0                                                                                                  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify hex conversion to string                              strl4hex                                                                ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a string holder               - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+
+   GROUP      v21  start with zero and no padding                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   0,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x00                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   0,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x00                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   0,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   0,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00                                                                                              
+
+   GROUP      v21  pad to one byte                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   1,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x00                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   1,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x00                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   1,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   1,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00                                                                                              
+
+   GROUP      v21  extend padding to three bytes                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x000000                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   3,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x000000                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00'00'00                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                     0.0   , x_print,   3,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00'00'00                                                                                              
+
+   GROUP      v21  long hex that fills six nibbles                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xa59eba                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xA59EBA                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'a5'9e'ba                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'A5'9E'BA                                                                                              
+
+   GROUP      v21  extend padding to five bytes                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   5,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x0000a59eba                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   5,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x0000A59EBA                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   5,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00'00'a5'9e'ba                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   5,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'00'00'A5'9E'BA                                                                                              
+
+   GROUP      v21  cut padding to two bytes                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xa59eba                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xA59EBA                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'a5'9e'ba                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'A5'9E'BA                                                                                              
+
+   GROUP      v21  hex that is 3 nibbles long (requires lead zero)              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                   300.0   , x_print,   0,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x012c                                                                                            
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                   300.0   , x_print,   0,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x012C                                                                                            
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                   300.0   , x_print,   0,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'01'2c                                                                                           
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex                   300.0   , x_print,   0,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'01'2C                                                                                           
+
+   GROUP      v21  feed in a negative number                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              -10854074.0  , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xa59eba                                                                                              
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              -10854074.0  , x_print,   3,  'U',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xA59EBA                                                                                              
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              -10854074.0  , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'a5'9e'ba                                                                                              
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              -10854074.0  , x_print,   3,  'D',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x'A5'9E'BA                                                                                              
+
+   GROUP      v21  try too small of a max                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request lower, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'u',   5                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                          
+
+   COND       v21  request upper, undelimited                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'U',   5                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                          
+
+   COND       v21  request lower, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'd',   5                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                             
+
+   COND       v21  request upper, delimited                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4hex              10854074.0   , x_print,   3,  'D',   5                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                             
+
+   GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify octal conversion to string                            strl4oct                                                                ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a string holder               - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+
+   GROUP      v21  start with zero and no padding                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct                     0.0   , x_print,   0,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o000                                                                                             
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct                     0.0   , x_print,   0,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'000                                                                                             
+
+   GROUP      v21  pad to one byte                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct                     0.0   , x_print,   1,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o000                                                                                             
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct                     0.0   , x_print,   1,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'000                                                                                             
+
+   GROUP      v21  extend padding to three bytes                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct                     0.0   , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o000000000                                                                                       
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct                     0.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'000'000'000                                                                                     
+
+   GROUP      v21  long octal that fills six nibbles                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o131366025                                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'131'366'025                                                                                              
+
+   GROUP      v21  extend padding to five bytes                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   5,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o000000131366025                                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   5,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'000'000'131'366'025                                                                                              
+
+   GROUP      v21  cut padding to two bytes                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   2,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o131366025                                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   2,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'131'366'025                                                                                              
+
+   GROUP      v21  use octal that is partial                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              2345678.0    , x_print,   2,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o010745316                                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              2345678.0    , x_print,   2,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'010'745'316                                                                                              
+
+   GROUP      v21  use octal needing a double prefix                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              345678.0     , x_print,   2,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o001243116                                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              345678.0     , x_print,   2,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o'001'243'116                                                                                              
+
+   GROUP      v21  try too small of a max                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   5,  'u',  10                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                                
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4oct              23456789.0   , x_print,   5,  'd',  10                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                                        
+
+   GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify binary conversion to string                           strl4bin                                                                ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a string holder               - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+
+   GROUP      v21  start with zero and no padding                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin                     0.0   , x_print,   0,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b0000                                                                                            
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin                     0.0   , x_print,   0,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'0000                                                                                            
+
+   GROUP      v21  pad to one nibble                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin                     0.0   , x_print,   1,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b0000                                                                                            
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin                     0.0   , x_print,   1,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'0000                                                                                            
+
+   GROUP      v21  extend padding to three nibbles                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin                     0.0   , x_print,   3,  'u',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b000000000000                                                                                    
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin                     0.0   , x_print,   3,  'd',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'0000'0000'0000                                                                                  
+
+   GROUP      v21  long octal that fills six nibbles                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   6,  'u',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b101001101010011010100110                                                                                            
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   6,  'd',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'1010'0110'1010'0110'1010'0110                                                                                                           
+
+   GROUP      v21  extend padding to eight nibbles                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   8,  'u',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b00000000101001101010011010100110                                                                           
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   8,  'd',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'0000'0000'1010'0110'1010'0110'1010'0110                                                                                   
+
+   GROUP      v21  cut padding to two bytes                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   2,  'u',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b101001101010011010100110                                                                     
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   2,  'd',  80                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     b'1010'0110'1010'0110'1010'0110                                                                           
+
+   GROUP      v21  try too small of a max                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request undelimited                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   8,  'u',  20                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                   
+
+   COND       v21  request delimited                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4bin              10921638.0   , x_print,   8,  'd',  20                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal                                                                                                               
+
+   GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
 

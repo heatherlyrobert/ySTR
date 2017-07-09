@@ -504,106 +504,541 @@ strlargs           (char *a_src, int a_max, int a_cnt, int *a_argc, char *a_argv
    return 0;
 }
 
-/*> char*        /+--> clean string characters ---------------[--------[--------]-+/                                                      <* 
- *> ySTR_clean         (char *a_source, char a_mode, char a_compress)                                                                     <* 
- *> {                                                                                                                                     <* 
- *>    /+---(design notes)-------------------+/                                                                                           <* 
- *>    /+                                                                                                                                 <* 
- *>     *   a = alpha    lower and upper case letters only                                                                                <* 
- *>     *   n = alnum    alpha plus numbers                                                                                               <* 
- *>     *   b = basic    alnum plus space, dash, and underscore                                                                           <* 
- *>     *   w = write    basic plus normal punctuation                                                                                    <* 
- *>     *   e = exten    write plus coding symbols                                                                                        <* 
- *>     *   p = print    all 7-bit printable ascii characters                                                                             <* 
- *>     *   7 = seven    all 7-bit, safe ascii characters                                                                                 <* 
- *>     *                                                                                                                                 <* 
- *>     +/                                                                                                                                <* 
- *>    /+---(locals)-----------+-----------+-+/                                                                                           <* 
- *>    char       *x_alpha     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";                                                 <* 
- *>    char       *x_alnum     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";                                       <* 
- *>    char       *x_basic     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_-";                                     <* 
- *>    char       *x_write     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&";                        <* 
- *>    char       *x_exten     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&<>{}[]++/=#@\\^%`~^|$";   <* 
- *>    char        x_legal     [MAX_STR]   = "";                                                                                          <* 
- *>    int         i, j;                     /+ loop iterators -- characters        +/                                                    <* 
- *>    int         x_len       = 0;            /+ source string length                +/                                                  <* 
- *>    /+---(header)-------------------------+/                                                                                           <* 
- *>    DEBUG_YSTR  yLOG_enter   (__FUNCTION__);                                                                                           <* 
- *>    DEBUG_YSTR  yLOG_point   ("a_source"  , a_source);                                                                                 <* 
- *>    DEBUG_YSTR  yLOG_char    ("a_mode"    , a_mode);                                                                                   <* 
- *>    DEBUG_YSTR  yLOG_char    ("a_compress", a_compress);                                                                               <* 
- *>    /+---(defenses)-----------------------+/                                                                                           <* 
- *>    strcpy (s_string, "(null)");                                                                                                       <* 
- *>    if (a_source == NULL) {                                                                                                            <* 
- *>       DEBUG_YSTR  yLOG_note    ("null source, exiting");                                                                              <* 
- *>       DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                        <* 
- *>       return NULL;                                                                                                                    <* 
- *>    }                                                                                                                                  <* 
- *>    DEBUG_YSTR  yLOG_info    ("a_source"  , a_source);                                                                                 <* 
- *>    x_len = strlen(a_source);                                                                                                          <* 
- *>    DEBUG_YSTR  yLOG_value   ("len"       , x_len);                                                                                    <* 
- *>    strcpy (s_string, "(empty)");                                                                                                      <* 
- *>    if (x_len    <= 0   ) {                                                                                                            <* 
- *>       DEBUG_YSTR  yLOG_note    ("no length, exiting");                                                                                <* 
- *>       DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                        <* 
- *>       return NULL;                                                                                                                    <* 
- *>    }                                                                                                                                  <* 
- *>    /+---(setup legal characters)---------+/                                                                                           <* 
- *>    switch (a_mode) {                                                                                                                  <* 
- *>    case 'n' : strncpy (s_string, a_source, MAX_STR);                                                                                  <* 
- *>               DEBUG_YSTR  yLOG_note    ("no clean mode, exiting");                                                                    <* 
- *>               DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                <* 
- *>               return a_source;                                                                                                        <* 
- *>               break;                                                                                                                  <* 
- *>    case 'a' : strcpy (x_legal, x_alpha);            break;                                                                            <* 
- *>    case '9' : strcpy (x_legal, x_alnum);            break;                                                                            <* 
- *>    case 'b' : strcpy (x_legal, x_basic);            break;                                                                            <* 
- *>    case 'w' : strcpy (x_legal, x_write);            break;                                                                            <* 
- *>    case 'e' : strcpy (x_legal, x_exten);            break;                                                                            <* 
- *>    case 'p' : for (i = ' '; i <= '~'; ++i) {                                                                                          <* 
- *>                  j = i - ' ';                                                                                                         <* 
- *>                  x_legal [j    ] = i;                                                                                                 <* 
- *>                  x_legal [j + 1] = '\0';                                                                                              <* 
- *>               }                                                                                                                       <* 
- *>               break;                                                                                                                  <* 
- *>    case '7' : for (i = 1; i <= 127; ++i) {                                                                                            <* 
- *>                  j = i - 1;                                                                                                           <* 
- *>                  x_legal [j    ] = i;                                                                                                 <* 
- *>                  x_legal [j + 1] = '\0';                                                                                              <* 
- *>               }                                                                                                                       <* 
- *>               break;                                                                                                                  <* 
- *>    default : strcpy (s_string, "(bad mode)");                                                                                         <* 
- *>              DEBUG_YSTR  yLOG_note    ("unknown mode, exiting");                                                                      <* 
- *>              DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                 <* 
-*>              return NULL;                                                                                                             <* 
-*>    }                                                                                                                                  <* 
-*>    DEBUG_YSTR  yLOG_info    ("x_legal"   , x_legal);                                                                                  <* 
-*>    /+---(clear)--------------------------+/                                                                                           <* 
-*>    for (i = 0; i <= x_len; ++i) {                                                                                                     <* 
-   *>       if (strchr (x_legal, a_source[i]) != 0)  continue;                                                                              <* 
-      *>       if (a_compress == '\0') {                                                                                                       <* 
-         *>          for (j = i; j <= x_len; ++j)  a_source[j] = a_source[j + 1];                                                                 <* 
-            *>          --x_len;                                                                                                                     <* 
-            *>          --i;                                                                                                                         <* 
-            *>          continue;                                                                                                                    <* 
-            *>       }                                                                                                                               <* 
-            *>       a_source [i] = a_compress;                                                                                                      <* 
-            *>    }                                                                                                                                  <* 
-            *>    /+---(prepare for testing)------------+/                                                                                           <* 
-            *>    strncpy (s_string, a_source, MAX_STR);                                                                                             <* 
-            *>    /+---(complete)-----------------------+/                                                                                           <* 
-            *>    DEBUG_YSTR  yLOG_exit    (__FUNCTION__);                                                                                           <* 
-            *>    return a_source;                                                                                                                   <* 
-            *> }                                                                                                                                     <*/
 
 
-            /*====================------------------------------------====================*/
-            /*===----                    unit testing accessor                     ----===*/
-            /*====================------------------------------------====================*/
-            static void      o___UNITTEST________________o (void) {;}
+/*====================------------------------------------====================*/
+/*===----                     conversion to numeric                    ----===*/
+/*====================------------------------------------====================*/
+static void      o___CONVERSION______________o (void) {;}
+
+char         /*-> interpret binary numbers ----------------[ petal  [ 2f---- ]*/
+strl2bin           (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_ch        =  '-';               /* current character         */
+   int         x_min       =   -1;               /* first translatable char   */
+   int         x_base      =    2;               /* base position             */
+   int         x_digit     =    0;               /* digit value               */
+   int         x_place     =    1;               /* base position             */
+   long        x_final     =    0;               /* final value               */
+   int         i           =    0;               /* iterator -- character     */
+   char        x_valid     [20] = "01";          /* only binary digits        */
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_STRG   yLOG_snote   ("null input");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_snote   (a_src);
+   x_len = strllen (a_src, LEN_STR);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce; if (x_len <= 2) {
+      DEBUG_STRG   yLOG_snote   ("too short");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_schar   (x_ch);
+   x_ch = tolower (a_src [0]);
+   if (x_ch == 'b') {
+      DEBUG_STRG   yLOG_snote   ("pre=b");
+      x_min  =  1;
+   } else if (strncmp ("0b", a_src, 2) == 0) {
+      DEBUG_STRG   yLOG_snote   ("pre=0b");
+      x_min  =  2;
+   } else if (strncmp ("0B", a_src, 2) == 0) {
+      DEBUG_STRG   yLOG_snote   ("pre=0b");
+      x_min  =  2;
+   }
+   --rce; if (x_min <= 0) {
+      DEBUG_STRG   yLOG_snote   ("wrong prefix");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_ch = tolower (a_src [x_min]);
+   --rce; if (x_ch == '\0') {
+      DEBUG_STRG   yLOG_snote   ("only prefix");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(run digits)---------------------*/
+   DEBUG_STRG   yLOG_sint    (x_base);
+   DEBUG_STRG   yLOG_snote   (x_valid);
+   --rce;  for (i = x_len - 1; i >= x_min; --i) {
+      x_ch = a_src [i];
+      DEBUG_STRG   yLOG_schar   (x_ch);
+      if (strchr (x_valid, x_ch)  == 0) {
+         DEBUG_STRG   yLOG_snote   ("BOOM");
+         DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+      x_digit  = x_ch - '0';
+      x_final += x_digit * x_place;
+      DEBUG_STRG   yLOG_sint    (x_final);
+      x_place *= x_base;
+   }
+   /*---(return value)-------------------*/
+   DEBUG_STRG   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = (double) x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> interpret octal numbers -----------------[ petal  [ 2e---- ]*/
+strl2oct           (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_ch        =  '-';               /* current character         */
+   int         x_min       =   -1;               /* first translatable char   */
+   int         x_base      =    8;               /* base position             */
+   char        x_curr      =  '-';               /* current character         */
+   int         x_digit     =    0;               /* digit value               */
+   int         x_place     =    1;               /* base position             */
+   long        x_final     =    0;               /* final value               */
+   int         i           =    0;               /* iterator -- character     */
+   char        x_valid     [20] = "01234567";    /* only octal digits           */
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_STRG   yLOG_snote   ("null input");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_snote   (a_src);
+   x_len = strllen (a_src, LEN_STR);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce; if (x_len <= 1) {
+      DEBUG_STRG   yLOG_snote   ("too short");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_schar   (x_ch);
+   x_ch = tolower (a_src [0]);
+   if (x_ch == 'o') {
+      DEBUG_STRG   yLOG_snote   ("pre=o");
+      x_min  =  1;
+   } else if (strncmp ("0o", a_src, 2) == 0) {
+      DEBUG_STRG   yLOG_snote   ("pre=0o");
+      x_min  =  2;
+   } else if (x_ch == '0') {
+      DEBUG_STRG   yLOG_snote   ("pre=0");
+      x_min  =  1;
+   }
+   --rce; if (x_min <= 0) {
+      DEBUG_STRG   yLOG_snote   ("wrong prefix");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_ch = tolower (a_src [x_min]);
+   --rce; if (x_ch == '\0') {
+      DEBUG_STRG   yLOG_snote   ("only prefix");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(run digits)---------------------*/
+   DEBUG_STRG   yLOG_sint    (x_base);
+   DEBUG_STRG   yLOG_snote   (x_valid);
+   --rce;  for (i = x_len - 1; i >= x_min; --i) {
+      x_ch = a_src [i];
+      DEBUG_STRG   yLOG_schar   (x_ch);
+      if (strchr (x_valid , x_ch)  == 0) {
+         DEBUG_STRG   yLOG_snote   ("BOOM");
+         DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+      x_digit  = x_ch - '0';
+      x_final += x_digit * x_place;
+      DEBUG_STRG   yLOG_sint    (x_final);
+      x_place *= x_base;
+   }
+   /*---(return value)-------------------*/
+   DEBUG_STRG   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = (double) x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> interpret hexadecimal numbers -----------[ petal  [ 2f---- ]*/
+strl2hex           (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_ch        =  '-';               /* current character         */
+   int         x_min       =   -1;               /* first translatable char   */
+   int         x_base      =   16;               /* base position             */
+   int         x_digit     =    0;               /* digit value               */
+   int         x_place     =    1;               /* base position             */
+   long        x_final     =    0;               /* final value               */
+   int         i           =    0;               /* iterator -- character     */
+   char        x_valid     [20] = "0123456789abcdef"; /* only hex digits           */
+   char        x_del       =  '-';
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_STRG   yLOG_snote   ("null input");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_snote   (a_src);
+   x_len = strllen (a_src, LEN_STR);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce; if (x_len <  2) {
+      DEBUG_STRG   yLOG_snote   ("too short");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_schar   (x_ch);
+   x_ch = tolower (a_src [0]);
+   if (x_ch == 'x') {
+      DEBUG_STRG   yLOG_snote   ("pre=x");
+      x_min  =  1;
+   } else if (strncmp ("0x", a_src, 2) == 0) {
+      DEBUG_STRG   yLOG_snote   ("pre=0x");
+      x_min  =  2;
+   } else if (strncmp ("0X", a_src, 2) == 0) {
+      DEBUG_STRG   yLOG_snote   ("pre=0x");
+      x_min  =  2;
+   }
+   --rce; if (x_min <= 0) {
+      DEBUG_STRG   yLOG_snote   ("wrong prefix");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_ch = tolower (a_src [x_min]);
+   --rce; if (x_ch == '\0') {
+      DEBUG_STRG   yLOG_snote   ("only prefix");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(run digits)---------------------*/
+   DEBUG_STRG   yLOG_sint    (x_base);
+   DEBUG_STRG   yLOG_snote   (x_valid);
+   --rce;  for (i = x_len - 1; i >= x_min; --i) {
+      x_ch = tolower (a_src [i]);
+      DEBUG_STRG   yLOG_schar   (x_ch);
+      if (x_ch == '\'' && x_del != 'y') {
+         x_del = 'y';
+         continue;
+      }
+      x_del = '-';
+      if (strchr (x_valid   , x_ch    )  == 0) {
+         DEBUG_STRG   yLOG_snote   ("BOOM");
+         DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+      if (x_ch >= '0' && x_ch <= '9')   x_digit  = x_ch - '0';
+      else                              x_digit  = x_ch - 'a' + 10;
+      x_final += x_digit * x_place;
+      DEBUG_STRG   yLOG_sint    (x_final);
+      x_place *= x_base;
+   }
+   /*---(return value)-------------------*/
+   DEBUG_STRG   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = (double) x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> interpret float/int numbers -------------[ petal  [ 2g---- ]*/
+strl2real          (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_temp      [LEN_STR ] = "";      /* temp version              */
+   int         i           =    0;               /* iterator -- character     */
+   char        x_curr      =  '-';               /* current character         */
+   int         x_exp       =   -1;
+   int         x_dec       =   -1;
+   double      x_final     =    0;               /* final value               */
+   double      x_power     =    1;               /* exponent                  */
+   char        x_valid     [20] = "0123456789.-+";    /* only digits               */
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_STRG   yLOG_snote   ("null input");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_snote   (a_src);
+   x_len = strllen (a_src, LEN_STR);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce; if (a_src [0] == '0' && (a_src [1] != '\0' && a_src [1] != '.')) {
+      DEBUG_STRG   yLOG_snote   ("bad leading zero");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (x_temp, a_src, LEN_STR);
+   DEBUG_STRG   yLOG_snote   (x_temp);
+   /*---(run digits)---------------------*/
+   DEBUG_STRG   yLOG_snote   (x_valid);
+   --rce;  for (i = x_len - 1; i >= 0 ; --i) {
+      x_curr = x_temp [i];
+      DEBUG_STRG   yLOG_schar   (x_curr);
+      /*---(find exponent)---------------*/
+      if (x_curr == 'e' || x_curr == 'E') {
+         DEBUG_STRG   yLOG_snote   ("exp");
+         if (x_exp < 0)   x_exp = i;
+         else {
+            DEBUG_STRG   yLOG_snote   ("BOOM");
+            DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+            return rce;
+         }
+         continue;
+      }
+      /*---(find decimal)----------------*/
+      if (x_curr == '.') {
+         DEBUG_STRG   yLOG_snote   ("dec");
+         if (x_dec < 0)   x_dec = i;
+         else {
+            DEBUG_STRG   yLOG_snote   ("BOOM");
+            DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+            return rce - 1;
+         }
+         continue;
+      }
+      /*---(check rest)------------------*/
+      if (strchr (x_valid, x_curr)  == 0) {
+         DEBUG_STRG   yLOG_snote   ("BOOM");
+         DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce - 2;
+      }
+   }
+   rce -= 2;
+   /*---(check positions)----------------*/
+   --rce;  if (x_exp > 0 && x_dec > 0 && x_exp < x_dec) {
+      DEBUG_STRG   yLOG_snote   ("BOOM");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(parse value)--------------------*/
+   if (x_exp > 0)  x_temp [x_exp] = '\0';
+   x_final = atof (x_temp);
+   if (x_exp > 0) {
+      if (x_temp [x_exp + 1] != '\0')  {
+         x_power = atof (x_temp + x_exp + 1);
+         if (x_power != 0.0)  x_power = pow (10, x_power);
+      } else {
+         x_power = 0.0;
+      }
+   }
+   if      (x_power >  0)  x_final = x_final * x_power;
+   else if (x_power <  0)  x_final = x_final / (-x_power);
+   else                    x_final = 0.0;
+   /*---(return value)-------------------*/
+   DEBUG_STRG   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                     strings from numerics                    ----===*/
+/*====================------------------------------------====================*/
+static void      o___FORMATTING______________o (void) {;}
+
+ySTR_spaced        (char *a_out, int a_count)
+{
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   int         j           =    0;               /* iterator -- character     */
+   x_len = strlen (a_out);
+   for (i = (x_len - 1) / a_count; i > 0; --i) {
+      for (j = x_len; j >= x_len - (i * a_count); --j) {
+         a_out [j + 1] = a_out [j];
+      }
+      a_out [x_len - (i * a_count)] = '\'';
+      ++x_len;
+      a_out [x_len] = '\0';
+   }
+   return 0;
+}
+
+char         /*-> format binary numbers to string ---------[ petal  [ 2f---- ]*/
+strl4bin           (double a_val, char *a_out, int a_nibs, char a_form, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   long        x_num       =    0;
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_prefix    [200] = "";  /* temp working string            */
+   char        x_final     [200] = "";
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (a_out, "", a_max);
+   if (a_val < 0.0)  a_val  *= -1;
+   /*---(any binary)-----------*/
+   x_num = (long) a_val;
+   if (x_num == 0)   strcat (x_temp, "0000");
+   while (x_num > 0) {
+      if (x_num % 2 == 0)   strcat (x_temp, "0");
+      else                  strcat (x_temp, "1");
+      x_num /= 2;
+   }
+   /*---(make prefix)----------*/
+   x_len = strlen (x_temp);
+   switch (x_len % 4) {
+   case 1 : strcat (x_temp, "0");
+   case 2 : strcat (x_temp, "0");
+   case 3 : strcat (x_temp, "0");
+   }
+   for (i = x_len / 4; i < a_nibs; ++i)  strcat (x_temp, "0000");
+   /*---(flip)-----------------*/
+   strcat (x_temp, "b");
+   x_len = strlen (x_temp) - 1;
+   for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
+   /*---(create)---------------*/
+   if (a_form == 'd' || a_form == 'D')  ySTR_spaced (x_final, 4);
+   x_len = strlen (x_final);
+   DEBUG_STRG   yLOG_sint    (a_max);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      DEBUG_STRG   yLOG_snote   ("too long");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> format octal numbers to string ----------[ petal  [ 2f---- ]*/
+strl4oct           (double a_val, char *a_out, int a_bytes, char a_form, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_prefix    [200] = "";  /* temp working string            */
+   char        x_final     [200] = "";
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   if (a_val < 0.0)  a_val  *= -1;
+   strlcpy (a_out, "", a_max);
+   /*---(translate base)-------*/
+   sprintf  (x_temp, "%o",       (long)  a_val);
+   /*---(make prefix)----------*/
+   x_len = strlen (x_temp);
+   if (x_len % 3 == 2) { strcat  (x_prefix,  "0"); x_len += 1; }
+   if (x_len % 3 == 1) { strcat  (x_prefix, "00"); x_len += 2; }
+   for (i = x_len / 3; i < a_bytes; ++i)  strcat (x_prefix, "000");
+   /*---(create)---------------*/
+   sprintf (x_final, "o%s%s" , x_prefix, x_temp);
+   if (a_form == 'd' || a_form == 'D')  ySTR_spaced (x_final, 3);
+   x_len = strlen (x_final);
+   DEBUG_STRG   yLOG_sint    (a_max);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      DEBUG_STRG   yLOG_snote   ("too long");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
+strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_prefix    [200] = "";  /* temp working string            */
+   char        x_final     [200] = "";
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   if (a_val < 0.0)  a_val  *= -1;
+   strlcpy (a_out, "", a_max);
+   /*---(translate base)-------*/
+   switch (a_form) {
+   case 'u' :  case 'd' :
+      sprintf  (x_temp, "%x",       (long)  a_val);
+      break;
+   case 'U' :  case 'D' :
+      sprintf  (x_temp, "%X",       (long)  a_val);
+      break;
+   }
+   /*---(make prefix)----------*/
+   x_len = strlen (x_temp);
+   if (x_len % 2 == 1) {
+      strcpy  (x_prefix, "0");
+      ++x_len;
+   }
+   for (i = x_len / 2; i < a_bytes; ++i)  strcat (x_prefix, "00");
+   /*---(create)---------------*/
+   sprintf (x_final, "x%s%s" , x_prefix, x_temp);
+   if (a_form == 'd' || a_form == 'D')  ySTR_spaced (x_final, 2);
+   x_len = strlen (x_final);
+   DEBUG_STRG   yLOG_sint    (a_max);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      DEBUG_STRG   yLOG_snote   ("too long");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+
+/*====================------------------------------------====================*/
+/*===----                    unit testing accessor                     ----===*/
+/*====================------------------------------------====================*/
+static void      o___UNITTEST________________o (void) {;}
 
 #define       LEN_TEXT  2000
-            char          unit_answer [ LEN_TEXT ];
+char          unit_answer [ LEN_TEXT ];
 
 char*            /* [------] unit test accessor ------------------------------*/
 ySTR_unit          (char *a_question, int a_num)
@@ -643,6 +1078,13 @@ ySTR_testloud      (void)
    ySTR_debug ('y');
    its.logger = yLOG_begin ("ySTR" , yLOG_SYSTEM, yLOG_NOISE);
    DEBUG_STRG   yLOG_info     ("ySTR"    , ySTR_version   ());
+   return 0;
+}
+
+char       /*----: stop logging ----------------------------------------------*/
+ySTR_testend       (void)
+{
+   yLOG_end     ();
    return 0;
 }
 

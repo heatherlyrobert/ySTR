@@ -25,15 +25,24 @@ ySTR \- library of secure and useful string handling functions
 .R  ---(args)--------------------------------------
 .BI "char strlargs  (char *" "a_src" ", int " "a_cnt" ", int *" "a_argc" ", char **" "a_argv" ", int " "a_max" ");"
 .sp
-.B link with -L/usr/local/libs -lySTR or -lySTR_debug
+.R  ---(conversion)--------------------------------
+.BI "char strl2bin    (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
+.BI "char strl2oct    (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
+.BI "char strl2hex    (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
+.BI "char strl2real   (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
+.sp
+.R  ---(formatting)--------------------------------
+.BI "char strl4bin (double " "a_val" ", char *" "a_src" ", int " "a_nibs " ", char " "a_form" ", int " "a_max" ");"
+.BI "char strl4oct (double " "a_val" ", char *" "a_src" ", int " "a_bytes" ", char " "a_form" ", int " "a_max" ");"
+.BI "char strl4hex (double " "a_val" ", char *" "a_src" ", int " "a_bytes" ", char " "a_form" ", int " "a_max" ");"
 .sp
 .R  ---(logging/unit testing)----------------------
-.BI "char *ySTR_version  (void);"
-.BI "char ySTR_debug     (char " "a_flag" ");"
-.BI "char ySTR_testloud  (void);"
-.BI "char ySTR_testquiet (void);"
+.BI "char* ySTR_version   (void);"
+.BI "char  ySTR_debug     (char " "a_flag" ");"
+.BI "char  ySTR_testloud  (void);"
+.BI "char  ySTR_testquiet (void);"
 .sp
-.B link with -L/usr/local/libs -lySTR_debug
+.B link with -L/usr/local/libs -lySTR or -lySTR_debug
 
 
 .SH SUMMARY

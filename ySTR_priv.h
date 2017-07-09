@@ -8,7 +8,9 @@
 #include    <stdio.h>
 #include    <stdlib.h>                  /* getenv()                            */
 #include    <string.h>
+#include    <math.h>  
 
+#include    <yURG.h>                    /* heatherly program logger            */
 #include    <yLOG.h>                    /* heatherly program logger            */
 #include    "ySTR.h"
 
@@ -16,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2f"
-#define YSTR_VER_TXT   "moved to make_program makefile enhancement"
+#define YSTR_VER_NUM   "0.2g"
+#define YSTR_VER_TXT   "added conversions to and from bin, oct, and hex"
 
 
 
@@ -38,6 +40,7 @@ extern  tLOCAL its;
 
 char        ySTR_testquiet     (void);
 char        ySTR_testloud      (void);
+char        ySTR_testend       (void);
 char*       ySTR_unit          (char *a_question, int a_num);
 
 
