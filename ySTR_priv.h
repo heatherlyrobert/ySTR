@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2h"
-#define YSTR_VER_TXT   "added gyges format codes in formatting functions"
+#define YSTR_VER_NUM   "0.2i"
+#define YSTR_VER_TXT   "build and tested all comma and normal formats from gyges"
 
 
 

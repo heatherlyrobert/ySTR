@@ -100,6 +100,7 @@ char        strl2comma         (char   *a_src, double *a_val, int a_max);
 char        strl4bin           (double a_val, char *a_out, int a_nibs , char a_form, int a_max);
 char        strl4oct           (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 char        strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
+char        strl4comma         (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 
 #endif
 /*===[[ END ]]================================================================*/

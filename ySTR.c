@@ -860,7 +860,7 @@ strl2real          (char *a_src, double *a_val, int a_max)
 /*====================------------------------------------====================*/
 static void      o___FORMATTING______________o (void) {;}
 
-ySTR_spaced        (char *a_out, int a_count)
+ySTR__space_ints     (char *a_out, int a_count, char a_char)
 {
    int         x_len       =    0;
    int         i           =    0;               /* iterator -- character     */
@@ -870,10 +870,28 @@ ySTR_spaced        (char *a_out, int a_count)
       for (j = x_len; j >= x_len - (i * a_count); --j) {
          a_out [j + 1] = a_out [j];
       }
-      a_out [x_len - (i * a_count)] = '\'';
+      a_out [x_len - (i * a_count)] = a_char;
       ++x_len;
       a_out [x_len] = '\0';
    }
+   return 0;
+}
+
+ySTR__space_decs     (char *a_out, int a_count, char a_char)
+{
+   int         x_add       =    0;
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   x_len = strlen (a_out);
+   x_add = a_count - (x_len % a_count);
+   /*> printf ("a_out = %s, a_count = %d, x_len = %d, x_add %d\n", a_out, a_count, x_len, x_add);   <*/
+   for (i = 0; i < x_add; ++i)  strcat (a_out, "0");
+   /*> printf ("a_out = %s\n", a_out);                                                <*/
+   if (x_len > 3)  ySTR__space_ints     (a_out, a_count, a_char);
+   /*> printf ("a_out = %s\n", a_out);                                                <*/
+   x_len = strlen (a_out);
+   for (i = 0; i < x_add; ++i)  a_out [--x_len] = '\0';
+   /*> printf ("a_out = %s\n", a_out);                                                <*/
    return 0;
 }
 
@@ -919,7 +937,7 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_form, int a_ma
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
    /*---(create)---------------*/
-   if (a_form == 'd' || a_form == 'D' || a_form == 'B')  ySTR_spaced (x_final, 4);
+   if (a_form == 'd' || a_form == 'D' || a_form == 'B')  ySTR__space_ints (x_final, 4, '\'');
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
@@ -963,7 +981,7 @@ strl4oct           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
    for (i = x_len / 3; i < a_bytes; ++i)  strcat (x_prefix, "000");
    /*---(create)---------------*/
    sprintf (x_final, "o%s%s" , x_prefix, x_temp);
-   if (a_form == 'd' || a_form == 'D' || a_form == 'O')  ySTR_spaced (x_final, 3);
+   if (a_form == 'd' || a_form == 'D' || a_form == 'O')  ySTR__space_ints (x_final, 3, '\'');
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
@@ -1016,7 +1034,142 @@ strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
    for (i = x_len / 2; i < a_bytes; ++i)  strcat (x_prefix, "00");
    /*---(create)---------------*/
    sprintf (x_final, "x%s%s" , x_prefix, x_temp);
-   if (a_form == 'd' || a_form == 'D' || a_form == 'X')  ySTR_spaced (x_final, 2);
+   if (a_form == 'd' || a_form == 'D' || a_form == 'X')  ySTR__space_ints (x_final, 2, '\'');
+   x_len = strlen (x_final);
+   DEBUG_STRG   yLOG_sint    (a_max);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      DEBUG_STRG   yLOG_snote   ("too long");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
+strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_prefix    [200] = "";  /* temp working string            */
+   char        x_suffix    [200] = "";  /* temp working string            */
+   char        x_final     [200] = "";
+   char        x_sign      =    1;
+   double      x_round     = 0;             /* rounded off value              */
+   long      x_exp       = 1;             /* exponent to round off          */
+   long      x_int       = 0;             /* whole part                     */
+   long      x_frac      = 0;             /* fractional part                */
+   long      x_pct       = 1;             /* fractional part                */
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   if (a_val < 0.0)  x_sign  = -1;
+   strlcpy (a_out, "", a_max);
+   DEBUG_STRG   yLOG_schar   (a_form);
+   --rce;  if (strchr ("ireEcCaAsSmM#", a_form) == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   if (a_val < 0.0)    x_sign  = -1;
+   if (a_form == 'i')  a_decs  =  0;
+   if (tolower (a_form) == 'e' && a_decs == 0)  a_decs  =  1;
+   /*---(parse out)----------------------*/
+   for (i = 0; i < a_decs; ++i)  x_exp *= 10;
+   if (tolower (a_form) == 'p') x_pct = 100;
+   x_round  = round (a_val * x_sign * x_exp * x_pct);
+   x_int    = x_round / x_exp;
+   x_frac   = x_round - (x_int * x_exp);
+   /*---(assemble prefix)----------------*/
+   if (tolower (a_form) == 'm')  strcat (x_final, "$");
+   if (x_sign < 0) {
+      switch (tolower (a_form)) {
+      case 'c' : case 's' : case 'i' : case 'r' : case 'e' : case 'E' : case 'p' :
+         strcat (x_final, "-");
+         break;
+      case 'a' : case 'm' :
+         strcat (x_final, "(");
+         break;
+      }
+   } else {
+      switch (tolower (a_form)) {
+      case 's' : case 'E' :
+         strcat (x_final, "+");
+         break;
+      }
+   }
+   DEBUG_STRG  yLOG_snote    (x_final);
+   /*---(format integer part)------------*/
+   sprintf (x_temp, "%lld", x_int);
+   x_len = strlen (x_temp);
+   if (strchr ("ireE", a_form) == NULL)  ySTR__space_ints (x_temp, 3, ',');
+   strcat (x_final, x_temp);
+   DEBUG_STRG  yLOG_snote    (x_temp);
+   /*---(decimal part)-------------------*/
+   if (a_form != 'i' && a_decs > 0) {
+      sprintf (x_temp, "%0*lld", a_decs, x_frac);
+      if (strchr ("EACSM#", a_form) != NULL)  ySTR__space_decs (x_temp, 3, '\'');
+      strcat  (x_final, ".");
+      strcat  (x_final, x_temp);
+   }
+   DEBUG_STRG  yLOG_snote    (x_temp);
+   /*---(assemble suffix)----------------*/
+   if (x_sign < 0) {
+      switch (tolower (a_form)) {
+      case 'a' : case 'm' :
+         strcat (x_final, ")");
+         break;
+      case 'p' :
+         strcat (x_final, "p");
+         break;
+      case '#' :
+         strcat (x_final, " -");
+         break;
+      }
+   } else {
+      switch (tolower (a_form)) {
+      case 'a' : case 'm' :
+         strcat (x_final, "_");
+         break;
+      case 'p' :
+         strcat (x_final, "p");
+         break;
+      case '#' :
+         strcat (x_final, " +");
+         break;
+      }
+   }
+   DEBUG_STRG  yLOG_snote    (x_final);
+   /*---(scienfific)-----------*/
+   if (tolower (a_form) == 'e') {
+      strcpy  (x_final, "");
+      /*---(make prefix)-----------------*/
+      if (x_sign < 0)          strcpy (x_final, "-");
+      else if (a_form == 'E')  strcpy (x_final, "+");
+      sprintf (x_temp, "%.*e", a_decs, a_val * x_sign);
+      strncat (x_final, x_temp, 2);
+      /*---(save exponent/suffix)--------*/
+      strcpy  (x_suffix, x_temp + a_decs + 2);
+      x_temp  [a_decs + 2] = '\0';
+      /*---(parse decimals)--------------*/
+      strcpy  (x_prefix, x_temp + 2);
+      if (a_form == 'E' && a_decs > 3)  ySTR__space_decs (x_prefix, 3, '\'');
+      /*---(contat)----------------------*/
+      strcat  (x_final, x_prefix);
+      if (a_form == 'E')  strcat  (x_final, " ");
+      strcat  (x_final, x_suffix);
+   }
+   /*---(create)---------------*/
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
