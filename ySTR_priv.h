@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2j"
-#define YSTR_VER_TXT   "updated the documentation a little"
+#define YSTR_VER_NUM   "0.2k"
+#define YSTR_VER_TXT   "added strl4roman to the list ;)"
 
 
 

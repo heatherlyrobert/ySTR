@@ -1077,11 +1077,12 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    if (a_val < 0.0)  x_sign  = -1;
    strlcpy (a_out, "", a_max);
    DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("ireEcCaAsSmM#", a_form) == NULL) {
+   --rce;  if (strchr ("ifeEcCaAsS$#prR?", a_form) == NULL) {
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    if (a_val < 0.0)    x_sign  = -1;
+   if (a_form == '?')  a_form  = 'i';
    if (a_form == 'i')  a_decs  =  0;
    if (tolower (a_form) == 'e' && a_decs == 0)  a_decs  =  1;
    /*---(parse out)----------------------*/
@@ -1091,13 +1092,13 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    x_int    = x_round / x_exp;
    x_frac   = x_round - (x_int * x_exp);
    /*---(assemble prefix)----------------*/
-   if (tolower (a_form) == 'm')  strcat (x_final, "$");
+   if (tolower (a_form) == '$')  strcat (x_final, "$");
    if (x_sign < 0) {
       switch (tolower (a_form)) {
-      case 'c' : case 's' : case 'i' : case 'r' : case 'e' : case 'E' : case 'p' :
+      case 'c' : case 's' : case 'i' : case 'f' : case 'e' : case 'E' : case 'p' :
          strcat (x_final, "-");
          break;
-      case 'a' : case 'm' :
+      case 'a' : case '$' :
          strcat (x_final, "(");
          break;
       }
@@ -1126,11 +1127,11 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    /*---(assemble suffix)----------------*/
    if (x_sign < 0) {
       switch (tolower (a_form)) {
-      case 'a' : case 'm' :
+      case 'a' : case '$' :
          strcat (x_final, ")");
          break;
       case 'p' :
-         strcat (x_final, "p");
+         strcat (x_final, ")");
          break;
       case '#' :
          strcat (x_final, " -");
@@ -1138,11 +1139,11 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       }
    } else {
       switch (tolower (a_form)) {
-      case 'a' : case 'm' :
+      case 'a' : case '$' :
          strcat (x_final, "_");
          break;
       case 'p' :
-         strcat (x_final, "p");
+         strcat (x_final, ")");
          break;
       case '#' :
          strcat (x_final, " +");
@@ -1183,6 +1184,92 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
+
+char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
+strl4roman         (double a_val, char *a_out, int a_decs, char a_form, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   int         x_int       =    0;
+   char        x_final     [200] = "";
+   int         i           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (a_out, "", a_max);
+   DEBUG_STRG   yLOG_schar   (a_form);
+   --rce;  if (strchr ("rR", a_form) == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   if (a_val < 0.0)  a_val  *= -1;
+   DEBUG_STRG   yLOG_sint    (a_val);
+   --rce;  if (a_val > 4000) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_int = (int) a_val;
+   if (x_int == 0) {
+      if (a_form == 'r')  strcpy (a_out, "o");
+      else                strcpy (a_out, "O");
+      return 0;
+   }
+   /*---(parse)--------------------------*/
+   if (x_int / 3000 == 1)    {  strcat (x_final, "MMM"   );  x_int -= 3000; }
+   if (x_int / 2000 == 1)    {  strcat (x_final, "MM"    );  x_int -= 2000; }
+   if (x_int / 1000 == 1)    {  strcat (x_final, "M"     );  x_int -= 1000; }
+   if (x_int / 900  == 1)    {  strcat (x_final, "CM"    );  x_int -=  900; }
+   if (x_int / 800  == 1)    {  strcat (x_final, "DCCC"  );  x_int -=  800; }
+   if (x_int / 700  == 1)    {  strcat (x_final, "DCC"   );  x_int -=  700; }
+   if (x_int / 600  == 1)    {  strcat (x_final, "DC"    );  x_int -=  600; }
+   if (x_int / 500  == 1)    {  strcat (x_final, "D"     );  x_int -=  500; }
+   if (x_int / 400  == 1)    {  strcat (x_final, "CD"    );  x_int -=  400; }
+   if (x_int / 300  == 1)    {  strcat (x_final, "CCC"   );  x_int -=  300; }
+   if (x_int / 200  == 1)    {  strcat (x_final, "CC"    );  x_int -=  200; }
+   if (x_int / 100  == 1)    {  strcat (x_final, "C"     );  x_int -=  100; }
+   if (x_int / 100  == 1)    {  strcat (x_final, "C"     );  x_int -=  100; }
+   if (x_int / 90   == 1)    {  strcat (x_final, "XC"    );  x_int -=   90; }
+   if (x_int / 80   == 1)    {  strcat (x_final, "LXXX"  );  x_int -=   80; }
+   if (x_int / 70   == 1)    {  strcat (x_final, "LXX"   );  x_int -=   70; }
+   if (x_int / 60   == 1)    {  strcat (x_final, "LX"    );  x_int -=   60; }
+   if (x_int / 50   == 1)    {  strcat (x_final, "L"     );  x_int -=   50; }
+   if (x_int / 40   == 1)    {  strcat (x_final, "XL"    );  x_int -=   40; }
+   if (x_int / 30   == 1)    {  strcat (x_final, "XXX"   );  x_int -=   30; }
+   if (x_int / 20   == 1)    {  strcat (x_final, "XX"    );  x_int -=   20; }
+   if (x_int / 10   == 1)    {  strcat (x_final, "X"     );  x_int -=   10; }
+   if (x_int / 9    == 1)    {  strcat (x_final, "IX"    );  x_int -=    9; }
+   if (x_int / 8    == 1)    {  strcat (x_final, "VIII"  );  x_int -=    8; }
+   if (x_int / 7    == 1)    {  strcat (x_final, "VII"   );  x_int -=    7; }
+   if (x_int / 6    == 1)    {  strcat (x_final, "VI"    );  x_int -=    6; }
+   if (x_int / 5    == 1)    {  strcat (x_final, "V"     );  x_int -=    5; }
+   if (x_int / 4    == 1)    {  strcat (x_final, "IV"    );  x_int -=    4; }
+   if (x_int / 3    == 1)    {  strcat (x_final, "III"   );  x_int -=    3; }
+   if (x_int / 2    == 1)    {  strcat (x_final, "II"    );  x_int -=    2; }
+   if (x_int / 1    == 1)    {  strcat (x_final, "I"     );  x_int -=    1; }
+   /*---(create)---------------*/
+   x_len = strlen (x_final);
+   DEBUG_STRG   yLOG_sint    (a_max);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      DEBUG_STRG   yLOG_snote   ("too long");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   if (a_form == 'r') {
+      for (i = 0; i < x_len; ++i)  x_final [i] = tolower (x_final [i]);
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
 
 
 /*====================------------------------------------====================*/

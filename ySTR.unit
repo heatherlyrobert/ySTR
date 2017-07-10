@@ -2047,10 +2047,207 @@ SCRP          v21  verify comma conversion to string                          
      exec     v21  change the source string             strl4comma             1242987.5678, x_print,   7,  'E',  40                                  i_pass      0                                                                                                    
      echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     +1.242'987'6 e+06                                                                                         
 
+   GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify roman conversion to string                            strl4comma                                                              ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a string holder               - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+
+   GROUP      v21  start small                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   1.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     i                                                                                                         
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   1.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     I                                                                                                         
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   2.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ii                                                                                                        
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   2.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     II                                                                                                        
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   3.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     iii                                                                                                       
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   3.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     III                                                                                                       
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   4.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     iv                                                                                                        
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   4.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     IV                                                                                                        
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   7.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     vii                                                                                                       
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   7.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     VII                                                                                                       
+
+   GROUP      v21  in the tens                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  10.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     x                                                                                                         
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  10.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     X                                                                                                         
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  17.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xvii                                                                                                      
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  17.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     XVII                                                                                                      
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  25.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xxv                                                                                                       
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  25.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     XXV                                                                                                       
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  42.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xlii                                                                                                      
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  42.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     XLII                                                                                                      
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  68.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     lxviii                                                                                                   
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  68.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     LXVIII                                                                                                   
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  96.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     xcvi                                                                                                      
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                  96.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     XCVI                                                                                                      
+
+   GROUP      v21  in the hundreds                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 101.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ci                                                                                                        
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 101.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     CI                                                                                                        
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 212.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ccxii                                                                                                     
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 212.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     CCXII                                                                                                     
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 353.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     cccliii                                                                                                   
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 353.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     CCCLIII                                                                                                   
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 404.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     cdiv                                                                                                      
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 404.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     CDIV                                                                                                      
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 555.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     dlv                                                                                                       
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 555.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     DLV                                                                                                       
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 846.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     dcccxlvi                                                                                                  
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 846.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     DCCCXLVI                                                                                                  
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 927.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     cmxxvii                                                                                                   
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                 927.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     CMXXVII                                                                                                   
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                1008.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     mviii                                                                                                     
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                1008.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     MVIII                                                                                                     
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                1999.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     mcmxcix                                                                                                   
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                1999.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     MCMXCIX                                                                                                   
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                2420.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     mmcdxx                                                                                                    
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                2420.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     MMCDXX                                                                                                    
+
+   COND       v21  request roman lower                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   0.0000, x_print,   0,  'r',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     o                                                                                                         
+
+   COND       v21  request roman upper                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4roman                   0.0000, x_print,   0,  'R',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     O                                                                                                         
 
    GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
 
 

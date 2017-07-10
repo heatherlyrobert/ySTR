@@ -101,6 +101,7 @@ char        strl4bin           (double a_val, char *a_out, int a_nibs , char a_f
 char        strl4oct           (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 char        strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 char        strl4comma         (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
+char        strl4roman         (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 
 #endif
 /*===[[ END ]]================================================================*/
