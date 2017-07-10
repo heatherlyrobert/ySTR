@@ -21,19 +21,33 @@ fundamental libraries.  two, because i reuse some string manipulations which
 i would like to maintain once.
 
 .B situation (S).  
+i have a small host of valuable string handling, formatting, and manipulation
+routines to increase string safety, trim whitespace, handle delimiters,
+and make special text version of numbers.
 
 .B complication (C).  
-
-.B problem (P).  
+these routines exist in several key programs and so are maintained separately,
+tested in duplicate, and subject to troubles.  they also cloud focus by
+showing up in the program source code.
 
 .B my solution (M).  
+ySTR library will by my supplement to the standard ansi-c string library.  i
+will consolidate my best functions to make them readily available to any
+program that needs them.
 
 .B target user (T).  
 very technical, well-versed, power user.
 
 .B accepted functionality (a).  
+   -- length limited strcpy, strcat, strlen, and replacement
+   -- trimming from various parts of the string
+   -- cleaning to remove special and dangerous chars
+   -- formatting of numbers into strings in many formats
+   -- unformatting string representations of numbers back into values
+   -- delimiter counting, finding, replacing, and removal
 
 .B rejected functionality (r).  
+   -- case-by-case
 
 .B as always, all my applications must (#).  
    -- run on any linux box from raspberry to cray
@@ -51,3 +65,16 @@ very technical, well-versed, power user.
    -- follow the yVIKEYS standard to the letter
    -- all tables must be self describing with labels and queries
    -- all data structures must include dumps, reports, and audits
+
+.SH SEE ALSO
+this documentation is layered to provide easier navigation.
+   ySTR  (3), library overview and calling
+   ySTR  (7), decision rationale, objectives, and overview
+
+.SH AUTHOR
+heatherly <jelloshrke at gmail dot com>
+
+.SH COLOPHON
+this page is part of a documentation package mean to make the use of the
+heatherly tools easier and faster
+

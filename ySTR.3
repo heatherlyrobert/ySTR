@@ -32,9 +32,10 @@ ySTR \- library of secure and useful string handling functions
 .BI "char strl2real   (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
 .sp
 .R  ---(formatting)--------------------------------
-.BI "char strl4bin (double " "a_val" ", char *" "a_src" ", int " "a_nibs " ", char " "a_form" ", int " "a_max" ");"
-.BI "char strl4oct (double " "a_val" ", char *" "a_src" ", int " "a_bytes" ", char " "a_form" ", int " "a_max" ");"
-.BI "char strl4hex (double " "a_val" ", char *" "a_src" ", int " "a_bytes" ", char " "a_form" ", int " "a_max" ");"
+.BI "char strl4bin   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4oct   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4hex   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4comma (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
 .sp
 .R  ---(logging/unit testing)----------------------
 .BI "char* ySTR_version   (void);"
@@ -45,31 +46,4 @@ ySTR \- library of secure and useful string handling functions
 .B link with -L/usr/local/libs -lySTR or -lySTR_debug
 
 
-.SH SUMMARY
-ySTR is a set of shared c functions to provide flexible, reliable, and
-consistent string handling to nearly all my programs.  its purpose is to take
-a complex and foundational capability, make it more secure and bug resistent,
-and allow them to be tested, maintained, and documented in one place.
-
-.SH PROBLEM and REWARDS (PR)
-the standard c library for string handling is excellent, but can allow buffer
-overruns to creep into programs.  additionally, there are a number of string
-functions which i commonly use which really should be in one shared place.
-this is an opportunity to really clean up as well as understand string
-handling better.  a few of the benefits of having these functions...
-   -- fewer accidental buffer overruns
-   -- higher standard of string handling
-   -- no code migrations of advanced string handling between programs
-   -- more consistent user interface
-   -- much better unit tests on additional string functions
-   -- i gain experience
-
-.SH OBJECTIVES and ALTERNATIVES (OA)
-objectives and ideas for this library are gathered by reviewing other c
-libraries as well as string libraries for other languages.  if we do this
-right, i will replace the c string library with a compatable one and add
-a number of useful additional functions.
-
-phase one is simply to migrate away from strcpy, strncpy, strcat, and strncat.
-i also like moving from strlen. and i must standardize string trimming.
 
