@@ -19,8 +19,9 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2l"
-#define YSTR_VER_TXT   "created main number driver for gyges"
+#define YSTR_VER_NUM   "0.2m"
+#define YSTR_VER_TXT   "created strlpad to handle alignment and padding"
+
 
 
 typedef     struct   tm           tTIME;

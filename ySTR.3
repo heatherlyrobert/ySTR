@@ -6,38 +6,43 @@ ySTR \- library of secure and useful string handling functions
 .nf
 .B #include  <ySTR.h>
 .sp
-.R  ---(strings)-----------------------------------
+---(strings)-----------------------------------
 .BI "char strlcpy   (char *" "a_dst" ", char *" "a_src" ", int " "a_max" ");"
 .BI "char strlcat   (char *" "a_dst" ", char *" "a_src" ", int " "a_max" ");"
 .BI "int  strllen   (char *" "a_src" ", int " "a_max" ");"
 .BI "char strltrunc (char *" "a_src" ", int " "a_max" " );"
 .BI "int  strltrim  (char *" "a_src" ", char " "a_mode" ", int " "a_max" ");"
-.BI "int  strltrepl (char *" "a_src" ", char *" "a_old" ", char *" "a_new" ", int " "a_cnt" ", int " "a_max" ");"
-.BI "int  strltclean(char *" "a_src" ", char " "a_mode" ", char " "a_comp" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "int  strlrepl  (char *" "a_src" ", char *" "a_old" ", char *" "a_new" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "int  strlclean (char *" "a_src" ", char " "a_mode" ", char " "a_comp" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "char strlpad   (char *" "a_src" ", char *" "a_out" ", char " "a_fil" ", char " "a_ali" ", int " "a_max" ");"
 
 .sp
-.R  ---(delimiters)--------------------------------
+---(delimiters)--------------------------------
 .BI "int  strldcnt  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
 .BI "int  strldpos  (char *" "a_src" ", char " "a_del" ", int " "a_cnt" ", int " "a_max" ");"
 .BI "int  strldchg  (char *" "a_src" ", char " "a_del" ", char " "a_new" ", int " "a_max" ");"
 .BI "int  strldchg  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
 .sp
-.R  ---(args)--------------------------------------
+---(args)--------------------------------------
 .BI "char strlargs  (char *" "a_src" ", int " "a_cnt" ", int *" "a_argc" ", char **" "a_argv" ", int " "a_max" ");"
 .sp
-.R  ---(conversion)--------------------------------
+---(conversion)--------------------------------
 .BI "char strl2bin    (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
 .BI "char strl2oct    (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
 .BI "char strl2hex    (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
 .BI "char strl2real   (char *" "a_src" ", double *" "a_val" ", int " "a_max" ");"
 .sp
-.R  ---(formatting)--------------------------------
+---(formatting)--------------------------------
 .BI "char strl4bin   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
 .BI "char strl4oct   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
 .BI "char strl4hex   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
 .BI "char strl4comma (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4sci   (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4roman (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4time  (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char strl4main  (double " "a_val" ", char *" "a_src" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
 .sp
-.R  ---(logging/unit testing)----------------------
+---(logging/unit testing)----------------------
 .BI "char* ySTR_version   (void);"
 .BI "char  ySTR_debug     (char " "a_flag" ");"
 .BI "char  ySTR_testloud  (void);"
@@ -45,5 +50,96 @@ ySTR \- library of secure and useful string handling functions
 .sp
 .B link with -L/usr/local/libs -lySTR or -lySTR_debug
 
+.SH NUMERIC FORMATTING
+each of these functions operates the same way.  they each take an input value
+(a_val) and create a representation in a specific format (a_frm) and place it
+into a string (a_out).
 
+.B primary numeric formatting options (a_frm)
+   b   b10100110            binary, normal
+   B   b'0101'0110          binary, with quote separators
+   o   o755                 octal, normal
+   O   o'755'432            octal, with quote separators
+   x   xaf9254              hexadecimal, normal
+   X   x'af'92'54           hexadecimal, with quote separators
+   i   12345                integer long
+   f   12345.1698           floating point
+   c   1,345.16982          comma
+   C   1,345.169'82         comma, decimal delimited
+   a   (1,221.16982)        accounting
+   A   (1,221.169'82)       accounting, decimal delimited
+   $   $(12,345.12)         dollar, normal
+   s   +12,345.16           signed
+   S   +345.169'82          signed, decimal delimited
+   #   345.169'82 +         technical, decimal delimited, tail sign
+   e   3.426e+12            scientific
+   E   3.426'2 e+12         scientific, decimal delimited
+   p   12)                  bullet point
+   P   12.                  bullet point
+   r   lxviii               roman, lower
+   R   LXVIII               roman, upper
+   d   2017-Jan-12          date
+   t   14:32                time, military
+   D   2017-Jan-12 14:32    date
+   T   2017.01.12.14.32.01  timestamp
+
+.B count/decimals (a_cnt), 
+   b, B           pad to a_cnt nibbles (never trunctate)
+   o, O, x, X     pad to a_cnt bytes (never trunctate)
+   i, r, R        no meaning
+   d, t, D, T     no meaning
+   all others     number of decimal places shown in output 
+
+.B maximum size (a_max),
+number of characters the output (a_out) can hold.  if the representation will
+overrun, a negative return code is given and the output will be "#.max".
+
+where possible, please use strl4main as it simplifies the interface.
+
+.B strl4main, 
+translates all formats by calling the functions below
+
+.B strl4bin, 
+translates binary using 'b' and 'B'
+
+.B strl4oct, 
+translates octal using 'o' and 'O'
+   z   0755                 traditional prefix with zero
+
+.B strl4hex, 
+translates hexadecimal using 'x' and 'X'.  also...
+   U   xAF9254              same as 'x' only upper case
+   D   x'AF'92'54           same as 'X' only upper case
+   q   af'92'54             delimited with no prefix
+   Q   AF'92'54             delimited with no prefix, upper case
+   n   af9254               same as 'x' only no prefix
+   N   AF9254               same as 'n' only upper case
+   :   AF:92:54             more traditional format
+   s   af 92 54             space delimited
+   S   AF 92 54             spaces and upper case
+
+.B strl4sci, 
+translates scientific using 'e' and 'E'
+
+.B strl4roman, 
+translates roman numerals using 'r' and 'R'
+
+.B strl4time, 
+translates time using d, t, D, T
+
+.B strl4comma,
+translates comma for all other formats
+
+
+.SH SEE ALSO
+this documentation is layered to provide easier navigation.
+   ySTR  (3), library overview and calling
+   ySTR  (7), decision rationale, objectives, and overview
+
+.SH AUTHOR
+heatherly <jelloshrke at gmail dot com>
+
+.SH COLOPHON
+this page is part of a documentation package mean to make the use of the
+heatherly tools easier and faster
 

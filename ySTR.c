@@ -1113,7 +1113,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    if (a_val < 0.0)  x_sign  = -1;
    strlcpy (a_out, "", a_max);
    DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("ifcCaAsS$#p?", a_form) == NULL) {
+   --rce;  if (strchr ("ifcCaAsS$#pP?", a_form) == NULL) {
       strlcpy (a_out, "#.fmt", a_max);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1123,7 +1123,6 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    if (a_form == 'i')  a_decs  =  0;
    /*---(parse out)----------------------*/
    for (i = 0; i < a_decs; ++i)  x_exp *= 10;
-   if (tolower (a_form) == 'p') x_pct = 100;
    x_round  = round (a_val * x_sign * x_exp * x_pct);
    x_int    = x_round / x_exp;
    x_frac   = x_round - (x_int * x_exp);
@@ -1155,11 +1154,13 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       switch (tolower (a_form)) {
       case 'a' : case '$' : case 'p' : strcat (x_final, ")");  break;
       case '#' :                       strcat (x_final, " -"); break;
+      case 'P' :                       strcat (x_final, ".");  break;
       }
    } else {
       switch (tolower (a_form)) {
       case 'a' : case '$' :            strcat (x_final, "_");  break;
       case 'p' :                       strcat (x_final, ")");  break;
+      case 'P' :                       strcat (x_final, ".");  break;
       case '#' :                       strcat (x_final, " +"); break;
       }
    }
@@ -1430,6 +1431,133 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_form, int a_m
    }
    /*---(complete)-----------------------*/
    return rc;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                        padding strings                       ----===*/
+/*====================------------------------------------====================*/
+static void      o___PADDING_________________o (void) {;}
+
+static char s_empty       [200] = "                                                                                                                                                                                                       ";
+static char s_dashes      [200] = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+static char s_equals      [200] = "=======================================================================================================================================================================================================";
+static char s_unders      [200] = "_______________________________________________________________________________________________________________________________________________________________________________________________________";
+static char s_dots        [200] = ".......................................................................................................................................................................................................";
+static char s_pluses      [200] = "----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+";
+static char s_back        [200] = "« « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « «";
+static char s_fore        [200] = "» » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » »";
+static char s_divs        [200] = "÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷";
+
+char
+strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_temp      [200] = "";
+   char        x_final     [200] = "";
+   char       *x_back      = s_empty;
+   char       *x_fore      = s_empty;
+   int         i           =    0;
+   char       *x_aligns    = "?<|>[^]{}";
+   int         x_npre      =    0;              /* number of prefix fills     */
+   int         x_nsuf      =    0;              /* number of suffix fills     */
+   int         x_beg       =    0;              /* position of content beg    */
+   int         x_width     =    0;
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_snote   ("a_out null");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (a_out, "", a_max);
+   DEBUG_STRG   yLOG_spoint  (a_src);
+   --rce;  if (a_src == NULL) {
+      strlcpy (a_out, "#.src", a_max);
+      DEBUG_STRG   yLOG_snote   ("a_src null");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_schar   (a_ali);
+   --rce;  if (strchr (x_aligns, a_ali) == NULL) {
+      strlcpy (a_out, "#.ali", a_max);
+      DEBUG_STRG   yLOG_snote   ("alignment bad");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(handle too short)---------------*/
+   x_len  = strlen (a_src);
+   if (x_len >  a_max) {
+      sprintf (a_out, "%-*.*s>", a_max - 1, a_max - 1, a_src);
+      return 0;
+   }
+   /*---(handle exact size)--------------*/
+   if (x_len == a_max) {
+      sprintf (a_out, "%-*.*s", a_max, a_max, a_src);
+      return 0;
+   }
+   /*---(set filler)---------------------*/
+   if      (a_fil == '-')    x_fore = x_back = s_dashes;
+   else if (a_fil == '=')    x_fore = x_back = s_equals;
+   else if (a_fil == '_')    x_fore = x_back = s_unders;
+   else if (a_fil == '.')    x_fore = x_back = s_dots;
+   else if (a_fil == '+')    x_fore = x_back = s_pluses;
+   else if (a_fil == '/')    x_fore = x_back = s_divs;
+   else if (a_fil == '"')  { x_fore = s_fore;  x_back = s_back; }
+   else                      x_fore = x_back = s_empty;
+   /*---(prefix/suffix)------------------*/
+   sprintf (x_temp, "%s"     , a_src);
+   if (x_len + 4 <  a_max) {
+      if      (a_ali == '{')  {
+         sprintf (x_temp, "%2.2s%s", x_back + 1, a_src);
+      }
+      else if (a_ali == '}') {
+         sprintf (x_temp, "%s%2.2s", a_src, x_fore + x_len + 1);
+      }
+   }
+   if (a_ali == '{')  a_ali = '[';
+   if (a_ali == '}')  a_ali = ']';
+   x_len  = strlen (x_temp);
+   /*---(fix formats)--------------------*/
+   if (x_len + 2 > a_max) {
+      switch (a_ali) {
+      case '[' :    a_ali = '<'; break;
+      case ']' :    a_ali = '>'; break;
+      }
+   }
+   /*---(create)-------------------------*/
+   x_npre  = (a_max - x_len) / 2;
+   x_nsuf  = a_max - x_len - x_npre;
+   switch (a_ali) {
+   case '<' :
+      sprintf (x_final, "%s%.*s", x_temp, a_max - x_len, x_fore + x_len);
+      break;
+   case '>' :
+      sprintf (x_final, "%.*s%s", a_max - x_len, x_back, x_temp);
+      break;
+   case '|' :
+      sprintf (x_final, "%.*s%s%.*s", x_npre, x_back, x_temp, x_nsuf, x_fore + x_len + x_npre);
+      break;
+   case '[' :
+      sprintf (x_final, "[%s%.*s]", x_temp, a_max - x_len - 2, x_fore + x_len + 1);
+      break;
+   case ']' :
+      sprintf (x_final, "[%.*s%s]", a_max - x_len - 2, x_back + 1, x_temp);
+      break;
+   case '^' :
+      sprintf (x_final, "[%.*s%s%.*s]", x_npre - 1, x_back + 1, x_temp, x_nsuf - 1, x_fore + x_len + x_npre);
+      break;
+   }
+   /*---(copy)---------------------------*/
+   strlcpy (a_out, x_final, a_max + 1);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
 }
 
 

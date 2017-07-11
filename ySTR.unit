@@ -2726,6 +2726,311 @@ SCRP          v21  verify time representations to string                      
 
 
 
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify string padding and alignment                          strlpad                                                                 ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a string holder               - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+
+   GROUP      v21  start with simple lefts                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '<',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '<',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string shorter                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '-', '<',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     test---                                                                                           
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '-', '<',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     test----------------                                                                              
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', '<',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     test+----+----+----+                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '<',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     test» » » » » » » » »                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '<',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     test÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷                                                                                       
+
+   GROUP      v21  then to simple rights                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '_', '>',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '_', '>',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string shorter                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '_', '>',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ___test                                                                                           
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '_', '>',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ________________test                                                                          
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '=', '>',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ================test                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '>',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     « « « « « « « « «test                                                                                                  
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '>',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷test                                                                                       
+
+   GROUP      v21  and simple centers                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '_', '|',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '_', '|',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string shorter                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '_', '|',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     _test__                                                                                           
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '_', '|',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ________test________                                                                          
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '=', '|',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ========test========                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '|',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     « « « « test» » » » »                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '|',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ÷ ÷ ÷ ÷ test÷ ÷ ÷ ÷ ÷                                                                                       
+
+   GROUP      v21  on to left braced                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '[',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '[',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string just one greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '[',   8                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing-                                                                                          
+
+   COND       v21  request string just two greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '[',   9                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [testing]                                                                                          
+
+   COND       v21  request string just five greater                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '[',  12                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [testing---]                                                                                          
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '-', '[',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [test--------------]                                                                              
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', '[',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [test----+----+----]                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '[',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [test » » » » » » » ]                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '[',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [test ÷ ÷ ÷ ÷ ÷ ÷ ÷ ]                                                                                       
+
+   GROUP      v21  and left braced indented                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '{',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '{',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string just one greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '{',   8                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing-                                                                                          
+
+   COND       v21  request string just two greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '{',   9                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [testing]                                                                                          
+
+   COND       v21  request string just five greater                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '{',  12                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [--testing-]                                                                                          
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '-', '{',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [--test------------]                                                                              
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', '{',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [--test--+----+----]                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '{',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ «test » » » » » » ]                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '{',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ ÷test ÷ ÷ ÷ ÷ ÷ ÷ ]                                                                                       
+
+   GROUP      v21  then to right braced                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', ']',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', ']',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string just one greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', ']',   8                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     -testing                                                                                          
+
+   COND       v21  request string just two greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', ']',   9                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [testing]                                                                                          
+
+   COND       v21  request string just five greater                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', ']',  12                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [---testing]                                                                                          
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '-', ']',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [--------------test]                                                                              
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', ']',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [---+----+----+test]                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', ']',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ « « « « « « « test]                                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', ']',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ ÷ ÷ ÷ ÷ ÷ ÷ ÷ test]                                                                                      
+
+   GROUP      v21  and right braced indented                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '}',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '}',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string just one greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '}',   8                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     -testing                                                                                          
+
+   COND       v21  request string just two greater                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '}',   9                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [testing]                                                                                          
+
+   COND       v21  request string just five greater                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '-', '}',  12                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [-testing--]                                                                                          
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '-', '}',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [------------test--]                                                                              
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', '}',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [---+----+---test--]                                                                              
+
+   COND       v21  request string shorter to test filler proper                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "ab"                   , x_print, '+', '}',  11                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [---+-ab-+]                                                                                       
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '}',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ « « « « « « test »]                                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '}',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ ÷ ÷ ÷ ÷ ÷ ÷ test ÷]                                                                                      
+
+   GROUP      v21  finally, center braced                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request string too long                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '_', '^',   4                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     tes>                                                                                              
+
+   COND       v21  request string just right                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "testing"              , x_print, '_', '^',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     testing                                                                                           
+
+   COND       v21  request string shorter                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '_', '^',   7                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [test_]                                                                                           
+
+   COND       v21  request string shorter, field longer                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '_', '^',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [_______test_______]                                                                          
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '=', '^',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [=======test=======]                                                                              
+
+   COND       v21  request string shorter, field longer, diff filler            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', '^',  20                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [---+---test--+----]                                                                              
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '"', '^',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ « « « test» » » » ]                                                                                                 
+
+   COND       v21  request string shorter, field longer, slash filler           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '/', '^',  21                         i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     [ ÷ ÷ ÷ test÷ ÷ ÷ ÷ ]                                                                                      
+
+   GROUP      v21  try a few errors                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  with no source                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               NULL                   , x_print, '+', '^',  20                         i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.src                                                                                             
+
+   COND       v21  bad alignment code                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strlpad               "test"                 , x_print, '+', 'w',  20                         i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.ali                                                                                             
+
+   GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
 #23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
 #==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)===================================  t  ========(var)======= 
 #SCRP          v21  (s_cell) printable numeric formats                           CELL__print_number                                                      ((34.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  

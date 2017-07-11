@@ -102,5 +102,8 @@ char        strl4roman         (double a_val, char *a_out, int a_bytes, char a_f
 char        strl4time          (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 char        strl4main          (double a_val, char *a_out, int a_bytes, char a_form, int a_max);
 
+char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
+
+
 #endif
 /*===[[ END ]]================================================================*/
