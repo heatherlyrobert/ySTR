@@ -9,6 +9,7 @@
 #include    <stdlib.h>                  /* getenv()                            */
 #include    <string.h>
 #include    <math.h>  
+#include    <time.h>         /* C_ANSI : time, strftime, localtime            */
 
 #include    <yURG.h>                    /* heatherly program logger            */
 #include    <yLOG.h>                    /* heatherly program logger            */
@@ -18,10 +19,11 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2k"
-#define YSTR_VER_TXT   "added strl4roman to the list ;)"
+#define YSTR_VER_NUM   "0.2l"
+#define YSTR_VER_TXT   "created main number driver for gyges"
 
 
+typedef     struct   tm           tTIME;
 
 
 typedef struct cLOCAL tLOCAL;
