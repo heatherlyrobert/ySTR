@@ -100,11 +100,19 @@ where possible, please use strl4main as it simplifies the interface.
 translates all formats by calling the functions below
 
 .B strl4bin, 
-translates binary using 'b' and 'B'
+translates binary using 'b' and 'B'. also private options...
+   n   10100110             no prefix, undelimited
+   q   1010'0110            no prefix, single quote delimited
+   :   1010:0110            no prefix, colon delimited
+   s   1010 0110            no prefix, space delimited
 
 .B strl4oct, 
-translates octal using 'o' and 'O'
+translates octal using 'o' and 'O'.  also...
    z   0755                 traditional prefix with zero
+   n   755432               no prefix, undelimited
+   q   755'432              no prefix, single quote delimited
+   :   755:432              no prefix, colon delimited
+   s   755 432              no prefix, space delimited
 
 .B strl4hex, 
 translates hexadecimal using 'x' and 'X'.  also...
