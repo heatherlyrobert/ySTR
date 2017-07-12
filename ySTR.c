@@ -970,7 +970,7 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max
 }
 
 char         /*-> format octal numbers to string ----------[ petal  [ 2f---- ]*/
-strl4oct           (double a_val, char *a_out, int a_bytes, char a_fmt, int a_max)
+strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1008,7 +1008,7 @@ strl4oct           (double a_val, char *a_out, int a_bytes, char a_fmt, int a_ma
    x_len = strlen (x_temp);
    if (x_len % 3 == 1) { strcat  (x_prefix, "00"); x_len += 2; }
    if (x_len % 3 == 2) { strcat  (x_prefix,  "0"); x_len += 1; }
-   for (i = x_len / 3; i < a_bytes; ++i)  strcat (x_prefix, "000");
+   for (i = x_len / 3; i < a_cnt; ++i)  strcat (x_prefix, "000");
    /*---(merge)----------------*/
    sprintf (x_final, "%s%s"  , x_prefix, x_temp);
    /*---(delimit)--------------*/
@@ -1036,7 +1036,7 @@ strl4oct           (double a_val, char *a_out, int a_bytes, char a_fmt, int a_ma
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_max)
+strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1054,8 +1054,8 @@ strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
       return rce;
    }
    strlcpy (a_out, "", a_max);
-   DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("uUdDxX", a_form) == NULL) {
+   DEBUG_STRG   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("xXUDqQnN:sS", a_fmt) == NULL) {
       strlcpy (a_out, "#.fmt", a_max);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1067,24 +1067,22 @@ strl4hex           (double a_val, char *a_out, int a_bytes, char a_form, int a_m
       return rce;
    }
    /*---(translate base)-------*/
-   --rce;  switch (a_form) {
-   case 'u' :  case 'd' :  case 'x' : case 'X' :
-      sprintf  (x_temp, "%x",       (long)  a_val);
-      break;
-   case 'U' :  case 'D' :
-      sprintf  (x_temp, "%X",       (long)  a_val);
-      break;
-   }
+   if (strchr ("xXqns" , a_fmt) != 0)   sprintf  (x_temp, "%x", (long) a_val);
+   else                                 sprintf  (x_temp, "%X", (long) a_val);
    /*---(make prefix)----------*/
    x_len = strlen (x_temp);
    if (x_len % 2 == 1) {
       strcpy  (x_prefix, "0");
       ++x_len;
    }
-   for (i = x_len / 2; i < a_bytes; ++i)  strcat (x_prefix, "00");
+   for (i = x_len / 2; i < a_cnt; ++i)  strcat (x_prefix, "00");
+   if (strchr ("xXUD"  , a_fmt) != 0)   sprintf (x_final, "x%s%s", x_prefix, x_temp);
+   else                                 sprintf (x_final, "%s%s" , x_prefix, x_temp);
    /*---(create)---------------*/
-   sprintf (x_final, "x%s%s" , x_prefix, x_temp);
-   if (a_form == 'd' || a_form == 'D' || a_form == 'X')  ySTR__space_ints (x_final, 2, '\'');
+   if (strchr ("XDqQ"  , a_fmt) != 0)   ySTR__space_ints (x_final, 2, '\'');
+   if (strchr ("sS"    , a_fmt) != 0)   ySTR__space_ints (x_final, 2, ' ');
+   if (strchr (":"     , a_fmt) != 0)   ySTR__space_ints (x_final, 2, ':');
+   /*---(check)----------------*/
    x_len = strlen (x_final);
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
