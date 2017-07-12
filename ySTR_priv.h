@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2p"
-#define YSTR_VER_TXT   "updated, cleaned, enhanced, and tested strl4hex"
+#define YSTR_VER_NUM   "0.2q"
+#define YSTR_VER_TXT   "updated, cleaned, enhanced, and tested strl4mongo base-62"
 
 
 

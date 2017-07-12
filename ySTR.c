@@ -1078,7 +1078,7 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    for (i = x_len / 2; i < a_cnt; ++i)  strcat (x_prefix, "00");
    if (strchr ("xXUD"  , a_fmt) != 0)   sprintf (x_final, "x%s%s", x_prefix, x_temp);
    else                                 sprintf (x_final, "%s%s" , x_prefix, x_temp);
-   /*---(create)---------------*/
+   /*---(delimit)--------------*/
    if (strchr ("XDqQ"  , a_fmt) != 0)   ySTR__space_ints (x_final, 2, '\'');
    if (strchr ("sS"    , a_fmt) != 0)   ySTR__space_ints (x_final, 2, ' ');
    if (strchr (":"     , a_fmt) != 0)   ySTR__space_ints (x_final, 2, ':');
@@ -1351,6 +1351,81 @@ strl4roman         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    return 0;
 }
 
+char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
+strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_final     [200] = "";
+   char        x_chars     [200] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   long        x_int       =    0;
+   int         x_digit     =    0;
+   int         x_place     =    0;
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_STRG   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (a_out, "", a_max);
+   DEBUG_STRG   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("zZnqs:", a_fmt) == NULL) {
+      strlcpy (a_out, "#.fmt", a_max);
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_sint    (a_val);
+   --rce;  if (a_val < 0) {
+      strlcpy (a_out, "#.neg", a_max);
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_int  = a_val;
+   /*---(translate base)-------*/
+   while (x_int > 0) {
+      x_digit = x_int % 62;
+      x_temp [x_place++] = x_chars [x_digit];
+      x_temp [x_place  ] = '\0';
+      x_int /= 62;
+   }
+   /*---(make prefix)----------*/
+   x_len = strlen (x_temp);
+   switch (x_len % 4) {
+   case 0 : strcat (x_temp, "0");
+   case 1 : strcat (x_temp, "0");
+   case 2 : strcat (x_temp, "0");
+   case 3 : strcat (x_temp, "0");
+   }
+   for (i = x_len / 4; i < a_cnt - 1; ++i)  strcat (x_temp, "0000");
+   if (strchr ("zZ", a_fmt) != NULL)  strcat (x_temp, "±");
+   /*---(flip)-----------------*/
+   x_len = strlen (x_temp) - 1;
+   for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
+   /*---(delimit)--------------*/
+   if (strchr ("Zq"    , a_fmt) != 0)   ySTR__space_ints (x_final, 4, '\'');
+   if (strchr ("s"     , a_fmt) != 0)   ySTR__space_ints (x_final, 4, ' ');
+   if (strchr (":"     , a_fmt) != 0)   ySTR__space_ints (x_final, 4, ':');
+   /*---(check)----------------*/
+   x_len = strlen (x_final);
+   DEBUG_STRG   yLOG_sint    (a_max);
+   DEBUG_STRG   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      strlcpy (a_out, "#.max", a_max);
+      DEBUG_STRG   yLOG_snote   ("too long");
+      DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
 char         /*-> format times into strings ---------------[ petal  [ 2f---- ]*/
 strl4time          (double a_val, char *a_out, int a_decs, char a_form, int a_max)
 {
@@ -1434,6 +1509,9 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_form, int a_m
       break;
    case 'r' : case 'R' :
       rc = strl4roman (a_val, a_out, a_bytes, a_form, a_max);
+      break;
+   case 'z' : case 'Z' :
+      rc = strl4mongo (a_val, a_out, a_bytes, a_form, a_max);
       break;
    case 'd' : case 't' : case 'D' : case 'T' :
       rc = strl4time  (a_val, a_out, a_bytes, a_form, a_max);

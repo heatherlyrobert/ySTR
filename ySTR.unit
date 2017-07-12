@@ -2118,6 +2118,194 @@ SCRP          v21  verify binary conversion to string                         
 
 #23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
 #==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
+SCRP          v21  verify base-64 (mongo) conversion to string                  strl4mongo                                                              ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
+     exec     v20  prepare for testing                  ySTR_testquiet                                                                                i_equal     0                                                                       -                       
+     code     v21  create a string holder               - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+
+   GROUP      v21  start with zero and no padding                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request prefixed, undelimited               (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   0,  'z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±0000                                                                                            
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'0000                                                                                           
+
+   COND       v21  request unprefixed, undelimited             (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   0,  'n',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000                                                                                           
+
+   COND       v21  request unprefixed, quote delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   0,  'q',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000                                                                                           
+
+   COND       v21  request unprefixed, space delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   0,  's',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000                                                                                           
+
+   COND       v21  request unprefixed, colon delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   0,  ':',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000                                                                                           
+
+   GROUP      v21  start with zero and three count padding                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request prefixed, undelimited               (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   3,  'z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±000000000000                                                                                    
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   3,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'0000'0000'0000                                                                                 
+
+   COND       v21  request unprefixed, undelimited             (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   3,  'n',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     000000000000                                                                                 
+
+   COND       v21  request unprefixed, quote delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   3,  'q',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000'0000'0000                                                                                 
+
+   COND       v21  request unprefixed, space delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   3,  's',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000 0000 0000                                                                                 
+
+   COND       v21  request unprefixed, colon delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                   0.0   , x_print,   3,  ':',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0000:0000:0000                                                                                 
+
+   GROUP      v21  work with a small number                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request prefixed, undelimited               (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                  12.0   , x_print,   0,  'z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±000c                                                                                            
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                  12.0   , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'000c                                                                                           
+
+   COND       v21  request unprefixed, undelimited             (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                  12.0   , x_print,   0,  'n',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     000c                                                                                         
+
+   COND       v21  request unprefixed, quote delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                  12.0   , x_print,   0,  'q',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     000c                                                                                           
+
+   COND       v21  request unprefixed, space delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                  12.0   , x_print,   0,  's',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     000c                                                                                           
+
+   COND       v21  request unprefixed, colon delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                  12.0   , x_print,   0,  ':',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     000c                                                                                           
+
+   GROUP      v21  up to the thousands                                          - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request prefixed, undelimited               (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo               34567.0   , x_print,   0,  'z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±08Zx                                                                                            
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo               34567.0   , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'08Zx                                                                                           
+
+   COND       v21  request unprefixed, undelimited             (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo               34567.0   , x_print,   0,  'n',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     08Zx                                                                                         
+
+   COND       v21  request unprefixed, quote delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo               34567.0   , x_print,   0,  'q',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     08Zx                                                                                           
+
+   COND       v21  request unprefixed, space delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo               34567.0   , x_print,   0,  's',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     08Zx                                                                                           
+
+   COND       v21  request unprefixed, colon delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo               34567.0   , x_print,   0,  ':',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     08Zx                                                                                           
+
+   GROUP      v21  go bigger yet                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request prefixed, undelimited               (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  'z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±0017FbZW                                                                                          
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'0017'FbZW                                                                                           
+
+   COND       v21  request unprefixed, undelimited             (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  'n',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0017FbZW                                                                                         
+
+   COND       v21  request unprefixed, quote delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  'q',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0017'FbZW                                                                                           
+
+   COND       v21  request unprefixed, space delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  's',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0017 FbZW                                                                                           
+
+   COND       v21  request unprefixed, colon delimited         (private)        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  ':',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     0017:FbZW                                                                                           
+
+   GROUP      v21  try some errors                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  null result string                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                       15, NULL   ,   0,  'z',  40                                  i_fail      0                                                                                                    
+
+   COND       v21  negative value                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                       -1, x_print,   0,  'z',  40                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.neg                                                                                                     
+
+   COND       v21  unknown format                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo                       15, x_print,   0,  'w',  40                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.fmt                                                                                                     
+
+   COND       v21  too short for result                        (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4mongo            1029384756.0 , x_print,   0,  'Z',   6                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.max                                                                                                 
+
+   GROUP      v21  use main driver                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request prefixed, undelimited               (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4main                    0.0   , x_print,   0,  'z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±0000                                                                                            
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4main                   12.0   , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'000c                                                                                           
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4main                34567.0   , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'08Zx                                                                                           
+
+   COND       v21  request prefixed, quote delimited           (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4main             1029384756   , x_print,   0,  'Z',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     ±'0017'FbZW                                                                                           
+
+   COND       v21  unknown format                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4main                        15, x_print,   0,  'w',  40                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.fmt                                                                                                     
+
+   COND       v21  too short for result                        (PUBLIC)         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4main             1029384756.0 , x_print,   0,  'Z',   6                                  i_fail      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     #.max                                                                                                 
+
+   GROUP      v21  complete                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  verify program teardown                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  wrap-up the program                  ySTR_testend                                                                                  i_equal     0                                                                                                    
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)=================================================================  t  ========(var)======= 
 SCRP          v21  verify comma conversion to string                            strl4comma                                                              ((04.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       v20  prepare for run                                              ----------------------------------------------------------------------  ----------  ----------------------------------------------------------------------  -  -------------------- 
