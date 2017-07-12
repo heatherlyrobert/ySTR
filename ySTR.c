@@ -9,7 +9,15 @@ tLOCAL    its;
 
 
 /*---(static variables)---------------*/
-char        ySTR_ver     [500];
+static char s_empty       [200] = "                                                                                                                                                                                                       ";
+static char s_dashes      [200] = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
+static char s_equals      [200] = "=======================================================================================================================================================================================================";
+static char s_unders      [200] = "_______________________________________________________________________________________________________________________________________________________________________________________________________";
+static char s_dots        [200] = ".......................................................................................................................................................................................................";
+static char s_pluses      [200] = "----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+";
+static char s_back        [200] = "« « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « «";
+static char s_fore        [200] = "» » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » »";
+static char s_divs        [200] = "÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷";
 
 
 
@@ -17,6 +25,8 @@ char        ySTR_ver     [500];
 /*===----                           utility                            ----===*/
 /*====================------------------------------------====================*/
 static void      o___UTILITY_________________o (void) {;}
+
+char        ySTR_ver     [500];
 
 char*      /* ---- : return library versioning information -------------------*/
 ySTR_version       (void)
@@ -913,16 +923,16 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
+   strlcpy (a_out, s_empty, a_max);
    DEBUG_STRG   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("bBnq:s", a_fmt) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_sint    (a_val);
    --rce;  if (a_val < 0) {
-      strlcpy (a_out, "#.neg", a_max);
+      snprintf (a_out, a_max + 1, "#.neg%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -958,7 +968,7 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -987,16 +997,16 @@ strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
+   strlcpy (a_out, s_empty, a_max);
    DEBUG_STRG   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("oOzZnq:s", a_fmt) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_sint    (a_val);
    --rce;  if (a_val < 0) {
-      strlcpy (a_out, "#.neg", a_max);
+      snprintf (a_out, a_max + 1, "#.neg%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -1024,7 +1034,7 @@ strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1053,16 +1063,16 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
+   strlcpy (a_out, s_empty, a_max);
    DEBUG_STRG   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("xXUDqQnN:sS", a_fmt) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_sint    (a_val);
    --rce;  if (a_val < 0) {
-      strlcpy (a_out, "#.neg", a_max);
+      snprintf (a_out, a_max + 1, "#.neg%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -1087,7 +1097,7 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1099,7 +1109,7 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_max)
+strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1123,54 +1133,53 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   if (a_val < 0.0)  x_sign  = -1;
-   strlcpy (a_out, "", a_max);
-   DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("ifcCaAsS$#pP?", a_form) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+   strlcpy (a_out, s_empty, a_max);
+   DEBUG_STRG   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("ifcCaAsS$#pP?", a_fmt) == NULL) {
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    if (a_val < 0.0)    x_sign  = -1;
-   if (a_form == '?')  a_form  = 'i';
-   if (a_form == 'i')  a_decs  =  0;
+   if (a_fmt == '?')   a_fmt   = 'i';
+   if (a_fmt == 'i')   a_decs  =  0;
    /*---(parse out)----------------------*/
    for (i = 0; i < a_decs; ++i)  x_exp *= 10;
    x_round  = round (a_val * x_sign * x_exp * x_pct);
    x_int    = x_round / x_exp;
    x_frac   = x_round - (x_int * x_exp);
    /*---(assemble prefix)----------------*/
-   if (tolower (a_form) == '$')  strcat (x_final, "$");
+   if (tolower (a_fmt) == '$')  strcat (x_final, "$");
    if (x_sign < 0) {
-      if (strchr ("ifcsp", tolower (a_form)) != NULL)  strcat (x_final, "-");
-      if (strchr ("a$"   , tolower (a_form)) != NULL)  strcat (x_final, "(");
+      if (strchr ("ifcsp", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
+      if (strchr ("a$"   , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
    } else {
-      if (strchr ("s"    , tolower (a_form)) != NULL)  strcat (x_final, "+");
+      if (strchr ("s"    , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
    }
    DEBUG_STRG  yLOG_snote    (x_final);
    /*---(format integer part)------------*/
    sprintf (x_temp, "%lld", x_int);
    x_len = strlen (x_temp);
-   if (strchr ("if", a_form) == NULL)  ySTR__space_ints (x_temp, 3, ',');
+   if (strchr ("if", a_fmt) == NULL)  ySTR__space_ints (x_temp, 3, ',');
    strcat (x_final, x_temp);
    DEBUG_STRG  yLOG_snote    (x_temp);
    /*---(decimal part)-------------------*/
-   if (a_form != 'i' && a_decs > 0) {
+   if (a_fmt != 'i' && a_decs > 0) {
       sprintf (x_temp, "%0*lld", a_decs, x_frac);
-      if (strchr ("ACS#", a_form) != NULL)  ySTR__space_decs (x_temp, 3, '\'');
+      if (strchr ("ACS#", a_fmt) != NULL)  ySTR__space_decs (x_temp, 3, '\'');
       strcat  (x_final, ".");
       strcat  (x_final, x_temp);
    }
    DEBUG_STRG  yLOG_snote    (x_temp);
    /*---(assemble suffix)----------------*/
    if (x_sign < 0) {
-      switch (tolower (a_form)) {
+      switch (tolower (a_fmt)) {
       case 'a' : case '$' : case 'p' : strcat (x_final, ")");  break;
       case '#' :                       strcat (x_final, " -"); break;
       case 'P' :                       strcat (x_final, ".");  break;
       }
    } else {
-      switch (tolower (a_form)) {
+      switch (tolower (a_fmt)) {
       case 'a' : case '$' :            strcat (x_final, "_");  break;
       case 'p' :                       strcat (x_final, ")");  break;
       case 'P' :                       strcat (x_final, ".");  break;
@@ -1183,7 +1192,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1195,7 +1204,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-strl4sci           (double a_val, char *a_out, int a_decs, char a_form, int a_max)
+strl4sci           (double a_val, char *a_out, int a_decs, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1214,22 +1223,22 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   strlcpy (a_out, s_empty, a_max);
    if (a_val < 0.0)  x_sign  = -1;
-   strlcpy (a_out, "", a_max);
-   DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("eE", a_form) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+   DEBUG_STRG   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("eE", a_fmt) == NULL) {
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    if (a_val < 0.0)    x_sign  = -1;
    if (a_decs == 0)  a_decs  =  1;
    /*---(scienfific)-----------*/
-   if (tolower (a_form) == 'e') {
+   if (tolower (a_fmt) == 'e') {
       strcpy  (x_final, "");
       /*---(make prefix)-----------------*/
       if (x_sign < 0)          strcpy (x_final, "-");
-      else if (a_form == 'E')  strcpy (x_final, "+");
+      else if (a_fmt == 'E')  strcpy (x_final, "+");
       sprintf (x_temp, "%.*e", a_decs, a_val * x_sign);
       strncat (x_final, x_temp, 2);
       /*---(save exponent/suffix)--------*/
@@ -1237,10 +1246,10 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       x_temp  [a_decs + 2] = '\0';
       /*---(parse decimals)--------------*/
       strcpy  (x_prefix, x_temp + 2);
-      if (a_form == 'E' && a_decs > 3)  ySTR__space_decs (x_prefix, 3, '\'');
+      if (a_fmt == 'E' && a_decs > 3)  ySTR__space_decs (x_prefix, 3, '\'');
       /*---(contat)----------------------*/
       strcat  (x_final, x_prefix);
-      if (a_form == 'E')  strcat  (x_final, " ");
+      if (a_fmt == 'E')  strcat  (x_final, " ");
       strcat  (x_final, x_suffix);
    }
    /*---(create)---------------*/
@@ -1248,7 +1257,7 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1260,7 +1269,7 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_form, int a_ma
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-strl4roman         (double a_val, char *a_out, int a_decs, char a_form, int a_max)
+strl4roman         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1276,27 +1285,27 @@ strl4roman         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
-   DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("rR", a_form) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+   strlcpy (a_out, s_empty, a_max);
+   DEBUG_STRG   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("rR", a_fmt) == NULL) {
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_sint    (a_val);
    --rce;  if (a_val < 0) {
-      strlcpy (a_out, "#.neg", a_max);
+      snprintf (a_out, a_max + 1, "#.neg%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    --rce;  if (a_val > 4000) {
-      strlcpy (a_out, "#.big", a_max);
+      snprintf (a_out, a_max + 1, "#.big%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    x_int = (int) a_val;
    if (x_int == 0) {
-      if (a_form == 'r')  strcpy (a_out, "o");
+      if (a_fmt == 'r')  strcpy (a_out, "o");
       else                strcpy (a_out, "O");
       return 0;
    }
@@ -1337,12 +1346,12 @@ strl4roman         (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   if (a_form == 'r') {
+   if (a_fmt == 'r') {
       for (i = 0; i < x_len; ++i)  x_final [i] = tolower (x_final [i]);
    }
    strlcpy  (a_out, x_final, a_max);
@@ -1372,16 +1381,16 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
+   strlcpy (a_out, s_empty, a_max);
    DEBUG_STRG   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("zZnqs:", a_fmt) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_sint    (a_val);
    --rce;  if (a_val < 0) {
-      strlcpy (a_out, "#.neg", a_max);
+      snprintf (a_out, a_max + 1, "#.neg%s", s_empty);
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -1415,7 +1424,7 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1427,7 +1436,7 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
 }
 
 char         /*-> format times into strings ---------------[ petal  [ 2f---- ]*/
-strl4time          (double a_val, char *a_out, int a_decs, char a_form, int a_max)
+strl4time          (double a_val, char *a_out, int a_decs, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1446,17 +1455,17 @@ strl4time          (double a_val, char *a_out, int a_decs, char a_form, int a_ma
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
-   DEBUG_STRG   yLOG_schar   (a_form);
-   --rce;  if (strchr ("tTdD", a_form) == NULL) {
-      strlcpy (a_out, "#.fmt", a_max);
+   strlcpy (a_out, s_empty, a_max);
+   DEBUG_STRG   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("tTdD", a_fmt) == NULL) {
+      snprintf (a_out, a_max + 1, "#.fmt%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("format invalid");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_sint    (a_val);
    --rce;  if (a_val < 0) {
-      strlcpy (a_out, "#.neg", a_max);
+      snprintf (a_out, a_max + 1, "#.neg%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("epoch number negative");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1464,7 +1473,7 @@ strl4time          (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    /*---(handle time/date formats)-------*/
    x_now  = (long) a_val;
    x_time = localtime (&x_now);
-   switch (a_form) {
+   switch (a_fmt) {
    case 'd': strftime (x_final, 50, "%Y-%b-%d", x_time);
              break;
    case 't': strftime (x_final, 50, "%H:%M", x_time);
@@ -1479,7 +1488,7 @@ strl4time          (double a_val, char *a_out, int a_decs, char a_form, int a_ma
    DEBUG_STRG   yLOG_sint    (a_max);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce;  if (x_len > a_max) {
-      strlcpy (a_out, "#.max", a_max);
+      snprintf (a_out, a_max + 1, "#.max%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("too long");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1491,33 +1500,33 @@ strl4time          (double a_val, char *a_out, int a_decs, char a_form, int a_ma
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-strl4main          (double a_val, char *a_out, int a_bytes, char a_form, int a_max)
+strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, int a_max)
 {
    char        rc          = 0;
-   switch (a_form) {
+   switch (a_fmt) {
    case 'b' : case 'B' :
-      rc = strl4bin   (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4bin   (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    case 'o' : case 'O' :
-      rc = strl4oct   (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4oct   (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    case 'x' : case 'X' :
-      rc = strl4hex   (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4hex   (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    case 'e' : case 'E' :
-      rc = strl4sci   (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4sci   (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    case 'r' : case 'R' :
-      rc = strl4roman (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4roman (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    case 'z' : case 'Z' :
-      rc = strl4mongo (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4mongo (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    case 'd' : case 't' : case 'D' : case 'T' :
-      rc = strl4time  (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4time  (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    default :
-      rc = strl4comma (a_val, a_out, a_bytes, a_form, a_max);
+      rc = strl4comma (a_val, a_out, a_bytes, a_fmt, a_max);
       break;
    }
    /*---(complete)-----------------------*/
@@ -1531,15 +1540,6 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_form, int a_m
 /*====================------------------------------------====================*/
 static void      o___PADDING_________________o (void) {;}
 
-static char s_empty       [200] = "                                                                                                                                                                                                       ";
-static char s_dashes      [200] = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
-static char s_equals      [200] = "=======================================================================================================================================================================================================";
-static char s_unders      [200] = "_______________________________________________________________________________________________________________________________________________________________________________________________________";
-static char s_dots        [200] = ".......................................................................................................................................................................................................";
-static char s_pluses      [200] = "----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+";
-static char s_back        [200] = "« « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « «";
-static char s_fore        [200] = "» » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » »";
-static char s_divs        [200] = "÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷";
 
 char
 strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_max)
@@ -1566,21 +1566,22 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, "", a_max);
+   strlcpy (a_out, s_empty, a_max);
    DEBUG_STRG   yLOG_spoint  (a_src);
    --rce;  if (a_src == NULL) {
-      strlcpy (a_out, "#.src", a_max);
+      snprintf (a_out, a_max + 1, "#.src%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("a_src null");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_STRG   yLOG_schar   (a_ali);
    --rce;  if (strchr (x_aligns, a_ali) == NULL) {
-      strlcpy (a_out, "#.ali", a_max);
+      snprintf (a_out, a_max + 1, "#.ali%s", s_empty);
       DEBUG_STRG   yLOG_snote   ("alignment bad");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   if (a_ali == '?')  a_ali = '<';
    /*---(handle too short)---------------*/
    x_len  = strlen (a_src);
    if (x_len >  a_max) {
