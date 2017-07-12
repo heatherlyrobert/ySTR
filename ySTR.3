@@ -62,6 +62,8 @@ into a string (a_out).
    O   o'755'432            octal, with quote separators
    x   xaf9254              hexadecimal, normal
    X   x'af'92'54           hexadecimal, with quote separators
+   z   ±3vlQSlTN            mongo (base-62)
+   Z   ±'3vlQ'SlTN          mongo (base-62) with quote separators
    i   12345                integer long
    f   12345.1698           floating point
    c   1,345.16982          comma
@@ -86,6 +88,7 @@ into a string (a_out).
 .B count/decimals (a_cnt), 
    b, B           pad to a_cnt nibbles (never trunctate)
    o, O, x, X     pad to a_cnt bytes (never trunctate)
+   z, Z           pad to a_cnt 4-char (3-byte) blocks
    i, r, R        no meaning
    d, t, D, T     no meaning
    all others     number of decimal places shown in output 
@@ -129,15 +132,26 @@ translates hex using 'x' and 'X'.  also private options...
 
 .B strl4sci, 
 translates scientific using 'e' and 'E'
+   -   no additional private options
 
 .B strl4roman, 
 translates roman numerals using 'r' and 'R'
+   -   no additional private options
+
+.B strl4mongo, 
+translates base-62 using 'z' and 'Z'.  also private...
+   n   3vlQSlTN             no prefix, undelimited
+   q   3vlQ'SlTN            no prefix, single quote delimited
+   :   3vlQ:SlTN            no prefix, colon delimited
+   s   3vlQ SlTN            no prefix, space delimited
 
 .B strl4time, 
 translates time using d, t, D, T
+   -   no additional private options
 
 .B strl4comma,
 translates comma for all other formats
+   -   no additional private options
 
 
 .SH SEE ALSO

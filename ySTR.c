@@ -1387,6 +1387,7 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    }
    x_int  = a_val;
    /*---(translate base)-------*/
+   if (x_int == 0)  strcat (x_temp, "0000");
    while (x_int > 0) {
       x_digit = x_int % 62;
       x_temp [x_place++] = x_chars [x_digit];
@@ -1396,12 +1397,11 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    /*---(make prefix)----------*/
    x_len = strlen (x_temp);
    switch (x_len % 4) {
-   case 0 : strcat (x_temp, "0");
    case 1 : strcat (x_temp, "0");
    case 2 : strcat (x_temp, "0");
    case 3 : strcat (x_temp, "0");
    }
-   for (i = x_len / 4; i < a_cnt - 1; ++i)  strcat (x_temp, "0000");
+   for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
    if (strchr ("zZ", a_fmt) != NULL)  strcat (x_temp, "±");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
