@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2s"
-#define YSTR_VER_TXT   "fixed error reporting to provide the right length strings"
+#define YSTR_VER_NUM   "0.2t"
+#define YSTR_VER_TXT   "fixed error reporting and cut-off for delimited decimals"
 
 
 

@@ -2759,6 +2759,40 @@ SCRP          v21  verify comma conversion to string                          
      exec     v21  change the source string             strl4comma             1242987.5678, x_print,   7,  '#',  40                                  i_pass      0                                                                                                    
      echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.567'800'0 +                                                                                 
 
+   GROUP      v21  test cut-off points for delimiting decimals                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  request comma, undelimited decs                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   6,  'c',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.567800                                                                                       
+
+   COND       v21  request comma, delimited decs                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   6,  'C',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.567'800                                                                                    
+
+   COND       v21  request accounting, delimited decs                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   3,  'A',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.568_                                                                                       
+
+   COND       v21  request accounting, delimited decs                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   6,  'A',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.567'800_                                                                                        
+
+   COND       v21  request signed, delimited decs                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   3,  'S',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     +1,242,987.568                                                                                        
+
+   COND       v21  request signed, delimited decs                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   6,  'S',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     +1,242,987.567'800                                                                                     
+
+   COND       v21  request technical                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   3,  '#',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.568 +                                                                                       
+
+   COND       v21  request technical                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  change the source string             strl4comma             1242987.5678, x_print,   6,  '#',  40                                  i_pass      0                                                                                                    
+     echo     v21  check string version                 - - - - - - - - - -   x_print                                                                 s_equal     1,242,987.567'800 +                                                                                   
+
    GROUP      v21  try some errors                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       v21  null result string                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
