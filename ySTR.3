@@ -93,6 +93,28 @@ into a string (a_out).
    d, t, D, T     no meaning
    all others     number of decimal places shown in output 
 
+.B normal integer delimiting examples
+   1              5         comma format, no decimals
+   2             45         comma format, no decimals
+   3            345         comma format, no decimals
+   4          2,345         comma format, no decimals
+   5         12,345         comma format, no decimals
+   6        912,345         comma format, no decimals
+   7      2,912,345         comma format, no decimals
+   8     12,912,345         comma format, no decimals
+
+.B decimal delimiting examples (note auto rounding)
+   0     0                  comma format, decimal delimited
+   1     0.2                comma format, decimal delimited
+   2     0.17               comma format, decimal delimited
+   3     0.170              comma format, decimal delimited
+   4     0.169'8            comma format, decimal delimited
+   5     0.169'82           comma format, decimal delimited
+   6     0.169'821          comma format, decimal delimited
+   7     0.169'821'4        comma format, decimal delimited
+   8     0.169'821'42       comma format, decimal delimited
+   some formats allow for space delimiting
+
 .B maximum size (a_max),
 number of characters the output (a_out) can hold.  if the representation will
 overrun, a negative return code is given and the output will be "#.max".
@@ -132,11 +154,11 @@ translates hex using 'x' and 'X'.  also private options...
 
 .B strl4sci, 
 translates scientific using 'e' and 'E'
-   -   no additional private options
+   -   no additional private options (yet)
 
 .B strl4roman, 
 translates roman numerals using 'r' and 'R'
-   -   no additional private options
+   -   no additional private options (yet)
 
 .B strl4mongo, 
 translates base-62 using 'z' and 'Z'.  also private...
@@ -147,12 +169,11 @@ translates base-62 using 'z' and 'Z'.  also private...
 
 .B strl4time, 
 translates time using d, t, D, T
-   -   no additional private options
+   -   no additional private options (yet)
 
 .B strl4comma,
 translates comma for all other formats
-   -   no additional private options
-
+   -   no additional private options (yet)
 
 .SH SEE ALSO
 this documentation is layered to provide easier navigation.

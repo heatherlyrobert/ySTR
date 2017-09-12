@@ -439,6 +439,32 @@ strlddel           (char *a_src, char  a_del, int a_max)
    return c;
 }
 
+char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
+strlencode         (char *a_src, int a_max)
+{
+   /*---(changes)------------------------*/
+   strldchg (a_src,  29, G_CHAR_GROUP, a_max);   /* group     */
+   strldchg (a_src,  31, G_CHAR_FIELD, a_max);   /* field     */
+   strldchg (a_src,   9, G_CHAR_TAB  , a_max);   /* tab       */
+   strldchg (a_src,  27, G_CHAR_ESC  , a_max);   /* escape    */
+   strldchg (a_src, 127, G_CHAR_BS   , a_max);   /* del       */
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char         /*--> decode special characters -------------[ ------ [ ------ ]-*/
+strldecode         (char *a_src, int a_max)
+{
+   /*---(changes)------------------------*/
+   strldchg (a_src, G_CHAR_GROUP,  29, a_max);   /* group     */
+   strldchg (a_src, G_CHAR_FIELD,  31, a_max);   /* field     */
+   strldchg (a_src, G_CHAR_TAB  ,   9, a_max);   /* tab       */
+   strldchg (a_src, G_CHAR_ESC  ,  27, a_max);   /* escape    */
+   strldchg (a_src, G_CHAR_BS   , 127, a_max);   /* del       */
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
 
 
 /*====================------------------------------------====================*/

@@ -85,6 +85,9 @@ int         strldpos           (char *a_src, char  a_del , int  a_cnt , int  a_m
 int         strldchg           (char *a_src, char  a_del , char a_new , int  a_max);
 int         strlddel           (char *a_src, char  a_del , int  a_max);
 
+char        strlencode         (char *a_src, int a_max);
+char        strldecode         (char *a_src, int a_max);
+
 char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
 
 char        strl2bin           (char   *a_src, double *a_val, int a_max);
