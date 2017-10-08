@@ -51,22 +51,75 @@
 #define YSTR_HGUARD loaded
 
 
-#define       ySTR_NOTRUNC   -1
-#define       ySTR_NONE      'n'
-#define       ySTR_HEAD      'h'
-#define       ySTR_TAIL      't'
-#define       ySTR_BOTH      'b'
-#define       ySTR_SINGLE    's'
-#define       ySTR_EVERY     'e'
-#define       ySTR_MAX       'm'
+#define     ySTR_NOTRUNC   -1
+#define     ySTR_NONE      'n'
+#define     ySTR_HEAD      'h'
+#define     ySTR_TAIL      't'
+#define     ySTR_BOTH      'b'
+#define     ySTR_SINGLE    's'
+#define     ySTR_EVERY     'e'
+#define     ySTR_MAX       'm'
 
-#define       ySTR_ALPHA     'a'
-#define       ySTR_ALNUM     '9'
-#define       ySTR_BASIC     'b'
-#define       ySTR_WRITE     'w'
-#define       ySTR_EXTEN     'e'
-#define       ySTR_PRINT     'p'
-#define       ySTR_SEVEN     '7'
+#define     ySTR_ALPHA     'a'
+#define     ySTR_ALNUM     '9'
+#define     ySTR_BASIC     'b'
+#define     ySTR_WRITE     'w'
+#define     ySTR_EXTEN     'e'
+#define     ySTR_PRINT     'p'
+#define     ySTR_SEVEN     '7'
+
+/*---(character constants)------------*/
+/*---(hidden)----------*/
+#define     G_KEY_RETURN       10
+#define     G_KEY_ESCAPE       27
+#define     G_KEY_TAB           9
+#define     G_KEY_BS          127
+#define     G_KEY_SPACE        32
+#define     G_KEY_GROUP        29
+#define     G_KEY_FIELD        31
+#define     G_KEY_DEL           8
+/*---(special)---------*/
+#define     G_KEY_NULL          0
+/*---(normal)----------*/
+#define     G_KEY_SQUOTE       39
+#define     G_KEY_DQUOTE       34
+#define     G_KEY_BSLASH       92
+
+
+/*---(character constants)------------*/
+/*---(hidden)----------*/
+#define     G_CHAR_RETURN     182   /* ¶  return/newline   ( 10)   */
+#define     G_CHAR_ESCAPE     165   /* ¥  staff            (  -)   */
+#define     G_CHAR_TAB        187   /* »  tab              (  9)   */
+#define     G_CHAR_BS         171   /* «  backspace        (127)   */
+#define     G_CHAR_SPACE      183   /* ·  dot              (  -)   */
+#define     G_CHAR_GROUP      185   /* ¦  double bar       ( 29)   */
+#define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
+/*---(control)---------*/
+#define     G_CHAR_ALT        194   /* Â  up               (  -)   */
+#define     G_CHAR_CONTROL    195   /* Ã  down             (  -)   */
+#define     G_CHAR_WAIT       186   /* º  funky mark       (  -)   */
+#define     G_CHAR_BREAK      191   /* ¿  lead question    (  -)   */
+#define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
+#define     G_CHAR_DISPLAY    162   /* ¢  weird d          (  -)   */
+/*---(special)---------*/
+#define     G_CHAR_NULL       188   /* ¼  null             (  0)   */
+#define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
+#define     G_CHAR_MARK       174   /* ®  mark             (  -)   */
+#define     G_CHAR_DEGREE     176   /* °  degree mark      (  -)   */
+/*---(greek)-----------*/
+#define     G_CHAR_ALPHA      232   /* è  alpha      A     (  -)   */
+#define     G_CHAR_BETA       233   /* é  beta       B     (  -)   */
+#define     G_CHAR_GAMMA      234   /* ê  gamma      G     (  -)   */
+#define     G_CHAR_DELTA      235   /* ë  delta      D     (  -)   */
+#define     G_CHAR_THETA      239   /* ï  theta      T     (  -)   */
+#define     G_CHAR_LAMBDA     242   /* ò  lambda     L     (  -)   */
+#define     G_CHAR_PI         247   /* ÷  pi         P     (  -)   */
+#define     G_CHAR_SIGMA      249   /* ù  sigma      S     (  -)   */
+#define     G_CHAR_PHI        252   /* ü  phi        H     (  -)   */
+#define     G_CHAR_PSI        254   /* þ  psi        I     (  -)   */
+#define     G_CHAR_OMEGA      255   /* ÿ  omega      O     (  -)   */
+
 
 
 char*       ySTR_version       (void);

@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2u"
-#define YSTR_VER_TXT   "updated character codes a little for gyges"
+#define YSTR_VER_NUM   "0.2v"
+#define YSTR_VER_TXT   "added some character constants"
 
 
 
