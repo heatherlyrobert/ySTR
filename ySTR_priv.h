@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.2v"
-#define YSTR_VER_TXT   "added some character constants"
+#define YSTR_VER_NUM   "0.2w"
+#define YSTR_VER_TXT   "added a few more character constants"
 
 
 

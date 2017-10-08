@@ -84,6 +84,8 @@
 #define     G_KEY_SQUOTE       39
 #define     G_KEY_DQUOTE       34
 #define     G_KEY_BSLASH       92
+#define     G_KEY_PIPE        124
+#define     G_KEY_TILDA       126
 
 
 /*---(character constants)------------*/
