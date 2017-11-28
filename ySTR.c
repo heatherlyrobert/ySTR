@@ -179,7 +179,7 @@ strltrim           (char *a_src, char a_mode, int a_max)
       x_len         = a_max;
    }
    /*---(mark leading)-------------------*/
-   if (strchr ("hbsem", a_mode) != 0) {
+   if (strchr (ySTR_ALL_HEADS, a_mode) != 0) {
       s    = a_src;
       n    = a_max;
       while (*s != '\0') {
@@ -191,7 +191,7 @@ strltrim           (char *a_src, char a_mode, int a_max)
       }
    }
    /*---(wack trailing)------------------*/
-   if (strchr ("tbsem", a_mode) != 0) {
+   if (strchr (ySTR_ALL_TAILS, a_mode) != 0) {
       /*> printf ("checking tail\n");                                                 <*/
       s    = a_src + x_len - 1;
       n    = a_max;
@@ -206,14 +206,14 @@ strltrim           (char *a_src, char a_mode, int a_max)
       }
    }
    /*---(mark internal)------------------*/
-   if (strchr ("esm" , a_mode) != 0) {
+   if (strchr (ySTR_ALL_INTER , a_mode) != 0) {
       s     = a_src;
       n     = x_len;
       x_lim = 0;
       l     = 'y';
-      if (a_mode == 's') x_lim = 1;
+      if (a_mode == ySTR_SINGLE) x_lim = 1;
       while (*s != '\0') {
-         if (a_mode != 'm' && *s == '"') {
+         if (a_mode != ySTR_MAX && *s == '"') {
             if (x_str == 'y') x_str = '-';
             else              x_str = 'y';
          }
@@ -310,23 +310,35 @@ strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
    if (a_src == NULL)     return  -11;
    /*---(setup legal characters)---------*/
    switch (a_mode) {
-   case 'a' : strcpy (x_legal, x_alpha);            break;
-   case '9' : strcpy (x_legal, x_alnum);            break;
-   case 'b' : strcpy (x_legal, x_basic);            break;
-   case 'w' : strcpy (x_legal, x_write);            break;
-   case 'e' : strcpy (x_legal, x_exten);            break;
-   case 'p' : for (i = ' '; i <= '~'; ++i) {
-                 j = i - ' ';
-                 x_legal [j    ] = i;
-                 x_legal [j + 1] = '\0';
-              }
-              break;
-   case '7' : for (i = 1; i <= 127; ++i) {
-                 j = i - 1;
-                 x_legal [j    ] = i;
-                 x_legal [j + 1] = '\0';
-              }
-              break;
+   case ySTR_ALPHA :
+      strcpy (x_legal, x_alpha);
+      break;
+   case ySTR_ALNUM :
+      strcpy (x_legal, x_alnum);
+      break;
+   case ySTR_BASIC :
+      strcpy (x_legal, x_basic);
+      break;
+   case ySTR_WRITE :
+      strcpy (x_legal, x_write);
+      break;
+   case ySTR_EXTEN :
+      strcpy (x_legal, x_exten);
+      break;
+   case ySTR_PRINT :
+      for (i = ' '; i <= '~'; ++i) {
+         j = i - ' ';
+         x_legal [j    ] = i;
+         x_legal [j + 1] = '\0';
+      }
+      break;
+   case ySTR_SEVEN :
+      for (i = 1; i <= 127; ++i) {
+         j = i - 1;
+         x_legal [j    ] = i;
+         x_legal [j + 1] = '\0';
+      }
+      break;
    default : return -12;
    }
    /*---(clear)--------------------------*/
@@ -440,14 +452,19 @@ strlddel           (char *a_src, char  a_del, int a_max)
 }
 
 char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
-strlencode         (char *a_src, int a_max)
+strlencode         (char *a_src, char a_mode, int a_max)
 {
-   /*---(changes)------------------------*/
-   strldchg (a_src,  29, G_CHAR_GROUP, a_max);   /* group     */
-   strldchg (a_src,  31, G_CHAR_FIELD, a_max);   /* field     */
-   strldchg (a_src,   9, G_CHAR_TAB  , a_max);   /* tab       */
-   strldchg (a_src,  27, G_CHAR_ESC  , a_max);   /* escape    */
-   strldchg (a_src, 127, G_CHAR_BS   , a_max);   /* del       */
+   /*---(normal)-------------------------*/
+   strldchg (a_src, G_KEY_ESCAPE, G_CHAR_ESCAPE, a_max);
+   strldchg (a_src, G_KEY_TAB   , G_CHAR_TAB   , a_max);
+   strldchg (a_src, G_KEY_BS    , G_CHAR_BS    , a_max);
+   strldchg (a_src, G_KEY_GROUP , G_CHAR_GROUP , a_max);
+   strldchg (a_src, G_KEY_FIELD , G_CHAR_FIELD , a_max);
+   /*---(big)----------------------------*/
+   if (a_mode == ySTR_MAX) {
+      strldchg (a_src, G_KEY_RETURN, G_CHAR_RETURN, a_max);
+      strldchg (a_src, G_KEY_SPACE , G_CHAR_SPACE , a_max);
+   }
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -455,12 +472,15 @@ strlencode         (char *a_src, int a_max)
 char         /*--> decode special characters -------------[ ------ [ ------ ]-*/
 strldecode         (char *a_src, int a_max)
 {
-   /*---(changes)------------------------*/
-   strldchg (a_src, G_CHAR_GROUP,  29, a_max);   /* group     */
-   strldchg (a_src, G_CHAR_FIELD,  31, a_max);   /* field     */
-   strldchg (a_src, G_CHAR_TAB  ,   9, a_max);   /* tab       */
-   strldchg (a_src, G_CHAR_ESC  ,  27, a_max);   /* escape    */
-   strldchg (a_src, G_CHAR_BS   , 127, a_max);   /* del       */
+   /*---(normal)-------------------------*/
+   strldchg (a_src, G_CHAR_RETURN, G_KEY_RETURN, a_max);
+   strldchg (a_src, G_CHAR_ESCAPE, G_KEY_ESCAPE, a_max);
+   strldchg (a_src, G_CHAR_GROUP , G_KEY_GROUP , a_max);
+   strldchg (a_src, G_CHAR_FIELD , G_KEY_FIELD , a_max);
+   strldchg (a_src, G_CHAR_TAB   , G_KEY_TAB   , a_max);
+   strldchg (a_src, G_CHAR_BS    , G_KEY_BS    , a_max);
+   strldchg (a_src, G_CHAR_SPACE , G_KEY_SPACE , a_max);
+   strldchg (a_src, G_CHAR_NULL  , G_KEY_NULL  , a_max);
    /*---(complete)-----------------------*/
    return 0;
 }

@@ -68,6 +68,9 @@
 #define     ySTR_PRINT     'p'
 #define     ySTR_SEVEN     '7'
 
+#define     ySTR_NORM      '-'
+
+
 /*---(character constants)------------*/
 /*---(hidden)----------*/
 #define     G_KEY_RETURN       10
@@ -87,7 +90,6 @@
 #define     G_KEY_PIPE        124
 #define     G_KEY_TILDA       126
 
-
 /*---(character constants)------------*/
 /*---(hidden)----------*/
 #define     G_CHAR_RETURN     182   /* ¶  return/newline   ( 10)   */
@@ -95,7 +97,7 @@
 #define     G_CHAR_TAB        187   /* »  tab              (  9)   */
 #define     G_CHAR_BS         171   /* «  backspace        (127)   */
 #define     G_CHAR_SPACE      183   /* ·  dot              (  -)   */
-#define     G_CHAR_GROUP      185   /* ¦  double bar       ( 29)   */
+#define     G_CHAR_GROUP      166   /* ¦  double bar       ( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
 /*---(control)---------*/
 #define     G_CHAR_ALT        194   /* Â  up               (  -)   */
@@ -114,13 +116,27 @@
 #define     G_CHAR_BETA       233   /* é  beta       B     (  -)   */
 #define     G_CHAR_GAMMA      234   /* ê  gamma      G     (  -)   */
 #define     G_CHAR_DELTA      235   /* ë  delta      D     (  -)   */
-#define     G_CHAR_THETA      239   /* ï  theta      T     (  -)   */
+#define     G_CHAR_EPSILON    236   /* ì  epsilon    E     (  -)   */
+#define     G_CHAR_ZETA       237   /* í  zeta       Z     (  -)   */
+#define     G_CHAR_ETA        238   /* î  eta        H     (  -)   */
+#define     G_CHAR_THETA      239   /* ï  theta      Y     (  -)   */
+#define     G_CHAR_IOTA       240   /* ð  iota       I     (  -)   */
+#define     G_CHAR_KAPPA      241   /* ñ  kappa      K     (  -)   */
 #define     G_CHAR_LAMBDA     242   /* ò  lambda     L     (  -)   */
+#define     G_CHAR_MU         243   /* ó  mu         M     (  -)   */
+#define     G_CHAR_NU         244   /* ô  nu         N     (  -)   */
+#define     G_CHAR_XI         245   /* õ  xi         X     (  -)   */
+#define     G_CHAR_OMICRON    246   /* ö  omicron    O     (  -)   */
 #define     G_CHAR_PI         247   /* ÷  pi         P     (  -)   */
+#define     G_CHAR_RHO        248   /* ø  rho        R     (  -)   */
 #define     G_CHAR_SIGMA      249   /* ù  sigma      S     (  -)   */
+#define     G_CHAR_TAU        250   /* ú  tau        T     (  -)   */
+#define     G_CHAR_UPSILON    251   /* û  upsilon    U     (  -)   */
 #define     G_CHAR_PHI        252   /* ü  phi        H     (  -)   */
-#define     G_CHAR_PSI        254   /* þ  psi        I     (  -)   */
-#define     G_CHAR_OMEGA      255   /* ÿ  omega      O     (  -)   */
+#define     G_CHAR_CHI        253   /* ý  chi        C     (  -)   */
+#define     G_CHAR_PSI        254   /* þ  psi        Q     (  -)   */
+#define     G_CHAR_OMEGA      255   /* ÿ  omega      W     (  -)   */
+
 
 
 
@@ -140,7 +156,7 @@ int         strldpos           (char *a_src, char  a_del , int  a_cnt , int  a_m
 int         strldchg           (char *a_src, char  a_del , char a_new , int  a_max);
 int         strlddel           (char *a_src, char  a_del , int  a_max);
 
-char        strlencode         (char *a_src, int a_max);
+char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
 
 char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
