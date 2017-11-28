@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3a"
-#define YSTR_VER_TXT   "updated encode and decode, standardized key constants"
+#define YSTR_VER_NUM   "0.3b"
+#define YSTR_VER_TXT   "couple unit test adjustments and ran complete, successful"
 
 
 #define     ySTR_ALL_HEADS   "hbsem"
