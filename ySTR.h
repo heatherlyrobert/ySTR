@@ -90,33 +90,35 @@
 #define     G_KEY_PIPE        124
 #define     G_KEY_TILDA       126
 
+
+
 /*---(character constants)------------*/
 /*---(hidden)----------*/
-#define     G_CHAR_RETURN     182   /* ¶  return/newline   ( 10)   */
+#define     G_CHAR_RETURN     166   /* ¦  return/newline   ( 10)   */
 #define     G_CHAR_ESCAPE     165   /* ¥  staff            (  -)   */
-#define     G_CHAR_TAB        187   /* »  tab              (  9)   */
-#define     G_CHAR_BS         171   /* «  backspace        (127)   */
-#define     G_CHAR_SPACE      183   /* ·  dot              (  -)   */
-#define     G_CHAR_GROUP      166   /* ¦  double bar       ( 29)   */
+#define     G_CHAR_TAB        171   /* «  tab              (  9)   */
+#define     G_CHAR_BS         170   /* «  backspace        (127)   */
+#define     G_CHAR_SPACE      185   /* ¹  dot              (  -)   */
+#define     G_CHAR_GROUP      184   /* ¸  broken bar       ( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
 /*---(control)---------*/
-#define     G_CHAR_ALT        198   /* Æ  up               (  -)   */
-#define     G_CHAR_CONTROL    199   /* Ç  down             (  -)   */
-#define     G_CHAR_WAIT       186   /* º  funky mark       (  -)   */
-#define     G_CHAR_BREAK      191   /* ¿  lead question    (  -)   */
+#define     G_CHAR_ALT        211   /* Ó  up               (  -)   */
+#define     G_CHAR_CONTROL    212   /* Ô  down             (  -)   */
+#define     G_CHAR_WAIT       169   /* ©  funky mark       (  -)   */
+#define     G_CHAR_BREAK      191   /* ¿  block            (  -)   */
 #define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
-#define     G_CHAR_DISPLAY    162   /* ¢  weird d          (  -)   */
+#define     G_CHAR_DISPLAY    168   /* ¨  eye              (  -)   */
 /*---(compare)---------*/
 #define     G_CHAR_EQ          61   /* =                           */
-#define     G_CHAR_NE         181   /* µ                           */
+#define     G_CHAR_NE         175   /* ¯                           */
 #define     G_CHAR_LT          60   /* <                           */
 #define     G_CHAR_GT          62   /* <                           */
 #define     G_CHAR_LE         173   /* ­                           */
 #define     G_CHAR_GE         174   /* ®                           */
 #define     G_CHAR_APPROX     172   /* ¬                           */
-#define     G_CHAR_EQUIV      163   /* £                           */
+#define     G_CHAR_EQUIV      223   /* ß                           */
 /*---(special)---------*/
-#define     G_CHAR_NULL       188   /* ¼  null             (  0)   */
+#define     G_CHAR_NULL       163   /* £  null             (  0)   */
 #define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
 #define     G_CHAR_MARK       174   /* ®  mark             (  -)   */
 #define     G_CHAR_DEGREE     176   /* °  degree mark      (  -)   */

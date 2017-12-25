@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3c"
-#define YSTR_VER_TXT   "added constants for comparison operators in shrike font"
+#define YSTR_VER_NUM   "0.3d"
+#define YSTR_VER_TXT   "update again with new shrike.txt font ordering"
 
 
 #define     ySTR_ALL_HEADS   "hbsem"
