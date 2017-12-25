@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3b"
-#define YSTR_VER_TXT   "couple unit test adjustments and ran complete, successful"
+#define YSTR_VER_NUM   "0.3c"
+#define YSTR_VER_TXT   "added constants for comparison operators in shrike font"
 
 
 #define     ySTR_ALL_HEADS   "hbsem"

@@ -100,12 +100,21 @@
 #define     G_CHAR_GROUP      166   /* ¦  double bar       ( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
 /*---(control)---------*/
-#define     G_CHAR_ALT        194   /* Â  up               (  -)   */
-#define     G_CHAR_CONTROL    195   /* Ã  down             (  -)   */
+#define     G_CHAR_ALT        198   /* Æ  up               (  -)   */
+#define     G_CHAR_CONTROL    199   /* Ç  down             (  -)   */
 #define     G_CHAR_WAIT       186   /* º  funky mark       (  -)   */
 #define     G_CHAR_BREAK      191   /* ¿  lead question    (  -)   */
 #define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
 #define     G_CHAR_DISPLAY    162   /* ¢  weird d          (  -)   */
+/*---(compare)---------*/
+#define     G_CHAR_EQ          61   /* =                           */
+#define     G_CHAR_NE         181   /* µ                           */
+#define     G_CHAR_LT          60   /* <                           */
+#define     G_CHAR_GT          62   /* <                           */
+#define     G_CHAR_LE         173   /* ­                           */
+#define     G_CHAR_GE         174   /* ®                           */
+#define     G_CHAR_APPROX     172   /* ¬                           */
+#define     G_CHAR_EQUIV      163   /* £                           */
 /*---(special)---------*/
 #define     G_CHAR_NULL       188   /* ¼  null             (  0)   */
 #define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
