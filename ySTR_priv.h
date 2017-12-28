@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3d"
-#define YSTR_VER_TXT   "update again with new shrike.txt font ordering"
+#define YSTR_VER_NUM   "0.3e"
+#define YSTR_VER_TXT   "added undelay function to assist koios in unit testing"
 
 
 #define     ySTR_ALL_HEADS   "hbsem"

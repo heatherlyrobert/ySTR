@@ -241,7 +241,7 @@ strltrim           (char *a_src, char a_mode, int a_max)
    return x_len - c;
 }
 
-int              /* ---- : count contiguous spaces ---------------------------*/
+int              /* ---- : replace substrings --------------------------------*/
 strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
@@ -473,14 +473,36 @@ char         /*--> decode special characters -------------[ ------ [ ------ ]-*/
 strldecode         (char *a_src, int a_max)
 {
    /*---(normal)-------------------------*/
-   strldchg (a_src, G_CHAR_RETURN, G_KEY_RETURN, a_max);
-   strldchg (a_src, G_CHAR_ESCAPE, G_KEY_ESCAPE, a_max);
-   strldchg (a_src, G_CHAR_GROUP , G_KEY_GROUP , a_max);
-   strldchg (a_src, G_CHAR_FIELD , G_KEY_FIELD , a_max);
-   strldchg (a_src, G_CHAR_TAB   , G_KEY_TAB   , a_max);
-   strldchg (a_src, G_CHAR_BS    , G_KEY_BS    , a_max);
-   strldchg (a_src, G_CHAR_SPACE , G_KEY_SPACE , a_max);
-   strldchg (a_src, G_CHAR_NULL  , G_KEY_NULL  , a_max);
+   strldchg (a_src, G_CHAR_RETURN , G_KEY_RETURN, a_max);
+   strldchg (a_src, G_CHAR_ESCAPE , G_KEY_ESCAPE, a_max);
+   strldchg (a_src, G_CHAR_GROUP  , G_KEY_GROUP , a_max);
+   strldchg (a_src, G_CHAR_FIELD  , G_KEY_FIELD , a_max);
+   strldchg (a_src, G_CHAR_TAB    , G_KEY_TAB   , a_max);
+   strldchg (a_src, G_CHAR_BS     , G_KEY_BS    , a_max);
+   strldchg (a_src, G_CHAR_SPACE  , G_KEY_SPACE , a_max);
+   strldchg (a_src, G_CHAR_NULL   , G_KEY_NULL  , a_max);
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char         /*--> reverse delayed characters ------------[ ------ [ ------ ]-*/
+strlundelay        (char *a_src, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        t           [5] = "";
+   char        dslash      [5] = "\\\\";
+   char        dquote      [5] = "\\\"";
+   /*---(normal)-------------------------*/
+   /*> printf ("a_src [%s]\n", a_src);                                                <*/
+   sprintf (t, "%c", G_CHAR_DBSLASH);
+   /*> printf ("    t [%s]\n", t);                                                    <*/
+   /*> printf ("    c [%s]\n", dslash);                                               <*/
+   strlrepl (a_src, t, dslash, 100, a_max);
+   sprintf (t, "%c", G_CHAR_DDQUOTE);
+   /*> printf ("    t [%s]\n", t);                                                    <*/
+   /*> printf ("    c [%s]\n", dquote);                                               <*/
+   strlrepl (a_src, t, dquote, 100, a_max);
+   /*> printf ("    d [%s]\n", a_src);                                                <*/
    /*---(complete)-----------------------*/
    return 0;
 }

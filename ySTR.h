@@ -99,7 +99,7 @@
 #define     G_CHAR_TAB        171   /* «  tab              (  9)   */
 #define     G_CHAR_BS         170   /* «  backspace        (127)   */
 #define     G_CHAR_SPACE      185   /* ¹  dot              (  -)   */
-#define     G_CHAR_GROUP      184   /* ¸  broken bar       ( 29)   */
+#define     G_CHAR_GROUP      184   /* Â  double broken bar( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
 /*---(control)---------*/
 #define     G_CHAR_ALT        211   /* Ó  up               (  -)   */
@@ -108,6 +108,9 @@
 #define     G_CHAR_BREAK      191   /* ¿  block            (  -)   */
 #define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
 #define     G_CHAR_DISPLAY    168   /* ¨  eye              (  -)   */
+/*---(testing)---------*/
+#define     G_CHAR_DBSLASH    183   /* ·  delayed backslash(  -)   */
+#define     G_CHAR_DDQUOTE    184   /* ¸  delayed dquote   (  -)   */
 /*---(compare)---------*/
 #define     G_CHAR_EQ          61   /* =                           */
 #define     G_CHAR_NE         175   /* ¯                           */
@@ -116,7 +119,7 @@
 #define     G_CHAR_LE         173   /* ­                           */
 #define     G_CHAR_GE         174   /* ®                           */
 #define     G_CHAR_APPROX     172   /* ¬                           */
-#define     G_CHAR_EQUIV      223   /* ß                           */
+#define     G_CHAR_EQUIV      229   /* å                           */
 /*---(special)---------*/
 #define     G_CHAR_NULL       163   /* £  null             (  0)   */
 #define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
@@ -169,6 +172,7 @@ int         strlddel           (char *a_src, char  a_del , int  a_max);
 
 char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
+char        strlundelay        (char *a_src, int a_max);
 
 char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
 
