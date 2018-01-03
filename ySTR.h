@@ -74,6 +74,7 @@
 /*---(character constants)------------*/
 /*---(hidden)----------*/
 #define     G_KEY_RETURN       10
+#define     G_KEY_ENTER        13
 #define     G_KEY_ESCAPE       27
 #define     G_KEY_TAB           9
 #define     G_KEY_BS          127

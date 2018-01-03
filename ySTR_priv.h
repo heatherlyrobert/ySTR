@@ -19,8 +19,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3e"
-#define YSTR_VER_TXT   "added undelay function to assist koios in unit testing"
+#define YSTR_VER_NUM   "0.3f"
+#define YSTR_VER_TXT   "added second enter key for x11 (13) vs ncurses (10)"
 
 
 #define     ySTR_ALL_HEADS   "hbsem"
