@@ -255,19 +255,19 @@ strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
    int         lenn        = strlen (a_new);
    int         lend        = lenn - leno;
    int         c           = 0;
-   char        x_final     [2000] = "";
+   char        x_final     [LEN_HUGE] = "";
    /*---(defenses)-----------------------*/
-   --rce;  if (a_src == NULL)     return  rce;
-   --rce;  if (a_old == NULL)     return  rce;
-   --rce;  if (a_new == NULL)     return  rce;
-   --rce;  if (a_max >= 2000)     return  rce;
+   --rce;  if (a_src == NULL)           return  rce;
+   --rce;  if (a_old == NULL)           return  rce;
+   --rce;  if (a_new == NULL)           return  rce;
+   --rce;  if (a_max >= LEN_HUGE)       return  rce;
    /*---(cycle)--------------------------*/
    --rce;
    while (1) {
       t = strstr (s, o);
-      if (t == NULL)              break;
-      if (c >= a_cnt)             break;
-      if (lenf + lend >= 2000)    break;
+      if (t == NULL)                    break;
+      if (c >= a_cnt)                   break;
+      if (lenf + lend >= LEN_HUGE)      break;
       if (t - a_src + lenn >= a_max)    break;
       ++c;
       n = t - s;
@@ -614,7 +614,7 @@ strl2bin           (char *a_src, double *a_val, int a_max)
       return rce;
    }
    DEBUG_STRG   yLOG_snote   (a_src);
-   x_len = strllen (a_src, LEN_STR);
+   x_len = strllen (a_src, LEN_HUGE);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce; if (x_len <= 2) {
       DEBUG_STRG   yLOG_snote   ("too short");
@@ -694,7 +694,7 @@ strl2oct           (char *a_src, double *a_val, int a_max)
       return rce;
    }
    DEBUG_STRG   yLOG_snote   (a_src);
-   x_len = strllen (a_src, LEN_STR);
+   x_len = strllen (a_src, LEN_HUGE);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce; if (x_len <= 1) {
       DEBUG_STRG   yLOG_snote   ("too short");
@@ -774,7 +774,7 @@ strl2hex           (char *a_src, double *a_val, int a_max)
       return rce;
    }
    DEBUG_STRG   yLOG_snote   (a_src);
-   x_len = strllen (a_src, LEN_STR);
+   x_len = strllen (a_src, LEN_HUGE);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce; if (x_len <  2) {
       DEBUG_STRG   yLOG_snote   ("too short");
@@ -840,7 +840,7 @@ strl2real          (char *a_src, double *a_val, int a_max)
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
    int         x_len       =    0;
-   char        x_temp      [LEN_STR ] = "";      /* temp version              */
+   char        x_temp      [LEN_HUGE ] = "";      /* temp version              */
    int         i           =    0;               /* iterator -- character     */
    char        x_curr      =  '-';               /* current character         */
    int         x_exp       =   -1;
@@ -859,14 +859,14 @@ strl2real          (char *a_src, double *a_val, int a_max)
       return rce;
    }
    DEBUG_STRG   yLOG_snote   (a_src);
-   x_len = strllen (a_src, LEN_STR);
+   x_len = strllen (a_src, LEN_HUGE);
    DEBUG_STRG   yLOG_sint    (x_len);
    --rce; if (a_src [0] == '0' && (a_src [1] != '\0' && a_src [1] != '.')) {
       DEBUG_STRG   yLOG_snote   ("bad leading zero");
       DEBUG_STRG   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (x_temp, a_src, LEN_STR);
+   strlcpy (x_temp, a_src, LEN_HUGE);
    DEBUG_STRG   yLOG_snote   (x_temp);
    /*---(run digits)---------------------*/
    DEBUG_STRG   yLOG_snote   (x_valid);

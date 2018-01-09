@@ -17,10 +17,12 @@
 
 
 
-
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3f"
-#define YSTR_VER_TXT   "added second enter key for x11 (13) vs ncurses (10)"
+#define YSTR_VER_NUM   "0.3g"
+#define YSTR_VER_TXT   "inceased arbitrary limits to enable koios and gregg"
+
+
+#define     LEN_HUGE        10000
 
 
 #define     ySTR_ALL_HEADS   "hbsem"
