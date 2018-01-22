@@ -121,6 +121,14 @@
 #define     G_CHAR_GE         174   /* ®                           */
 #define     G_CHAR_APPROX     172   /* ¬                           */
 #define     G_CHAR_EQUIV      229   /* å                           */
+#define     G_CHAR_SLPAREN    200   /* È                           */
+#define     G_CHAR_SRPAREN    201   /* É                           */
+#define     G_CHAR_SLBRACK    202   /* Ê                           */
+#define     G_CHAR_SRBRACK    203   /* Ë                           */
+#define     G_CHAR_SLCHEV     204   /* Ì                           */
+#define     G_CHAR_SRCHEV     205   /* Í                           */
+#define     G_CHAR_SLBRACE    298   /* Æ                           */
+#define     G_CHAR_SRBRACE    299   /* Ç                           */
 /*---(special)---------*/
 #define     G_CHAR_NULL       163   /* £  null             (  0)   */
 #define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
@@ -174,6 +182,8 @@ int         strlddel           (char *a_src, char  a_del , int  a_max);
 char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
 char        strlundelay        (char *a_src, int a_max);
+char        chrslashed         (char a_ch);
+char        chrvisible         (char a_ch);
 
 char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
 

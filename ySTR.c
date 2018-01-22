@@ -507,6 +507,86 @@ strlundelay        (char *a_src, int a_max)
    return 0;
 }
 
+char         /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
+chrslashed        (char a_ch)
+{
+   /*---(control)------------------------*/
+   switch (a_ch) {
+   case G_KEY_RETURN  : a_ch = G_CHAR_RETURN;    break;
+   case 'n'           : a_ch = G_CHAR_RETURN;    break;
+   case G_KEY_ESCAPE  : a_ch = G_CHAR_ESCAPE;    break;
+   case 'e'           : a_ch = G_CHAR_ESCAPE;    break;
+   case G_KEY_TAB     : a_ch = G_CHAR_TAB;       break;
+   case 't'           : a_ch = G_CHAR_TAB;       break;
+   case G_KEY_BS      : a_ch = G_CHAR_BS;        break;
+   case G_KEY_SPACE   : a_ch = G_CHAR_SPACE;     break;
+   }
+   /*---(control)------------------------*/
+   switch (a_ch) {
+   case '|'  :  a_ch = G_CHAR_FIELD;   break;  /* field delimiter       */
+   case '0'  :  a_ch = G_CHAR_NULL;    break;  /* null                  */
+   case ','  :  a_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
+   case '.'  :  a_ch = G_CHAR_BREAK;   break;  /* break point           */
+   case '!'  :  a_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
+   case '?'  :  a_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
+   case '"'  :  a_ch = G_CHAR_DDQUOTE; break;  /* delayed quote         */
+   case '\\' :  a_ch = G_CHAR_DBSLASH; break;  /* delayed backslash     */
+   case '('  :  a_ch = G_CHAR_SLPAREN; break;  /* special left paren    */
+   case ')'  :  a_ch = G_CHAR_SRPAREN; break;  /* special right paren   */
+   case '['  :  a_ch = G_CHAR_SLBRACK; break;  /* special left bracket  */
+   case ']'  :  a_ch = G_CHAR_SRBRACK; break;  /* special right bracket */
+   case '<'  :  a_ch = G_CHAR_SLCHEV;  break;  /* special left chevron  */
+   case '>'  :  a_ch = G_CHAR_SRCHEV;  break;  /* special right chevron */
+   case '{'  :  a_ch = G_CHAR_SLBRACE; break;  /* special left brace    */
+   case '}'  :  a_ch = G_CHAR_SRBRACE; break;  /* special right brace   */
+   }
+   /*---(greek)--------------------------*/
+   switch (a_ch) {
+   case 'A'  :  a_ch = G_CHAR_ALPHA;   break;
+   case 'B'  :  a_ch = G_CHAR_BETA;    break;
+   case 'G'  :  a_ch = G_CHAR_GAMMA;   break;
+   case 'D'  :  a_ch = G_CHAR_DELTA;   break;
+   case 'E'  :  a_ch = G_CHAR_EPSILON; break;
+   case 'Z'  :  a_ch = G_CHAR_ZETA;    break;
+   case 'H'  :  a_ch = G_CHAR_ETA;     break;
+   case 'Y'  :  a_ch = G_CHAR_THETA;   break;
+   case 'I'  :  a_ch = G_CHAR_IOTA;    break;
+   case 'K'  :  a_ch = G_CHAR_KAPPA;   break;
+   case 'L'  :  a_ch = G_CHAR_LAMBDA;  break;
+   case 'M'  :  a_ch = G_CHAR_MU;      break;
+   case 'N'  :  a_ch = G_CHAR_NU;      break;
+   case 'X'  :  a_ch = G_CHAR_XI;      break;
+   case 'O'  :  a_ch = G_CHAR_OMICRON; break;
+   case 'P'  :  a_ch = G_CHAR_PI;      break;
+   case 'R'  :  a_ch = G_CHAR_RHO;     break;
+   case 'S'  :  a_ch = G_CHAR_SIGMA;   break;
+   case 'T'  :  a_ch = G_CHAR_TAU;     break;
+   case 'U'  :  a_ch = G_CHAR_UPSILON; break;
+   case 'F'  :  a_ch = G_CHAR_PHI;     break;
+   case 'C'  :  a_ch = G_CHAR_CHI;     break;
+   case 'Q'  :  a_ch = G_CHAR_PSI;     break;
+   case 'W'  :  a_ch = G_CHAR_OMEGA;   break;
+   }
+   /*---(complete)-----------------------*/
+   return a_ch;
+}
+
+char         /*--> convert invisible characters ----------[ ------ [ ------ ]-*/
+chrvisible        (char a_ch)
+{
+   switch (a_ch) {
+   case G_KEY_RETURN  : a_ch = G_CHAR_RETURN;    break;
+   case G_KEY_ESCAPE  : a_ch = G_CHAR_ESCAPE;    break;
+   case G_KEY_TAB     : a_ch = G_CHAR_TAB;       break;
+   case G_KEY_BS      : a_ch = G_CHAR_BS;        break;
+   case G_KEY_SPACE   : a_ch = G_CHAR_SPACE;     break;
+   }
+   /*---(complete)-----------------------*/
+   return a_ch;
+}
+
+
+
 
 
 /*====================------------------------------------====================*/
