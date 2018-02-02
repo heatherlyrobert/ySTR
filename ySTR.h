@@ -98,9 +98,9 @@
 #define     G_CHAR_RETURN     166   /* ¦  return/newline   ( 10)   */
 #define     G_CHAR_ESCAPE     165   /* ¥  staff            (  -)   */
 #define     G_CHAR_TAB        171   /* «  tab              (  9)   */
-#define     G_CHAR_BS         170   /* «  backspace        (127)   */
+#define     G_CHAR_BS         170   /* ª  backspace        (127)   */
 #define     G_CHAR_SPACE      185   /* ¹  dot              (  -)   */
-#define     G_CHAR_GROUP      184   /* Â  double broken bar( 29)   */
+#define     G_CHAR_GROUP      194   /* Â  double broken bar( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
 /*---(control)---------*/
 #define     G_CHAR_ALT        211   /* Ó  up               (  -)   */
@@ -161,6 +161,7 @@
 #define     G_CHAR_OMEGA      255   /* ÿ  omega      W     (  -)   */
 
 
+typedef     unsigned char  uchar;
 
 
 char*       ySTR_version       (void);
@@ -183,7 +184,8 @@ char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
 char        strlundelay        (char *a_src, int a_max);
 char        chrslashed         (char a_ch);
-char        chrvisible         (char a_ch);
+uchar       chrvisible         (uchar a_ch);
+uchar       chrworking         (uchar a_ch);
 
 char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
 

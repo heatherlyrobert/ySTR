@@ -571,21 +571,45 @@ chrslashed        (char a_ch)
    return a_ch;
 }
 
-char         /*--> convert invisible characters ----------[ ------ [ ------ ]-*/
-chrvisible        (char a_ch)
+uchar        /*--> convert control in printable ----------[ ------ [ ------ ]-*/
+chrvisible        (uchar a_ch)
 {
+   /*---(translate)----------------------*/
    switch (a_ch) {
    case G_KEY_RETURN  : a_ch = G_CHAR_RETURN;    break;
+   case G_KEY_ENTER   : a_ch = G_CHAR_RETURN;    break;
    case G_KEY_ESCAPE  : a_ch = G_CHAR_ESCAPE;    break;
    case G_KEY_TAB     : a_ch = G_CHAR_TAB;       break;
    case G_KEY_BS      : a_ch = G_CHAR_BS;        break;
+   case G_KEY_DEL     : a_ch = G_CHAR_BS;        break;
    case G_KEY_SPACE   : a_ch = G_CHAR_SPACE;     break;
+   case G_KEY_GROUP   : a_ch = G_CHAR_GROUP;     break;
+   case G_KEY_FIELD   : a_ch = G_CHAR_FIELD;     break;
+   case G_KEY_NULL    : a_ch = G_CHAR_NULL;      break;
    }
    /*---(complete)-----------------------*/
    return a_ch;
 }
 
-
+uchar        /*--> convert printable into control --------[ ------ [ ------ ]-*/
+chrworking        (uchar a_ch)
+{
+   /*---(translate)----------------------*/
+   switch (a_ch) {
+   case G_CHAR_RETURN  : a_ch = G_KEY_RETURN;     break;
+   case G_CHAR_ESCAPE  : a_ch = G_KEY_ESCAPE;     break;
+   case G_CHAR_TAB     : a_ch = G_KEY_TAB;        break;
+   case G_CHAR_BS      : a_ch = G_KEY_BS;         break;
+   case G_CHAR_SPACE   : a_ch = G_KEY_SPACE;      break;
+   case G_CHAR_GROUP   : a_ch = G_KEY_GROUP;      break;
+   case G_CHAR_FIELD   : a_ch = G_KEY_FIELD;      break;
+   case G_CHAR_NULL    : a_ch = G_KEY_NULL;       break;
+   case G_CHAR_DBSLASH : a_ch = G_KEY_BSLASH;     break;
+   case G_CHAR_DDQUOTE : a_ch = G_KEY_DQUOTE;     break;
+   }
+   /*---(complete)-----------------------*/
+   return a_ch;
+}
 
 
 
