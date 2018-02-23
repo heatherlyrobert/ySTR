@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3i"
-#define YSTR_VER_TXT   "chrvisible and chrworking created/updated for yVIKEYS"
+#define YSTR_VER_NUM   "0.3j"
+#define YSTR_VER_TXT   "chrslashed updated for yVIKEYS"
 
 
 #define     LEN_HUGE        10000

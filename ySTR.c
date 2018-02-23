@@ -507,68 +507,69 @@ strlundelay        (char *a_src, int a_max)
    return 0;
 }
 
-char         /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
+uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
 chrslashed        (char a_ch)
 {
+   uchar       x_ch        = a_ch;
    /*---(control)------------------------*/
-   switch (a_ch) {
-   case G_KEY_RETURN  : a_ch = G_CHAR_RETURN;    break;
-   case 'n'           : a_ch = G_CHAR_RETURN;    break;
-   case G_KEY_ESCAPE  : a_ch = G_CHAR_ESCAPE;    break;
-   case 'e'           : a_ch = G_CHAR_ESCAPE;    break;
-   case G_KEY_TAB     : a_ch = G_CHAR_TAB;       break;
-   case 't'           : a_ch = G_CHAR_TAB;       break;
-   case G_KEY_BS      : a_ch = G_CHAR_BS;        break;
-   case G_KEY_SPACE   : a_ch = G_CHAR_SPACE;     break;
+   switch (x_ch) {
+   case G_KEY_RETURN  : x_ch = G_CHAR_RETURN;    break;
+   case 'n'           : x_ch = G_CHAR_RETURN;    break;
+   case G_KEY_ESCAPE  : x_ch = G_CHAR_ESCAPE;    break;
+   case 'e'           : x_ch = G_CHAR_ESCAPE;    break;
+   case G_KEY_TAB     : x_ch = G_CHAR_TAB;       break;
+   case 't'           : x_ch = G_CHAR_TAB;       break;
+   case G_KEY_BS      : x_ch = G_CHAR_BS;        break;
+   case G_KEY_SPACE   : x_ch = G_CHAR_SPACE;     break;
    }
    /*---(control)------------------------*/
-   switch (a_ch) {
-   case '|'  :  a_ch = G_CHAR_FIELD;   break;  /* field delimiter       */
-   case '0'  :  a_ch = G_CHAR_NULL;    break;  /* null                  */
-   case ','  :  a_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
-   case '.'  :  a_ch = G_CHAR_BREAK;   break;  /* break point           */
-   case '!'  :  a_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
-   case '?'  :  a_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
-   case '"'  :  a_ch = G_CHAR_DDQUOTE; break;  /* delayed quote         */
-   case '\\' :  a_ch = G_CHAR_DBSLASH; break;  /* delayed backslash     */
-   case '('  :  a_ch = G_CHAR_SLPAREN; break;  /* special left paren    */
-   case ')'  :  a_ch = G_CHAR_SRPAREN; break;  /* special right paren   */
-   case '['  :  a_ch = G_CHAR_SLBRACK; break;  /* special left bracket  */
-   case ']'  :  a_ch = G_CHAR_SRBRACK; break;  /* special right bracket */
-   case '<'  :  a_ch = G_CHAR_SLCHEV;  break;  /* special left chevron  */
-   case '>'  :  a_ch = G_CHAR_SRCHEV;  break;  /* special right chevron */
-   case '{'  :  a_ch = G_CHAR_SLBRACE; break;  /* special left brace    */
-   case '}'  :  a_ch = G_CHAR_SRBRACE; break;  /* special right brace   */
+   switch (x_ch) {
+   case '|'  :  x_ch = G_CHAR_FIELD;   break;  /* field delimiter       */
+   case '0'  :  x_ch = G_CHAR_NULL;    break;  /* null                  */
+   case ','  :  x_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
+   case '.'  :  x_ch = G_CHAR_BREAK;   break;  /* break point           */
+   case '!'  :  x_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
+   case '?'  :  x_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
+   case '"'  :  x_ch = G_CHAR_DDQUOTE; break;  /* delayed quote         */
+   case '\\' :  x_ch = G_CHAR_DBSLASH; break;  /* delayed backslash     */
+   case '('  :  x_ch = G_CHAR_SLPAREN; break;  /* special left paren    */
+   case ')'  :  x_ch = G_CHAR_SRPAREN; break;  /* special right paren   */
+   case '['  :  x_ch = G_CHAR_SLBRACK; break;  /* special left bracket  */
+   case ']'  :  x_ch = G_CHAR_SRBRACK; break;  /* special right bracket */
+   case '<'  :  x_ch = G_CHAR_SLCHEV;  break;  /* special left chevron  */
+   case '>'  :  x_ch = G_CHAR_SRCHEV;  break;  /* special right chevron */
+   case '{'  :  x_ch = G_CHAR_SLBRACE; break;  /* special left brace    */
+   case '}'  :  x_ch = G_CHAR_SRBRACE; break;  /* special right brace   */
    }
    /*---(greek)--------------------------*/
-   switch (a_ch) {
-   case 'A'  :  a_ch = G_CHAR_ALPHA;   break;
-   case 'B'  :  a_ch = G_CHAR_BETA;    break;
-   case 'G'  :  a_ch = G_CHAR_GAMMA;   break;
-   case 'D'  :  a_ch = G_CHAR_DELTA;   break;
-   case 'E'  :  a_ch = G_CHAR_EPSILON; break;
-   case 'Z'  :  a_ch = G_CHAR_ZETA;    break;
-   case 'H'  :  a_ch = G_CHAR_ETA;     break;
-   case 'Y'  :  a_ch = G_CHAR_THETA;   break;
-   case 'I'  :  a_ch = G_CHAR_IOTA;    break;
-   case 'K'  :  a_ch = G_CHAR_KAPPA;   break;
-   case 'L'  :  a_ch = G_CHAR_LAMBDA;  break;
-   case 'M'  :  a_ch = G_CHAR_MU;      break;
-   case 'N'  :  a_ch = G_CHAR_NU;      break;
-   case 'X'  :  a_ch = G_CHAR_XI;      break;
-   case 'O'  :  a_ch = G_CHAR_OMICRON; break;
-   case 'P'  :  a_ch = G_CHAR_PI;      break;
-   case 'R'  :  a_ch = G_CHAR_RHO;     break;
-   case 'S'  :  a_ch = G_CHAR_SIGMA;   break;
-   case 'T'  :  a_ch = G_CHAR_TAU;     break;
-   case 'U'  :  a_ch = G_CHAR_UPSILON; break;
-   case 'F'  :  a_ch = G_CHAR_PHI;     break;
-   case 'C'  :  a_ch = G_CHAR_CHI;     break;
-   case 'Q'  :  a_ch = G_CHAR_PSI;     break;
-   case 'W'  :  a_ch = G_CHAR_OMEGA;   break;
+   switch (x_ch) {
+   case 'A'  :  x_ch = G_CHAR_ALPHA;   break;
+   case 'B'  :  x_ch = G_CHAR_BETA;    break;
+   case 'G'  :  x_ch = G_CHAR_GAMMA;   break;
+   case 'D'  :  x_ch = G_CHAR_DELTA;   break;
+   case 'E'  :  x_ch = G_CHAR_EPSILON; break;
+   case 'Z'  :  x_ch = G_CHAR_ZETA;    break;
+   case 'H'  :  x_ch = G_CHAR_ETA;     break;
+   case 'Y'  :  x_ch = G_CHAR_THETA;   break;
+   case 'I'  :  x_ch = G_CHAR_IOTA;    break;
+   case 'K'  :  x_ch = G_CHAR_KAPPA;   break;
+   case 'L'  :  x_ch = G_CHAR_LAMBDA;  break;
+   case 'M'  :  x_ch = G_CHAR_MU;      break;
+   case 'N'  :  x_ch = G_CHAR_NU;      break;
+   case 'X'  :  x_ch = G_CHAR_XI;      break;
+   case 'O'  :  x_ch = G_CHAR_OMICRON; break;
+   case 'P'  :  x_ch = G_CHAR_PI;      break;
+   case 'R'  :  x_ch = G_CHAR_RHO;     break;
+   case 'S'  :  x_ch = G_CHAR_SIGMA;   break;
+   case 'T'  :  x_ch = G_CHAR_TAU;     break;
+   case 'U'  :  x_ch = G_CHAR_UPSILON; break;
+   case 'F'  :  x_ch = G_CHAR_PHI;     break;
+   case 'C'  :  x_ch = G_CHAR_CHI;     break;
+   case 'Q'  :  x_ch = G_CHAR_PSI;     break;
+   case 'W'  :  x_ch = G_CHAR_OMEGA;   break;
    }
    /*---(complete)-----------------------*/
-   return a_ch;
+   return x_ch;
 }
 
 uchar        /*--> convert control in printable ----------[ ------ [ ------ ]-*/

@@ -183,7 +183,7 @@ int         strlddel           (char *a_src, char  a_del , int  a_max);
 char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
 char        strlundelay        (char *a_src, int a_max);
-char        chrslashed         (char a_ch);
+uchar       chrslashed         (char a_ch);
 uchar       chrvisible         (uchar a_ch);
 uchar       chrworking         (uchar a_ch);
 
