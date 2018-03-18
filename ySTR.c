@@ -458,6 +458,7 @@ strlencode         (char *a_src, char a_mode, int a_max)
    strldchg (a_src, G_KEY_ESCAPE, G_CHAR_ESCAPE, a_max);
    strldchg (a_src, G_KEY_TAB   , G_CHAR_TAB   , a_max);
    strldchg (a_src, G_KEY_BS    , G_CHAR_BS    , a_max);
+   strldchg (a_src, G_KEY_DEL   , G_CHAR_DEL   , a_max);
    strldchg (a_src, G_KEY_GROUP , G_CHAR_GROUP , a_max);
    strldchg (a_src, G_KEY_FIELD , G_CHAR_FIELD , a_max);
    /*---(big)----------------------------*/
@@ -479,6 +480,7 @@ strldecode         (char *a_src, int a_max)
    strldchg (a_src, G_CHAR_FIELD  , G_KEY_FIELD , a_max);
    strldchg (a_src, G_CHAR_TAB    , G_KEY_TAB   , a_max);
    strldchg (a_src, G_CHAR_BS     , G_KEY_BS    , a_max);
+   strldchg (a_src, G_CHAR_DEL    , G_KEY_DEL   , a_max);
    strldchg (a_src, G_CHAR_SPACE  , G_KEY_SPACE , a_max);
    strldchg (a_src, G_CHAR_NULL   , G_KEY_NULL  , a_max);
    /*---(complete)-----------------------*/
@@ -511,25 +513,35 @@ uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
 chrslashed        (char a_ch)
 {
    uchar       x_ch        = a_ch;
-   /*---(control)------------------------*/
+   /*---(primary)------------------------*/
    switch (x_ch) {
-   case G_KEY_RETURN  : x_ch = G_CHAR_RETURN;    break;
    case 'n'           : x_ch = G_CHAR_RETURN;    break;
-   case G_KEY_ESCAPE  : x_ch = G_CHAR_ESCAPE;    break;
+   case G_KEY_RETURN  : x_ch = G_CHAR_RETURN;    break;
    case 'e'           : x_ch = G_CHAR_ESCAPE;    break;
-   case G_KEY_TAB     : x_ch = G_CHAR_TAB;       break;
+   case G_KEY_ESCAPE  : x_ch = G_CHAR_ESCAPE;    break;
    case 't'           : x_ch = G_CHAR_TAB;       break;
+   case G_KEY_TAB     : x_ch = G_CHAR_TAB;       break;
+   case 'b'           : x_ch = G_CHAR_BS;        break;
    case G_KEY_BS      : x_ch = G_CHAR_BS;        break;
+   case 'd'           : x_ch = G_CHAR_DEL;       break;
+   case G_KEY_DEL     : x_ch = G_CHAR_DEL;       break;
+   case 's'           : x_ch = G_CHAR_SPACE;     break;
    case G_KEY_SPACE   : x_ch = G_CHAR_SPACE;     break;
    }
    /*---(control)------------------------*/
    switch (x_ch) {
-   case '|'  :  x_ch = G_CHAR_FIELD;   break;  /* field delimiter       */
-   case '0'  :  x_ch = G_CHAR_NULL;    break;  /* null                  */
+   case 'g'  :  x_ch = G_CHAR_GROUP;   break;  /* field delimiter       */
+   case 'f'  :  x_ch = G_CHAR_FIELD;   break;  /* field delimiter       */
    case ','  :  x_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
    case '.'  :  x_ch = G_CHAR_BREAK;   break;  /* break point           */
    case '!'  :  x_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
    case '?'  :  x_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
+   case 'a'  :  x_ch = G_CHAR_ALT;     break;  /* alt prefix            */
+   case 'c'  :  x_ch = G_CHAR_CONTROL; break;  /* control prefix        */
+   case '0'  :  x_ch = G_CHAR_NULL;    break;  /* null                  */
+   }
+   /*---(control)------------------------*/
+   switch (x_ch) {
    case '"'  :  x_ch = G_CHAR_DDQUOTE; break;  /* delayed quote         */
    case '\\' :  x_ch = G_CHAR_DBSLASH; break;  /* delayed backslash     */
    case '('  :  x_ch = G_CHAR_SLPAREN; break;  /* special left paren    */
@@ -582,12 +594,13 @@ chrvisible        (uchar a_ch)
    case G_KEY_ESCAPE  : a_ch = G_CHAR_ESCAPE;    break;
    case G_KEY_TAB     : a_ch = G_CHAR_TAB;       break;
    case G_KEY_BS      : a_ch = G_CHAR_BS;        break;
-   case G_KEY_DEL     : a_ch = G_CHAR_BS;        break;
+   case G_KEY_DEL     : a_ch = G_CHAR_DEL;       break;
    case G_KEY_SPACE   : a_ch = G_CHAR_SPACE;     break;
    case G_KEY_GROUP   : a_ch = G_CHAR_GROUP;     break;
    case G_KEY_FIELD   : a_ch = G_CHAR_FIELD;     break;
    case G_KEY_NULL    : a_ch = G_CHAR_NULL;      break;
    }
+   if (a_ch < 32)  a_ch = G_CHAR_OTHER;
    /*---(complete)-----------------------*/
    return a_ch;
 }
@@ -601,6 +614,7 @@ chrworking        (uchar a_ch)
    case G_CHAR_ESCAPE  : a_ch = G_KEY_ESCAPE;     break;
    case G_CHAR_TAB     : a_ch = G_KEY_TAB;        break;
    case G_CHAR_BS      : a_ch = G_KEY_BS;         break;
+   case G_CHAR_DEL     : a_ch = G_KEY_DEL;        break;
    case G_CHAR_SPACE   : a_ch = G_KEY_SPACE;      break;
    case G_CHAR_GROUP   : a_ch = G_KEY_GROUP;      break;
    case G_CHAR_FIELD   : a_ch = G_KEY_FIELD;      break;

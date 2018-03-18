@@ -77,11 +77,11 @@
 #define     G_KEY_ENTER        13
 #define     G_KEY_ESCAPE       27
 #define     G_KEY_TAB           9
-#define     G_KEY_BS          127
+#define     G_KEY_BS          127  /* linux unique */
 #define     G_KEY_SPACE        32
 #define     G_KEY_GROUP        29
 #define     G_KEY_FIELD        31
-#define     G_KEY_DEL           8
+#define     G_KEY_DEL           8  /* linux unique */
 /*---(special)---------*/
 #define     G_KEY_NULL          0
 /*---(normal)----------*/
@@ -98,7 +98,8 @@
 #define     G_CHAR_RETURN     166   /* ¦  return/newline   ( 10)   */
 #define     G_CHAR_ESCAPE     165   /* ¥  staff            (  -)   */
 #define     G_CHAR_TAB        171   /* «  tab              (  9)   */
-#define     G_CHAR_BS         170   /* ª  backspace        (127)   */
+#define     G_CHAR_BS         197   /* Å  backspace        (127)   */
+#define     G_CHAR_DEL        196   /* Ä  delete           (  8)   */
 #define     G_CHAR_SPACE      185   /* ¹  dot              (  -)   */
 #define     G_CHAR_GROUP      194   /* Â  double broken bar( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
@@ -109,6 +110,7 @@
 #define     G_CHAR_BREAK      191   /* ¿  block            (  -)   */
 #define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
 #define     G_CHAR_DISPLAY    168   /* ¨  eye              (  -)   */
+#define     G_CHAR_OTHER      189   /* ½  big dot          (  -)   */
 /*---(testing)---------*/
 #define     G_CHAR_DBSLASH    183   /* ·  delayed backslash(  -)   */
 #define     G_CHAR_DDQUOTE    184   /* ¸  delayed dquote   (  -)   */

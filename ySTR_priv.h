@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3j"
-#define YSTR_VER_TXT   "chrslashed updated for yVIKEYS"
+#define YSTR_VER_NUM   "0.3k"
+#define YSTR_VER_TXT   "added DEL character to match BS one through-out"
 
 
 #define     LEN_HUGE        10000
