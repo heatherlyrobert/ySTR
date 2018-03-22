@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3k"
-#define YSTR_VER_TXT   "added DEL character to match BS one through-out"
+#define YSTR_VER_NUM   "0.3l"
+#define YSTR_VER_TXT   "added additional grouping symbols and math from shrike font"
 
 
 #define     LEN_HUGE        10000

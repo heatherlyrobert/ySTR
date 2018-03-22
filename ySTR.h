@@ -103,14 +103,14 @@
 #define     G_CHAR_SPACE      185   /* ¹  dot              (  -)   */
 #define     G_CHAR_GROUP      194   /* Â  double broken bar( 29)   */
 #define     G_CHAR_FIELD      167   /* §  field separator  ( 31)   */
+#define     G_CHAR_BIGDOT     189   /* ½  big dot          (  -)   */
 /*---(control)---------*/
 #define     G_CHAR_ALT        211   /* Ó  up               (  -)   */
 #define     G_CHAR_CONTROL    212   /* Ô  down             (  -)   */
 #define     G_CHAR_WAIT       169   /* ©  funky mark       (  -)   */
-#define     G_CHAR_BREAK      191   /* ¿  block            (  -)   */
+#define     G_CHAR_BREAK      188   /* ¼  block            (  -)   */
 #define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
 #define     G_CHAR_DISPLAY    168   /* ¨  eye              (  -)   */
-#define     G_CHAR_OTHER      189   /* ½  big dot          (  -)   */
 /*---(testing)---------*/
 #define     G_CHAR_DBSLASH    183   /* ·  delayed backslash(  -)   */
 #define     G_CHAR_DDQUOTE    184   /* ¸  delayed dquote   (  -)   */
@@ -119,22 +119,27 @@
 #define     G_CHAR_NE         175   /* ¯                           */
 #define     G_CHAR_LT          60   /* <                           */
 #define     G_CHAR_GT          62   /* <                           */
-#define     G_CHAR_LE         173   /* ­                           */
-#define     G_CHAR_GE         174   /* ®                           */
 #define     G_CHAR_APPROX     172   /* ¬                           */
 #define     G_CHAR_EQUIV      229   /* å                           */
-#define     G_CHAR_SLPAREN    200   /* È                           */
-#define     G_CHAR_SRPAREN    201   /* É                           */
-#define     G_CHAR_SLBRACK    202   /* Ê                           */
-#define     G_CHAR_SRBRACK    203   /* Ë                           */
-#define     G_CHAR_SLCHEV     204   /* Ì                           */
-#define     G_CHAR_SRCHEV     205   /* Í                           */
-#define     G_CHAR_SLBRACE    298   /* Æ                           */
-#define     G_CHAR_SRBRACE    299   /* Ç                           */
+#define     G_CHAR_SMHASH     198   /* Æ                           */
+#define     G_CHAR_POW_1      199   /* Ç                           */
+#define     G_CHAR_POW_2      200   /* È                           */
+#define     G_CHAR_POW_3      201   /* É                           */
+#define     G_CHAR_POW_N      202   /* Ê                           */
+#define     G_CHAR_POW_X      203   /* Ë                           */
+#define     G_CHAR_POW_Y      204   /* Ì                           */
+#define     G_CHAR_SUM        205   /* Í                           */
+#define     G_CHAR_SLPAREN    190   /* ¾                           */
+#define     G_CHAR_SRPAREN    191   /* ¿                           */
+#define     G_CHAR_SLBRACK    186   /* º                           */
+#define     G_CHAR_SRBRACK    187   /* »                           */
+#define     G_CHAR_SLCHEV     206   /* Î                           */
+#define     G_CHAR_SRCHEV     207   /* Ï                           */
+#define     G_CHAR_SLBRACE    173   /* ­                           */
+#define     G_CHAR_SRBRACE    174   /* ®                           */
 /*---(special)---------*/
 #define     G_CHAR_NULL       163   /* £  null             (  0)   */
 #define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
-#define     G_CHAR_MARK       174   /* ®  mark             (  -)   */
 #define     G_CHAR_DEGREE     176   /* °  degree mark      (  -)   */
 /*---(greek)-----------*/
 #define     G_CHAR_ALPHA      232   /* è  alpha      A     (  -)   */
@@ -157,7 +162,7 @@
 #define     G_CHAR_SIGMA      249   /* ù  sigma      S     (  -)   */
 #define     G_CHAR_TAU        250   /* ú  tau        T     (  -)   */
 #define     G_CHAR_UPSILON    251   /* û  upsilon    U     (  -)   */
-#define     G_CHAR_PHI        252   /* ü  phi        H     (  -)   */
+#define     G_CHAR_PHI        252   /* ü  phi        F     (  -)   */
 #define     G_CHAR_CHI        253   /* ý  chi        C     (  -)   */
 #define     G_CHAR_PSI        254   /* þ  psi        Q     (  -)   */
 #define     G_CHAR_OMEGA      255   /* ÿ  omega      W     (  -)   */
