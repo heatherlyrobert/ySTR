@@ -4,33 +4,24 @@
 
 
 
-static int ySTR_amx  =     0;
-static int ySTR_amy  =     0;
-static int ySTR_amz  =     0;
+static int ySTR_xmin  =     0;
+static int ySTR_ymin  =     0;
+static int ySTR_zmin  =     0;
 
-static int ySTR_lmx  =     0;
-static int ySTR_lmy  =     0;
-static int ySTR_lmz  =     0;
 
-static int ySTR_axx  =   702;
-static int ySTR_axy  = 99998;
-static int ySTR_axz  =    35;
+static int ySTR_xmax  =   702;
+static int ySTR_ymax  = 99998;
+static int ySTR_zmax  =    35;
 
-static int ySTR_lxx  =   702;
-static int ySTR_lxy  = 99998;
-static int ySTR_lxz  =    35;
 
+
+static char    (*zSTR_checker)   (int x, int y, int z) = NULL;
 
 
 char
-str0gyges         (int x_min, int x_max, int y_min, int y_max, int z_min, int z_max)
+str0gyges          (void *a_checker)
 {
-   ySTR_lmx = x_min;
-   ySTR_lmy = y_min;
-   ySTR_lmz = z_min;
-   ySTR_lxx = x_max;
-   ySTR_lxy = y_max;
-   ySTR_lxz = z_max;
+   zSTR_checker = a_checker;
    return 0;
 }
 
@@ -133,14 +124,9 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
    } else {
       x_tab = a_def;
    }
-   DEBUG_STRG   yLOG_complex ("tab"       , "z = %d,  abs range %d to %d,  loc range %d to %d", x_tab, ySTR_amz, ySTR_axz, ySTR_lmz, ySTR_lxz);
-   --rce;  if (x_tab  < ySTR_amz || x_tab  < ySTR_lmz) {
-      DEBUG_STRG   yLOG_note    ("z-pos too low (absolute or local)");
-      DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   --rce;  if (x_tab  > ySTR_axz || x_tab  > ySTR_lxz) {
-      DEBUG_STRG   yLOG_note    ("z-pos too high (absolute or local)");
+   DEBUG_STRG   yLOG_complex ("tab"       , "z = %d,  abs range %d to %d", x_tab, ySTR_zmin, ySTR_zmax);
+   --rce;  if (x_tab  < ySTR_zmin || x_tab  > ySTR_zmax) {
+      DEBUG_STRG   yLOG_note    ("z-pos too low/high (absolute)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -171,14 +157,9 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
       return rce;
    }
    --x_col;
-   DEBUG_STRG   yLOG_complex ("col"       , "x = %d,  abs range %d to %d,  loc range %d to %d", x_col, ySTR_amx, ySTR_axx, ySTR_lmx, ySTR_lxx);
-   --rce;  if (x_col  < ySTR_amx || x_col  < ySTR_lmx) {
-      DEBUG_STRG   yLOG_note    ("x-pos too low (absolute or local)");
-      DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   --rce;  if (x_col  > ySTR_axx || x_col  > ySTR_lxx) {
-      DEBUG_STRG   yLOG_note    ("x-pos too high (absolute or local)");
+   DEBUG_STRG   yLOG_complex ("col"       , "x = %d,  abs range %d to %d", x_col, ySTR_xmin, ySTR_xmax);
+   --rce;  if (x_col  < ySTR_xmin || x_col  > ySTR_xmax) {
+      DEBUG_STRG   yLOG_note    ("x-pos too high/low (absolute)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -209,14 +190,9 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
       return rce;
    }
    --x_row;
-   DEBUG_STRG   yLOG_complex ("row"       , "y = %d,  abs range %d to %d,  loc range %d to %d", x_row, ySTR_amy, ySTR_axy, ySTR_lmy, ySTR_lxy);
-   --rce;  if (x_row  < ySTR_amy || x_row  < ySTR_lmy) {
-      DEBUG_STRG   yLOG_note    ("y-pos too low (absolute or local)");
-      DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   --rce;  if (x_row  > ySTR_axy || x_row  > ySTR_lxy) {
-      DEBUG_STRG   yLOG_note    ("y-pos too high (absolute or local)");
+   DEBUG_STRG   yLOG_complex ("row"       , "y = %d,  abs range %d to %d", x_row, ySTR_ymin, ySTR_ymax);
+   --rce;  if (x_row  < ySTR_ymin || x_row  > ySTR_ymax) {
+      DEBUG_STRG   yLOG_note    ("y-pos too high/low (absolute)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -263,20 +239,32 @@ str4gyges         (int x, int y, int z, char a_abs, char *a_out)
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_STRG   yLOG_complex ("x"         , "x = %d,  abs range %d to %d,  loc range %d to %d", x, ySTR_amx, ySTR_axx, ySTR_lmx, ySTR_lxx);
-   --rce;  if (x  < ySTR_amx || x  < ySTR_lmx || x  > ySTR_axx || x  > ySTR_lxx) {
+   DEBUG_STRG   yLOG_complex ("x"         , "x = %d,  abs range %d to %d", x, ySTR_xmin, ySTR_xmax);
+   --rce;  if (x  < ySTR_xmin || x  > ySTR_xmax) {
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_STRG   yLOG_complex ("y"         , "y = %d,  abs range %d to %d,  loc range %d to %d", y, ySTR_amy, ySTR_axy, ySTR_lmy, ySTR_lxy);
-   --rce;  if (y  < ySTR_amy || y  < ySTR_lmy || y  > ySTR_axy || y  > ySTR_lxy) {
+   DEBUG_STRG   yLOG_complex ("y"         , "y = %d,  abs range %d to %d", y, ySTR_ymin, ySTR_ymax);
+   --rce;  if (y  < ySTR_ymin || y  > ySTR_ymax) {
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_STRG   yLOG_complex ("z"         , "z = %d,  abs range %d to %d,  loc range %d to %d", z, ySTR_amz, ySTR_axz, ySTR_lmz, ySTR_lxz);
-   --rce;  if (z  < ySTR_amz || z  < ySTR_lmz || z  > ySTR_axz || z  > ySTR_lxz) {
+   DEBUG_STRG   yLOG_complex ("z"         , "z = %d,  abs range %d to %d", z, ySTR_zmin, ySTR_zmax);
+   --rce;  if (z  < ySTR_zmin || z  > ySTR_zmax) {
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
+   }
+   /*---(host check)---------------------*/
+   DEBUG_STRG   yLOG_point   ("checker"   , zSTR_checker);
+   --rce;  if (zSTR_checker != NULL) {
+      DEBUG_STRG   yLOG_note    ("let host application check specifics");
+      rc = zSTR_checker (x, y, z);
+      DEBUG_STRG   yLOG_value   ("checker"   , rc);
+      if (rc < 0) {
+         DEBUG_STRG   yLOG_note    ("position out of legal range");
+         DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
    }
    /*---(figure out tab name)------------*/
    if (z <= 9)     x_tab = z + '0';
@@ -354,6 +342,28 @@ str8gyges         (char *a_src, int xo, int yo, int zo, char *a_out)
    rc = str4gyges (x, y, z, x_abs, a_out);
    if (rc < 0)   return rc;
    /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+str__gyges_checking (int x, int y, int z)
+{
+   if (z < 5) {
+      if (x >  22)  return -1;
+      if (y >  99)  return -1;
+   }
+   else if (z < 10) {
+      if (x >  40)  return -1;
+      if (y > 499)  return -1;
+   }
+   else if (z < 20) {
+      if (x <  22)  return -1;
+      if (y <  99)  return -1;
+   }
+   else {
+      if (x <  40)  return -1;
+      if (y < 499)  return -1;
+   }
    return 0;
 }
 

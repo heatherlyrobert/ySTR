@@ -270,10 +270,11 @@ char        strl4main          (double a_val, char *a_out, int a_cnt, char a_fmt
 char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
 
 
+char        str0gyges          (void *a_checker);
 char        str2gyges          (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def);
 char        str4gyges          (int x, int y, int z, char a_abs, char *a_out);
 char        str6gyges          (char *a_src, int a_def, char *a_out);
-char        str8gyges          (char *a_src, int x, int y, int z, char *a_out);
+char        str8gyges          (char *a_src, int xo, int yo, int zo, char *a_out);
 
 
 #endif

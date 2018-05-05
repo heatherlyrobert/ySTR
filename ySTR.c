@@ -4,7 +4,7 @@
 
 
 
-tLOCAL    its;
+tLOCAL    mySTR;
 
 
 
@@ -50,8 +50,8 @@ char         /*--> set debugging mode --------------------[ ------ [ ------ ]-*/
 ySTR_debug         (char a_flag)
 {
    /*---(set debug flag)-----------------*/
-   if   (a_flag == 'y')  its.debug   = 'y';
-   else                  its.debug   = '-';
+   if   (a_flag == 'y')  mySTR.debug   = 'y';
+   else                  mySTR.debug   = '-';
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -1940,15 +1940,15 @@ ySTR_unit          (char *a_question, int a_num)
    strlcpy (unit_answer, "ySTR_unit, unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strncmp(a_question, "string"    , 20)  == 0) {
-      snprintf (unit_answer, LEN_TEXT, "ySTR string      : [%s]", its.strtest);
+      snprintf (unit_answer, LEN_TEXT, "ySTR string      : [%s]", mySTR.strtest);
    }
    /*---(argument testing)---------------*/
    else if (strncmp(a_question, "argc"      , 20)  == 0) {
-      snprintf (unit_answer, LEN_TEXT, "ySTR argc        : %d", its.argc);
+      snprintf (unit_answer, LEN_TEXT, "ySTR argc        : %d", mySTR.argc);
    }
    else if (strncmp(a_question, "argv"      , 20)  == 0) {
-      if (a_num < 20 && a_num < its.argc)  {
-         snprintf (unit_answer, LEN_TEXT, "ySTR argv (%2d)   : %3d [%-.40s]", a_num, strllen (its.argv[a_num], 2000), its.argv[a_num]);
+      if (a_num < 20 && a_num < mySTR.argc)  {
+         snprintf (unit_answer, LEN_TEXT, "ySTR argv (%2d)   : %3d [%-.40s]", a_num, strllen (mySTR.argv[a_num], 2000), mySTR.argv[a_num]);
       } else {
          snprintf (unit_answer, LEN_TEXT, "ySTR argv (%2d)   : index out of range", a_num);
       }
@@ -1961,7 +1961,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ySTR_testquiet     (void)
 {
    ySTR_debug ('-');
-   its.logger = yLOG_begin ("ySTR" , yLOG_SYSTEM, yLOG_QUIET);
+   mySTR.logger = yLOG_begin ("ySTR" , yLOG_SYSTEM, yLOG_QUIET);
    return 0;
 }
 
@@ -1969,7 +1969,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ySTR_testloud      (void)
 {
    ySTR_debug ('y');
-   its.logger = yLOG_begin ("ySTR" , yLOG_SYSTEM, yLOG_NOISE);
+   mySTR.logger = yLOG_begin ("ySTR" , yLOG_SYSTEM, yLOG_NOISE);
    DEBUG_STRG   yLOG_info     ("ySTR"    , ySTR_version   ());
    return 0;
 }

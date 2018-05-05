@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4c"
-#define YSTR_VER_TXT   "address clean-up function for gyges added to share with yCALC and others"
+#define YSTR_VER_NUM   "0.4d"
+#define YSTR_VER_TXT   "address config/call-back checker function for gyges"
 
 
 #define     LEN_HUGE        10000
@@ -43,14 +43,20 @@ struct cLOCAL {
    int         argc;
    char       *argv        [20];
 };
-extern  tLOCAL its;
-#define     DEBUG_STRG     if (its.debug == 'y')
+extern  tLOCAL mySTR;
+#define     DEBUG_STRG     if (mySTR.debug == 'y')
+
+
+
 
 
 char        ySTR_testquiet     (void);
 char        ySTR_testloud      (void);
 char        ySTR_testend       (void);
 char*       ySTR_unit          (char *a_question, int a_num);
+
+
+char        str__gyges_checking(int x, int y, int z);
 
 
 
