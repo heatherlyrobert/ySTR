@@ -3,6 +3,37 @@
 #include    "ySTR_priv.h"
 
 
+
+static int ySTR_amx  =     0;
+static int ySTR_amy  =     0;
+static int ySTR_amz  =     0;
+
+static int ySTR_lmx  =     0;
+static int ySTR_lmy  =     0;
+static int ySTR_lmz  =     0;
+
+static int ySTR_axx  =   702;
+static int ySTR_axy  = 99998;
+static int ySTR_axz  =    35;
+
+static int ySTR_lxx  =   702;
+static int ySTR_lxy  = 99998;
+static int ySTR_lxz  =    35;
+
+
+
+char
+str0gyges         (int x_min, int x_max, int y_min, int y_max, int z_min, int z_max)
+{
+   ySTR_lmx = x_min;
+   ySTR_lmy = y_min;
+   ySTR_lmz = z_min;
+   ySTR_lxx = x_max;
+   ySTR_lxy = y_max;
+   ySTR_lxz = z_max;
+   return 0;
+}
+
 char         /*-> convert label into tab, col, row ---[ leaf   [ge.#HB.1B#.Z0]*/ /*-[01.0000.K44.W]-*/ /*-[--.---.---.--]-*/
 str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
 {
@@ -102,14 +133,14 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
    } else {
       x_tab = a_def;
    }
-   DEBUG_STRG   yLOG_value   ("x_tab"     , x_tab);
-   --rce;  if (x_tab + 1 <   0) {
-      DEBUG_STRG   yLOG_note    ("tab number too low");
+   DEBUG_STRG   yLOG_complex ("tab"       , "z = %d,  abs range %d to %d,  loc range %d to %d", x_tab, ySTR_amz, ySTR_axz, ySTR_lmz, ySTR_lxz);
+   --rce;  if (x_tab  < ySTR_amz || x_tab  < ySTR_lmz) {
+      DEBUG_STRG   yLOG_note    ("z-pos too low (absolute or local)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (x_tab + 1 >   36) {
-      DEBUG_STRG   yLOG_note    ("tab number too high");
+   --rce;  if (x_tab  > ySTR_axz || x_tab  > ySTR_lxz) {
+      DEBUG_STRG   yLOG_note    ("z-pos too high (absolute or local)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -140,12 +171,14 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
       return rce;
    }
    --x_col;
-   DEBUG_STRG   yLOG_value   ("x_col fix" , x_col);
-   --rce;  if (x_col + 1 <  0) {
+   DEBUG_STRG   yLOG_complex ("col"       , "x = %d,  abs range %d to %d,  loc range %d to %d", x_col, ySTR_amx, ySTR_axx, ySTR_lmx, ySTR_lxx);
+   --rce;  if (x_col  < ySTR_amx || x_col  < ySTR_lmx) {
+      DEBUG_STRG   yLOG_note    ("x-pos too low (absolute or local)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (x_col + 1 >  702) {
+   --rce;  if (x_col  > ySTR_axx || x_col  > ySTR_lxx) {
+      DEBUG_STRG   yLOG_note    ("x-pos too high (absolute or local)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -176,11 +209,14 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
       return rce;
    }
    --x_row;
-   --rce;  if (x_row + 1 < 1) {
+   DEBUG_STRG   yLOG_complex ("row"       , "y = %d,  abs range %d to %d,  loc range %d to %d", x_row, ySTR_amy, ySTR_axy, ySTR_lmy, ySTR_lxy);
+   --rce;  if (x_row  < ySTR_amy || x_row  < ySTR_lmy) {
+      DEBUG_STRG   yLOG_note    ("y-pos too low (absolute or local)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (x_row + 1 >= 100000) {
+   --rce;  if (x_row  > ySTR_axy || x_row  > ySTR_lxy) {
+      DEBUG_STRG   yLOG_note    ("y-pos too high (absolute or local)");
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -227,15 +263,18 @@ str4gyges         (int x, int y, int z, char a_abs, char *a_out)
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (x < 0 || x > 702) {
+   DEBUG_STRG   yLOG_complex ("x"         , "x = %d,  abs range %d to %d,  loc range %d to %d", x, ySTR_amx, ySTR_axx, ySTR_lmx, ySTR_lxx);
+   --rce;  if (x  < ySTR_amx || x  < ySTR_lmx || x  > ySTR_axx || x  > ySTR_lxx) {
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (y < 0 || y > 99999) {
+   DEBUG_STRG   yLOG_complex ("y"         , "y = %d,  abs range %d to %d,  loc range %d to %d", y, ySTR_amy, ySTR_axy, ySTR_lmy, ySTR_lxy);
+   --rce;  if (y  < ySTR_amy || y  < ySTR_lmy || y  > ySTR_axy || y  > ySTR_lxy) {
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (z < 0 || z > 35) {
+   DEBUG_STRG   yLOG_complex ("z"         , "z = %d,  abs range %d to %d,  loc range %d to %d", z, ySTR_amz, ySTR_axz, ySTR_lmz, ySTR_lxz);
+   --rce;  if (z  < ySTR_amz || z  < ySTR_lmz || z  > ySTR_axz || z  > ySTR_lxz) {
       DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -270,12 +309,33 @@ str4gyges         (int x, int y, int z, char a_abs, char *a_out)
 }
 
 char         /*-> convert position into label --------[ ------ [ge.C90.177.91]*/ /*-[01.0000.C33.U]-*/ /*-[--.---.---.--]-*/
+str6gyges         (char *a_src, int a_def, char *a_out)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   int         x, y, z;
+   int         x_abs       =    0;
+   /*---(default)------------------------*/
+   if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
+   /*---(get coordinates)----------------*/
+   rc = str2gyges (a_src, &x, &y, &z, &x_abs, a_def);
+   if (rc < 0)   return rc;
+   /*---(make new label)-----------------*/
+   rc = str4gyges (x, y, z, x_abs, a_out);
+   if (rc < 0)   return rc;
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char         /*-> convert position into label --------[ ------ [ge.C90.177.91]*/ /*-[01.0000.C33.U]-*/ /*-[--.---.---.--]-*/
 str8gyges         (char *a_src, int xo, int yo, int zo, char *a_out)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    int         x, y, z;
    int         x_abs       =    0;
+   /*---(default)------------------------*/
+   if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
    /*---(get coordinates)----------------*/
    rc = str2gyges (a_src, &x, &y, &z, &x_abs, 0);
    if (rc < 0)   return rc;
