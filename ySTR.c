@@ -19,6 +19,7 @@ static char s_back        [200] = "« « « « « « « « « « « « « « « « « « « « « « «
 static char s_fore        [200] = "» » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » »";
 static char s_divs        [200] = "÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷";
 
+static char s_numeric     [20] = "0123456789.-+";    /* only digits               */
 
 
 /*====================------------------------------------====================*/
@@ -535,11 +536,11 @@ chrslashed        (char a_ch)
    case ','  :  x_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
    case '.'  :  x_ch = G_CHAR_BREAK;   break;  /* break point           */
    case '!'  :  x_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
-   case '?'  :  x_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
-   case 'a'  :  x_ch = G_CHAR_ALT;     break;  /* alt prefix            */
-   case 'c'  :  x_ch = G_CHAR_CONTROL; break;  /* control prefix        */
+   case '+'  :  x_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
+   /*> case 'a'  :  x_ch = G_CHAR_ALT;     break;  /+ alt prefix            +/        <*/
+   /*> case 'c'  :  x_ch = G_CHAR_CONTROL; break;  /+ control prefix        +/        <*/
    case '0'  :  x_ch = G_CHAR_NULL;    break;  /* null                  */
-   case '+'  :  x_ch = G_CHAR_PLACE;   break;  /* place holder          */
+   case 'p'  :  x_ch = G_CHAR_PLACE;   break;  /* place holder          */
    }
    /*---(symbols)------------------------*/
    switch (x_ch) {
@@ -554,15 +555,26 @@ chrslashed        (char a_ch)
    case '{'  :  x_ch = G_CHAR_SLBRACE; break;  /* special left brace    */
    case '}'  :  x_ch = G_CHAR_SRBRACE; break;  /* special right brace   */
    case '~'  :  x_ch = G_CHAR_APPROX;  break;
-   case '='  :  x_ch = G_CHAR_NE;      break;
    case '#'  :  x_ch = G_CHAR_SMHASH;  break;
    case '1'  :  x_ch = G_CHAR_POW_1;   break;
    case '2'  :  x_ch = G_CHAR_POW_2;   break;
    case '3'  :  x_ch = G_CHAR_POW_3;   break;
+   case 'c'  :  x_ch = G_CHAR_AND;     break;
+   case 'v'  :  x_ch = G_CHAR_OR;      break;
+   case 'o'  :  x_ch = G_CHAR_XOR;     break;
+   case 'm'  :  x_ch = G_CHAR_NAND;    break;
+   case 'q'  :  x_ch = G_CHAR_NOR;     break;
    case 'x'  :  x_ch = G_CHAR_POW_X;   break;
    case 'y'  :  x_ch = G_CHAR_POW_Y;   break;
    case 'z'  :  x_ch = G_CHAR_POW_N;   break;
-   case '*'  :  x_ch = G_CHAR_BIGDOT;  break;
+   case '@'  :  x_ch = G_CHAR_BIGDOT;  break;
+   case '?'  :  x_ch = G_CHAR_REVQUEST;break;
+   case 'k'  :  x_ch = G_CHAR_UP;      break;
+   case 'j'  :  x_ch = G_CHAR_DOWN;    break;
+   case 'l'  :  x_ch = G_CHAR_RIGHT;   break;
+   case 'h'  :  x_ch = G_CHAR_LEFT;    break;
+   case 'a'  :  x_ch = G_CHAR_DEGREE;  break;
+   case 'r'  :  x_ch = G_CHAR_RADIAN;  break;
    }
    /*---(greek)--------------------------*/
    switch (x_ch) {
@@ -1061,6 +1073,63 @@ strl2real          (char *a_src, double *a_val, int a_max)
    return 0;
 }
 
+char         /*-> check string for numeric value ----------[ petal  [ 2g---- ]*/
+strl2num           (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =   -1;
+   double      x_value     =    0;
+   int         x_len       =    0;
+   /*---(header)-------------------------*/
+   DEBUG_STRG   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_STRG   yLOG_point   ("a_src"     , a_src);
+   --rce;  if (a_src == NULL) {
+      DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_STRG   yLOG_value   ("a_src [0]" , a_src [0]);
+   DEBUG_STRG   yLOG_info    ("valid"     , s_numeric);
+   --rce;  if (a_src [0] == 0 || strchr (s_numeric, a_src [0]) == NULL) {
+      DEBUG_STRG   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   x_len = strllen (a_src, a_max);
+   DEBUG_STRG   yLOG_value   ("x_len"     , x_len);
+   /*---(oct, bin, hex)------------------*/
+   DEBUG_STRG   yLOG_value   ("a_src [1]" , a_src [1]);
+   if (x_len > 1 && a_src [0] == '0') {
+      switch (a_src [1]) {
+      case 'b':  case 'B':
+         DEBUG_CELL   yLOG_note    ("binary");
+         rc = strl2bin  (a_src, &x_value, a_max);
+         break;
+      case 'x':  case 'X':
+         DEBUG_CELL   yLOG_note    ("hexadecimal");
+         rc = strl2hex  (a_src, &x_value, a_max);
+         break;
+      case 'o':  case 'O':  default :
+         DEBUG_CELL   yLOG_note    ("octal");
+         rc = strl2oct  (a_src, &x_value, a_max);
+         break;
+      }
+   }
+   /*---(float, int)---------------------*/
+   if (rc < 0) {
+      DEBUG_CELL   yLOG_note    ("float/int");
+      rc = strl2real (a_src, &x_value, a_max);
+   }
+   /*---(save result)--------------------*/
+   DEBUG_STRG   yLOG_value   ("rc"        , rc);
+   if (rc >= 0) {
+      DEBUG_STRG   yLOG_double  ("x_value"   , x_value);
+      if (a_val != NULL)  *a_val = x_value;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_STRG   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
 
 
 /*====================------------------------------------====================*/

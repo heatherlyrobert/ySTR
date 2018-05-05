@@ -70,6 +70,48 @@
 
 #define     ySTR_NORM      '-'
 
+/*===[[ NUMBER FORMATS ]]=====================================================*/
+
+#define     ySTR_INT       'i'
+#define     ySTR_FLOAT     'f'
+#define     ySTR_EXP       'e'
+#define     ySTR_EXPUP     'E'
+
+#define     ySTR_COM       'c'
+#define     ySTR_COMUP     'C'
+#define     ySTR_ACC       'a'
+#define     ySTR_ACCUP     'A'
+#define     ySTR_DOL       '$'
+#define     ySTR_SGN       's'
+#define     ySTR_SGNUP     'S'
+#define     ySTR_TECH      '#'
+#define     ySTR_PNT       'p'
+#define     ySTR_PNTUP     'P'
+
+#define     ySTR_ROM       'r'
+#define     ySTR_ROMUP     'R'
+
+#define     ySTR_BIN       'b'
+#define     ySTR_BINUP     'B'
+#define     ySTR_OCT       'o'
+#define     ySTR_OCTUP     'O'
+#define     ySTR_HEX       'x'
+#define     ySTR_HEXUP     'X'
+#define     ySTR_SIX       'z'
+#define     ySTR_SIXUP     'Z'
+
+#define     ySTR_TIM       't'
+#define     ySTR_TIMUP     'T'
+#define     ySTR_DAT       'd'
+#define     ySTR_DATUP     'D'
+
+/*===[[ ALIGNMENTS ]]=========================================================*/
+
+#define     ySTR_LEFT      '<'
+#define     ySTR_RIGHT     '>'
+#define     ySTR_CENTER    '|'
+
+
 
 /*---(character constants)------------*/
 /*---(hidden)----------*/
@@ -116,7 +158,6 @@
 #define     G_CHAR_DDQUOTE    184   /* ¸  delayed dquote   (  -)   */
 /*---(compare)---------*/
 #define     G_CHAR_EQ          61   /* =                           */
-#define     G_CHAR_NE         175   /* ¯                           */
 #define     G_CHAR_LT          60   /* <                           */
 #define     G_CHAR_GT          62   /* <                           */
 #define     G_CHAR_APPROX     172   /* ¬                           */
@@ -128,7 +169,11 @@
 #define     G_CHAR_POW_N      202   /* Ê                           */
 #define     G_CHAR_POW_X      203   /* Ë                           */
 #define     G_CHAR_POW_Y      204   /* Ì                           */
-#define     G_CHAR_SUM        205   /* Í                           */
+#define     G_CHAR_AND        208   /* Ð                           */
+#define     G_CHAR_OR         209   /* Ñ                           */
+#define     G_CHAR_NAND       182   /* ¶                           */
+#define     G_CHAR_NOR        175   /* ¯                           */
+#define     G_CHAR_XOR        210   /* Ò                           */
 #define     G_CHAR_SLPAREN    190   /* ¾                           */
 #define     G_CHAR_SRPAREN    191   /* ¿                           */
 #define     G_CHAR_SLBRACK    186   /* º                           */
@@ -141,6 +186,15 @@
 #define     G_CHAR_NULL       163   /* £  null             (  0)   */
 #define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
 #define     G_CHAR_DEGREE     176   /* °  degree mark      (  -)   */
+#define     G_CHAR_RADIAN     205   /* Í  radian mark      (  -)   */
+#define     G_CHAR_REVQUEST   162   /* ¢                           */
+#define     G_CHAR_LEFT       214   /* Ö                           */
+#define     G_CHAR_RIGHT      213   /* Õ                           */
+#define     G_CHAR_UP         211   /* Ó    v °v                       */
+#define     G_CHAR_DOWN       212   /* Ô                           */
+#define     G_CHAR_ANGLE      178   /* ³                           */
+#define     G_CHAR_RANGLE     179   /* ²                           */
+#define     G_CHAR_CURVE      230   /* æ                           */
 /*---(greek)-----------*/
 #define     G_CHAR_ALPHA      232   /* è  alpha      A     (  -)   */
 #define     G_CHAR_BETA       233   /* é  beta       B     (  -)   */
@@ -201,6 +255,7 @@ char        strl2oct           (char   *a_src, double *a_val, int a_max);
 char        strl2hex           (char   *a_src, double *a_val, int a_max);
 char        strl2real          (char   *a_src, double *a_val, int a_max);
 char        strl2comma         (char   *a_src, double *a_val, int a_max);
+char        strl2num           (char   *a_src, double *a_val, int a_max);
 
 char        strl4bin           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
@@ -213,6 +268,11 @@ char        strl4time          (double a_val, char *a_out, int a_cnt, char a_fmt
 char        strl4main          (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 
 char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
+
+
+char        str2gyges          (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def);
+char        str4gyges          (int x, int y, int z, char a_abs, char *a_final);
+char        str8gyges          (char *a_src, int x, int y, int z, char *a_final);
 
 
 #endif

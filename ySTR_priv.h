@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.3l"
-#define YSTR_VER_TXT   "added additional grouping symbols and math from shrike font"
+#define YSTR_VER_NUM   "0.4b"
+#define YSTR_VER_TXT   "address adjustment function for gyges added to share with yCALC and others"
 
 
 #define     LEN_HUGE        10000
