@@ -225,7 +225,7 @@ str2gyges         (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def)
    return  0;
 }
 
-char         /*-> convert position into label --------[ ------ [ge.C90.177.91]*/ /*-[01.0000.C33.U]-*/ /*-[--.---.---.--]-*/
+char         /*-> convert position into label --------[ leaf   [ge.IB4.5B#.B0]*/ /*-[02.0000.200.!]-*/ /*-[--.---.---.--]-*/
 str4gyges         (int x, int y, int z, char a_abs, char *a_out)
 {
    /*---(locals)-----------+-----+-----+-*/
@@ -314,7 +314,7 @@ str4gyges         (int x, int y, int z, char a_abs, char *a_out)
    return  0;
 }
 
-char         /*-> convert position into label --------[ ------ [ge.C90.177.91]*/ /*-[01.0000.C33.U]-*/ /*-[--.---.---.--]-*/
+char         /*-> convert position into label --------[ leaf   [gc.420.353.30]*/ /*-[00.0000.000.!]-*/ /*-[--.---.---.--]-*/
 str6gyges         (char *a_src, int a_def, char *a_out)
 {
    /*---(locals)-----------+-----+-----+-*/
@@ -333,7 +333,7 @@ str6gyges         (char *a_src, int a_def, char *a_out)
    return 0;
 }
 
-char         /*-> convert position into label --------[ ------ [ge.C90.177.91]*/ /*-[01.0000.C33.U]-*/ /*-[--.---.---.--]-*/
+char         /*-> convert position into label --------[ leaf   [gc.660.553.40]*/ /*-[00.0000.000.!]-*/ /*-[--.---.---.--]-*/
 str8gyges         (char *a_src, int xo, int yo, int zo, char *a_out)
 {
    /*---(locals)-----------+-----+-----+-*/

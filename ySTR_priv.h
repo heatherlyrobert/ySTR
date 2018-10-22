@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4e"
-#define YSTR_VER_TXT   "updated gyges address functions and unit testing"
+#define YSTR_VER_NUM   "0.4f"
+#define YSTR_VER_TXT   "updated with changes to shrike font, extended chars"
 
 
 #define     LEN_HUGE        10000

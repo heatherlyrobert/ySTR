@@ -513,8 +513,9 @@ strlundelay        (char *a_src, int a_max)
 uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
 chrslashed        (char a_ch)
 {
+   /*---(locals)-----------+-----+-----+-*/
    uchar       x_ch        = a_ch;
-   /*---(primary)------------------------*/
+   /*---(hidden)-------------------------*/
    switch (x_ch) {
    case 'n'           : x_ch = G_CHAR_RETURN;    break;
    case G_KEY_RETURN  : x_ch = G_CHAR_RETURN;    break;
@@ -528,54 +529,68 @@ chrslashed        (char a_ch)
    case G_KEY_DEL     : x_ch = G_CHAR_DEL;       break;
    case 's'           : x_ch = G_CHAR_SPACE;     break;
    case G_KEY_SPACE   : x_ch = G_CHAR_SPACE;     break;
+   case 'g'           : x_ch = G_CHAR_GROUP;     break;
+   case 'f'           : x_ch = G_CHAR_FIELD;     break;
+   case '@'           : x_ch = G_CHAR_BIGDOT;    break;
    }
+   if (x_ch != a_ch)  return x_ch;
    /*---(control)------------------------*/
    switch (x_ch) {
-   case 'g'  :  x_ch = G_CHAR_GROUP;   break;  /* field delimiter       */
-   case 'f'  :  x_ch = G_CHAR_FIELD;   break;  /* field delimiter       */
    case ','  :  x_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
    case '.'  :  x_ch = G_CHAR_BREAK;   break;  /* break point           */
    case '!'  :  x_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
    case '+'  :  x_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
-   /*> case 'a'  :  x_ch = G_CHAR_ALT;     break;  /+ alt prefix            +/        <*/
-   /*> case 'c'  :  x_ch = G_CHAR_CONTROL; break;  /+ control prefix        +/        <*/
    case '0'  :  x_ch = G_CHAR_NULL;    break;  /* null                  */
    case 'p'  :  x_ch = G_CHAR_PLACE;   break;  /* place holder          */
    }
-   /*---(symbols)------------------------*/
+   if (x_ch != a_ch)  return x_ch;
+   /*---(testing)------------------------*/
    switch (x_ch) {
    case '"'  :  x_ch = G_CHAR_DDQUOTE; break;  /* delayed quote         */
    case '\\' :  x_ch = G_CHAR_DBSLASH; break;  /* delayed backslash     */
+   }
+   if (x_ch != a_ch)  return x_ch;
+   /*---(math)---------------------------*/
+   switch (x_ch) {
+   case 'r'  :  x_ch = G_CHAR_RADIAN;  break;
+   case 'a'  :  x_ch = G_CHAR_DEGREE;  break;
+   case '~'  :  x_ch = G_CHAR_APPROX;  break;
+   case '='  :  x_ch = G_CHAR_EQUIV;   break;
+   case '2'  :  x_ch = G_CHAR_POW2;    break;
+   case '3'  :  x_ch = G_CHAR_POW3;    break;
+   case 'x'  :  x_ch = G_CHAR_POWX;    break;
+   case 'y'  :  x_ch = G_CHAR_POWY;    break;
+   case '#'  :  x_ch = G_CHAR_SMHASH;  break;
+   case 'u'  :  x_ch = G_CHAR_SUB1;    break;
+   case 'v'  :  x_ch = G_CHAR_SUB2;    break;
+   case 'w'  :  x_ch = G_CHAR_SUB3;    break;
+   case 'z'  :  x_ch = G_CHAR_SUBN;    break;
+   }
+   if (x_ch != a_ch)  return x_ch;
+   /*---(grouping)-----------------------*/
+   switch (x_ch) {
    case '('  :  x_ch = G_CHAR_SLPAREN; break;  /* special left paren    */
    case ')'  :  x_ch = G_CHAR_SRPAREN; break;  /* special right paren   */
    case '['  :  x_ch = G_CHAR_SLBRACK; break;  /* special left bracket  */
    case ']'  :  x_ch = G_CHAR_SRBRACK; break;  /* special right bracket */
    case '<'  :  x_ch = G_CHAR_SLCHEV;  break;  /* special left chevron  */
    case '>'  :  x_ch = G_CHAR_SRCHEV;  break;  /* special right chevron */
-   case '{'  :  x_ch = G_CHAR_SLBRACE; break;  /* special left brace    */
-   case '}'  :  x_ch = G_CHAR_SRBRACE; break;  /* special right brace   */
-   case '~'  :  x_ch = G_CHAR_APPROX;  break;
-   case '#'  :  x_ch = G_CHAR_SMHASH;  break;
-   case '1'  :  x_ch = G_CHAR_POW_1;   break;
-   case '2'  :  x_ch = G_CHAR_POW_2;   break;
-   case '3'  :  x_ch = G_CHAR_POW_3;   break;
-   case 'c'  :  x_ch = G_CHAR_AND;     break;
-   case 'v'  :  x_ch = G_CHAR_OR;      break;
-   case 'o'  :  x_ch = G_CHAR_XOR;     break;
-   case 'm'  :  x_ch = G_CHAR_NAND;    break;
-   case 'q'  :  x_ch = G_CHAR_NOR;     break;
-   case 'x'  :  x_ch = G_CHAR_POW_X;   break;
-   case 'y'  :  x_ch = G_CHAR_POW_Y;   break;
-   case 'z'  :  x_ch = G_CHAR_POW_N;   break;
-   case '@'  :  x_ch = G_CHAR_BIGDOT;  break;
+   case '&'  :  x_ch = G_CHAR_AND;     break;
+   case '|'  :  x_ch = G_CHAR_OR;      break;
+   case '^'  :  x_ch = G_CHAR_XOR;     break;
+   }
+   if (x_ch != a_ch)  return x_ch;
+   /*---(symbols)------------------------*/
+   switch (x_ch) {
    case '?'  :  x_ch = G_CHAR_REVQUEST;break;
    case 'k'  :  x_ch = G_CHAR_UP;      break;
    case 'j'  :  x_ch = G_CHAR_DOWN;    break;
    case 'l'  :  x_ch = G_CHAR_RIGHT;   break;
    case 'h'  :  x_ch = G_CHAR_LEFT;    break;
-   case 'a'  :  x_ch = G_CHAR_DEGREE;  break;
-   case 'r'  :  x_ch = G_CHAR_RADIAN;  break;
+   case '{'  :  x_ch = G_CHAR_SUMMARY; break;  /* special left brace    */
+   case '}'  :  x_ch = G_CHAR_SYSTEM;  break;  /* special right brace   */
    }
+   if (x_ch != a_ch)  return x_ch;
    /*---(greek)--------------------------*/
    switch (x_ch) {
    case 'A'  :  x_ch = G_CHAR_ALPHA;   break;
@@ -603,6 +618,7 @@ chrslashed        (char a_ch)
    case 'Q'  :  x_ch = G_CHAR_PSI;     break;
    case 'W'  :  x_ch = G_CHAR_OMEGA;   break;
    }
+   if (x_ch != a_ch)  return x_ch;
    /*---(complete)-----------------------*/
    return x_ch;
 }
@@ -1774,6 +1790,9 @@ char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
 strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, int a_max)
 {
    char        rc          = 0;
+   DEBUG_APIS   yLOG_value   ("a_bytes"   , a_bytes);
+   DEBUG_APIS   yLOG_char    ("a_fmt"     , a_fmt);
+   DEBUG_APIS   yLOG_value   ("a_max"     , a_max);
    switch (a_fmt) {
    case 'b' : case 'B' :
       rc = strl4bin   (a_val, a_out, a_bytes, a_fmt, a_max);

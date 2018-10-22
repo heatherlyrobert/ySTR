@@ -153,48 +153,51 @@
 #define     G_CHAR_BREAK      188   /* ¼  block            (  -)   */
 #define     G_CHAR_HALT       177   /* ±  plus-minus       (  -)   */
 #define     G_CHAR_DISPLAY    168   /* ¨  eye              (  -)   */
+#define     G_CHAR_NULL       163   /* £  null             (  0)   */
+#define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
 /*---(testing)---------*/
 #define     G_CHAR_DBSLASH    183   /* ·  delayed backslash(  -)   */
 #define     G_CHAR_DDQUOTE    184   /* ¸  delayed dquote   (  -)   */
 /*---(compare)---------*/
+#define     G_CHAR_RADIAN     175   /* ¯  radian mark      (  -)   */
+#define     G_CHAR_DEGREE     176   /* °  degree mark      (  -)   */
 #define     G_CHAR_EQ          61   /* =                           */
 #define     G_CHAR_LT          60   /* <                           */
-#define     G_CHAR_GT          62   /* <                           */
+#define     G_CHAR_GT          62   /* >                           */
 #define     G_CHAR_APPROX     172   /* ¬                           */
 #define     G_CHAR_EQUIV      229   /* å                           */
-#define     G_CHAR_SMHASH     198   /* Æ                           */
-#define     G_CHAR_POW_1      199   /* Ç                           */
-#define     G_CHAR_POW_2      200   /* È                           */
-#define     G_CHAR_POW_3      201   /* É                           */
-#define     G_CHAR_POW_N      202   /* Ê                           */
-#define     G_CHAR_POW_X      203   /* Ë                           */
-#define     G_CHAR_POW_Y      204   /* Ì                           */
-#define     G_CHAR_AND        208   /* Ð                           */
-#define     G_CHAR_OR         209   /* Ñ                           */
-#define     G_CHAR_NAND       182   /* ¶                           */
-#define     G_CHAR_NOR        175   /* ¯                           */
-#define     G_CHAR_XOR        210   /* Ò                           */
+#define     G_CHAR_ANGLE      178   /* ³                           */
+#define     G_CHAR_RANGLE     179   /* ²                           */
+#define     G_CHAR_CURVE      230   /* æ                           */
+/*---(orders)----------*/
+#define     G_CHAR_SMHASH     182   /* ¶                           */
+#define     G_CHAR_SUB1       198   /* Æ                           */
+#define     G_CHAR_SUB2       199   /* Ç                           */
+#define     G_CHAR_SUB3       200   /* È                           */
+#define     G_CHAR_SUBN       201   /* É                           */
+/*---(powers)----------*/
+#define     G_CHAR_POW2       202   /* Ê                           */
+#define     G_CHAR_POW3       203   /* Ë                           */
+#define     G_CHAR_POWX       204   /* Ì                           */
+#define     G_CHAR_POWY       205   /* Í                           */
+/*---(grouping)--------*/
 #define     G_CHAR_SLPAREN    190   /* ¾                           */
 #define     G_CHAR_SRPAREN    191   /* ¿                           */
 #define     G_CHAR_SLBRACK    186   /* º                           */
 #define     G_CHAR_SRBRACK    187   /* »                           */
 #define     G_CHAR_SLCHEV     206   /* Î                           */
 #define     G_CHAR_SRCHEV     207   /* Ï                           */
-#define     G_CHAR_SLBRACE    173   /* ­                           */
-#define     G_CHAR_SRBRACE    174   /* ®                           */
 /*---(special)---------*/
-#define     G_CHAR_NULL       163   /* £  null             (  0)   */
-#define     G_CHAR_PLACE      164   /* ¤  placeholder      (  -)   */
-#define     G_CHAR_DEGREE     176   /* °  degree mark      (  -)   */
-#define     G_CHAR_RADIAN     205   /* Í  radian mark      (  -)   */
+#define     G_CHAR_SUMMARY    173   /* ­                           */
+#define     G_CHAR_SYSTEM     174   /* ®                           */
 #define     G_CHAR_REVQUEST   162   /* ¢                           */
+#define     G_CHAR_AND        208   /* Ð                           */
+#define     G_CHAR_OR         209   /* Ñ                           */
+#define     G_CHAR_XOR        210   /* Ò                           */
 #define     G_CHAR_LEFT       214   /* Ö                           */
 #define     G_CHAR_RIGHT      213   /* Õ                           */
-#define     G_CHAR_UP         211   /* Ó    v °v                       */
+#define     G_CHAR_UP         211   /* Ó                           */
 #define     G_CHAR_DOWN       212   /* Ô                           */
-#define     G_CHAR_ANGLE      178   /* ³                           */
-#define     G_CHAR_RANGLE     179   /* ²                           */
-#define     G_CHAR_CURVE      230   /* æ                           */
 /*---(greek)-----------*/
 #define     G_CHAR_ALPHA      232   /* è  alpha      A     (  -)   */
 #define     G_CHAR_BETA       233   /* é  beta       B     (  -)   */
