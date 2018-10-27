@@ -16,10 +16,13 @@ static char s_unders      [200] = "_____________________________________________
 static char s_dots        [200] = ".......................................................................................................................................................................................................";
 static char s_pluses      [200] = "----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+";
 static char s_back        [200] = "« « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « « «";
-static char s_fore        [200] = "» » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » » »";
-static char s_divs        [200] = "÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷ ÷";
+static char s_fore        [200] = "ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª";
+static char s_divs        [200] = "¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤";
 
 static char s_numeric     [20] = "0123456789.-+";    /* only digits               */
+
+/*                                 ÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏ   ÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏ   ·!¶#$%&'()*+,-./   @ABCDEFGHIJKLMNO   PQRSTUVWXYZ[µ]~_   `abcdefghijklmno   pqrstuvwxyz{|}~Ï   */
+static char s_slashed     [128] = "________________" "________________" "·°¶Ë__Ð_¸¹_¨©-Î " "Ïèéýëìüê_ð_ñòóôö" "êþøùúû_ÿõï_ºµ»__" "_Ì¿_¾¥§¯Ö_ÔÓÖ_¦_" "¤_Í·«___ÉÊÅ­Ñ®¬_";
 
 
 /*====================------------------------------------====================*/
@@ -552,18 +555,23 @@ chrslashed        (char a_ch)
    if (x_ch != a_ch)  return x_ch;
    /*---(math)---------------------------*/
    switch (x_ch) {
-   case 'r'  :  x_ch = G_CHAR_RADIAN;  break;
-   case 'a'  :  x_ch = G_CHAR_DEGREE;  break;
    case '~'  :  x_ch = G_CHAR_APPROX;  break;
    case '='  :  x_ch = G_CHAR_EQUIV;   break;
    case '2'  :  x_ch = G_CHAR_POW2;    break;
    case '3'  :  x_ch = G_CHAR_POW3;    break;
+   case '4'  :  x_ch = G_CHAR_POW4;    break;
    case 'x'  :  x_ch = G_CHAR_POWX;    break;
    case 'y'  :  x_ch = G_CHAR_POWY;    break;
+   case 'q'  :  x_ch = G_CHAR_SQRT;    break;
+   case 'c'  :  x_ch = G_CHAR_CBRT;    break;
    case '#'  :  x_ch = G_CHAR_SMHASH;  break;
-   case 'u'  :  x_ch = G_CHAR_SUB1;    break;
-   case 'v'  :  x_ch = G_CHAR_SUB2;    break;
-   case 'w'  :  x_ch = G_CHAR_SUB3;    break;
+   case 'a'  :  x_ch = G_CHAR_DEGREE;  break;
+   case 'r'  :  x_ch = G_CHAR_RADIAN;  break;
+   case '5'  :  x_ch = G_CHAR_SUB0;    break;
+   case '6'  :  x_ch = G_CHAR_SUB1;    break;
+   case '7'  :  x_ch = G_CHAR_SUB2;    break;
+   case '8'  :  x_ch = G_CHAR_SUB3;    break;
+   case '9'  :  x_ch = G_CHAR_SUB4;    break;
    case 'z'  :  x_ch = G_CHAR_SUBN;    break;
    }
    if (x_ch != a_ch)  return x_ch;
@@ -575,9 +583,6 @@ chrslashed        (char a_ch)
    case ']'  :  x_ch = G_CHAR_SRBRACK; break;  /* special right bracket */
    case '<'  :  x_ch = G_CHAR_SLCHEV;  break;  /* special left chevron  */
    case '>'  :  x_ch = G_CHAR_SRCHEV;  break;  /* special right chevron */
-   case '&'  :  x_ch = G_CHAR_AND;     break;
-   case '|'  :  x_ch = G_CHAR_OR;      break;
-   case '^'  :  x_ch = G_CHAR_XOR;     break;
    }
    if (x_ch != a_ch)  return x_ch;
    /*---(symbols)------------------------*/
@@ -589,6 +594,9 @@ chrslashed        (char a_ch)
    case 'h'  :  x_ch = G_CHAR_LEFT;    break;
    case '{'  :  x_ch = G_CHAR_SUMMARY; break;  /* special left brace    */
    case '}'  :  x_ch = G_CHAR_SYSTEM;  break;  /* special right brace   */
+   case '&'  :  x_ch = G_CHAR_AND;     break;
+   case '|'  :  x_ch = G_CHAR_OR;      break;
+   case '^'  :  x_ch = G_CHAR_XOR;     break;
    }
    if (x_ch != a_ch)  return x_ch;
    /*---(greek)--------------------------*/
