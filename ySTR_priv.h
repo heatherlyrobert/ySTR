@@ -18,7 +18,7 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4f"
+#define YSTR_VER_NUM   "0.4g"
 #define YSTR_VER_TXT   "more updates with changes to shrike font, extended chars and roots"
 
 
