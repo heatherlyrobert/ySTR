@@ -541,7 +541,7 @@ chrslashed        (char a_ch)
    switch (x_ch) {
    case ','  :  x_ch = G_CHAR_WAIT;    break;  /* wait/pause            */
    case '.'  :  x_ch = G_CHAR_BREAK;   break;  /* break point           */
-   case '!'  :  x_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
+   case 'q'  :  x_ch = G_CHAR_HALT;    break;  /* halt  <C-c>           */
    case '+'  :  x_ch = G_CHAR_DISPLAY; break;  /* force redisplay       */
    case '0'  :  x_ch = G_CHAR_NULL;    break;  /* null                  */
    case 'p'  :  x_ch = G_CHAR_PLACE;   break;  /* place holder          */
@@ -562,8 +562,7 @@ chrslashed        (char a_ch)
    case '4'  :  x_ch = G_CHAR_POW4;    break;
    case 'x'  :  x_ch = G_CHAR_POWX;    break;
    case 'y'  :  x_ch = G_CHAR_POWY;    break;
-   case 'q'  :  x_ch = G_CHAR_SQRT;    break;
-   case 'c'  :  x_ch = G_CHAR_CBRT;    break;
+   case '1'  :  x_ch = G_CHAR_SQRT;    break;
    case '#'  :  x_ch = G_CHAR_SMHASH;  break;
    case 'a'  :  x_ch = G_CHAR_DEGREE;  break;
    case 'r'  :  x_ch = G_CHAR_RADIAN;  break;
@@ -588,6 +587,7 @@ chrslashed        (char a_ch)
    /*---(symbols)------------------------*/
    switch (x_ch) {
    case '?'  :  x_ch = G_CHAR_REVQUEST;break;
+   case '!'  :  x_ch = G_CHAR_REVEXCLM;break;
    case 'k'  :  x_ch = G_CHAR_UP;      break;
    case 'j'  :  x_ch = G_CHAR_DOWN;    break;
    case 'l'  :  x_ch = G_CHAR_RIGHT;   break;
@@ -655,6 +655,8 @@ chrvisible        (uchar a_ch)
 uchar        /*--> convert printable into control --------[ ------ [ ------ ]-*/
 chrworking        (uchar a_ch)
 {
+   /*> DEBUG_YSTR   yLOG_senter  (__FUNCTION__);                                      <*/
+   /*> DEBUG_YSTR   yLOG_sint    (a_ch);                                              <*/
    /*---(translate)----------------------*/
    switch (a_ch) {
    case G_CHAR_RETURN  : a_ch = G_KEY_RETURN;     break;
@@ -670,6 +672,8 @@ chrworking        (uchar a_ch)
    case G_CHAR_DDQUOTE : a_ch = G_KEY_DQUOTE;     break;
    }
    /*---(complete)-----------------------*/
+   /*> DEBUG_YSTR   yLOG_sint    (a_ch);                                              <*/
+   /*> DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);                                      <*/
    return a_ch;
 }
 

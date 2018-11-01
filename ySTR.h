@@ -51,6 +51,9 @@
 #define YSTR_HGUARD loaded
 
 
+typedef     unsigned char  uchar;
+
+
 #define     ySTR_NOTRUNC   -1
 #define     ySTR_NONE      'n'
 #define     ySTR_HEAD      'h'
@@ -137,98 +140,93 @@
 
 /*---(character constants)------------*/
 /*---(hidden)----------*/
-#define     G_CHAR_RETURN     '¦'
-#define     G_CHAR_ESCAPE     '¥'
-#define     G_CHAR_TAB        '­'
-#define     G_CHAR_BS         '¿'
-#define     G_CHAR_DEL        '¾'
-#define     G_CHAR_SPACE      '·'
-#define     G_CHAR_GROUP      '¨'
-#define     G_CHAR_FIELD      '§'
-#define     G_CHAR_BIGDOT     '´'
+#define     G_CHAR_RETURN     166
+#define     G_CHAR_ESCAPE     165
+#define     G_CHAR_TAB        173
+#define     G_CHAR_BS         191
+#define     G_CHAR_DEL        190
+#define     G_CHAR_SPACE      183
+#define     G_CHAR_GROUP      168
+#define     G_CHAR_FIELD      167
+#define     G_CHAR_BIGDOT     180
 /*---(control)---------*/
-#define     G_CHAR_WAIT       '«'
-#define     G_CHAR_BREAK      'ª'
-#define     G_CHAR_HALT       '³'
-#define     G_CHAR_DISPLAY    '©'
-#define     G_CHAR_NULL       '£'
-#define     G_CHAR_PLACE      '¤'
+#define     G_CHAR_WAIT       171
+#define     G_CHAR_BREAK      170
+#define     G_CHAR_HALT       179
+#define     G_CHAR_DISPLAY    169
+#define     G_CHAR_NULL       163
+#define     G_CHAR_PLACE      164
 /*---(testing)---------*/
-#define     G_CHAR_DBSLASH    'µ'
-#define     G_CHAR_DDQUOTE    '¶'
+#define     G_CHAR_DBSLASH    181
+#define     G_CHAR_DDQUOTE    182
 /*---(compare)---------*/
-#define     G_CHAR_RADIAN     'Í'
-#define     G_CHAR_DEGREE     'Ì'
-#define     G_CHAR_EQ         '='
-#define     G_CHAR_LT         '<'
-#define     G_CHAR_GT         '>'
-#define     G_CHAR_APPROX     'æ'
-#define     G_CHAR_EQUIV      'å'
-#define     G_CHAR_ANGLE      '±'
-#define     G_CHAR_RANGLE     '°'
-#define     G_CHAR_CURVE      '²'
+#define     G_CHAR_RADIAN     205
+#define     G_CHAR_DEGREE     204
+#define     G_CHAR_APPROX     230
+#define     G_CHAR_EQUIV      229
+#define     G_CHAR_ANGLE      177
+#define     G_CHAR_RANGLE     176
+#define     G_CHAR_CURVE      178
 /*---(orders)----------*/
-#define     G_CHAR_SMHASH     'Ë'
-#define     G_CHAR_SUB0       'À'
-#define     G_CHAR_SUB1       'Á'
-#define     G_CHAR_SUB2       'Â'
-#define     G_CHAR_SUB3       'Ã'
-#define     G_CHAR_SUB4       'Ä'
-#define     G_CHAR_SUBN       'Å'
+#define     G_CHAR_SMHASH     203
+#define     G_CHAR_SUB0       192
+#define     G_CHAR_SUB1       193
+#define     G_CHAR_SUB2       194
+#define     G_CHAR_SUB3       195
+#define     G_CHAR_SUB4       196
+#define     G_CHAR_SUBN       197
 /*---(powers)----------*/
-#define     G_CHAR_POW2       'Æ'
-#define     G_CHAR_POW3       'Ç'
-#define     G_CHAR_POW4       'È'
-#define     G_CHAR_POWX       'É'
-#define     G_CHAR_POWY       'Ê'
-#define     G_CHAR_SQRT       'Î'
-#define     G_CHAR_CBRT       'Ï'
+#define     G_CHAR_POW2       198
+#define     G_CHAR_POW3       199
+#define     G_CHAR_POW4       200
+#define     G_CHAR_POWX       201
+#define     G_CHAR_POWY       202
+#define     G_CHAR_SQRT       206
+#define     G_CHAR_CBRT       207
 /*---(grouping)--------*/
-#define     G_CHAR_SLPAREN    '¸'
-#define     G_CHAR_SRPAREN    '¹'
-#define     G_CHAR_SLBRACK    'º'
-#define     G_CHAR_SRBRACK    '»'
-#define     G_CHAR_SLCHEV     '¼'
-#define     G_CHAR_SRCHEV     '½'
+#define     G_CHAR_SLPAREN    184
+#define     G_CHAR_SRPAREN    185
+#define     G_CHAR_SLBRACK    186
+#define     G_CHAR_SRBRACK    187
+#define     G_CHAR_SLCHEV     188
+#define     G_CHAR_SRCHEV     189
 /*---(special)---------*/
-#define     G_CHAR_SUMMARY    '®'
-#define     G_CHAR_SYSTEM     '¯'
-#define     G_CHAR_REVQUEST   '¢'
-#define     G_CHAR_AND        'Ð'
-#define     G_CHAR_OR         'Ñ'
-#define     G_CHAR_XOR        'Ò'
-#define     G_CHAR_LEFT       'Ö'
-#define     G_CHAR_RIGHT      'Õ'
-#define     G_CHAR_UP         'Ó'
-#define     G_CHAR_DOWN       'Ô'
+#define     G_CHAR_SUMMARY    174
+#define     G_CHAR_SYSTEM     175
+#define     G_CHAR_REVQUEST   162
+#define     G_CHAR_REVEXCLM   161
+#define     G_CHAR_AND        208
+#define     G_CHAR_OR         209
+#define     G_CHAR_XOR        210
+#define     G_CHAR_UP         211
+#define     G_CHAR_DOWN       212
+#define     G_CHAR_RIGHT      213
+#define     G_CHAR_LEFT       214
 /*---(greek)-----------*/
-#define     G_CHAR_ALPHA      'è'
-#define     G_CHAR_BETA       'é'
-#define     G_CHAR_GAMMA      'ê'
-#define     G_CHAR_DELTA      'ë'
-#define     G_CHAR_EPSILON    'ì'
-#define     G_CHAR_ZETA       'í'
-#define     G_CHAR_ETA        'î'
-#define     G_CHAR_THETA      'ï'
-#define     G_CHAR_IOTA       'ð'
-#define     G_CHAR_KAPPA      'ñ'
-#define     G_CHAR_LAMBDA     'ò'
-#define     G_CHAR_MU         'ó'
-#define     G_CHAR_NU         'ô'
-#define     G_CHAR_XI         'õ'
-#define     G_CHAR_OMICRON    'ö'
-#define     G_CHAR_PI         '÷'
-#define     G_CHAR_RHO        'ø'
-#define     G_CHAR_SIGMA      'ù'
-#define     G_CHAR_TAU        'ú'
-#define     G_CHAR_UPSILON    'û'
-#define     G_CHAR_PHI        'ü'
-#define     G_CHAR_CHI        'ý'
-#define     G_CHAR_PSI        'þ'
-#define     G_CHAR_OMEGA      'ÿ'
-
-
-typedef     unsigned char  uchar;
+#define     G_CHAR_ALPHA      232
+#define     G_CHAR_BETA       233
+#define     G_CHAR_GAMMA      234
+#define     G_CHAR_DELTA      235
+#define     G_CHAR_EPSILON    236
+#define     G_CHAR_ZETA       237
+#define     G_CHAR_ETA        238
+#define     G_CHAR_THETA      239
+#define     G_CHAR_IOTA       240
+#define     G_CHAR_KAPPA      241
+#define     G_CHAR_LAMBDA     242
+#define     G_CHAR_MU         243
+#define     G_CHAR_NU         244
+#define     G_CHAR_XI         245
+#define     G_CHAR_OMICRON    246
+#define     G_CHAR_PI         247
+#define     G_CHAR_RHO        248
+#define     G_CHAR_SIGMA      249
+#define     G_CHAR_TAU        250
+#define     G_CHAR_UPSILON    251
+#define     G_CHAR_PHI        252
+#define     G_CHAR_CHI        253
+#define     G_CHAR_PSI        254
+#define     G_CHAR_OMEGA      255
 
 
 char*       ySTR_version       (void);
