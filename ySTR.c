@@ -1967,11 +1967,25 @@ char          unit_answer [ LEN_TEXT ];
 char*            /* [------] unit test accessor ------------------------------*/
 ySTR_unit          (char *a_question, int a_num)
 {
+   /*---(locals)-----------+-----+-----+-*/
+   char        s           [LEN_LABEL];
+   char        t           [LEN_RECD ];
+   int         i           =    0;
    /*---(initialize)---------------------*/
    strlcpy (unit_answer, "ySTR_unit, unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strncmp(a_question, "string"    , 20)  == 0) {
       snprintf (unit_answer, LEN_TEXT, "ySTR string      : [%s]", mySTR.strtest);
+   }
+   else if (strncmp(a_question, "values"    , 20)  == 0) {
+      strlcpy (t, "", LEN_RECD);
+      for (i = 0; i < 10; ++i) {
+         if (mySTR.strtest [i] == 0)  break;
+         sprintf (s, "%03d", mySTR.strtest [i]);
+         if (i > 0)  strlcat (t, " ", LEN_RECD);
+         strlcat (t, s  , LEN_RECD);
+      }
+      snprintf (unit_answer, LEN_RECD, "ySTR values      : %s", t);
    }
    /*---(argument testing)---------------*/
    else if (strncmp(a_question, "argc"      , 20)  == 0) {

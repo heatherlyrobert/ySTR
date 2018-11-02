@@ -18,11 +18,12 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4h"
-#define YSTR_VER_TXT   "fix and unit test chr encode/decode functions"
+#define YSTR_VER_NUM   "0.4i"
+#define YSTR_VER_TXT   "fix and unit test string encode/decode functions"
 
 
 #define     LEN_HUGE        10000
+#define     LEN_RECD         2000
 
 
 #define     ySTR_ALL_HEADS   "hbsem"
