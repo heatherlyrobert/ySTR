@@ -534,7 +534,15 @@ chrslashed        (char a_ch)
    case G_KEY_SPACE   : x_ch = G_CHAR_SPACE;     break;
    case 'g'           : x_ch = G_CHAR_GROUP;     break;
    case 'f'           : x_ch = G_CHAR_FIELD;     break;
+   }
+   if (x_ch != a_ch)  return x_ch;
+   /*---(dots)---------------------------*/
+   switch (x_ch) {
+   case '\''          : x_ch = G_CHAR_SMALL;     break;
    case '@'           : x_ch = G_CHAR_BIGDOT;    break;
+   case ':'           : x_ch = G_CHAR_MEDIUM;    break;
+   case '%'           : x_ch = G_CHAR_LARGE;     break;
+   case '$'           : x_ch = G_CHAR_GIANT;     break;
    }
    if (x_ch != a_ch)  return x_ch;
    /*---(control)------------------------*/

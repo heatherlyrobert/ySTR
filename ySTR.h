@@ -148,7 +148,12 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_SPACE      183
 #define     G_CHAR_GROUP      168
 #define     G_CHAR_FIELD      167
+/*---(dots)------------*/
+#define     G_CHAR_SMALL      207
 #define     G_CHAR_BIGDOT     180
+#define     G_CHAR_MEDIUM     176
+#define     G_CHAR_LARGE      177
+#define     G_CHAR_GIANT      178
 /*---(control)---------*/
 #define     G_CHAR_WAIT       171
 #define     G_CHAR_BREAK      170
@@ -164,9 +169,6 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_DEGREE     204
 #define     G_CHAR_APPROX     230
 #define     G_CHAR_EQUIV      229
-#define     G_CHAR_ANGLE      177
-#define     G_CHAR_RANGLE     176
-#define     G_CHAR_CURVE      178
 /*---(orders)----------*/
 #define     G_CHAR_SMHASH     203
 #define     G_CHAR_SUB0       192
@@ -182,7 +184,6 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_POWX       201
 #define     G_CHAR_POWY       202
 #define     G_CHAR_SQRT       206
-#define     G_CHAR_CBRT       207
 /*---(grouping)--------*/
 #define     G_CHAR_SLPAREN    184
 #define     G_CHAR_SRPAREN    185
