@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4j"
-#define YSTR_VER_TXT   "fix incorrect variable reference in str2gyges"
+#define YSTR_VER_NUM   "0.4k"
+#define YSTR_VER_TXT   "updated gyges parameter order and unit testing"
 
 
 #define     LEN_HUGE        10000

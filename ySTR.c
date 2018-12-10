@@ -25,6 +25,7 @@ static char s_numeric     [20] = "0123456789.-+";    /* only digits             
 static char s_slashed     [128] = "________________" "________________" "·°¶Ë__Ð_¸¹_¨©-Î " "Ïèéýëìüê_ð_ñòóôö" "êþøùúû_ÿõï_ºµ»__" "_Ì¿_¾¥§¯Ö_ÔÓÖ_¦_" "¤_Í·«___ÉÊÅ­Ñ®¬_";
 
 
+
 /*====================------------------------------------====================*/
 /*===----                           utility                            ----===*/
 /*====================------------------------------------====================*/
@@ -359,6 +360,48 @@ strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
    return c;
 }
 
+int          /*--> clean string characters ---------------[--------[--------]-*/
+strlupper          (char *a_src, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;
+   int         c           =    0;
+   /*---(defense)------------------------*/
+   if (a_src == NULL)  return  -11;
+   if (a_max <  0   )  a_max  = 0;
+   /*---(move)---------------------------*/
+   for (i = 0; i <= a_max; ++i) {
+      a_src [i] = toupper (a_src [i]);
+      if (a_src [i] == 0)  break;
+      ++c;
+   }
+   a_src [a_max - 1] = '\0';
+   if (c > a_max)  --c;
+   /*---(complete)-----------------------*/
+   return c;
+}
+
+int          /*--> clean string characters ---------------[--------[--------]-*/
+strllower          (char *a_src, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;
+   int         c           =    0;
+   /*---(defense)------------------------*/
+   if (a_src == NULL)  return  -11;
+   if (a_max <  0   )  a_max  = 0;
+   /*---(move)---------------------------*/
+   for (i = 0; i <= a_max; ++i) {
+      a_src [i] = tolower (a_src [i]);
+      if (a_src [i] == 0)  break;
+      ++c;
+   }
+   a_src [a_max - 1] = '\0';
+   if (c > a_max)  --c;
+   /*---(complete)-----------------------*/
+   return c;
+}
+
 
 
 /*====================------------------------------------====================*/
@@ -456,6 +499,20 @@ strlddel           (char *a_src, char  a_del, int a_max)
 }
 
 char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
+strlstore          (char *a_src, int a_max)
+{
+   strldchg (a_src, G_KEY_SPACE, G_CHAR_STORAGE, a_max);
+   return 0;
+}
+
+char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
+strlunstore        (char *a_src, int a_max)
+{
+   strldchg (a_src, G_CHAR_STORAGE, G_KEY_SPACE, a_max);
+   return 0;
+}
+
+char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
 strlencode         (char *a_src, char a_mode, int a_max)
 {
    /*---(normal)-------------------------*/
@@ -540,9 +597,6 @@ chrslashed        (char a_ch)
    switch (x_ch) {
    case '\''          : x_ch = G_CHAR_SMALL;     break;
    case '@'           : x_ch = G_CHAR_BIGDOT;    break;
-   case ':'           : x_ch = G_CHAR_MEDIUM;    break;
-   case '%'           : x_ch = G_CHAR_LARGE;     break;
-   case '$'           : x_ch = G_CHAR_GIANT;     break;
    }
    if (x_ch != a_ch)  return x_ch;
    /*---(control)------------------------*/
@@ -590,6 +644,8 @@ chrslashed        (char a_ch)
    case ']'  :  x_ch = G_CHAR_SRBRACK; break;  /* special right bracket */
    case '<'  :  x_ch = G_CHAR_SLCHEV;  break;  /* special left chevron  */
    case '>'  :  x_ch = G_CHAR_SRCHEV;  break;  /* special right chevron */
+   case '}'  :  x_ch = G_CHAR_LCOMB;   break;
+   case '{'  :  x_ch = G_CHAR_RCOMB;   break;
    }
    if (x_ch != a_ch)  return x_ch;
    /*---(symbols)------------------------*/
@@ -600,8 +656,8 @@ chrslashed        (char a_ch)
    case 'j'  :  x_ch = G_CHAR_DOWN;    break;
    case 'l'  :  x_ch = G_CHAR_RIGHT;   break;
    case 'h'  :  x_ch = G_CHAR_LEFT;    break;
-   case '{'  :  x_ch = G_CHAR_SUMMARY; break;  /* special left brace    */
-   case '}'  :  x_ch = G_CHAR_SYSTEM;  break;  /* special right brace   */
+   case ':'  :  x_ch = G_CHAR_SUMMARY; break;  /* special left brace    */
+   case '%'  :  x_ch = G_CHAR_SYSTEM;  break;  /* special right brace   */
    case '&'  :  x_ch = G_CHAR_AND;     break;
    case '|'  :  x_ch = G_CHAR_OR;      break;
    case '^'  :  x_ch = G_CHAR_XOR;     break;

@@ -148,12 +148,12 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_SPACE      183
 #define     G_CHAR_GROUP      168
 #define     G_CHAR_FIELD      167
+#define     G_CHAR_STORAGE    178  /* storage space only */
 /*---(dots)------------*/
 #define     G_CHAR_SMALL      207
 #define     G_CHAR_BIGDOT     180
-#define     G_CHAR_MEDIUM     176
-#define     G_CHAR_LARGE      177
-#define     G_CHAR_GIANT      178
+#define     G_CHAR_LCOMB      176
+#define     G_CHAR_RCOMB      177
 /*---(control)---------*/
 #define     G_CHAR_WAIT       171
 #define     G_CHAR_BREAK      170
@@ -236,7 +236,9 @@ char        ySTR_debug         (char a_flag);
 char        strlcpy            (char *a_dst, char *a_src , int  a_max);
 char        strlcat            (char *a_dst, char *a_src , int  a_max);
 int         strllen            (char *a_src, int   a_max );
-char        strltrunc          (char *a_dst, int   a_max );
+char        strltrunc          (char *a_src, int   a_max );
+int         strlupper          (char *a_src, int   a_max);
+int         strllower          (char *a_src, int   a_max);
 int         strltrim           (char *a_src, char  a_mode, int  a_max);
 int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
 int         strlclean          (char *a_src, char a_mode, char a_compress, int a_max);
@@ -246,6 +248,8 @@ int         strldpos           (char *a_src, char  a_del , int  a_cnt , int  a_m
 int         strldchg           (char *a_src, char  a_del , char a_new , int  a_max);
 int         strlddel           (char *a_src, char  a_del , int  a_max);
 
+char        strlstore          (char *a_src, int a_max);
+char        strlunstore        (char *a_src, int a_max);
 char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
 char        strlundelay        (char *a_src, int a_max);
@@ -276,10 +280,11 @@ char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali
 
 
 char        str0gyges          (void *a_checker);
-char        str2gyges          (char *a_src, int *x, int *y, int *z, char *a_abs, int a_def);
-char        str4gyges          (int   x, int y, int z, char a_abs, char *a_out);
-char        str6gyges          (char *a_src, int a_def, char *a_out);
-char        str8gyges          (char *a_src, int xo, int yo, int zo, char *a_out);
+char        str2gyges          (char *a_src, int *a_tab , int  *a_col , int *a_row , char *a_abs, int a_def);
+char        str3gyges          (int   a_tab, int  a_col , int   a_row , char a_abs , char *a_out);
+char        str4gyges          (int   a_tab, int  a_col , int   a_row , char a_abs , char *a_out);
+char        str6gyges          (char *a_src, int  a_def , char *a_out );
+char        str8gyges          (char *a_src, int  a_toff, int   a_coff, int  a_roff, char *a_out);
 
 
 #endif
