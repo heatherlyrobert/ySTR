@@ -93,9 +93,9 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs,
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(prepare values)-----------------*/
-   if (a_col     != NULL)  *a_col     = -2;
-   if (a_row     != NULL)  *a_row     = -2;
-   if (a_tab     != NULL)  *a_tab     = -2;
+   if (a_col != NULL)  *a_col = -2;
+   if (a_row != NULL)  *a_row = -2;
+   if (a_tab != NULL)  *a_tab = -2;
    if (a_abs != NULL)  *a_abs =  0;
    /*---(defense: empty label)-----------*/
    DEBUG_YSTR   yLOG_point   ("a_src"     , a_src);
@@ -109,9 +109,9 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs,
    if (strcmp (a_src, x_lsave) == 0 && a_def == x_dsave) {
       DEBUG_YSTR   yLOG_note    ("shortcut, same as last request");
       /*---(return values)------------------*/
-      if (a_tab     != NULL)  *a_tab     = x_tsave;
-      if (a_col     != NULL)  *a_col     = x_csave;
-      if (a_row     != NULL)  *a_row     = x_rsave;
+      if (a_tab != NULL)  *a_tab = x_tsave;
+      if (a_col != NULL)  *a_col = x_csave;
+      if (a_row != NULL)  *a_row = x_rsave;
       if (a_abs != NULL)  *a_abs = x_asave;
       /*---(complete)-----------------------*/
       DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
@@ -125,9 +125,9 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs,
    DEBUG_YSTR   yLOG_value   ("a_def"     , a_def);
    /*---(root)---------------------------*/
    if (strcmp (a_src, "ROOT") == 0) {
-      if (a_tab     != NULL)  *a_tab     = -1;
-      if (a_col     != NULL)  *a_col     = -1;
-      if (a_row     != NULL)  *a_row     = -1;
+      if (a_tab != NULL)  *a_tab = -1;
+      if (a_col != NULL)  *a_col = -1;
+      if (a_row != NULL)  *a_row = -1;
       if (a_abs != NULL)  *a_abs =  0;
       DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
       return 0;
@@ -259,9 +259,9 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs,
    x_asave = x_abs;
    x_dsave = a_def;
    /*---(return values)------------------*/
-   if (a_tab     != NULL)  *a_tab     = x_tab;
-   if (a_col     != NULL)  *a_col     = x_col;
-   if (a_row     != NULL)  *a_row     = x_row;
+   if (a_tab != NULL)  *a_tab = x_tab;
+   if (a_col != NULL)  *a_col = x_col;
+   if (a_row != NULL)  *a_row = x_row;
    if (a_abs != NULL)  *a_abs = x_abs;
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
@@ -326,7 +326,7 @@ str3gyges         (int a_tab, int a_col, int a_row, char a_abs, char *a_out)
    }
    /*---(create label)-------------------*/
    sprintf (x_label, "%s%c%s%s%s%d", x_tref, x_tab, x_cref, x_cname, x_rref, a_row + 1);
-   strcpy  (a_out, x_label);
+   strlcpy  (a_out, x_label, LEN_LABEL);
    DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);

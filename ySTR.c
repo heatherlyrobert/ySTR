@@ -13,11 +13,14 @@ static char s_empty       [200] = "                                             
 static char s_dashes      [200] = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";
 static char s_equals      [200] = "=======================================================================================================================================================================================================";
 static char s_unders      [200] = "_______________________________________________________________________________________________________________________________________________________________________________________________________";
-static char s_dots        [200] = ".......................................................................................................................................................................................................";
-static char s_pluses      [200] = "----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----";
-static char s_back        [200] = "¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬ ¬";
-static char s_fore        [200] = "­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­ ­";
-static char s_divs        [200] = "¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤ ¤";
+static char s_dots        [200] = "·······································································································································································································";
+static char s_pluses      [200] = "····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····";
+static char s_fore        [200] = "Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö";
+static char s_back        [200] = "Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ·Õ";
+static char s_place       [200] = "¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤";
+static char s_bigdot      [200] = "´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´";
+static char s_ruler       [200] = "····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····";
+static char s_number      [200] = "123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789";
 
 static char s_numeric     [20] = "0123456789.-+";    /* only digits               */
 
@@ -1498,7 +1501,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    }
    strlcpy (a_out, s_empty, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
-   --rce;  if (strchr ("ifcCaAsS$#pP?", a_fmt) == NULL) {
+   --rce;  if (strchr ("ifcCaAsS$;pP?", a_fmt) == NULL) {
       strlcpy (a_out, "#.fmt", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1529,7 +1532,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    /*---(decimal part)-------------------*/
    if (a_fmt != 'i' && a_decs > 0) {
       sprintf (x_temp, "%0*lld", a_decs, x_frac);
-      if (strchr ("ACS#", a_fmt) != NULL)  ySTR__space_decs (x_temp, 3, '\'');
+      if (strchr ("ACS;", a_fmt) != NULL)  ySTR__space_decs (x_temp, 3, '\'');
       strcat  (x_final, ".");
       strcat  (x_final, x_temp);
    }
@@ -1538,7 +1541,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    if (x_sign < 0) {
       switch (tolower (a_fmt)) {
       case 'a' : case '$' : case 'p' : strcat (x_final, ")");  break;
-      case '#' :                       strcat (x_final, " -"); break;
+      case ';' :                       strcat (x_final, " -"); break;
       case 'P' :                       strcat (x_final, ".");  break;
       }
    } else {
@@ -1546,7 +1549,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
       case 'a' : case '$' :            strcat (x_final, "_");  break;
       case 'p' :                       strcat (x_final, ")");  break;
       case 'P' :                       strcat (x_final, ".");  break;
-      case '#' :                       strcat (x_final, " +"); break;
+      case ';' :                       strcat (x_final, " +"); break;
       }
    }
    DEBUG_YSTR  yLOG_snote    (x_final);
@@ -1915,13 +1918,14 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    int         x_len       =    0;
    char        x_temp      [200] = "";
    char        x_final     [200] = "";
-   char       *x_back      = s_empty;
-   char       *x_fore      = s_empty;
+   char       *x_fore     = s_empty;
+   char       *x_back     = s_empty;
    int         i           =    0;
    char       *x_aligns    = "?<|>[^]{}";
    int         x_npre      =    0;              /* number of prefix fills     */
    int         x_nsuf      =    0;              /* number of suffix fills     */
-   int         x_beg       =    0;              /* position of content beg    */
+   int         x_off       =    0;              /* position of content beg    */
+   int         x_adj       =    0;              /* adjusted width             */
    int         x_width     =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
@@ -1947,39 +1951,61 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   /*---(prepare)------------------------*/
    if (a_ali == '?')  a_ali = '<';
-   /*---(handle too short)---------------*/
    x_len  = strlen (a_src);
-   if (x_len >  a_max) {
-      sprintf (a_out, "%-*.*s>", a_max - 1, a_max - 1, a_src);
-      return 0;
-   }
-   /*---(handle exact size)--------------*/
+   /*---(shortcut for exact size)--------*/
    if (x_len == a_max) {
       sprintf (a_out, "%-*.*s", a_max, a_max, a_src);
       return 0;
    }
+   /*---(shortcut for too long)----------*/
+   else if (x_len >  a_max) {
+      switch (a_ali) {
+      case '<' : case '[' : case '{' : default :
+         x_adj  = a_max - 1;
+         x_off  = 0;
+         sprintf (a_out, "%-*.*s>", x_adj, x_adj, a_src + x_off);
+         break;
+      case '|' : case '^' :
+         x_adj  = a_max - 2;
+         x_off  = x_len - a_max - ((x_len - a_max) / 2) + 1;
+         sprintf (a_out, "<%-*.*s>", x_adj, x_adj, a_src + x_off);
+         break;
+      case '>' : case ']' : case '}' :
+         x_adj  = a_max - 1;
+         x_off  = x_len - a_max + 1;
+         sprintf (a_out, "<%-*.*s", x_adj, x_adj, a_src + x_off);
+         break;
+      }
+      return 0;
+   }
    /*---(set filler)---------------------*/
-   if      (a_fil == '-')    x_fore = x_back = s_dashes;
-   else if (a_fil == '=')    x_fore = x_back = s_equals;
-   else if (a_fil == '_')    x_fore = x_back = s_unders;
-   else if (a_fil == '.')    x_fore = x_back = s_dots;
-   else if (a_fil == '+')    x_fore = x_back = s_pluses;
-   else if (a_fil == '/')    x_fore = x_back = s_divs;
-   else if (a_fil == '"')  { x_fore = s_fore;  x_back = s_back; }
-   else                      x_fore = x_back = s_empty;
+   switch (a_fil) {
+   case '-': x_fore = x_back = s_dashes;          break;
+   case '=': x_fore = x_back = s_equals;          break;
+   case '_': x_fore = x_back = s_unders;          break;
+   case '.': x_fore = x_back = s_dots;            break;
+   case '+': x_fore = x_back = s_pluses;          break;
+   case '/': x_fore = x_back = s_place;           break;
+   case '@': x_fore = x_back = s_bigdot;          break;
+   case ':': x_fore = x_back = s_ruler;           break;
+   case '#': x_fore = x_back = s_number;          break;
+   case '"': x_fore = s_fore; x_back = s_back;    break;
+   default : x_fore = x_back = s_empty;           break;
+   }
    /*---(prefix/suffix)------------------*/
    sprintf (x_temp, "%s"     , a_src);
-   if (x_len + 4 <  a_max) {
-      if      (a_ali == '{')  {
-         sprintf (x_temp, "%2.2s%s", x_back + 1, a_src);
-      }
-      else if (a_ali == '}') {
-         sprintf (x_temp, "%s%2.2s", a_src, x_fore + x_len + 1);
-      }
+   switch (a_ali) {
+   case '{' :
+      if (x_len + 4 <= a_max)  sprintf (x_temp, "%2.2s%s", x_fore + 1, a_src);
+      a_ali = '[';
+      break;
+   case '}' :
+      if (x_len + 4 <= a_max)  sprintf (x_temp, "%s%2.2s", a_src, x_back + a_max - 3);
+      a_ali = ']';
+      break;
    }
-   if (a_ali == '{')  a_ali = '[';
-   if (a_ali == '}')  a_ali = ']';
    x_len  = strlen (x_temp);
    /*---(fix formats)--------------------*/
    if (x_len + 2 > a_max) {
@@ -1989,27 +2015,17 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
       }
    }
    /*---(create)-------------------------*/
-   x_npre  = (a_max - x_len) / 2;
-   x_nsuf  = a_max - x_len - x_npre;
+   x_nsuf  = (a_max - x_len) / 2;
+   x_npre  = a_max - x_len - x_nsuf;
    switch (a_ali) {
-   case '<' :
-      sprintf (x_final, "%s%.*s", x_temp, a_max - x_len, x_fore + x_len);
-      break;
-   case '>' :
-      sprintf (x_final, "%.*s%s", a_max - x_len, x_back, x_temp);
-      break;
-   case '|' :
-      sprintf (x_final, "%.*s%s%.*s", x_npre, x_back, x_temp, x_nsuf, x_fore + x_len + x_npre);
-      break;
-   case '[' :
-      sprintf (x_final, "[%s%.*s]", x_temp, a_max - x_len - 2, x_fore + x_len + 1);
-      break;
-   case ']' :
-      sprintf (x_final, "[%.*s%s]", a_max - x_len - 2, x_back + 1, x_temp);
-      break;
-   case '^' :
-      sprintf (x_final, "[%.*s%s%.*s]", x_npre - 1, x_back + 1, x_temp, x_nsuf - 1, x_fore + x_len + x_npre);
-      break;
+   case '<' : sprintf (x_final, "%s%.*s", x_temp, a_max - x_len, x_back + x_len);                                     break;
+   case '>' : sprintf (x_final, "%.*s%s", a_max - x_len, x_fore, x_temp);                                             break;
+   case '|' : sprintf (x_final, "%.*s%s%.*s", x_npre, x_fore, x_temp, x_nsuf, x_back + x_len + x_npre);               break;
+   case '[' : sprintf (x_final, "[%s%.*s]", x_temp, a_max - x_len - 2, x_back + x_len + 1);                           break;
+   case ']' : sprintf (x_final, "[%.*s%s]", a_max - x_len - 2, x_fore + 1, x_temp);                                   break;
+   case '^' : sprintf (x_final, "[%.*s%s%.*s]", x_npre - 1, x_fore + 1, x_temp, x_nsuf - 1, x_back + x_len + x_npre); break;
+   /*> case '{' : sprintf (x_final, "[%.2s%s%.*s]", x_fore, x_temp, a_max - x_len - 4, x_back + x_len + 1);                           break;   <*/
+   /*> case '}' : sprintf (x_final, "[%.*s%s%.2s]", a_max - x_len - 4, x_fore + 1, x_temp);                                   break;   <*/
    }
    /*---(copy)---------------------------*/
    strlcpy (a_out, x_final, a_max + 1);
