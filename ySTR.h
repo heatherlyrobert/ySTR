@@ -286,6 +286,11 @@ char        str4gyges          (int   a_tab, int  a_col , int   a_row , char a_a
 char        str6gyges          (char *a_src, int  a_def , char *a_out );
 char        str8gyges          (char *a_src, int  a_toff, int   a_coff, int  a_roff, char *a_out);
 
+char        str9align               (char a_align);
+char        str9filler              (char a_filler);
+char        str9format              (char a_format);
+
+
 
 #endif
 /*===[[ END ]]================================================================*/

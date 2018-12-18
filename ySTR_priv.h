@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4l"
-#define YSTR_VER_TXT   "updated strlpad for gyges and cleaned options"
+#define YSTR_VER_NUM   "0.4n"
+#define YSTR_VER_TXT   "final cleanups for gyges printable testing"
 
 
 #define     LEN_HUGE        10000

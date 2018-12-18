@@ -21,6 +21,7 @@ static char s_place       [200] = "¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··¤··
 static char s_bigdot      [200] = "´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´··´";
 static char s_ruler       [200] = "····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····";
 static char s_number      [200] = "123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789";
+static char s_ylog        [200] = "+··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´";
 
 static char s_numeric     [20] = "0123456789.-+";    /* only digits               */
 
@@ -60,6 +61,33 @@ ySTR_debug         (char a_flag)
    if   (a_flag == 'y')  mySTR.debug   = 'y';
    else                  mySTR.debug   = '-';
    /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+str9align            (char a_align)
+{
+   if (a_align  == ' ')                                              return -1;
+   if (a_align  ==  0 )                                              return -2;
+   if (strchr ("? <|> [^] {}", a_align) == NULL)                     return -3;
+   return 0;
+}
+
+char
+str9filler           (char a_filler)
+{
+   if (a_filler == ' ')                                              return -1;
+   if (a_filler ==  0 )                                              return -2;
+   if (strchr ("? !-=_ +./ \"@ :# *", a_filler) == 0)                return -3;
+   return 0;
+}
+
+char
+str9format           (char a_format)
+{
+   if (a_format == ' ')                                              return -1;
+   if (a_format ==  0 )                                              return -2;
+   if (strchr ("? if cCaAsS$;p eE rR bBoOxXzZ tTdD", a_format) == 0) return -3;
    return 0;
 }
 
@@ -1501,7 +1529,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    }
    strlcpy (a_out, s_empty, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
-   --rce;  if (strchr ("ifcCaAsS$;pP?", a_fmt) == NULL) {
+   --rce;  if (strchr ("iIfcCaAsS$;pP?", a_fmt) == NULL) {
       strlcpy (a_out, "#.fmt", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1517,20 +1545,20 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    /*---(assemble prefix)----------------*/
    if (tolower (a_fmt) == '$')  strcat (x_final, "$");
    if (x_sign < 0) {
-      if (strchr ("ifcsp", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
-      if (strchr ("a$"   , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
+      if (strchr ("iIfcsp", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
+      if (strchr ("a$"    , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
    } else {
-      if (strchr ("s"    , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
+      if (strchr ("s"     , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
    }
    DEBUG_YSTR  yLOG_snote    (x_final);
    /*---(format integer part)------------*/
    sprintf (x_temp, "%lld", x_int);
    x_len = strlen (x_temp);
-   if (strchr ("if", a_fmt) == NULL)  ySTR__space_ints (x_temp, 3, ',');
+   if (strchr ("iIf", a_fmt) == NULL)  ySTR__space_ints (x_temp, 3, ',');
    strcat (x_final, x_temp);
    DEBUG_YSTR  yLOG_snote    (x_temp);
    /*---(decimal part)-------------------*/
-   if (a_fmt != 'i' && a_decs > 0) {
+   if (strchr ("iI", a_fmt) == 0 && a_decs > 0) {
       sprintf (x_temp, "%0*lld", a_decs, x_frac);
       if (strchr ("ACS;", a_fmt) != NULL)  ySTR__space_decs (x_temp, 3, '\'');
       strcat  (x_final, ".");
@@ -1597,27 +1625,26 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   if (a_val < 0.0)    x_sign  = -1;
+   /*---(prepare)---------------------*/
+   if (a_val < 0.0)  x_sign  = -1;
    if (a_decs == 0)  a_decs  =  1;
-   /*---(scienfific)-----------*/
-   if (tolower (a_fmt) == 'e') {
-      strcpy  (x_final, "");
-      /*---(make prefix)-----------------*/
-      if (x_sign < 0)          strcpy (x_final, "-");
-      else if (a_fmt == 'E')  strcpy (x_final, "+");
-      sprintf (x_temp, "%.*e", a_decs, a_val * x_sign);
-      strncat (x_final, x_temp, 2);
-      /*---(save exponent/suffix)--------*/
-      strcpy  (x_suffix, x_temp + a_decs + 2);
-      x_temp  [a_decs + 2] = '\0';
-      /*---(parse decimals)--------------*/
-      strcpy  (x_prefix, x_temp + 2);
-      if (a_fmt == 'E' && a_decs > 3)  ySTR__space_decs (x_prefix, 3, '\'');
-      /*---(contat)----------------------*/
-      strcat  (x_final, x_prefix);
-      if (a_fmt == 'E')  strcat  (x_final, " ");
-      strcat  (x_final, x_suffix);
-   }
+   strcpy  (x_final, "");
+   /*---(make prefix)-----------------*/
+   if (x_sign < 0)          strcpy (x_final, "-");
+   else if (a_fmt == 'E')   strcpy (x_final, "+");
+   sprintf (x_temp, "%.*e", a_decs, a_val * x_sign);
+   strncat (x_final, x_temp, 2);
+   /*---(save exponent/suffix)--------*/
+   if (a_fmt == 'E')  strcpy  (x_suffix, x_temp + a_decs + 2);
+   else               sprintf (x_suffix, "e%d", atoi (x_temp + a_decs + 3));
+   x_temp  [a_decs + 2] = '\0';
+   /*---(parse decimals)--------------*/
+   strcpy  (x_prefix, x_temp + 2);
+   if (a_fmt == 'E' && a_decs > 3)  ySTR__space_decs (x_prefix, 3, '\'');
+   /*---(contat)----------------------*/
+   strcat  (x_final, x_prefix);
+   if (a_fmt == 'E')  strcat  (x_final, " ");
+   strcat  (x_final, x_suffix);
    /*---(create)---------------*/
    x_len = strlen (x_final);
    DEBUG_YSTR   yLOG_sint    (a_max);
@@ -1777,7 +1804,7 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    case 3 : strcat (x_temp, "0");
    }
    for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
-   if (strchr ("zZ", a_fmt) != NULL)  strcat (x_temp, "±");
+   if (strchr ("zZ", a_fmt) != NULL)  strcat (x_temp, "ß");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
@@ -1872,6 +1899,11 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, int a_ma
    DEBUG_APIS   yLOG_value   ("a_bytes"   , a_bytes);
    DEBUG_APIS   yLOG_char    ("a_fmt"     , a_fmt);
    DEBUG_APIS   yLOG_value   ("a_max"     , a_max);
+   if (str9format (a_fmt) < 0) {
+      strlcpy (a_out, "#.fmt", a_max);
+      DEBUG_YSTR   yLOG_snote   ("filler bad");
+      return -1;
+   }
    switch (a_fmt) {
    case 'b' : case 'B' :
       rc = strl4bin   (a_val, a_out, a_bytes, a_fmt, a_max);
@@ -1909,7 +1941,6 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, int a_ma
 /*====================------------------------------------====================*/
 static void      o___PADDING_________________o (void) {;}
 
-
 char
 strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_max)
 {
@@ -1921,7 +1952,6 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    char       *x_fore     = s_empty;
    char       *x_back     = s_empty;
    int         i           =    0;
-   char       *x_aligns    = "?<|>[^]{}";
    int         x_npre      =    0;              /* number of prefix fills     */
    int         x_nsuf      =    0;              /* number of suffix fills     */
    int         x_off       =    0;              /* position of content beg    */
@@ -1945,9 +1975,16 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
       return rce;
    }
    DEBUG_YSTR   yLOG_schar   (a_ali);
-   --rce;  if (strchr (x_aligns, a_ali) == NULL) {
+   --rce;  if (str9align (a_ali) < 0) {
       strlcpy (a_out, "#.ali", a_max);
       DEBUG_YSTR   yLOG_snote   ("alignment bad");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_schar   (a_fil);
+   --rce;  if (str9filler (a_fil) < 0) {
+      strlcpy (a_out, "#.fil", a_max);
+      DEBUG_YSTR   yLOG_snote   ("filler bad");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -2024,8 +2061,6 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    case '[' : sprintf (x_final, "[%s%.*s]", x_temp, a_max - x_len - 2, x_back + x_len + 1);                           break;
    case ']' : sprintf (x_final, "[%.*s%s]", a_max - x_len - 2, x_fore + 1, x_temp);                                   break;
    case '^' : sprintf (x_final, "[%.*s%s%.*s]", x_npre - 1, x_fore + 1, x_temp, x_nsuf - 1, x_back + x_len + x_npre); break;
-   /*> case '{' : sprintf (x_final, "[%.2s%s%.*s]", x_fore, x_temp, a_max - x_len - 4, x_back + x_len + 1);                           break;   <*/
-   /*> case '}' : sprintf (x_final, "[%.*s%s%.2s]", a_max - x_len - 4, x_fore + 1, x_temp);                                   break;   <*/
    }
    /*---(copy)---------------------------*/
    strlcpy (a_out, x_final, a_max + 1);
