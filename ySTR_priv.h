@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4n"
-#define YSTR_VER_TXT   "final cleanups for gyges printable testing"
+#define YSTR_VER_NUM   "0.4o"
+#define YSTR_VER_TXT   "updated mongo prefix and arrow/quote fillers, plus unit test"
 
 
 #define     LEN_HUGE        10000
