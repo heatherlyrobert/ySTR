@@ -115,6 +115,10 @@ typedef     unsigned char  uchar;
 #define     ySTR_CENTER    '|'
 
 
+#define     YSTR_CHECK     '-'
+#define     YSTR_LEGAL     'y'
+#define     YSTR_ADAPT     'a'
+
 
 /*---(character constants)------------*/
 /*---(hidden)----------*/
@@ -279,12 +283,13 @@ char        strl4main          (double a_val, char *a_out, int a_cnt, char a_fmt
 char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
 
 
-char        str0gyges          (void *a_checker);
-char        str2gyges          (char *a_src, int *a_tab , int  *a_col , int *a_row , char *a_abs, int a_def);
-char        str3gyges          (int   a_tab, int  a_col , int   a_row , char a_abs , char *a_out);
-char        str4gyges          (int   a_tab, int  a_col , int   a_row , char a_abs , char *a_out);
-char        str6gyges          (char *a_src, int  a_def , char *a_out );
-char        str8gyges          (char *a_src, int  a_toff, int   a_coff, int  a_roff, char *a_out);
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        str0gyges               (void *a_checker);
+
+char        str2gyges               (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs, int a_def, char a_check);
+char        str4gyges               (int   a_tab, int  a_col , int   a_row , char a_abs , char *a_out, char a_check);
+char        str6gyges               (char *a_src, int a_def, char *a_out, char a_check);
+char        str8gyges               (char *a_src, int  a_toff, int   a_coff, int  a_roff, char *a_out, char a_check);
 
 char        str9align               (char a_align);
 char        str9filler              (char a_filler);

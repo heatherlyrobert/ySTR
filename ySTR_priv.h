@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.4o"
-#define YSTR_VER_TXT   "updated mongo prefix and arrow/quote fillers, plus unit test"
+#define YSTR_VER_NUM   "0.5a"
+#define YSTR_VER_TXT   "reworked and improved gyges support, completly updated unit testing"
 
 
 #define     LEN_HUGE        10000
@@ -45,7 +45,6 @@ struct cLOCAL {
    char       *argv        [20];
 };
 extern  tLOCAL mySTR;
-#define     DEBUG_STRG     if (mySTR.debug == 'y')
 
 
 
@@ -57,8 +56,13 @@ char        ySTR_testend       (void);
 char*       ySTR_unit          (char *a_question, int a_num);
 
 
-char        str__gyges_checking(int x, int y, int z);
+char        ystr__gyges2tab         (char *a_src, char *a_pos, int *a_val, char *a_abs, char a_def);
+char        ystr__gyges2col         (char *a_src, char *a_pos, int *a_val, char *a_abs);
+char        ystr__gyges2row         (char *a_src, char *a_pos, int *a_val, char *a_abs);
+char        ystr_gyges__check       (int a_tab, int a_col, int a_row, int a_abs);
+char        ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_check);
 
+char        ystr_gyges__unit_check  (int a_tab, int a_col, int a_row, char a_check);
 
 
 #endif
