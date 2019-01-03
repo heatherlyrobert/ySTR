@@ -18,8 +18,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.5a"
-#define YSTR_VER_TXT   "reworked and improved gyges support, completly updated unit testing"
+#define YSTR_VER_NUM   "0.5b"
+#define YSTR_VER_TXT   "updated gyges functions to to bxyz format (vs old xyz). unit tests clean"
 
 
 #define     LEN_HUGE        10000

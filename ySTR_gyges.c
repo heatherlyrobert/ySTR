@@ -130,7 +130,7 @@ ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_check)
 static void      o___TO_POS__________________o (void) {;}
 
 char
-ystr__gyges2prep        (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs, int a_def, char a_check)
+ystr__gyges2prep        (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada, char *a_abs, int a_def, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;           /* return code for errors        */
@@ -138,10 +138,11 @@ ystr__gyges2prep        (char *a_src, int *a_tab, int *a_col, int *a_row, char *
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(default values)-----------------*/
-   if (a_col != NULL)  *a_col = -2;
-   if (a_row != NULL)  *a_row = -2;
-   if (a_tab != NULL)  *a_tab = -2;
-   if (a_abs != NULL)  *a_abs =  0;
+   if (a_tab  != NULL)  *a_tab  = -2;
+   if (a_col  != NULL)  *a_col  = -2;
+   if (a_row  != NULL)  *a_row  = -2;
+   if (a_nada != NULL)  *a_nada =  0;
+   if (a_abs  != NULL)  *a_abs  =  0;
    /*---(defense: empty label)-----------*/
    DEBUG_YSTR   yLOG_point   ("a_src"     , a_src);
    --rce;  if (a_src == NULL) {
@@ -354,7 +355,7 @@ ystr__gyges2row         (char *a_src, char *a_pos, int *a_val, char *a_abs)
 }
 
 char         /*-> convert label into coordinates -----[ leaf   [ge.#HB.1B#.Z0]*/ /*-[01.0000.K44.W]-*/ /*-[--.---.---.--]-*/
-str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs, int a_def, char a_check)
+str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada, char *a_abs, int a_def, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;           /* return code for errors        */
@@ -368,7 +369,7 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs,
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
-   rc = ystr__gyges2prep  (a_src, a_tab, a_col, a_row, a_abs, a_def, a_check);
+   rc = ystr__gyges2prep  (a_src, a_tab, a_col, a_row, a_nada, a_abs, a_def, a_check);
    --rce;  if (rc >  0) {
       DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
       return 0;
@@ -488,7 +489,7 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
 }
 
 char         /*-> convert position into label --------[ leaf   [ge.IB4.5B#.B0]*/ /*-[02.0000.200.!]-*/ /*-[--.---.---.--]-*/
-str4gyges         (int a_tab, int a_col, int a_row, char a_abs, char *a_out, char a_check)
+str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char *a_out, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_cname     [100]       = "";
@@ -582,17 +583,17 @@ str6gyges         (char *a_src, int a_def, char *a_out, char a_check)
    /*---(default)------------------------*/
    if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
    /*---(get coordinates)----------------*/
-   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, &x_abs, a_def, a_check);
+   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, &x_abs, NULL, a_def, a_check);
    if (rc < 0)   return rc;
    /*---(make new label)-----------------*/
-   rc = str4gyges (x_tab, x_col, x_row, x_abs, a_out, a_check);
+   rc = str4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
    if (rc < 0)   return rc;
    /*---(complete)-----------------------*/
    return 0;
 }
 
 char         /*-> adjust address using offsets -------[ leaf   [gc.660.553.40]*/ /*-[00.0000.000.!]-*/ /*-[--.---.---.--]-*/
-str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, char *a_out, char a_check)
+str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char *a_out, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -603,7 +604,7 @@ str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, char *a_out,
    /*---(default)------------------------*/
    if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
    /*---(get coordinates)----------------*/
-   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, &x_abs, 0, a_check);
+   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, NULL, &x_abs, 0, a_check);
    DEBUG_YSTR   yLOG_value   ("str2gyges" , rc);
    if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rc);
@@ -623,7 +624,7 @@ str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, char *a_out,
    case 7 :                                                      break;
    }
    /*---(make new label)-----------------*/
-   rc = str4gyges (x_tab, x_col, x_row, x_abs, a_out, a_check);
+   rc = str4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
    DEBUG_YSTR   yLOG_value   ("str4gyges" , rc);
    if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rc);

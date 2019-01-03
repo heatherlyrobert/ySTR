@@ -247,6 +247,7 @@ int         strltrim           (char *a_src, char  a_mode, int  a_max);
 int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
 int         strlclean          (char *a_src, char a_mode, char a_compress, int a_max);
 
+int         strlchr            (char *a_src, char  a_chr , int a_max);
 int         strldcnt           (char *a_src, char  a_del , int  a_max);
 int         strldpos           (char *a_src, char  a_del , int  a_cnt , int  a_max);
 int         strldchg           (char *a_src, char  a_del , char a_new , int  a_max);
@@ -286,10 +287,10 @@ char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        str0gyges               (void *a_checker);
 
-char        str2gyges               (char *a_src, int *a_tab, int *a_col, int *a_row, char *a_abs, int a_def, char a_check);
-char        str4gyges               (int   a_tab, int  a_col , int   a_row , char a_abs , char *a_out, char a_check);
+char        str2gyges               (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada, char *a_abs, int a_def, char a_check);
+char        str4gyges               (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char *a_out, char a_check);
 char        str6gyges               (char *a_src, int a_def, char *a_out, char a_check);
-char        str8gyges               (char *a_src, int  a_toff, int   a_coff, int  a_roff, char *a_out, char a_check);
+char        str8gyges               (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char *a_out, char a_check);
 
 char        str9align               (char a_align);
 char        str9filler              (char a_filler);

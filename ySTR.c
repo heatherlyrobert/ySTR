@@ -476,7 +476,7 @@ strldpos           (char *a_src, char  a_del, int a_cnt, int a_max)
       if (n < 1)  break;
       if (*s == a_del && l != ' ') {
          ++c;
-         if (c == a_cnt)  return a_max - n;
+         if (c >= a_cnt)  return a_max - n;
       }
       l = *s;
       n--;
@@ -484,6 +484,12 @@ strldpos           (char *a_src, char  a_del, int a_cnt, int a_max)
    }
    /*---(complete)-----------------------*/
    return -1;
+}
+
+int          /*--> find next delimiter in string ---------[ ------ [ ------ ]-*/
+strlchr            (char *a_src, char  a_chr, int a_max)
+{
+   return strldpos (a_src, a_chr, 1, a_max);
 }
 
 int          /*--> change all delimeter in string --------[ ------ [ ------ ]-*/
