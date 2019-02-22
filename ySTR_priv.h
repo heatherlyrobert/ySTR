@@ -4,6 +4,31 @@
 
 
 
+/*===[[ HEADER ]]=============================================================*/
+/*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+
+#define     P_FOCUS     "PS (programming support)"
+#define     P_NICHE     "st (string handling)"
+#define     P_PURPOSE   "provide secure and useful string handling capabilities"
+
+#define     P_NAMESAKE  "astrea-kori (star-maiden)"
+#define     P_HERITAGE  "virgin goddess of justice, purity, and precision"
+#define     P_IMAGERY   "elegant with shinning wings, angel light, and flamming torch"
+
+#define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
+#define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
+#define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
+
+#define     P_AUTHOR    "heatherlyrobert"
+#define     P_CREATED   "2013-09"
+#define     P_DEPENDS   "none"
+
+#define     P_VERNUM    "0.5c"
+#define     P_VERTXT    "added ascii-art font capability from hearth for sharing"              
+
+
+
+/*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
 #define      _XOPEN_SOURCE
 #include    <stdio.h>
 #include    <stdlib.h>                  /* getenv()                            */
@@ -18,12 +43,7 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YSTR_VER_NUM   "0.5b"
-#define YSTR_VER_TXT   "updated gyges functions to to bxyz format (vs old xyz). unit tests clean"
 
-
-#define     LEN_HUGE        10000
-#define     LEN_RECD         2000
 
 
 #define     ySTR_ALL_HEADS   "hbsem"
@@ -46,7 +66,18 @@ struct cLOCAL {
 };
 extern  tLOCAL mySTR;
 
+#define     FONT_FULL      'f'       /* [a-z][0-9] */
+#define     FONT_ALPHA     'a'       /* [a-z]      */
+#define     FONT_NUMS      'n'       /* [0-9]      */
+#define     FONT_BINARY    'b'       /* [0-1]      */
+#define     TYPE_BINARY    "01 "
+#define     TYPE_NUM       "0123456789"
+#define     TYPE_ALPHA     "abcdefghijklmnopqrstuvwxyz "
+#define     TYPE_ALNUM     "abcdefghijklmnopqrstuvwxyz 0123456789"
+#define     TYPE_FULLER    "abcdefghijklmnopqrstuvwxyz 0123456789.,:-_'¶()"
 
+
+extern char   unit_answer [LEN_RECD];
 
 
 
@@ -64,5 +95,8 @@ char        ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_che
 
 char        ystr_gyges__unit_check  (int a_tab, int a_col, int a_row, char a_check);
 
+char        ystr__getlang           (char *a_iso);
+
+char        ystr_font__index        (char a_range, int a_letter);
 
 #endif

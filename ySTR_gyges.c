@@ -19,7 +19,7 @@ static char *ySTR_cvalid  = "abcdefghijklmnopqrstuvwxyz";
 static char *ySTR_rvalid  = "0123456789";
 
 
-static char    (*zSTR_checker)   (int a_tab, int a_col, int a_row, char a_check) = NULL;
+static char    (*zSTR_checker)   (int b, int x, int y, int z, char a_check) = NULL;
 
 static char s_func      =    0;
 static char s_label     [LEN_LABEL] = "-----";
@@ -73,7 +73,7 @@ ystr_gyges__check     (int a_tab, int a_col, int a_row, int a_abs)
       return rce;
    }
    DEBUG_YSTR   yLOG_complex ("abs"       , "%4d,  abs range %d to %d", a_abs, 0, 7);
-   --rce;  if (a_abs < 0 || a_abs > 7) {
+   --rce;  if (a_abs < 0 || a_abs > 15) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -110,7 +110,7 @@ ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_check)
    }
    /*---(host check)---------------------*/
    DEBUG_YSTR   yLOG_note    ("let host application check specifics");
-   rc = zSTR_checker (a_tab, a_col, a_row, a_check);
+   rc = zSTR_checker (a_tab, a_col, a_row, 0, a_check);
    DEBUG_YSTR   yLOG_value   ("checker"   , rc);
    if (rc < 0) {
       DEBUG_YSTR   yLOG_note    ("position out of legal range");
@@ -217,13 +217,13 @@ ystr__gyges2tab         (char *a_src, char *a_pos, int *a_val, char *a_abs, char
    /*---(check for full abs)-------------*/
    if (a_src [*a_pos] == '@') {
       DEBUG_YSTR   yLOG_snote   ("found full abs");
-      *a_abs  = 7;
+      *a_abs  = 15;
       ++*a_pos;
    }
    /*---(check for tab abs)--------------*/
    else if (a_src[*a_pos] == '$') {
       DEBUG_YSTR   yLOG_snote   ("found tab abs");
-      *a_abs  = 4;
+      *a_abs  = 8;
       ++*a_pos;
    }
    /*---(if found)-----------------------*/
@@ -245,7 +245,7 @@ ystr__gyges2tab         (char *a_src, char *a_pos, int *a_val, char *a_abs, char
    else {
       DEBUG_YSTR   yLOG_snote   ("defaulting tab");
       *a_val = a_def;
-      if (*a_abs == 4)  *a_abs = 1;  /* shift abs tab to abs col */
+      if (*a_abs == 8)  *a_abs = 4;  /* shift abs tab to abs col */
    }
    /*---(summary)------------------------*/
    DEBUG_YSTR   yLOG_sint    (*a_pos);
@@ -270,7 +270,7 @@ ystr__gyges2col         (char *a_src, char *a_pos, int *a_val, char *a_abs)
    /*---(look for absolute)--------------*/
    if (a_src [*a_pos] == '$') {
       DEBUG_YSTR   yLOG_snote   ("found abs marker");
-      *a_abs += 1;
+      *a_abs += 4;
       ++*a_pos;
       DEBUG_YSTR   yLOG_sint    (*a_pos);
       DEBUG_YSTR   yLOG_sint    (*a_abs);
@@ -405,7 +405,7 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada,
       return rce;
    }
    /*---(fix abs)------------------------*/
-   if (x_abs > 7)  x_abs = 7;
+   if (x_abs >= 14)  x_abs = 15;
    /*---(check theoretical range)--------*/
    rc = ystr_gyges__check (x_tab, x_col, x_row, x_abs);
    --rce;  if (rc < 0) {
@@ -500,6 +500,7 @@ str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char
    char        rc          = 0;             /* generic return code            */
    char        x_tab       =  '0';
    char        x_label     [LEN_LABEL];
+   char        x_abs       = a_abs;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
@@ -537,15 +538,21 @@ str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char
    x_cname[2] = '\0';
    DEBUG_YSTR   yLOG_char    ("x_tab"     , x_tab);
    /*---(figure out reference markers)---*/
-   switch (a_abs) {
-   case 0 :                                                                   break;
-   case 1 :                       strcpy (x_cref, "$");                       break;
-   case 2 :                                             strcpy (x_rref, "$"); break;
-   case 3 :                       strcpy (x_cref, "$"); strcpy (x_rref, "$"); break;
-   case 4 : strcpy (x_tref, "$");                                             break;
-   case 5 : strcpy (x_tref, "$"); strcpy (x_cref, "$");                       break;
-   case 6 : strcpy (x_tref, "$");                       strcpy (x_rref, "$"); break;
-   default: strcpy (x_tref, "@");                                             break;
+   if (x_abs >= 14) {
+      strcpy (x_tref, "@");
+      x_abs  = 0;
+   }
+   if (x_abs >= 8) {
+      strcpy (x_tref, "$");
+      x_abs -= 8;
+   }
+   if (x_abs >= 4) {
+      strcpy (x_cref, "$");
+      x_abs -= 4;
+   }
+   if (x_abs >= 2) {
+      strcpy (x_rref, "$");
+      x_abs -= 2;
    }
    /*---(create label)-------------------*/
    sprintf (x_label, "%s%c%s%s%s%d", x_tref, x_tab, x_cref, x_cname, x_rref, a_row + 1);
@@ -583,7 +590,7 @@ str6gyges         (char *a_src, int a_def, char *a_out, char a_check)
    /*---(default)------------------------*/
    if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
    /*---(get coordinates)----------------*/
-   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, &x_abs, NULL, a_def, a_check);
+   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, NULL, &x_abs, a_def, a_check);
    if (rc < 0)   return rc;
    /*---(make new label)-----------------*/
    rc = str4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
@@ -593,12 +600,13 @@ str6gyges         (char *a_src, int a_def, char *a_out, char a_check)
 }
 
 char         /*-> adjust address using offsets -------[ leaf   [gc.660.553.40]*/ /*-[00.0000.000.!]-*/ /*-[--.---.---.--]-*/
-str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char *a_out, char a_check)
+str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char a_force, char *a_out, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    int         x_col, x_row, x_tab;
    int         x_abs       =    0;
+   int         x_abswork   =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
@@ -613,16 +621,14 @@ str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, 
    DEBUG_YSTR   yLOG_complex ("starting"      , "%s, tab = %d, col = %d, row = %d", a_src, x_tab, x_col, x_row);
    /*---(update coordinates)-------------*/
    DEBUG_YSTR   yLOG_complex ("offset"        , "abs = %d, tab = %d, col = %d, row = %d", x_abs, a_toff, a_coff, a_roff);
-   switch (x_abs) {
-   case 0 :  x_col += a_coff; x_row += a_roff; x_tab += a_toff;  break;
-   case 1 :                   x_row += a_roff; x_tab += a_toff;  break;
-   case 2 :  x_col += a_coff;                  x_tab += a_toff;  break;
-   case 3 :                                    x_tab += a_toff;  break;
-   case 4 :  x_col += a_coff; x_row += a_roff;                   break;
-   case 5 :  x_col += a_coff;                                    break;
-   case 6 :                   x_row += a_roff;                   break;
-   case 7 :                                                      break;
-   }
+   x_abswork = x_abs;
+   if (a_force == 'y')  x_abswork  = 0;
+   if (x_abswork >= 8)  x_abswork -= 8;
+   else                 x_tab += a_toff;
+   if (x_abswork >= 4)  x_abswork -= 4;
+   else                 x_col += a_coff;
+   if (x_abswork >= 2)  x_abswork -= 2;
+   else                 x_row += a_roff;
    /*---(make new label)-----------------*/
    rc = str4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
    DEBUG_YSTR   yLOG_value   ("str4gyges" , rc);
@@ -642,6 +648,19 @@ str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, 
 /*===----                       unit testing helper                    ----===*/
 /*====================------------------------------------====================*/
 static void      o___UNIT_TEST_______________o (void) {;}
+
+char
+ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check)
+{
+   char        rce         =  -10;
+   --rce;  if (b < 0  )  return rce;
+   --rce;  if (b > 10 )  return rce;
+   --rce;  if (x < 0  )  return rce;
+   --rce;  if (x > 20 )  return rce;
+   --rce;  if (y < 0  )  return rce;
+   --rce;  if (y > 20 )  return rce;
+   return 0;
+}
 
 char
 ystr_gyges__unit_check  (int a_tab, int a_col, int a_row, char a_check)

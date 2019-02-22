@@ -3,7 +3,7 @@
 
  *   focus         : (PS) programming support
  *   niche         : (st) string handling
- *   application   : ySTR
+ *   heritage      : astraea (virgin goddess of justice, purity, and precision)
  *   purpose       : provide secure and useful string handling capabilities
  *
  *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
@@ -234,6 +234,18 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_OMEGA      255
 
 
+#define     LEN_HUGE        10000
+#define     LEN_RECD         2000       /* longer likely means hacker         */
+#define     LEN_PATH          300       /* large, but not crazy length        */
+#define     LEN_HUND          100       /* conservative field/arg length      */
+#define     LEN_LONG           75       /* long descrition                    */
+#define     LEN_DESC           50       /* no one reads long descriptions     */
+#define     LEN_TITLE          30       /* for organizing                     */
+#define     LEN_LABEL          20       /* names and labels                   */
+#define     LEN_USER           12       /* user names                         */
+#define     LEN_SHORT           5       /* for small needs                    */
+
+
 char*       ySTR_version       (void);
 char        ySTR_debug         (char a_flag);
 
@@ -290,11 +302,31 @@ char        str0gyges               (void *a_checker);
 char        str2gyges               (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada, char *a_abs, int a_def, char a_check);
 char        str4gyges               (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char *a_out, char a_check);
 char        str6gyges               (char *a_src, int a_def, char *a_out, char a_check);
-char        str8gyges               (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char *a_out, char a_check);
+char        str8gyges               (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char a_force, char *a_out, char a_check);
 
 char        str9align               (char a_align);
 char        str9filler              (char a_filler);
 char        str9format              (char a_format);
+
+char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
+
+#define     YSTR_BREADCRUMB    'b'
+
+#define     YSTR_INVALID       'i'
+#define     YSTR_LOCKED        'l'
+#define     YSTR_QUESTIONS     '?'
+#define     YSTR_RECOVER       '@'
+
+char        ySTR_prompt             (char a_style, int a_iso, int a_cluster, int a_host, char *a_prompt, char *a_key);
+char        ySTR_password           (char a_style, int a_lang, char *a_prompt);
+char        ySTR_word               (int a_lang, char a_which, char *a_word);
+
+#define     YSTR_GAPS          'y'
+#define     YSTR_NOGAPS        '-'
+
+char        ySTR_font               (char *a_font, int *a_wide, int *a_tall);
+char        ySTR_displayer          (void *a_displayer);
+char        ySTR_display            (char *a_font, char *a_text, char a_gap, int x, int y, int *a_wide, int *a_tall);
 
 
 

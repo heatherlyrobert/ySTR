@@ -442,7 +442,7 @@ strllower          (char *a_src, int a_max)
 /*====================------------------------------------====================*/
 static void      o___DELIMITER_______________o (void) {;}
 
-int  
+int          /*-> tbd --------------------------------[ leaf   [gn.530.341.50]*/ /*-[02.0000.000.!]-*/ /*-[--.---.---.--]-*/
 strldcnt           (char *a_src, char  a_del, int a_max)
 {  /*---(locals)-----------+-----------+-*/
    register char *s        = a_src;         /* source pointer                 */
@@ -2085,8 +2085,7 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
 /*====================------------------------------------====================*/
 static void      o___UNITTEST________________o (void) {;}
 
-#define       LEN_TEXT  2000
-char          unit_answer [ LEN_TEXT ];
+char          unit_answer [LEN_RECD];
 
 char*            /* [------] unit test accessor ------------------------------*/
 ySTR_unit          (char *a_question, int a_num)
@@ -2099,7 +2098,7 @@ ySTR_unit          (char *a_question, int a_num)
    strlcpy (unit_answer, "ySTR_unit, unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strncmp(a_question, "string"    , 20)  == 0) {
-      snprintf (unit_answer, LEN_TEXT, "ySTR string      : [%s]", mySTR.strtest);
+      snprintf (unit_answer, LEN_RECD, "ySTR string      : [%s]", mySTR.strtest);
    }
    else if (strncmp(a_question, "values"    , 20)  == 0) {
       strlcpy (t, "", LEN_RECD);
@@ -2113,13 +2112,13 @@ ySTR_unit          (char *a_question, int a_num)
    }
    /*---(argument testing)---------------*/
    else if (strncmp(a_question, "argc"      , 20)  == 0) {
-      snprintf (unit_answer, LEN_TEXT, "ySTR argc        : %d", mySTR.argc);
+      snprintf (unit_answer, LEN_RECD, "ySTR argc        : %d", mySTR.argc);
    }
    else if (strncmp(a_question, "argv"      , 20)  == 0) {
       if (a_num < 20 && a_num < mySTR.argc)  {
-         snprintf (unit_answer, LEN_TEXT, "ySTR argv (%2d)   : %3d [%-.40s]", a_num, strllen (mySTR.argv[a_num], 2000), mySTR.argv[a_num]);
+         snprintf (unit_answer, LEN_RECD, "ySTR argv (%2d)   : %3d [%-.40s]", a_num, strllen (mySTR.argv[a_num], 2000), mySTR.argv[a_num]);
       } else {
-         snprintf (unit_answer, LEN_TEXT, "ySTR argv (%2d)   : index out of range", a_num);
+         snprintf (unit_answer, LEN_RECD, "ySTR argv (%2d)   : index out of range", a_num);
       }
    }
    /*---(complete)-----------------------*/
