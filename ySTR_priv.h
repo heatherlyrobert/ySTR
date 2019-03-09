@@ -23,8 +23,8 @@
 #define     P_CREATED   "2013-09"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.5c"
-#define     P_VERTXT    "added ascii-art font capability from hearth for sharing"              
+#define     P_VERNUM    "0.5d"
+#define     P_VERTXT    "fixed a few trivial unit testing changes during updates"
 
 
 
@@ -80,7 +80,6 @@ extern  tLOCAL mySTR;
 extern char   unit_answer [LEN_RECD];
 
 
-
 char        ySTR_testquiet     (void);
 char        ySTR_testloud      (void);
 char        ySTR_testend       (void);
@@ -93,7 +92,7 @@ char        ystr__gyges2row         (char *a_src, char *a_pos, int *a_val, char 
 char        ystr_gyges__check       (int a_tab, int a_col, int a_row, int a_abs);
 char        ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_check);
 
-char        ystr_gyges__unit_check  (int a_tab, int a_col, int a_row, char a_check);
+char        ystr_gyges__unit_check  (int b, int x, int y, char z, char a_check);
 
 char        ystr__getlang           (char *a_iso);
 

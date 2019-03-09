@@ -9,9 +9,6 @@
  *  purpose is to confuse hackers and crackers for a few precious seconds ;)
  *
  */
-
-
-/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 #define     MAX_LANGS      30
 #define     CNT_LANGS      15
 static      struct {
@@ -29,8 +26,9 @@ static      struct {
    char     denied      [LEN_LABEL];        /* translation                    */
    char     locked1     [LEN_LABEL];        /* translation                    */
    char     timer       [LEN_LABEL];        /* translation                    */
-   char     passed      [LEN_HUND];         /* translation                    */
-   char     timeout     [LEN_HUND];         /* translation                    */
+   char     passed      [LEN_HUND];         /* distrust left behind           */
+   char     failed      [LEN_HUND];         /* abandon hope (enter tarpit)    */
+   char     timeout     [LEN_HUND];         /* eat poop, dumb ass             */
    char     refresh     [LEN_HUND];         /* translation                    */
    char     cancel      [LEN_HUND];         /* translation                    */
    char     questions   [LEN_HUND];         /* translation                    */
@@ -38,24 +36,24 @@ static      struct {
    char     locked      [LEN_HUND];         /* translation                    */
    char     invalid     [LEN_HUND];         /* translation                    */
 } ystr_langs    [MAX_LANGS] = {
-   /* 123   123456789012345        123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    1234567890123456789012345    123456789012345678901234567890123456789012345678901234567890 */
-   /* iso,  ---language---    gmt  ---cluster------   --number/seq----   ---date---------   ---host---------   ---user---------   ---token/num----   ---password-----   ---attempt------   ---denied-------   ---locked-------   ---time-remaining---------   ---success----------------------------------------------    ---eat shit dumb ass--------------------   ---once more into hole -----------------------   ---i came into total darkness---------------  ---security questions------   ---send one-time code-------   --locked (user)-  -invalid (user)---*/
-   { "et" , "estonian"       ,  0, "kobar"          , "jada"           , "kuupaev"        , "vastuvotva"     , "kasutaja"       , "sumboolne"      , "parool"         , "katse"          , "eitada"         , "lukustatud"     , "aega jaanud"              , "siin peab koik usaldamatus jaama maha"                  , "kurat sa aknakruvi"                      , "veel kord auk"                                , "tulin kokku tumedamaks"                     , "turvalisuse kusimused"    , "saatke uks ajakood"         , "lukus"         , "on kehtetu"      },
-   { "nl" , "dutch"          ,  0, "bundel"         , "volgorde"       , "datum"          , "gastheer"       , "gebruiker"      , "teken"          , "wachtwoord"     , "poging"         , "ontkennen"      , "opgesloten"     , "overgebleven tijd"        , "hier moet alle wantrouwen achterblijven"                , "eet kak, stomme reet"                    , "nog een keer in het gat"                      , "ik kwam in totale duisternis"               , "veiligheidsvragen"        , "stuur een tijdcode"         , "vergrendeld"   , "ongeldig"        },
-   { "fi" , "finnish"        ,  0, "ryhma"          , "jarjestys"      , "paivays"        , "isanta"         , "kayttaja"       , "symbolinen"     , "salasana"       , "yritys"         , "kieltaa"        , "kiinni"         , "aikaa jaljella"           , "taalla kaikkien luottamus on jatettava jaljelle"        , "syoda kakko, tyhma perse"                , "jalleen kerran reikaan"                       , "tulin tummiksi"                             , "turvallisuuskysymykset"   , "lehettaa yhden aikakoodin"  , "on lukittu"    , "on virheellinen" },
-   { "gl" , "galacian"       ,  0, "auxiliares"     , "secuencia"      , "data"           , "anfitrion"      , "usuario"        , "simbolo"        , "contrasinal"    , "intento"        , "negar"          , "bloqueado"      , "tempo restante"           , "aqui debe desconfiar de todos os xeitos"                , "come poop, burro mudo"                   , "unha vez mais no burato"                      , "entre e foscos totales"                     , "preguntas de seguridade"  , "envia un codigo de tempo"   , "bloqueado"     , "non e valido"    },
-   { "de" , "german"         ,  0, "haufen"         , "sequenz"        , "datum"          , "gastgeber"      , "benutzer"       , "zeichen"        , "kennwort"       , "versuch"        , "verweigern"     , "eingesperrt"    , "verbleibende zeit"        , "hier mussen alle mibtrauen zuruckgelassen werden"       , "essen kacke, dummer arsch"               , "noch einmal ins loch"                         , "ich bin total dunkel geworden"              , "sicherheitsfragen"        , "senden sie einen zeitcode"  , "gesperrt"      , "ungultig"        },
-   { "is" , "icelandic"      ,  0, "pyrping"        , "roo"            , "dagsetning"     , "gestgjafi"      , "notandi"        , "skapi"          , "lykiloro"       , "tilraun"        , "neita"          , "laest"          , "timi eftir"               , "her verour allt vantraust ao vera eftir"                , "borda skop, heimsk rass"                 , "einu sinni i holu"                            , "eg komst i heildarmork"                     , "oryggisspurningar"        , "sendu einu sinni koda"      , "laest"         , "ogidur"          },
-   { "pl" , "polish"         ,  0, "grupa"          , "sekwencja"      , "data"           , "gospodarz"      , "uzythownik"     , "zeton"          , "hasto"          , "proba"          , "zaprzeczac"     , "zablokowany"    , "pozostaly czas"           , "tataj wszyscy niechetnie zostaja zostawieni"            , "jesc kupe, glupi tylek"                  , "jeszcze raz w dziure"                         , "doszedlem do totalnego zaciemnienia"        , "pytania bezpieczenstwa"   , "wyslij jeden kod czasowy"   , "zablokowany"   , "jest niewazny"   },
-   { "sv" , "swedish"        ,  0, "kluster"        , "sekvens"        , "datum"          , "vard"           , "anvandaren"     , "byggnad"        , "losenord"       , "forsok"         , "forneka"        , "last"           , "aterstanende tid"         , "har maste all misstro vara kvar"                        , "at poppa, bum rampa"                     , "en gang till i halet"                         , "jag kom in i totalt morkretar"              , "sakerhetsfragor"          , "skicka en gangskod"         , "last"          , "ogitig"          },
-   { "tr" , "turkish"        ,  0, "kume"           , "dizi"           , "tarih"          , "ev sahibi"      , "kullanici"      , "simgi"          , "sifre"          , "girisim"        , "reddetmek"      , "kilitli"        , "kalan sure"               , "burada tum guvensizlik geride kalmalidir"               , "kaka ye, aptal esek"                     , "delige bir kez daha"                          , "tamamen karanliklara girdim"                , "guvenlik sorulari"        , "bir zaman kodu gonder"      , "kilitli"       , "gecersiz"        },
-   { "cy" , "welsh"          ,  0, "clwstwr"        , "dilyniant"      , "dyddiad"        , "llu"            , "defnyddiwr"     , "tocyn"          , "cyfrinair"      , "ymgais"         , "gwadu"          , "wedi'i gloi"    , "amser yn weddill"         , "rhaid i bawb ddiffyg ymddiriedaeth gael ei adae ar ol"  , "bwyta poop, ass fud"                     , "unwaith eto i mewn i dwll"                    , "daeth i mewn i dywyllwyr llawn"             , "cwestiynau diogelwch"     , "anfonwch un cod amser"      , "weldi'i goli"  , "allilys"         },
-   { "ga" , "irish"          ,  0, "braisle"        , "seicheamh"      , "date"           , "ostach"         , "usaideoir"      , "chomhartha"     , "focal faire"    , "iarracht"       , "dhiultu"        , "faoi ghlas"     , "am ata fagtha"            , "ni mor gach mishuim a fhagail taobh thiar de seo"       , "buail ithe, asal balbh"                  , "uair amhain nios mo isteach sa poll"          , "thainig me i n-dorchadas iomlana"           , "ceisteanna slandala"      , "seol cod ama amhain"        , "faio ghlas"    , "neamhbhaili"     },
-   { "gd" , "scottish"       ,  0, "leanmhainn"     , "cuideachd"      , "tide"           , "thrang"         , "cheachdaiche"   , "taiken"         , "tyrst"          , "pree"           , "dhiutl"         , "glaiste"        , "uine air fhagail"         , "an seo feumaidh an earbsa a bhith air fhagail air chul" , "ithe pog, asal balbh"                    , "aon uair eile a-steach gu toll"               , "thainig mi gu leir dorchadas"               , "ceistean tearainteachd"   , "cuir aon chod uine"         , "glaiste"       , "neo-dhligheach"  },
-   { "la" , "latin"          ,  0, "botrus"         , "sequentia"      , "tempus"         , "militiae"       , "nomen"          , "indicium"       , "secretum"       , "conatus"        , "negare"         , "clausa"         , "temporis"                 , "qui si convien lasciare ogne sospettoo"                 , "irrumabo vos fenestram lingent"          , "plus semel in foraminis"                      , "lo venne in loco d'ogne luce muto"          , "securitatem quaestiones"  , "codice nunc mitte"          , "clausa"        , "invalidum"       },
-   { "mt" , "maltese"        ,  0, "cluster"        , "sekwenza"       , "hin"            , "ospitanti"      , "utent"          , "numru"          , "sigriet"        , "tentattiv"      , "tichad"         , "maqful"         , "hin li jifdal"            , "hawnhekk in-nuqqas ta fiducja kollha jithalla barra"    , "jieklu hmieg, hmar mutu"                 , "ghal darb ohra go toqba"                      , "jien dahal f'post null minn bull dawl"      , "kwistjonijiet ta sigurta" , "ibghat kodici ta darba"     , "imsakkar"      , "invalidu"        },
-   { "en" , "american"       ,  0, "cluster"        , "sequence"       , "date"           , "host"           , "user"           , "token"          , "password"       , "attempt"        , "denied"         , "locked"         , "time remaining"           , "abandon hope all ye who enter"                          , "fuck you, window licker"                 , "once more into the breech"                    , "i came into a place void of all light"      , "security questions"       , "send one-time code"         , "locked"        , "invalid"         },
-   { "--" , "-------"        ,  0, ""               , ""               , ""               , ""        "      , ""               , ""               , ""               , ""        "      , ""               , ""               , ""                         , ""                                                       , ""                                        , ""                                             , ""                                           , ""                         , ""                           },
+   /* 123   123456789012345        123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    12345678901234567890    123456789012345678901234567890123456789012345678901234567890 */
+   /* iso,  ---language---    gmt  ---cluster------   --number/seq----   ---date---------   ---host---------   ---user---------   ---token/num----   ---password-----   ---attempt------   ---denied-------   ---locked-------   ---time-remaining----   ---success----------------------------------------------    ---failed and enter a tarpit---------------------------------    ---eat shit dumb ass--------------------   ---once more into hole -----------------------   ---i came into total darkness---------------  ---security questions------   ---send one-time code-------   --locked (user)-  -invalid (user)---*/
+   { "et" , "estonian"       ,  0, "kobar"          , "jada"           , "kuupaev"        , "vastuvotva"     , "kasutaja"       , "sumboolne"      , "parool"         , "katse"          , "eitada"         , "lukustatud"     , "aega jaanud"         , "siin peab koik usaldamatus jaama maha"                  , "loobu lootust koigile kes te siia sisnete"                    , "kurat sa aknakruvi"                      , "veel kord auk"                                , "tulin kokku tumedamaks"                     , "turvalisuse kusimused"    , "saatke uks ajakood"         , "lukus"         , "on kehtetu"      },
+   { "nl" , "dutch"          ,  0, "bundel"         , "volgorde"       , "datum"          , "gastheer"       , "gebruiker"      , "teken"          , "wachtwoord"     , "poging"         , "ontkennen"      , "opgesloten"     , "overgebleven tijd"   , "hier moet alle wantrouwen achterblijven"                , "verlatt hoop allen die hier binnenkomen"                      , "eet kak, stomme reet"                    , "nog een keer in het gat"                      , "ik kwam in totale duisternis"               , "veiligheidsvragen"        , "stuur een tijdcode"         , "vergrendeld"   , "ongeldig"        },
+   { "fi" , "finnish"        ,  0, "ryhma"          , "jarjestys"      , "paivays"        , "isanta"         , "kayttaja"       , "symbolinen"     , "salasana"       , "yritys"         , "kieltaa"        , "kiinni"         , "aikaa jaljella"      , "taalla kaikkien luottamus on jatettava jaljelle"        , "hylkaa toivoa kaikkia teita kotka tulette tanne"              , "syoda kakko, tyhma perse"                , "jalleen kerran reikaan"                       , "tulin tummiksi"                             , "turvallisuuskysymykset"   , "lehettaa yhden aikakoodin"  , "on lukittu"    , "on virheellinen" },
+   { "gl" , "galacian"       ,  0, "auxiliares"     , "secuencia"      , "data"           , "anfitrion"      , "usuario"        , "simbolo"        , "contrasinal"    , "intento"        , "negar"          , "bloqueado"      , "tempo restante"      , "aqui debe desconfiar de todos os xeitos"                , "abandonar a esperanza a todos os que entre aqui"              , "come poop, burro mudo"                   , "unha vez mais no burato"                      , "entre e foscos totales"                     , "preguntas de seguridade"  , "envia un codigo de tempo"   , "bloqueado"     , "non e valido"    },
+   { "de" , "german"         ,  0, "haufen"         , "sequenz"        , "datum"          , "gastgeber"      , "benutzer"       , "zeichen"        , "kennwort"       , "versuch"        , "verweigern"     , "eingesperrt"    , "verbleibende zeit"   , "hier mussen alle mibtrauen zuruckgelassen werden"       , "hoffen sie alle, die heir eintreten"                          , "essen kacke, dummer arsch"               , "noch einmal ins loch"                         , "ich bin total dunkel geworden"              , "sicherheitsfragen"        , "senden sie einen zeitcode"  , "gesperrt"      , "ungultig"        },
+   { "is" , "icelandic"      ,  0, "pyrping"        , "roo"            , "dagsetning"     , "gestgjafi"      , "notandi"        , "skapi"          , "lykiloro"       , "tilraun"        , "neita"          , "laest"          , "timi eftir"          , "her verour allt vantraust ao vera eftir"                , "yfirgefio vona allir sem koma inn her"                        , "borda skop, heimsk rass"                 , "einu sinni i holu"                            , "eg komst i heildarmork"                     , "oryggisspurningar"        , "sendu einu sinni koda"      , "laest"         , "ogidur"          },
+   { "pl" , "polish"         ,  0, "grupa"          , "sekwencja"      , "data"           , "gospodarz"      , "uzythownik"     , "zeton"          , "hasto"          , "proba"          , "zaprzeczac"     , "zablokowany"    , "pozostaly czas"      , "tataj wszyscy niechetnie zostaja zostawieni"            , "porzuccie nadzieji wszyscy ktorzy tu wejdacie"                , "jesc kupe, glupi tylek"                  , "jeszcze raz w dziure"                         , "doszedlem do totalnego zaciemnienia"        , "pytania bezpieczenstwa"   , "wyslij jeden kod czasowy"   , "zablokowany"   , "jest niewazny"   },
+   { "sv" , "swedish"        ,  0, "kluster"        , "sekvens"        , "datum"          , "vard"           , "anvandaren"     , "byggnad"        , "losenord"       , "forsok"         , "forneka"        , "last"           , "aterstanende tid"    , "har maste all misstro vara kvar"                        , "forlat hoppas alla ni som kommer in har"                      , "at poppa, bum rampa"                     , "en gang till i halet"                         , "jag kom in i totalt morkretar"              , "sakerhetsfragor"          , "skicka en gangskod"         , "last"          , "ogitig"          },
+   { "tr" , "turkish"        ,  0, "kume"           , "dizi"           , "tarih"          , "ev sahibi"      , "kullanici"      , "simgi"          , "sifre"          , "girisim"        , "reddetmek"      , "kilitli"        , "kalan sure"          , "burada tum guvensizlik geride kalmalidir"               , "buraya giren herkesin umudunu birak"                          , "kaka ye, aptal esek"                     , "delige bir kez daha"                          , "tamamen karanliklara girdim"                , "guvenlik sorulari"        , "bir zaman kodu gonder"      , "kilitli"       , "gecersiz"        },
+   { "cy" , "welsh"          ,  0, "clwstwr"        , "dilyniant"      , "dyddiad"        , "llu"            , "defnyddiwr"     , "tocyn"          , "cyfrinair"      , "ymgais"         , "gwadu"          , "wedi'i gloi"    , "amser yn weddill"    , "rhaid i bawb ddiffyg ymddiriedaeth gael ei adae ar ol"  , "gwahardd gobeithio pawb yr ydych yn mynd yma"                 , "bwyta poop, ass fud"                     , "unwaith eto i mewn i dwll"                    , "daeth i mewn i dywyllwyr llawn"             , "cwestiynau diogelwch"     , "anfonwch un cod amser"      , "weldi'i goli"  , "allilys"         },
+   { "ga" , "irish"          ,  0, "braisle"        , "seicheamh"      , "date"           , "ostach"         , "usaideoir"      , "chomhartha"     , "focal faire"    , "iarracht"       , "dhiultu"        , "faoi ghlas"     , "am ata fagtha"       , "ni mor gach mishuim a fhagail taobh thiar de seo"       , "deireadh dochais go heir sibh siud a theann isteach anseo"    , "buail ithe, asal balbh"                  , "uair amhain nios mo isteach sa poll"          , "thainig me i n-dorchadas iomlana"           , "ceisteanna slandala"      , "seol cod ama amhain"        , "faio ghlas"    , "neamhbhaili"     },
+   { "gd" , "scottish"       ,  0, "leanmhainn"     , "cuideachd"      , "tide"           , "thrang"         , "cheachdaiche"   , "taiken"         , "tyrst"          , "pree"           , "dhiutl"         , "glaiste"        , "uine air fhagail"    , "an seo feumaidh an earbsa a bhith air fhagail air chul" , "leig as a dh'fhuireach a huile duine a thig asteach an seo"   , "ithe pog, asal balbh"                    , "aon uair eile a-steach gu toll"               , "thainig mi gu leir dorchadas"               , "ceistean tearainteachd"   , "cuir aon chod uine"         , "glaiste"       , "neo-dhligheach"  },
+   { "la" , "latin"          ,  0, "botrus"         , "sequentia"      , "tempus"         , "militiae"       , "nomen"          , "indicium"       , "secretum"       , "conatus"        , "negare"         , "clausa"         , "temporis"            , "qui si convien lasciare ogne sospettoo"                 , "hic omnes qui ingrediuntur desperantibus"                     , "irrumabo vos fenestram lingent"          , "plus semel in foraminis"                      , "lo venne in loco d'ogne luce muto"          , "securitatem quaestiones"  , "codice nunc mitte"          , "clausa"        , "invalidum"       },
+   { "mt" , "maltese"        ,  0, "cluster"        , "sekwenza"       , "hin"            , "ospitanti"      , "utent"          , "numru"          , "sigriet"        , "tentattiv"      , "tichad"         , "maqful"         , "hin li jifdal"       , "hawnhekk in-nuqqas ta fiducja kollha jithalla barra"    , "abandon tama lil dawk kollha li jidhlu hawn"                  , "jieklu hmieg, hmar mutu"                 , "ghal darb ohra go toqba"                      , "jien dahal f'post null minn bull dawl"      , "kwistjonijiet ta sigurta" , "ibghat kodici ta darba"     , "imsakkar"      , "invalidu"        },
+   { "en" , "american"       ,  0, "cluster"        , "sequence"       , "date"           , "host"           , "user"           , "token"          , "password"       , "attempt"        , "denied"         , "locked"         , "time remaining"      , "here must all distrust be left behind"                  , "abandon hope all ye who enter here"                           , "fuck you, window licker"                 , "once more into the breech"                    , "i came into a place void of all light"      , "security questions"       , "send one-time code"         , "locked"        , "invalid"         },
+   { "--" , "-------"        ,  0, ""               , ""               , ""               , ""        "      , ""               , ""               , ""               , ""        "      , ""               , ""               , ""                    , ""                                                       , ""                                                             , ""                                        , ""                                             , ""                                           , ""                         , ""                           },
 };
 
 #define     MAX_CLUSTER     200
@@ -135,13 +133,17 @@ ystr__getlang           (char *a_iso)
    return rce;
 }
 
+int   ySTR_language (void) { return rand () % CNT_LANGS; }
+int   ySTR_cluster  (void) { return rand () % CNT_CLUSTER; }
+int   ySTR_host     (void) { return rand () % CNT_HOST; }
+
 char
 ySTR_prompt             (char a_style, int a_lang, int a_cluster, int  a_host, char *a_prompt, char *a_key)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        x_num       [LEN_SHORT];
-   char       *x_styles    = "1";
+   int         i           =    0;
    char        x_rand      [LEN_LABEL];
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
@@ -153,11 +155,7 @@ ySTR_prompt             (char a_style, int a_lang, int a_cluster, int  a_host, c
    }
    strcpy (a_prompt, "");
    DEBUG_YSTR   yLOG_point   ("a_key"     , a_key);
-   --rce;  if (a_key == NULL) {
-      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
-   }
-   strcpy (a_key   , "");
+   if (a_key != NULL)   strcpy (a_key   , "");
    /*---(defense language)---------------*/
    DEBUG_YSTR   yLOG_value   ("a_lang"    , a_lang);
    --rce;  if (a_lang < 0) {
@@ -180,7 +178,9 @@ ySTR_prompt             (char a_style, int a_lang, int a_cluster, int  a_host, c
    }
    a_host %= CNT_HOST;
    /*---(misleading random number)-------*/
-   sprintf (x_rand, "%6d", (rand () % 900000) + 100000);
+   for (i = 0; i < 6; ++i)  x_rand [i] = (rand () % 10) + '0';
+   x_rand [ 2] = '-';
+   x_rand [ 6] = '\0';
    /*---(prompt)-------------------------*/
    --rce;  switch (a_style) {
    case YSTR_BREADCRUMB :
@@ -195,7 +195,7 @@ ySTR_prompt             (char a_style, int a_lang, int a_cluster, int  a_host, c
    }
    /*---(save key)-----------------------*/
    sprintf (x_num, "%02d", a_host);
-   sprintf (a_key, "#%c%c%c", ystr_hosts [a_host][1], x_num [1], ystr_langs [a_lang].cluster [1]);
+   if (a_key != NULL)   sprintf (a_key, "#%c%c%c", ystr_hosts [a_host][1], x_num [1], ystr_langs [a_lang].cluster [1]);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -259,6 +259,21 @@ ySTR_word               (int a_lang, char a_which, char *a_word)
    a_lang %= CNT_LANGS;
    /*---(defense language)---------------*/
    switch (a_which) {
+   case YSTR_PASSED    :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].passed);
+      break;
+   case YSTR_FAILURE   :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].failed);
+      break;
+   case YSTR_TIMEOUT   :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].timeout);
+      break;
+   case YSTR_REFRESH   :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].refresh);
+      break;
+   case YSTR_CANCEL    :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].cancel);
+      break;
    case YSTR_INVALID   :
       sprintf (a_word, "%s %s", ystr_langs [a_lang].user, ystr_langs [a_lang].invalid);
       break;
@@ -272,6 +287,65 @@ ySTR_word               (int a_lang, char a_which, char *a_word)
       sprintf (a_word, "%s %s", ystr_langs [a_lang].recover);
       break;
    }
+   return 0;
+}
+
+char
+ySTR_prompt_box         (int a_lang, int a_cluster, int a_host, char *a_date, int x, int y)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         i           =    0;
+   char        t           [LEN_DESC];
+   char        x_rand      [LEN_DESC];
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   /*---(defense language)---------------*/
+   DEBUG_YSTR   yLOG_value   ("a_lang"    , a_lang);
+   --rce;  if (a_lang < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   a_lang %= CNT_LANGS;
+   /*---(defense cluster)----------------*/
+   DEBUG_YSTR   yLOG_value   ("a_cluster" , a_cluster);
+   --rce;  if (a_cluster < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   a_cluster %= CNT_CLUSTER;
+   /*---(defense host)-------------------*/
+   DEBUG_YSTR   yLOG_value   ("a_host"    , a_host);
+   --rce;  if (a_host < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   a_host %= CNT_HOST;
+   /*---(misleading random number)-------*/
+   for (i = 0; i < 20; ++i)  x_rand [i] = (rand () % 10) + '0';
+   x_rand [20] = '\0';
+   x_rand [ 3] = '-';
+   x_rand [ 8] = '/';
+   x_rand [14] = '-';
+   /*---(build box)----------------------*/
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].cluster , ystr_clusters [a_cluster]);
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%02d/%02d%-15.15s]", ystr_langs [a_lang].seq     , a_cluster, a_host, "");
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].host    , ystr_hosts [a_host]);
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].date    , a_date);
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].user    , " ");
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].token   , " ");
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].password, " ");
+   ystr_oneline (t, x, y++);
+   sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].attempt , x_rand);
+   ystr_oneline (t, x, y++);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 

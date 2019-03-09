@@ -120,129 +120,135 @@ typedef     unsigned char  uchar;
 #define     YSTR_ADAPT     'a'
 
 
-/*---(character constants)------------*/
-/*---(hidden)----------*/
-#define     G_KEY_RETURN       10
-#define     G_KEY_ENTER        13
-#define     G_KEY_ESCAPE       27
-#define     G_KEY_TAB           9
-#define     G_KEY_BS          127  /* linux unique */
-#define     G_KEY_SPACE        32
-#define     G_KEY_GROUP        29
-#define     G_KEY_FIELD        31
-#define     G_KEY_DEL           8  /* linux unique */
-/*---(special)---------*/
-#define     G_KEY_NULL          0
-/*---(normal)----------*/
-#define     G_KEY_SQUOTE       39
-#define     G_KEY_DQUOTE       34
-#define     G_KEY_BSLASH       92
-#define     G_KEY_PIPE        124
-#define     G_KEY_TILDA       126
+
+/*---(normal txt2ystr)----------------*/
+#define     G_KEY_NULL            0
+#define     G_KEY_DEL             8
+#define     G_KEY_TAB             9
+#define     G_KEY_RETURN         10
+#define     G_KEY_ENTER          13
+#define     G_KEY_ESCAPE         27
+#define     G_KEY_GROUP          29
+#define     G_KEY_FIELD          31
+#define     G_KEY_SPACE          32
+#define     G_KEY_DQUOTE         34
+#define     G_KEY_SQUOTE         39
+#define     G_KEY_LT             60
+#define     G_KEY_EQ             61
+#define     G_KEY_GT             62
+#define     G_KEY_BSLASH         92
+#define     G_KEY_PIPE          124
+#define     G_KEY_TILDA         126
+#define     G_KEY_BS            127
+/*---(complete)-----------------------*/
+
+
+/*---(extended txt2ystr)--------------*/
+/*---(notes)---------------------*/
+#define     G_CHAR_REXCLAM      161   /*  ¡  */
+#define     G_CHAR_RQUEST       162   /*  ¢  */
+/*---(hidden)--------------------*/
+#define     G_CHAR_NULL         163   /*  £  */
+#define     G_CHAR_PLACE        164   /*  ¤  */
+#define     G_CHAR_ESCAPE       165   /*  ¥  */
+#define     G_CHAR_RETURN       166   /*  ¦  */
+#define     G_CHAR_FIELD        167   /*  §  */
+#define     G_CHAR_GROUP        168   /*  ¨  */
+/*---(macro)---------------------*/
+#define     G_CHAR_DISPLAY      169   /*  ©  */
+#define     G_CHAR_BREAK        170   /*  ª  */
+#define     G_CHAR_WAIT         171   /*  «  */
+#define     G_CHAR_MASK         172   /*  ¬  */
+#define     G_CHAR_TAB          173   /*  ­  */
+#define     G_CHAR_SUMMARY      174   /*  ®  */
+#define     G_CHAR_SYSTEM       175   /*  ¯  */
+/*---(special)-------------------*/
+#define     G_CHAR_HUGE         177   /*  ±  */
+#define     G_CHAR_STORAGE      178   /*  ²  */
+#define     G_CHAR_HALT         179   /*  ³  */
+#define     G_CHAR_BIGDOT       180   /*  ´  */
+/*---(delayed)-------------------*/
+#define     G_CHAR_DBSLASH      181   /*  µ  */
+#define     G_CHAR_DDQUOTE      182   /*  ¶  */
+#define     G_CHAR_SPACE        183   /*  ·  */
+/*---(grouping)------------------*/
+#define     G_CHAR_SLPAREN      184   /*  ¸  */
+#define     G_CHAR_SRPAREN      185   /*  ¹  */
+#define     G_CHAR_SLBRACK      186   /*  º  */
+#define     G_CHAR_SRBRACK      187   /*  »  */
+#define     G_CHAR_SLCHEV       188   /*  ¼  */
+#define     G_CHAR_SRCHEV       189   /*  ½  */
+#define     G_CHAR_DEL          190   /*  ¾  */
+#define     G_CHAR_BS           191   /*  ¿  */
+/*---(super/sub)-----------------*/
+#define     G_CHAR_SUB0         192   /*  À  */
+#define     G_CHAR_SUB1         193   /*  Á  */
+#define     G_CHAR_SUB2         194   /*  Â  */
+#define     G_CHAR_SUB3         195   /*  Ã  */
+#define     G_CHAR_SUB4         196   /*  Ä  */
+#define     G_CHAR_SUBN         197   /*  Å  */
+#define     G_CHAR_POW2         198   /*  Æ  */
+#define     G_CHAR_POW3         199   /*  Ç  */
+#define     G_CHAR_POW4         200   /*  È  */
+#define     G_CHAR_POWX         201   /*  É  */
+#define     G_CHAR_POWY         202   /*  Ê  */
+#define     G_CHAR_SMHASH       203   /*  Ë  */
+#define     G_CHAR_DEGREE       204   /*  Ì  */
+#define     G_CHAR_RADIAN       205   /*  Í  */
+#define     G_CHAR_SQRT         206   /*  Î  */
+#define     G_CHAR_SMALL        207   /*  Ï  */
+/*---(logic)---------------------*/
+#define     G_CHAR_AND          208   /*  Ð  */
+#define     G_CHAR_OR           209   /*  Ñ  */
+#define     G_CHAR_XOR          210   /*  Ò  */
+#define     G_CHAR_UP           211   /*  Ó  */
+#define     G_CHAR_DOWN         212   /*  Ô  */
+#define     G_CHAR_RIGHT        213   /*  Õ  */
+#define     G_CHAR_LEFT         214   /*  Ö  */
+#define     G_CHAR_LE           221   /*  Ý  */
+#define     G_CHAR_GE           222   /*  Þ  */
+#define     G_CHAR_NE           223   /*  ß  */
+#define     G_CHAR_APPROX       230   /*  æ  */
+/*---(greek)---------------------*/
+#define     G_CHAR_ALPHA        232   /*  è  */
+#define     G_CHAR_BETA         233   /*  é  */
+#define     G_CHAR_GAMMA        234   /*  ê  */
+#define     G_CHAR_DELTA        235   /*  ë  */
+#define     G_CHAR_EPSILON      236   /*  ì  */
+#define     G_CHAR_ZETA         237   /*  í  */
+#define     G_CHAR_ETA          238   /*  î  */
+#define     G_CHAR_THETA        239   /*  ï  */
+#define     G_CHAR_IOTA         240   /*  ð  */
+#define     G_CHAR_KAPPA        241   /*  ñ  */
+#define     G_CHAR_LAMBDA       242   /*  ò  */
+#define     G_CHAR_MU           243   /*  ó  */
+#define     G_CHAR_NU           244   /*  ô  */
+#define     G_CHAR_XI           245   /*  õ  */
+#define     G_CHAR_OMICRON      246   /*  ö  */
+#define     G_CHAR_PI           247   /*  ÷  */
+#define     G_CHAR_RHO          248   /*  ø  */
+#define     G_CHAR_SIGMA        249   /*  ù  */
+#define     G_CHAR_TAU          250   /*  ú  */
+#define     G_CHAR_UPSILON      251   /*  û  */
+#define     G_CHAR_PHI          252   /*  ü  */
+#define     G_CHAR_CHI          253   /*  ý  */
+#define     G_CHAR_PSI          254   /*  þ  */
+#define     G_CHAR_OMEGA        255   /*  ÿ  */
+/*---(complete)-----------------------*/
 
 
 
-/*---(character constants)------------*/
-/*---(hidden)----------*/
-#define     G_CHAR_RETURN     166
-#define     G_CHAR_ESCAPE     165
-#define     G_CHAR_TAB        173
-#define     G_CHAR_BS         191
-#define     G_CHAR_DEL        190
-#define     G_CHAR_SPACE      183
-#define     G_CHAR_GROUP      168
-#define     G_CHAR_FIELD      167
-#define     G_CHAR_STORAGE    178  /* storage space only */
-/*---(dots)------------*/
-#define     G_CHAR_SMALL      207
-#define     G_CHAR_BIGDOT     180
-#define     G_CHAR_LCOMB      176
-#define     G_CHAR_RCOMB      177
-/*---(control)---------*/
-#define     G_CHAR_WAIT       171
-#define     G_CHAR_BREAK      170
-#define     G_CHAR_HALT       179
-#define     G_CHAR_DISPLAY    169
-#define     G_CHAR_NULL       163
-#define     G_CHAR_PLACE      164
-/*---(testing)---------*/
-#define     G_CHAR_DBSLASH    181
-#define     G_CHAR_DDQUOTE    182
-/*---(compare)---------*/
-#define     G_CHAR_RADIAN     205
-#define     G_CHAR_DEGREE     204
-#define     G_CHAR_APPROX     230
-#define     G_CHAR_EQUIV      229
-/*---(orders)----------*/
-#define     G_CHAR_SMHASH     203
-#define     G_CHAR_SUB0       192
-#define     G_CHAR_SUB1       193
-#define     G_CHAR_SUB2       194
-#define     G_CHAR_SUB3       195
-#define     G_CHAR_SUB4       196
-#define     G_CHAR_SUBN       197
-/*---(powers)----------*/
-#define     G_CHAR_POW2       198
-#define     G_CHAR_POW3       199
-#define     G_CHAR_POW4       200
-#define     G_CHAR_POWX       201
-#define     G_CHAR_POWY       202
-#define     G_CHAR_SQRT       206
-/*---(grouping)--------*/
-#define     G_CHAR_SLPAREN    184
-#define     G_CHAR_SRPAREN    185
-#define     G_CHAR_SLBRACK    186
-#define     G_CHAR_SRBRACK    187
-#define     G_CHAR_SLCHEV     188
-#define     G_CHAR_SRCHEV     189
-/*---(special)---------*/
-#define     G_CHAR_SUMMARY    174
-#define     G_CHAR_SYSTEM     175
-#define     G_CHAR_REVQUEST   162
-#define     G_CHAR_REVEXCLM   161
-#define     G_CHAR_AND        208
-#define     G_CHAR_OR         209
-#define     G_CHAR_XOR        210
-#define     G_CHAR_UP         211
-#define     G_CHAR_DOWN       212
-#define     G_CHAR_RIGHT      213
-#define     G_CHAR_LEFT       214
-/*---(greek)-----------*/
-#define     G_CHAR_ALPHA      232
-#define     G_CHAR_BETA       233
-#define     G_CHAR_GAMMA      234
-#define     G_CHAR_DELTA      235
-#define     G_CHAR_EPSILON    236
-#define     G_CHAR_ZETA       237
-#define     G_CHAR_ETA        238
-#define     G_CHAR_THETA      239
-#define     G_CHAR_IOTA       240
-#define     G_CHAR_KAPPA      241
-#define     G_CHAR_LAMBDA     242
-#define     G_CHAR_MU         243
-#define     G_CHAR_NU         244
-#define     G_CHAR_XI         245
-#define     G_CHAR_OMICRON    246
-#define     G_CHAR_PI         247
-#define     G_CHAR_RHO        248
-#define     G_CHAR_SIGMA      249
-#define     G_CHAR_TAU        250
-#define     G_CHAR_UPSILON    251
-#define     G_CHAR_PHI        252
-#define     G_CHAR_CHI        253
-#define     G_CHAR_PSI        254
-#define     G_CHAR_OMEGA      255
-
-
-#define     LEN_HUGE        10000
+#define     LEN_HUGE        10000       /* special cases only                 */
 #define     LEN_RECD         2000       /* longer likely means hacker         */
 #define     LEN_PATH          300       /* large, but not crazy length        */
+#define     LEN_FULL          200       /* large string length                */
 #define     LEN_HUND          100       /* conservative field/arg length      */
 #define     LEN_LONG           75       /* long descrition                    */
 #define     LEN_DESC           50       /* no one reads long descriptions     */
 #define     LEN_TITLE          30       /* for organizing                     */
 #define     LEN_LABEL          20       /* names and labels                   */
 #define     LEN_USER           12       /* user names                         */
+#define     LEN_HEX            10       /* hex codes                          */
 #define     LEN_SHORT           5       /* for small needs                    */
 
 
@@ -316,10 +322,20 @@ char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 #define     YSTR_LOCKED        'l'
 #define     YSTR_QUESTIONS     '?'
 #define     YSTR_RECOVER       '@'
+#define     YSTR_DENIED        'D'
+#define     YSTR_PASSED        'P'
+#define     YSTR_FAILURE       'F'
+#define     YSTR_TIMEOUT       'T'
+#define     YSTR_REFRESH       'R'
+#define     YSTR_CANCEL        'C'
 
+int         ySTR_language           (void);
+int         ySTR_cluster            (void);
+int         ySTR_host               (void);
 char        ySTR_prompt             (char a_style, int a_iso, int a_cluster, int a_host, char *a_prompt, char *a_key);
 char        ySTR_password           (char a_style, int a_lang, char *a_prompt);
 char        ySTR_word               (int a_lang, char a_which, char *a_word);
+char        ySTR_prompt_box         (int a_lang, int a_cluster, int a_host, char *a_date, int x, int y);
 
 #define     YSTR_GAPS          'y'
 #define     YSTR_NOGAPS        '-'
@@ -327,6 +343,8 @@ char        ySTR_word               (int a_lang, char a_which, char *a_word);
 char        ySTR_font               (char *a_font, int *a_wide, int *a_tall);
 char        ySTR_displayer          (void *a_displayer);
 char        ySTR_display            (char *a_font, char *a_text, char a_gap, int x, int y, int *a_wide, int *a_tall);
+char        ystr_oneline            (char *a_text, int x, int y);
+char        ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, int *a_tall);
 
 
 

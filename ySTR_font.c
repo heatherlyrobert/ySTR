@@ -3,12 +3,50 @@
 #include    "ySTR_priv.h"
 
 
-char    (*g_consumer )   (void *a_owner, void *a_deproot, int a_seq, int a_lvl);
-static  char  (*s_displayer)  (int x, int y, char *a_text) = NULL;
+static char  (*s_displayer)  (int x, int y, char *a_text) = NULL;
 
 
 #define     MAX_WIDTH     450
 #define     MAX_HEIGHT     10
+
+
+
+/*====================------------------------------------====================*/
+/*===----                        binary fonts                          ----===*/
+/*====================------------------------------------====================*/
+static void      o___BINARY__________________o (void) {;}
+
+static char binary   [MAX_HEIGHT][MAX_WIDTH] = {
+   "-- -* -- -* -- -* -- -* *- ** ",
+   "-- -* -* *- *- ** ** -- -- ** ",
+};
+
+static char dots     [MAX_HEIGHT][MAX_WIDTH] = {
+   "  .   .n.       ",
+   " -=-  c$d       ",
+   "  '   'W'       "
+};
+
+static char dots_rnd [MAX_HEIGHT][MAX_WIDTH] = {
+   " .   À´À  Ï Ï ",
+   "-´-  ´´´   Ï  ",
+   " '   Ì´Ì  Ï Ï "
+};
+
+static char dots_med [MAX_HEIGHT][MAX_WIDTH] = {
+   "··· ·´·     ",
+   "·´· ´´´     ",
+   "··· ·´·     ",
+};
+
+static char dots_sml [MAX_HEIGHT][MAX_WIDTH] = {
+   "·· ´´    ",
+   "·· ´´    ",
+};
+
+static char dots_tny [MAX_HEIGHT][MAX_WIDTH] = {
+   "·´·",
+};
 
 
 
@@ -54,9 +92,9 @@ static char rob4dots    [MAX_HEIGHT][MAX_WIDTH] = {
 static char rob4dots3   [MAX_HEIGHT][MAX_WIDTH] = {
    /*234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-1234-*/
    "     ³            ³        ´³ ·´³³ ³     ´     ³  ³     ³                  ³³´· ·´³³            ³                                      ·³³·  ²³  ´³³´ ²³³´   ²³ ³³³³  ´³² ³³³³ ·³³· ·³³² ",
-   "·´³³ ³³´· ·´³³ ·´³³ ·´³²  ³´  ³  ³ ³´´·  ·     ³  ³·²³  ³   ³´´³ ³´´· ·³³· ³  ³ ³  ³ ³´³² ³³³³ ²³²² ³  ³ ³² ³ ³ ´³ ³² ³ ²´ ³ ³³³³      ³ ´³   ³    ²³  ·³³  ²³³ ³´´· ³´´·   ²³ ³´´³ ³  ³ ",
-   "³  ³ ³  ³ ³    ³  ³ ³·³´ ²³²² ·´³³ ³³ ³  ³     ³  ³³´   ³   ³ ´³ ³³ ³ ³··³ ³³´· ·´³³ ³  ´ ·³²·  ³   ³²²³ ³²²³ ³ ´³  ³³· ²²´³  ²³       ³´ ³   ³  ²´³     ³ ²³³³   ·³ ³  ³  ²³  ³  ³ ·´´³ ",
-   "·´³³ ³³´· ·´³³ ·´³³ ·´³³  ³    ²²³ ³  ³  ³   ²³´  ³ ²³  ´³  ³ ´³ ³  ³ ·³³· ³       ³ ³    ³³³·  ²³³ ´³³´  ³³  ´³³´ ³· ³  ²·³ ²³³³      ·³³·  ²³² ³³³³ ²³³´    ³ ²³³´ ·³³· ²³   ·³³· ·³´· ",
+   "·´³³ ³³´· ·´³³ ·´³³ ·´³²  ³´  ´  ³ ³´´·  ·     ³  ³·²³  ³   ³´´³ ³´´· ·³³· ³  ³ ³  ³ ³´³² ³³³³ ²³²² ³  ³ ³² ³ ³ ´³ ³² ³ ²´ ³ ³³³³      ³ ´³   ³    ²³  ·³³  ²³³ ³´´· ³´´·   ²³ ³´´³ ³  ³ ",
+   "³  ³ ³  ³ ³    ³  ³ ³·³´ ²³²² ··´³ ³³ ³  ³     ³  ³³´   ³   ³ ´³ ³³ ³ ³··³ ³³´· ·´³³ ³  ´ ·³²·  ³   ³²²³ ³²²³ ³ ´³  ³³· ²²´³  ²³       ³´ ³   ³  ²´³     ³ ²³³³   ·³ ³  ³  ²³  ³  ³ ·´´³ ",
+   "·´³³ ³³´· ·´³³ ·´³³ ·´³³  ³    ³³´ ³  ³  ³   ²³´  ³ ²³  ´³  ³ ´³ ³  ³ ·³³· ³       ³ ³    ³³³·  ²³³ ´³³´  ³³  ´³³´ ³· ³  ²·³ ²³³³      ·³³·  ²³² ³³³³ ²³³´    ³ ²³³´ ·³³· ²³   ·³³· ·³´· ",
 };
 
 static char rob4dots2   [MAX_HEIGHT][MAX_WIDTH] = {
@@ -132,33 +170,6 @@ static char goofy  [MAX_HEIGHT][MAX_WIDTH] = {
    " µ    /     (      )     (     )    (     /      (     )    (     /      µ    /     (  /         µ    /      (    /     ",
 };
 
-
-static char binary   [MAX_HEIGHT][MAX_WIDTH] = {
-   "-- -* -- -* -- -* -- -* *- ** ",
-   "-- -* -* *- *- ** ** -- -- ** ",
-};
-
-static char dots     [MAX_HEIGHT][MAX_WIDTH] = {
-   "  .   .n.       ",
-   " -=-  c$d       ",
-   "  '   'W'       "
-};
-
-static char dots_med [MAX_HEIGHT][MAX_WIDTH] = {
-   "··· ·´·     ",
-   "·´· ´´´     ",
-   "··· ·´·     ",
-};
-
-static char dots_sml [MAX_HEIGHT][MAX_WIDTH] = {
-   "·· ´´    ",
-   "·· ´´    ",
-};
-
-static char dots_tny [MAX_HEIGHT][MAX_WIDTH] = {
-   "·´·",
-};
-
 static char alligator2 [MAX_HEIGHT][MAX_WIDTH] = {
    /*234567890--1234567890--1234567890--1234567890--1234567890--1234567890--1234567890--1234567890--1234567890--1234567890--*/
    " ::::::::       :::      ::::::::    ::::::::       :::     ::::::::::   ::::::::   ::::::::::   ::::::::    ::::::::   ",
@@ -169,7 +180,6 @@ static char alligator2 [MAX_HEIGHT][MAX_WIDTH] = {
    "#+#    #+#      #+#      #+#        #+#    #+#        #+#   #+#    #+#  #+#    #+#     #+#      #+#    #+#  #+#    #+#  ",
    " ########     #######   ##########   ########         ###    ########    ########      ###       ########    ########   ",
 };
-
 
 static char basic    [MAX_HEIGHT][MAX_WIDTH] = {
    /*234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-1234567-*/
@@ -362,7 +372,8 @@ static tFONT  s_fonts [MAX_FONT] = {
    { "goofy"        , FONT_NUMS   , &goofy       ,  5 ,  8 ,  0 ,  0 ,  4 , ' ' },
    { "binary"       , FONT_NUMS   , &binary      ,  2 ,  2 ,  1 ,  1 ,  1 , ' ' },
    { "basic"        , FONT_FULL   , &basic       ,  6 ,  8 ,  1 ,  0 ,  0 , '-' },
-   { "dots"         , FONT_BINARY , &dots        ,  3 ,  5 ,  1 ,  0 ,  0 , ' ' },
+   { "dots"         , FONT_BINARY , &dots        ,  3 ,  5 ,  1 ,  1 ,  0 , ' ' },
+   { "dots_rnd"     , FONT_BINARY , &dots_rnd    ,  3 ,  3 ,  0 ,  0 ,  2 , ' ' },
    { "dots_med"     , FONT_BINARY , &dots_med    ,  3 ,  3 ,  1 ,  1 ,  1 , ' ' },
    { "dots_sml"     , FONT_BINARY , &dots_sml    ,  2 ,  2 ,  1 ,  1 ,  1 , ' ' },
    { "dots_tny"     , FONT_BINARY , &dots_tny    ,  1 ,  1 ,  0 ,  0 ,  0 , ' ' },
@@ -392,7 +403,7 @@ static tFONT  s_fonts [MAX_FONT] = {
    { "end-of-fonts" , 0           , NULL         ,  0 ,  0 ,  0 ,  0 ,  0 ,  0  },
 };
 static  int     s_curr     =   -1;
-static  int     s_count    =   36;
+static  int     s_count    =   37;
 
 
 char ySTR_displayer   (void *a_displayer) { s_displayer = a_displayer; }
@@ -757,6 +768,60 @@ ySTR_display            (char *a_font, char *a_text, char a_gap, int x, int y, i
       p = strtok_r (NULL, "\n¦", &r);
       x_tall += s_fonts [s_curr].tall + s_fonts [s_curr].yoff;
       ++x_row;
+   }
+   /*---(save values)--------------------*/
+   DEBUG_GRAF   yLOG_value   ("x_wide"   , x_wide);
+   DEBUG_GRAF   yLOG_value   ("x_tall"   , x_tall);
+   if (a_wide != NULL)  *a_wide = x_wide;
+   if (a_tall != NULL)  *a_tall = x_tall;
+   /*---(complete)-----------------------*/
+   DEBUG_GRAF   yLOG_exit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> display a single line to screen --------[ whorl  [ 4----3 ]-*/
+ystr_oneline            (char *a_text, int x, int y)
+{
+   if (s_displayer != NULL)  s_displayer (x, y, a_text);
+}
+
+char         /*-> display wrapped text to screen ---------[ whorl  [ 4----3 ]-*/
+ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, int *a_tall)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   int         x_len       =    0;
+   char        x_work      [LEN_RECD];
+   char       *p           = NULL;
+   char       *r           = NULL;
+   int         x_wide      =    0;
+   int         w           =    0;
+   int         x_tall      =    0;
+   /*---(begin)--------------------------*/
+   DEBUG_GRAF   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_GRAF   yLOG_point   ("a_text"    , a_text);
+   --rce;  if (a_text == NULL) {
+      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_GRAF   yLOG_info    ("a_text"    , a_text);
+   strcpy (x_work, a_text);
+   x_len = strlen (x_work);
+   DEBUG_GRAF   yLOG_value   ("x_len"     , x_len);
+   --rce;  if (x_len <= 0) {
+      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(walk through text)--------------*/
+   p = strtok_r (x_work, "\n¦", &r);
+   while (p != NULL) {
+      if (s_displayer != NULL)  s_displayer (x, y + x_tall, p);
+      w = strlen (p);
+      if (w > x_wide)  x_wide = w;
+      ++x_tall;
+      p = strtok_r (NULL, "\n¦", &r);
    }
    /*---(save values)--------------------*/
    DEBUG_GRAF   yLOG_value   ("x_wide"   , x_wide);

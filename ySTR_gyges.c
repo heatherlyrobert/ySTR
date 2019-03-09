@@ -663,34 +663,34 @@ ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check)
 }
 
 char
-ystr_gyges__unit_check  (int a_tab, int a_col, int a_row, char a_check)
+ystr_gyges__unit_check  (int b, int x, int y, char z, char a_check)
 {
    char        rc          =    0;
    if (a_check == YSTR_ADAPT)  return 0;
    if (a_check != YSTR_LEGAL)  return 0;
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
-   DEBUG_YSTR   yLOG_sint    (a_tab);
-   DEBUG_YSTR   yLOG_sint    (a_col);
-   DEBUG_YSTR   yLOG_sint    (a_row);
-   if (a_tab < 5) {
+   DEBUG_YSTR   yLOG_sint    (b);
+   DEBUG_YSTR   yLOG_sint    (x);
+   DEBUG_YSTR   yLOG_sint    (y);
+   if (b < 5) {
       DEBUG_YSTR   yLOG_snote   ("numeric (0-4) tab");
-      if (a_col >  22)  rc = -1;
-      if (a_row >  99)  rc = -1;
+      if (x >  22)  rc = -1;
+      if (y >  99)  rc = -1;
    }
-   else if (a_tab < 10) {
+   else if (b < 10) {
       DEBUG_YSTR   yLOG_snote   ("numeric (5-9) tab");
-      if (a_col >  40)  rc = -2;
-      if (a_row > 499)  rc = -2;
+      if (x >  40)  rc = -2;
+      if (y > 499)  rc = -2;
    }
-   else if (a_tab < 20) {
+   else if (b < 20) {
       DEBUG_YSTR   yLOG_snote   ("alpha (A-J) tab");
-      if (a_col <  22)  rc = -3;
-      if (a_row <  99)  rc = -3;
+      if (x <  22)  rc = -3;
+      if (y <  99)  rc = -3;
    }
    else {
       DEBUG_YSTR   yLOG_snote   ("alpha (K-¯) tab");
-      if (a_col <  40)  rc = -4;
-      if (a_row < 499)  rc = -4;
+      if (x <  40)  rc = -4;
+      if (y < 499)  rc = -4;
    }
    if (rc < 0)  DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rc);
    else         DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
