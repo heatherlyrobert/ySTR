@@ -118,6 +118,7 @@ typedef     unsigned char  uchar;
 #define     YSTR_CHECK     '-'
 #define     YSTR_LEGAL     'y'
 #define     YSTR_ADAPT     'a'
+#define     YSTR_VALID     "-ya"
 
 
 
@@ -249,6 +250,7 @@ typedef     unsigned char  uchar;
 #define     LEN_LABEL          20       /* names and labels                   */
 #define     LEN_USER           12       /* user names                         */
 #define     LEN_HEX            10       /* hex codes                          */
+#define     LEN_TERSE          10       /* terse string                       */
 #define     LEN_SHORT           5       /* for small needs                    */
 
 
@@ -309,6 +311,21 @@ char        str2gyges               (char *a_src, int *a_tab, int *a_col, int *a
 char        str4gyges               (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char *a_out, char a_check);
 char        str6gyges               (char *a_src, int a_def, char *a_out, char a_check);
 char        str8gyges               (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char a_force, char *a_out, char a_check);
+
+char        VALID_tab               (int a_tab);
+char        LEGAL_tab               (int a_ntab, int a_tab);
+uchar       LABEL_tab               (int a_tab);
+int         INDEX_tab               (uchar a_label);
+
+char        VALID_col               (int a_col);
+char        LEGAL_col               (int a_ncol, int a_col);
+uchar*      LABEL_col               (int a_col);
+int         INDEX_col               (uchar *a_label);
+
+char        VALID_row               (int a_row);
+char        LEGAL_row               (int a_nrow, int a_row);
+uchar*      LABEL_row               (int a_row);
+int         INDEX_row               (uchar *a_label);
 
 char        str9align               (char a_align);
 char        str9filler              (char a_filler);

@@ -9,9 +9,9 @@ static int ySTR_cmin  =     0;
 static int ySTR_rmin  =     0;
 
 
-static int ySTR_tmax  =    37;
-static int ySTR_cmax  =   702;    /*  ·a to zz        */
-static int ySTR_rmax  =  9998;    /*   100000 rows    */
+static int ySTR_tmax  =    37;    /*   0-9A-Z ® ¯     */
+static int ySTR_cmax  =   701;    /*   a to zz        */
+static int ySTR_rmax  =  9998;    /*   1 to 9999      */
 
 
 static char *ySTR_tvalid  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯";
@@ -29,6 +29,9 @@ static int  s_col       =  -10;
 static int  s_row       =  -10;
 static int  s_abs       =  -10;
 static int  s_def       =  -10;
+
+static uchar    s_temp        [LEN_LABEL];
+static int      s_value;
 
 
 
@@ -441,7 +444,6 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada,
 
 
 
-
 /*====================------------------------------------====================*/
 /*===----                 convert positions to labels                  ----===*/
 /*====================------------------------------------====================*/
@@ -457,13 +459,10 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense: empty output)----------*/
    DEBUG_YSTR   yLOG_point   ("a_out"     , a_out);
-   --rce;  if (a_out == NULL) {
-      DEBUG_YSTR   yLOG_note    ("aborting, no a_out means no point");
-      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
-      return rce;
+   if (a_out != NULL) {
+      strlcpy (a_out  , "n/a", LEN_LABEL);
+      DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
    }
-   strlcpy (a_out  , "n/a", LEN_LABEL);
-   DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
    /*---(shortcut saved)-----------------*/
    if (s_func == 4 && a_tab == s_tab && a_col == s_col && a_row == s_row  && a_abs == s_abs && a_check == s_check) {
       DEBUG_YSTR   yLOG_note    ("shortcut, same as last request");
@@ -479,7 +478,7 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
    DEBUG_YSTR   yLOG_value   ("a_row"     , a_row);
    if (a_col == -1 && a_row == -1 && a_tab == -1) {
       DEBUG_YSTR   yLOG_note    ("requested ROOT");
-      strlcpy (a_out  , "ROOT", LEN_LABEL);
+      if (a_out != NULL)  strlcpy (a_out  , "ROOT", LEN_LABEL);
       DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
       return 1;
    }
@@ -556,12 +555,14 @@ str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char
    }
    /*---(create label)-------------------*/
    sprintf (x_label, "%s%c%s%s%s%d", x_tref, x_tab, x_cref, x_cname, x_rref, a_row + 1);
-   strlcpy  (a_out, x_label, LEN_LABEL);
-   DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
+   if (a_out != NULL) {
+      strlcpy  (a_out, x_label, LEN_LABEL);
+      DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
+   }
    /*---(save for shortcut)--------------*/
    DEBUG_YSTR   yLOG_note    ("save shortcuts");
    s_func  = 4;
-   strlcpy (s_label, a_out, LEN_LABEL);
+   strlcpy (s_label, x_label, LEN_LABEL);
    s_tab   = a_tab;
    s_col   = a_col;
    s_row   = a_row;
@@ -571,6 +572,340 @@ str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return  0;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                     quick tab checks                         ----===*/
+/*====================------------------------------------====================*/
+static void      o___TABS____________________o (void) {;}
+
+char
+VALID_tab               (int a_tab)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_tab);
+   DEBUG_YSTR   yLOG_sint    (ySTR_tmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_tmax);
+   if (a_tab < ySTR_tmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_tab > ySTR_tmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 1;
+}
+
+char
+LEGAL_tab               (int a_ntab, int a_tab)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_ntab);
+   DEBUG_YSTR   yLOG_sint    (a_tab);
+   DEBUG_YSTR   yLOG_sint    (ySTR_tmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_tmax);
+   if (a_tab < ySTR_tmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_tab > ySTR_tmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_tab >= 36) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 1;
+   }
+   if (a_tab >= a_ntab) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 1;
+}
+
+uchar
+LABEL_tab               (int a_tab)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_tab);
+   DEBUG_YSTR   yLOG_snote   (ySTR_tvalid);
+   if (a_tab < ySTR_tmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_tab > ySTR_tmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return ySTR_tvalid [a_tab];
+}
+
+int
+INDEX_tab               (uchar a_label)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char       *p           = NULL;
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_schar   (a_label);
+   DEBUG_YSTR   yLOG_snote   (ySTR_tvalid);
+   if (a_label == 0) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -1);
+      return -1;
+   }
+   p = strchr (ySTR_tvalid, a_label);
+   DEBUG_YSTR   yLOG_spoint  (p);
+   if (p == NULL) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -2);
+      return -2;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return p - ySTR_tvalid;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                     quick col checks                         ----===*/
+/*====================------------------------------------====================*/
+static void      o___COLS____________________o (void) {;}
+
+char
+VALID_col               (int a_col)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_col);
+   DEBUG_YSTR   yLOG_sint    (ySTR_cmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_cmax);
+   if (a_col < ySTR_cmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_col > ySTR_cmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 1;
+}
+
+char
+LEGAL_col               (int a_ncol, int a_col)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_ncol);
+   DEBUG_YSTR   yLOG_sint    (a_col);
+   DEBUG_YSTR   yLOG_sint    (ySTR_cmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_cmax);
+   if (a_col < ySTR_cmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_col > ySTR_cmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_col > a_ncol) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 1;
+}
+
+uchar*
+LABEL_col               (int a_col)
+{
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_col);
+   DEBUG_YSTR   yLOG_sint    (ySTR_cmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_cmax);
+   /*---(defense)------------------------*/
+   strlcpy (s_temp, "¢¢", LEN_TERSE);
+   if (a_col < ySTR_cmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return s_temp;
+   }
+   if (a_col > ySTR_cmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return s_temp;
+   }
+   /*---(make name)----------------------*/
+   if        (a_col < 26)  {
+      s_temp [0] = G_CHAR_SPACE;
+      s_temp [1] = a_col + 'a';
+   } else  {
+      s_temp [0] = (a_col / 26) - 1 + 'a';
+      s_temp [1] = (a_col % 26) + 'a';
+   }
+   s_temp [2] = '\0';
+   DEBUG_YSTR   yLOG_snote   (s_temp);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return s_temp;
+}
+
+int
+INDEX_col               (uchar *a_label)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_len       =    0;
+   int         i           =    0;
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_spoint  (a_label);
+   if (a_label == NULL) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -1);
+      return -1;
+   }
+   DEBUG_YSTR   yLOG_snote   (a_label);
+   x_len = strlen (a_label);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   if (x_len < 1 || x_len > 2) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -2);
+      return -2;
+   }
+   strcpy (s_temp, a_label);
+   DEBUG_YSTR   yLOG_snote   (ySTR_cvalid);
+   s_value = 0;
+   for (i = 0; i < x_len; ++i) {
+      if (i == 0 && s_temp [i] == G_CHAR_SPACE)  continue;
+      if (i == 0 && s_temp [i] == G_KEY_SPACE)   continue;
+      if (strchr (ySTR_cvalid, s_temp [i]) == NULL) {
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -3);
+         return -3;
+      }
+      s_value *= 26;
+      s_value += s_temp [i] - 'a' + 1;
+      DEBUG_YSTR   yLOG_sint    (s_value);
+   }
+   s_value -= 1;
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return s_value;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                     quick row checks                         ----===*/
+/*====================------------------------------------====================*/
+static void      o___ROWS____________________o (void) {;}
+
+char
+VALID_row               (int a_row)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_row);
+   DEBUG_YSTR   yLOG_sint    (ySTR_rmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_rmax);
+   if (a_row < ySTR_rmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_row > ySTR_rmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 1;
+}
+
+char
+LEGAL_row               (int a_nrow, int a_row)
+{
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_nrow);
+   DEBUG_YSTR   yLOG_sint    (a_row);
+   DEBUG_YSTR   yLOG_sint    (ySTR_rmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_rmax);
+   if (a_row < ySTR_rmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_row > ySTR_rmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   if (a_row > a_nrow) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return 0;
+   }
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 1;
+}
+
+uchar*
+LABEL_row               (int a_row)
+{
+   int         i           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sint    (a_row);
+   DEBUG_YSTR   yLOG_sint    (ySTR_rmin);
+   DEBUG_YSTR   yLOG_sint    (ySTR_rmax);
+   /*---(defense)------------------------*/
+   strlcpy (s_temp, "¢¢¢¢", LEN_TERSE);
+   if (a_row < ySTR_rmin) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return s_temp;
+   }
+   if (a_row > ySTR_rmax) {
+      DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+      return s_temp;
+   }
+   /*---(make name)----------------------*/
+   sprintf (s_temp, "%4d", a_row + 1);
+   for (i = 0; i < 4; ++i) {
+      if (s_temp [i] == G_KEY_SPACE)  s_temp [i] = G_CHAR_SPACE;
+   }
+   DEBUG_YSTR   yLOG_snote   (s_temp);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return s_temp;
+}
+
+int
+INDEX_row               (uchar *a_label)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         x_len       =    0;
+   int         i           =    0;
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_spoint  (a_label);
+   if (a_label == NULL) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -1);
+      return -1;
+   }
+   DEBUG_YSTR   yLOG_snote   (a_label);
+   x_len = strlen (a_label);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   if (x_len <  1 || x_len > 4) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -2);
+      return -2;
+   }
+   strcpy (s_temp, a_label);
+   DEBUG_YSTR   yLOG_snote   (ySTR_rvalid);
+   for (i = 0; i < x_len; ++i) {
+      DEBUG_YSTR   yLOG_schar   (s_temp [i]);
+      if (s_temp [i] == G_KEY_SPACE)  continue;
+      if (s_temp [i] == G_CHAR_SPACE) {
+         s_temp [i] = G_KEY_SPACE;
+         continue;
+      }
+      if (strchr (ySTR_rvalid, s_temp [i]) == NULL) {
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -3);
+         return -3;
+      }
+   }
+   s_value = atoi (s_temp) - 1;
+   DEBUG_YSTR   yLOG_sint    (s_value);
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return s_value;
 }
 
 
