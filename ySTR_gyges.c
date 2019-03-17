@@ -459,10 +459,12 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense: empty output)----------*/
    DEBUG_YSTR   yLOG_point   ("a_out"     , a_out);
-   if (a_out != NULL) {
-      strlcpy (a_out  , "n/a", LEN_LABEL);
-      DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return  rce;
    }
+   strlcpy (a_out  , "n/a", LEN_LABEL);
+   DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
    /*---(shortcut saved)-----------------*/
    if (s_func == 4 && a_tab == s_tab && a_col == s_col && a_row == s_row  && a_abs == s_abs && a_check == s_check) {
       DEBUG_YSTR   yLOG_note    ("shortcut, same as last request");
