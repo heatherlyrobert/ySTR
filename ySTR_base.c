@@ -49,7 +49,7 @@ str9align            (char a_align)
 {
    if (a_align  == ' ')                                              return -1;
    if (a_align  ==  0 )                                              return -2;
-   if (strchr ("? <|> [^] {}", a_align) == NULL)                     return -3;
+   if (strchr ("? <|> [^] {} :'", a_align) == NULL)                  return -3;
    return 0;
 }
 
@@ -58,7 +58,7 @@ str9filler           (char a_filler)
 {
    if (a_filler == ' ')                                              return -1;
    if (a_filler ==  0 )                                              return -2;
-   if (strchr ("? !-=_ +./ qQ@ :# *", a_filler) == 0)                return -3;
+   if (strchr ("? !-=_ +./@ qQ ~#", a_filler) == 0)                  return -3;
    return 0;
 }
 

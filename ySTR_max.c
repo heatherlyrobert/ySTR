@@ -433,7 +433,7 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    /*---(shortcut for too long)----------*/
    else if (x_len >  a_max) {
       switch (a_ali) {
-      case '<' : case '[' : case '{' : default :
+      case '<' : case '[' : case '{' : case ':' : default :
          x_adj  = a_max - 1;
          x_off  = 0;
          sprintf (a_out, "%-*.*s>", x_adj, x_adj, a_src + x_off);
@@ -443,7 +443,7 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
          x_off  = x_len - a_max - ((x_len - a_max) / 2) + 1;
          sprintf (a_out, "<%-*.*s>", x_adj, x_adj, a_src + x_off);
          break;
-      case '>' : case ']' : case '}' :
+      case '>' : case ']' : case '}' : case '\'' :
          x_adj  = a_max - 1;
          x_off  = x_len - a_max + 1;
          sprintf (a_out, "<%-*.*s", x_adj, x_adj, a_src + x_off);
@@ -460,7 +460,7 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    case '+': x_fore = x_back = s_pluses;          break;
    case '/': x_fore = x_back = s_place;           break;
    case '@': x_fore = x_back = s_bigdot;          break;
-   case ':': x_fore = x_back = s_ruler;           break;
+   case '~': x_fore = x_back = s_ruler;           break;
    case '#': x_fore = x_back = s_number;          break;
    case 'q': x_fore = s_fore ; x_back = s_back;   break;
    case 'Q': x_fore = s_fore2; x_back = s_back2;  break;
@@ -491,7 +491,9 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    x_npre  = a_max - x_len - x_nsuf;
    switch (a_ali) {
    case '<' : sprintf (x_final, "%s%.*s", x_temp, a_max - x_len, x_back + x_len);                                     break;
+   case ':' : sprintf (x_final, "%s%.*s:", x_temp, a_max - x_len - 1, x_back + x_len);                                break;
    case '>' : sprintf (x_final, "%.*s%s", a_max - x_len, x_fore, x_temp);                                             break;
+   case '\'': sprintf (x_final, "%.*s%s:", a_max - x_len - 1, x_fore, x_temp);                                        break;
    case '|' : sprintf (x_final, "%.*s%s%.*s", x_npre, x_fore, x_temp, x_nsuf, x_back + x_len + x_npre);               break;
    case '[' : sprintf (x_final, "[%s%.*s]", x_temp, a_max - x_len - 2, x_back + x_len + 1);                           break;
    case ']' : sprintf (x_final, "[%.*s%s]", a_max - x_len - 2, x_fore + 1, x_temp);                                   break;

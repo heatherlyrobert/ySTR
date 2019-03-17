@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5g"
-#define     P_VERTXT    "separated code and unit tests better for easier maintenance"
+#define     P_VERNUM    "0.5h"
+#define     P_VERTXT    "cleaned formats for padding and added a couple alignments"
 
 
 
