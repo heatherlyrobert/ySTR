@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5e"
-#define     P_VERTXT    "added gyges VALID_, LEGAL_, LABEL_, and INDEX_ functions to make cleaner"
+#define     P_VERNUM    "0.5f"
+#define     P_VERTXT    "added units-of-measure to number string formatting, supporting gyges"
 
 
 

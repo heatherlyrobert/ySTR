@@ -294,12 +294,12 @@ char        strl2num           (char   *a_src, double *a_val, int a_max);
 char        strl4bin           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        strl4comma         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
+char        strl4comma         (double a_val, char *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
 char        strl4sci           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4roman         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4time          (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        strl4main          (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
+char        strl4main          (double a_val, char *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
 
 char        strlpad            (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
 
