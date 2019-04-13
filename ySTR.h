@@ -116,9 +116,10 @@ typedef     unsigned char  uchar;
 
 
 #define     YSTR_CHECK     '-'
-#define     YSTR_LEGAL     'y'
-#define     YSTR_ADAPT     'a'
-#define     YSTR_VALID     "-ya"
+#define     YSTR_LEGAL     'y'   /* just check, no changes                    */
+#define     YSTR_ADAPT     'a'   /* check, then grow to include if you must   */
+#define     YSTR_EXACT     'e'   /* check, then grow/shrink to exact size     */
+#define     YSTR_VALID     "-yae"
 
 
 

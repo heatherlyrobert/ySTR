@@ -59,6 +59,8 @@ ystr_gyges__check     (int a_tab, int a_col, int a_row, int a_abs)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;           /* return code for errors        */
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense: theoretical range)-----*/
    DEBUG_YSTR   yLOG_complex ("a_tab"     , "%4d,  abs range %d to %d", a_tab, ySTR_tmin, ySTR_tmax);
    --rce;  if (a_tab  < ySTR_tmin || a_tab  > ySTR_tmax) {
@@ -81,6 +83,7 @@ ystr_gyges__check     (int a_tab, int a_col, int a_row, int a_abs)
       return rce;
    }
    /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -106,6 +109,8 @@ ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_check)
       DEBUG_YSTR   yLOG_note    ("conduct legal check");
    } else if  (a_check == YSTR_ADAPT) {
       DEBUG_YSTR   yLOG_note    ("grow/adapt to include");
+   } else if  (a_check == YSTR_EXACT) {
+      DEBUG_YSTR   yLOG_note    ("set to specific max");
    } else {
       DEBUG_YSTR   yLOG_note    ("a_check flag not understood");
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -712,7 +717,7 @@ LEGAL_col               (int a_ncol, int a_col)
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
-   if (a_col > a_ncol) {
+   if (a_col >= a_ncol) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
@@ -833,7 +838,7 @@ LEGAL_row               (int a_nrow, int a_row)
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
-   if (a_row > a_nrow) {
+   if (a_row >= a_nrow) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
