@@ -421,23 +421,24 @@ static void      o___FORMATTING______________o (void) {;}
 char
 ystr__units          (double *a_value, char a_unit)
 {
-   double      x_scale     =    0;
-   int         i           =    0;               /* iterator -- character     */
-   char       *x_valid     = "YZEPTMKHD-dcmunpfazy";
+   double      x_scale     =  0.0;
+   char       *x_valid     = "-YZEPTGMKHD.dcmunpfazy";
    /*---(defense)------------------------*/
    if (a_value == NULL)    return -1;
    /*---(units up)-----------------------*/
    switch (a_unit) {
-   case 'Y' :  x_scale = 1000000000000000000000;           break;
-   case 'Z' :  x_scale = 1000000000000000000;              break;
-   case 'E' :  x_scale = 1000000000000000;                 break;
-   case 'P' :  x_scale = 1000000000000;                    break;
-   case 'T' :  x_scale = 1000000000;                       break;
-   case 'M' :  x_scale = 1000000;                          break;
-   case 'K' :  x_scale = 1000;                             break;
-   case 'H' :  x_scale = 100;                              break;
-   case 'D' :  x_scale = 10;                               break;
-   case '-' :  x_scale = 1;                                break;
+   case 'Y' :  x_scale = 1000000000000000000000000.0;      break;
+   case 'Z' :  x_scale = 1000000000000000000000.0;         break;
+   case 'E' :  x_scale = 1000000000000000000.0;            break;
+   case 'P' :  x_scale = 1000000000000000.0;               break;
+   case 'T' :  x_scale = 1000000000000.0;                  break;
+   case 'G' :  x_scale = 1000000000.0;                     break;
+   case 'M' :  x_scale = 1000000.0;                        break;
+   case 'K' :  x_scale = 1000.0;                           break;
+   case 'H' :  x_scale = 100.0;                            break;
+   case 'D' :  x_scale = 10.0;                             break;
+   case '-' :  x_scale = 1.0;                              break;
+   case '.' :  x_scale = 1.0;                              break;
    case 'd' :  x_scale = 0.1;                              break;
    case 'c' :  x_scale = 0.01;                             break;
    case 'm' :  x_scale = 0.001;                            break;
@@ -745,8 +746,9 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   if (a_unit == '-')   sprintf (x_unit, "%c", G_CHAR_SMALL);
-   else                 sprintf (x_unit, "%c", a_unit);
+   if      (a_unit == '-')   strcpy  (x_unit, "");
+   else if (a_unit == '.')   sprintf (x_unit, "%c", G_CHAR_SMALL);
+   else                      sprintf (x_unit, "%c", a_unit);
    /*---(parse out)----------------------*/
    for (i = 0; i < a_decs; ++i)  x_exp *= 10;
    x_round  = round (x_scaled * x_sign * x_exp * x_pct);
@@ -776,6 +778,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    }
    DEBUG_YSTR  yLOG_snote    (x_temp);
    /*---(assemble suffix)----------------*/
+   strcat (x_final, x_unit);
    if (x_sign < 0) {
       switch (tolower (a_fmt)) {
       case 'a' : case '$' : case 'p' : strcat (x_final, ")");  break;
@@ -790,7 +793,6 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
       case ';' :                       strcat (x_final, " +"); break;
       }
    }
-   if (a_fmt == 'F')  strcat (x_final, x_unit);
    DEBUG_YSTR  yLOG_snote    (x_final);
    /*---(create)---------------*/
    x_len = strlen (x_final);
@@ -1115,6 +1117,11 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, char a_u
       strlcpy (a_out, "#p/fmt", a_max);
       DEBUG_YSTR   yLOG_snote   ("filler bad");
       return -1;
+   }
+   if (str9decs (a_bytes) < 0) {
+      strlcpy (a_out, "#p/dec", a_max);
+      DEBUG_YSTR   yLOG_snote   ("filler bad");
+      return -2;
    }
    switch (a_fmt) {
    case 'b' : case 'B' :

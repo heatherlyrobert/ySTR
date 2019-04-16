@@ -331,6 +331,8 @@ int         INDEX_row               (uchar *a_label);
 char        str9align               (char a_align);
 char        str9filler              (char a_filler);
 char        str9format              (char a_format);
+char        str9decs                (int  a_decs);
+char        str9unit                (char a_unit);
 
 char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 

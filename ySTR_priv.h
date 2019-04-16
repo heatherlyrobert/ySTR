@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5i"
-#define     P_VERTXT    "fixed error strings to follow standard format (#./...) using #p"
+#define     P_VERNUM    "0.5j"
+#define     P_VERTXT    "gyges unit testing found little uom trouble, fixed"
 
 
 

@@ -47,27 +47,35 @@ ySTR_debug         (char a_flag)
 char
 str9align            (char a_align)
 {
-   if (a_align  == ' ')                                              return -1;
-   if (a_align  ==  0 )                                              return -2;
-   if (strchr ("? <|> [^] {} :'", a_align) == NULL)                  return -3;
+   if (a_align  == ' ')                                               return -1;
+   if (a_align  ==  0 )                                               return -2;
+   if (strchr ("? <|> [^] {} :'", a_align) == NULL)                   return -3;
    return 0;
 }
 
 char
 str9filler           (char a_filler)
 {
-   if (a_filler == ' ')                                              return -1;
-   if (a_filler ==  0 )                                              return -2;
-   if (strchr ("? !-=_ +./@ qQ ~#", a_filler) == 0)                  return -3;
+   if (a_filler == ' ')                                               return -1;
+   if (a_filler ==  0 )                                               return -2;
+   if (strchr ("? !-=_ +./@ qQ ~#", a_filler) == 0)                   return -3;
    return 0;
 }
 
 char
 str9format           (char a_format)
 {
-   if (a_format == ' ')                                              return -1;
-   if (a_format ==  0 )                                              return -2;
+   if (a_format == ' ')                                               return -1;
+   if (a_format ==  0 )                                               return -2;
    if (strchr ("? ifF cCaAsS$;p eE rR bBoOxXzZ tTdD", a_format) == 0) return -3;
+   return 0;
+}
+
+char
+str9decs             (int a_decs)
+{
+   if (a_decs < 0)  return -1;
+   if (a_decs > 9)  return -2;
    return 0;
 }
 
