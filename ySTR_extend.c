@@ -152,7 +152,8 @@ chrslashed        (char a_ch)
    case 'h'  : x_ch = G_CHAR_LEFT      ;  break;    /*   104 h = 214 Ö   */
    case '<'  : x_ch = G_CHAR_LE        ;  break;    /*    60 < = 221 Ý   */
    case '>'  : x_ch = G_CHAR_GE        ;  break;    /*    62 > = 222 Þ   */
-   case '='  : x_ch = G_CHAR_NE        ;  break;    /*    61 = = 223 ß   */
+   case '/'  : x_ch = G_CHAR_NE        ;  break;    /*    61 = = 223 ß   */
+   case '='  : x_ch = G_CHAR_EQUIV     ;  break;    /*    47 = = 229 å   */
    case '~'  : x_ch = G_CHAR_APPROX    ;  break;    /*   126 ~ = 230 æ   */
    /*---(greek)---------------------*/
    case 'A'  : x_ch = G_CHAR_ALPHA     ;  break;    /*    65 A = 232 è   */

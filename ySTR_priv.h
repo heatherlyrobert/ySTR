@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5k"
-#define     P_VERTXT    "tiny unit test fix for mongo format prefix"
+#define     P_VERNUM    "0.5l"
+#define     P_VERTXT    "tiny change to not-equal and equal symbols for yREGEX (came out nice)"
 
 
 

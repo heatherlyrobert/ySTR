@@ -207,10 +207,11 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_DOWN         212   /*  Ô  */
 #define     G_CHAR_RIGHT        213   /*  Õ  */
 #define     G_CHAR_LEFT         214   /*  Ö  */
-#define     G_CHAR_LE           221   /*  Ý  */
-#define     G_CHAR_GE           222   /*  Þ  */
-#define     G_CHAR_NE           223   /*  ß  */
-#define     G_CHAR_APPROX       230   /*  æ  */
+#define     G_CHAR_LE           221   /*  Ý   <=  */
+#define     G_CHAR_GE           222   /*  Þ   >=  */
+#define     G_CHAR_NE           223   /*  ß   !=  */
+#define     G_CHAR_EQUIV        229   /*  å   ==  */
+#define     G_CHAR_APPROX       230   /*  æ   =~  */
 /*---(greek)---------------------*/
 #define     G_CHAR_ALPHA        232   /*  è  */
 #define     G_CHAR_BETA         233   /*  é  */

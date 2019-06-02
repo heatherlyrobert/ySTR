@@ -172,10 +172,10 @@ ystr__gyges2prep        (char *a_src, int *a_tab, int *a_col, int *a_row, int *a
       return  1;
    }
    /*---(display)------------------------*/
-   DEBUG_YSTR   yLOG_point   ("*a_tab"    , a_tab);
-   DEBUG_YSTR   yLOG_point   ("*a_col"    , a_col);
-   DEBUG_YSTR   yLOG_point   ("*a_row"    , a_row);
-   DEBUG_YSTR   yLOG_point   ("*a_abs"    , a_abs);
+   DEBUG_YSTR   yLOG_point   ("a_tab"     , a_tab);
+   DEBUG_YSTR   yLOG_point   ("a_col"     , a_col);
+   DEBUG_YSTR   yLOG_point   ("a_row"     , a_row);
+   DEBUG_YSTR   yLOG_point   ("a_abs"     , a_abs);
    DEBUG_YSTR   yLOG_value   ("a_def"     , a_def);
    /*---(check for root)-----------------*/
    if (strcmp (a_src, "ROOT") == 0) {
