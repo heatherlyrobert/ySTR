@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5l"
-#define     P_VERTXT    "tiny change to not-equal and equal symbols for yREGEX (came out nice)"
+#define     P_VERNUM    "0.5m"
+#define     P_VERTXT    "tiny change to add range symbol (plus-minus) for yREGEX"
 
 
 

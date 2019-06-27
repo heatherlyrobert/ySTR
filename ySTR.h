@@ -165,7 +165,6 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_SUMMARY      174   /*  ®  */
 #define     G_CHAR_SYSTEM       175   /*  ¯  */
 /*---(special)-------------------*/
-#define     G_CHAR_HUGE         177   /*  ±  */
 #define     G_CHAR_STORAGE      178   /*  ²  */
 #define     G_CHAR_HALT         179   /*  ³  */
 #define     G_CHAR_BIGDOT       180   /*  ´  */
@@ -212,6 +211,7 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_NE           223   /*  ß   !=  */
 #define     G_CHAR_EQUIV        229   /*  å   ==  */
 #define     G_CHAR_APPROX       230   /*  æ   =~  */
+#define     G_CHAR_RANGE        177   /*  ±  */
 /*---(greek)---------------------*/
 #define     G_CHAR_ALPHA        232   /*  è  */
 #define     G_CHAR_BETA         233   /*  é  */

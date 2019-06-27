@@ -108,7 +108,6 @@ chrslashed        (char a_ch)
    case ':'  : x_ch = G_CHAR_SUMMARY   ;  break;    /*    58 : = 174 ®   */
    case '%'  : x_ch = G_CHAR_SYSTEM    ;  break;    /*    37 % = 175 ¯   */
    /*---(special)-------------------*/
-   case '$'  : x_ch = G_CHAR_HUGE      ;  break;    /*    36 $ = 177 ±   */
    case ' '  : x_ch = G_CHAR_STORAGE   ;  break;    /*    32   = 178 ²   */
    case 'q'  : x_ch = G_CHAR_HALT      ;  break;    /*   113 q = 179 ³   */
    case '@'  : x_ch = G_CHAR_BIGDOT    ;  break;    /*    64 @ = 180 ´   */
@@ -155,6 +154,7 @@ chrslashed        (char a_ch)
    case '/'  : x_ch = G_CHAR_NE        ;  break;    /*    61 = = 223 ß   */
    case '='  : x_ch = G_CHAR_EQUIV     ;  break;    /*    47 = = 229 å   */
    case '~'  : x_ch = G_CHAR_APPROX    ;  break;    /*   126 ~ = 230 æ   */
+   case '$'  : x_ch = G_CHAR_RANGE     ;  break;    /*    36 $ = 177 ±   */
    /*---(greek)---------------------*/
    case 'A'  : x_ch = G_CHAR_ALPHA     ;  break;    /*    65 A = 232 è   */
    case 'B'  : x_ch = G_CHAR_BETA      ;  break;    /*    66 B = 233 é   */
