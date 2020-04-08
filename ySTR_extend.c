@@ -103,14 +103,15 @@ chrslashed        (char a_ch)
    case '+'  : x_ch = G_CHAR_DISPLAY   ;  break;    /*    43 + = 169 ©   */
    case '.'  : x_ch = G_CHAR_BREAK     ;  break;    /*    46 . = 170 ª   */
    case ','  : x_ch = G_CHAR_WAIT      ;  break;    /*    44 , = 171 «   */
+   case 'q'  : x_ch = G_CHAR_HALT      ;  break;    /*   113 q = 179 ³   */
+   case '\'' : x_ch = G_CHAR_BIGDOT    ;  break;    /*    39 ' = 207 ´   */
+   case '@'  : x_ch = G_CHAR_HUGEDOT   ;  break;    /*    64 @ = 180 Ï   */
+   /*---(special)-------------------*/
+   case ' '  : x_ch = G_CHAR_STORAGE   ;  break;    /*    32   = 178 ²   */
    case '*'  : x_ch = G_CHAR_MASK      ;  break;    /*    42 * = 172 ¬   */
    case 't'  : x_ch = G_CHAR_TAB       ;  break;    /*   116 t = 173 ­   */
    case ':'  : x_ch = G_CHAR_SUMMARY   ;  break;    /*    58 : = 174 ®   */
    case '%'  : x_ch = G_CHAR_SYSTEM    ;  break;    /*    37 % = 175 ¯   */
-   /*---(special)-------------------*/
-   case ' '  : x_ch = G_CHAR_STORAGE   ;  break;    /*    32   = 178 ²   */
-   case 'q'  : x_ch = G_CHAR_HALT      ;  break;    /*   113 q = 179 ³   */
-   case '@'  : x_ch = G_CHAR_BIGDOT    ;  break;    /*    64 @ = 180 ´   */
    /*---(delayed)-------------------*/
    case '\\' : x_ch = G_CHAR_DBSLASH   ;  break;    /*    92 \ = 181 µ   */
    case '"'  : x_ch = G_CHAR_DDQUOTE   ;  break;    /*    34 " = 182 ¶   */
@@ -140,7 +141,6 @@ chrslashed        (char a_ch)
    case 'o'  : x_ch = G_CHAR_DEGREE    ;  break;    /*   111 o = 204 Ì   */
    case 'r'  : x_ch = G_CHAR_RADIAN    ;  break;    /*   114 r = 205 Í   */
    case '1'  : x_ch = G_CHAR_SQRT      ;  break;    /*    49 1 = 206 Î   */
-   case '\'' : x_ch = G_CHAR_SMALL     ;  break;    /*    39 ' = 207 Ï   */
    /*---(logic)---------------------*/
    case '&'  : x_ch = G_CHAR_AND       ;  break;    /*    38 & = 208 Ð   */
    case '|'  : x_ch = G_CHAR_OR        ;  break;    /*   124 | = 209 Ñ   */
@@ -180,6 +180,32 @@ chrslashed        (char a_ch)
    case 'C'  : x_ch = G_CHAR_CHI       ;  break;    /*    67 C = 253 ý   */
    case 'Q'  : x_ch = G_CHAR_PSI       ;  break;    /*    81 Q = 254 þ   */
    case 'W'  : x_ch = G_CHAR_OMEGA     ;  break;    /*    87 W = 255 ÿ   */
+   }
+   /*---(complete)-----------------------*/
+   return x_ch;
+}
+
+uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
+chrslashed_more   (char a_ch)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   uchar       x_ch        = a_ch;
+   /*--- phoenicia/shrike mapping -------------*/
+   switch (x_ch) {
+   /*---(notes)---------------------*/
+   case 't'  : x_ch = G_CHAR_BECAUSE;   break;
+   case 'a'  : x_ch = G_CHAR_FOREACH;   break;
+   case 'e'  : x_ch = G_CHAR_EXISTS;    break;
+   case 'i'  : x_ch = G_CHAR_IMPLIES;   break;
+   case 'p'  : x_ch = G_CHAR_PROVES;    break;
+   case 'f'  : x_ch = G_CHAR_FORCES;    break;
+   case 'c'  : x_ch = G_CHAR_CONTRA;    break;
+   case 'j'  : x_ch = G_CHAR_UNION;     break;
+   case 'k'  : x_ch = G_CHAR_INTERSECT; break;
+   case 'h'  : x_ch = G_CHAR_SUBSET;    break;
+   case 'l'  : x_ch = G_CHAR_SUPERSET;  break;
+   case 'm'  : x_ch = G_CHAR_MEMBER;    break;
+   case 'o'  : x_ch = G_CHAR_ONLYIF;    break;
    }
    /*---(complete)-----------------------*/
    return x_ch;

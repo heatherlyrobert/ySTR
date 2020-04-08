@@ -9,14 +9,14 @@ static int ySTR_cmin  =     0;
 static int ySTR_rmin  =     0;
 
 
-static int ySTR_tmax  =    37;    /*   0-9A-Z ® ¯     */
-static int ySTR_cmax  =   701;    /*   a to zz        */
-static int ySTR_rmax  =  9998;    /*   1 to 9999      */
+static int ySTR_tmax  =    38;    /*   0-9A-Z ® ¯ ¤  */
+static int ySTR_cmax  =   701;    /*   a to zz       */
+static int ySTR_rmax  =  9998;    /*   1 to 9999     */
 
 
-static char *ySTR_tvalid  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯";
-static char *ySTR_cvalid  = "abcdefghijklmnopqrstuvwxyz";
-static char *ySTR_rvalid  = "0123456789";
+static uchar *ySTR_tvalid  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤";
+static uchar *ySTR_cvalid  = "abcdefghijklmnopqrstuvwxyz";
+static uchar *ySTR_rvalid  = "0123456789";
 
 
 static char    (*zSTR_checker)   (int b, int x, int y, int z, char a_check) = NULL;
@@ -95,6 +95,7 @@ ystr_gyges__legal       (int a_tab, int a_col, int a_row, char a_check)
    char        rc          = 0;             /* generic return code            */
    /*---(defense)------------------------*/
    if (a_check == YSTR_CHECK)  return 0;
+   if (a_check == YSTR_USABLE) return 0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(verify checker)-----------------*/
@@ -216,7 +217,7 @@ ystr__gyges2tab         (char *a_src, char *a_pos, int *a_val, char *a_abs, char
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;           /* return code for errors        */
-   char       *p           = NULL;
+   uchar      *p           = NULL;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    DEBUG_YSTR   yLOG_sint    (*a_pos);
@@ -588,18 +589,21 @@ str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char
 /*====================------------------------------------====================*/
 static void      o___TABS____________________o (void) {;}
 
+short  MAX_tab       (void) { return ySTR_tmax; }
+char*  LIST_tabs     (void) { return ySTR_tvalid; }
+
 char
-VALID_tab               (int a_tab)
+VALID_tab               (char a_index)
 {
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
-   DEBUG_YSTR   yLOG_sint    (a_tab);
+   DEBUG_YSTR   yLOG_sint    (a_index);
    DEBUG_YSTR   yLOG_sint    (ySTR_tmin);
    DEBUG_YSTR   yLOG_sint    (ySTR_tmax);
-   if (a_tab < ySTR_tmin) {
+   if (a_index < ySTR_tmin) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
-   if (a_tab > ySTR_tmax) {
+   if (a_index > ySTR_tmax) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
@@ -636,28 +640,28 @@ LEGAL_tab               (int a_ntab, int a_tab)
 }
 
 uchar
-LABEL_tab               (int a_tab)
+LABEL_tab               (char a_index)
 {
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
-   DEBUG_YSTR   yLOG_sint    (a_tab);
+   DEBUG_YSTR   yLOG_sint    (a_index);
    DEBUG_YSTR   yLOG_snote   (ySTR_tvalid);
-   if (a_tab < ySTR_tmin) {
+   if (a_index < ySTR_tmin) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
-      return 0;
+      return '©';
    }
-   if (a_tab > ySTR_tmax) {
+   if (a_index > ySTR_tmax) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
-      return 0;
+      return '©';
    }
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
-   return ySTR_tvalid [a_tab];
+   return ySTR_tvalid [a_index];
 }
 
-int
+char
 INDEX_tab               (uchar a_label)
 {
    /*---(locals)-----------+-----+-----+-*/
-   char       *p           = NULL;
+   uchar      *p           = NULL;
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    DEBUG_YSTR   yLOG_schar   (a_label);
    DEBUG_YSTR   yLOG_snote   (ySTR_tvalid);
@@ -681,6 +685,8 @@ INDEX_tab               (uchar a_label)
 /*===----                     quick col checks                         ----===*/
 /*====================------------------------------------====================*/
 static void      o___COLS____________________o (void) {;}
+
+short  MAX_col       (void) { return ySTR_cmax; }
 
 char
 VALID_col               (int a_col)
@@ -802,6 +808,8 @@ INDEX_col               (uchar *a_label)
 /*===----                     quick row checks                         ----===*/
 /*====================------------------------------------====================*/
 static void      o___ROWS____________________o (void) {;}
+
+short  MAX_row       (void) { return ySTR_rmax; }
 
 char
 VALID_row               (int a_row)
@@ -1008,8 +1016,10 @@ char
 ystr_gyges__unit_check  (int b, int x, int y, char z, char a_check)
 {
    char        rc          =    0;
-   if (a_check == YSTR_ADAPT)  return 0;
-   if (a_check != YSTR_LEGAL)  return 0;
+   if (a_check == YSTR_CHECK)   return 0;
+   if (a_check == YSTR_USABLE)  return 0;
+   if (a_check == YSTR_ADAPT)   return 0;
+   if (a_check != YSTR_LEGAL)   return 0;
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    DEBUG_YSTR   yLOG_sint    (b);
    DEBUG_YSTR   yLOG_sint    (x);

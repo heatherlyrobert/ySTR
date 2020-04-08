@@ -115,16 +115,19 @@ typedef     unsigned char  uchar;
 #define     ySTR_CENTER    '|'
 
 
-#define     YSTR_CHECK     '-'
+#define     YSTR_CHECK     '-'   /* just that it is usable                    */
+#define     YSTR_USABLE    '-'   /* same as check                             */
 #define     YSTR_LEGAL     'y'   /* just check, no changes                    */
 #define     YSTR_ADAPT     'a'   /* check, then grow to include if you must   */
 #define     YSTR_EXACT     'e'   /* check, then grow/shrink to exact size     */
-#define     YSTR_VALID     "-yae"
+#define     YSTR_VALID     "-uyae"
 
 
 
 /*---(normal txt2ystr)----------------*/
 #define     G_KEY_NULL            0
+#define     G_KEY_NOOP            0
+#define     G_KEY_ACK             6
 #define     G_KEY_DEL             8
 #define     G_KEY_TAB             9
 #define     G_KEY_RETURN         10
@@ -139,6 +142,7 @@ typedef     unsigned char  uchar;
 #define     G_KEY_EQ             61
 #define     G_KEY_GT             62
 #define     G_KEY_BSLASH         92
+#define     G_KEY_BTICK          96
 #define     G_KEY_PIPE          124
 #define     G_KEY_TILDA         126
 #define     G_KEY_BS            127
@@ -160,14 +164,15 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_DISPLAY      169   /*  ©  */
 #define     G_CHAR_BREAK        170   /*  ª  */
 #define     G_CHAR_WAIT         171   /*  «  */
+#define     G_CHAR_HALT         179   /*  ³  */
+#define     G_CHAR_BIGDOT       180   /*  ´  */
+#define     G_CHAR_HUGEDOT      207   /*  Ï  */
+/*---(special)-------------------*/
+#define     G_CHAR_STORAGE      178   /*  ²  */
 #define     G_CHAR_MASK         172   /*  ¬  */
 #define     G_CHAR_TAB          173   /*  ­  */
 #define     G_CHAR_SUMMARY      174   /*  ®  */
 #define     G_CHAR_SYSTEM       175   /*  ¯  */
-/*---(special)-------------------*/
-#define     G_CHAR_STORAGE      178   /*  ²  */
-#define     G_CHAR_HALT         179   /*  ³  */
-#define     G_CHAR_BIGDOT       180   /*  ´  */
 /*---(delayed)-------------------*/
 #define     G_CHAR_DBSLASH      181   /*  µ  */
 #define     G_CHAR_DDQUOTE      182   /*  ¶  */
@@ -197,7 +202,6 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_DEGREE       204   /*  Ì  */
 #define     G_CHAR_RADIAN       205   /*  Í  */
 #define     G_CHAR_SQRT         206   /*  Î  */
-#define     G_CHAR_SMALL        207   /*  Ï  */
 /*---(logic)---------------------*/
 #define     G_CHAR_AND          208   /*  Ð  */
 #define     G_CHAR_OR           209   /*  Ñ  */
@@ -237,6 +241,20 @@ typedef     unsigned char  uchar;
 #define     G_CHAR_CHI          253   /*  ý  */
 #define     G_CHAR_PSI          254   /*  þ  */
 #define     G_CHAR_OMEGA        255   /*  ÿ  */
+/*---(logic)--------------------------*/
+#define     G_CHAR_BECAUSE      176   /*  °  */
+#define     G_CHAR_FOREACH      215   /*  ×  */
+#define     G_CHAR_EXISTS       216   /*  Ø  */
+#define     G_CHAR_IMPLIES      217   /*  Ù  */
+#define     G_CHAR_PROVES       218   /*  Ú  */
+#define     G_CHAR_FORCES       219   /*  Û  */
+#define     G_CHAR_CONTRA       220   /*  Ü  */
+#define     G_CHAR_UNION        224   /*  à  */
+#define     G_CHAR_INTERSECT    225   /*  á  */
+#define     G_CHAR_SUBSET       226   /*  â  */
+#define     G_CHAR_SUPERSET     227   /*  ã  */
+#define     G_CHAR_MEMBER       228   /*  ä  */
+#define     G_CHAR_ONLYIF       231   /*  ç  */
 /*---(complete)-----------------------*/
 
 
@@ -281,6 +299,7 @@ char        strlencode         (char *a_src, char a_mode, int a_max);
 char        strldecode         (char *a_src, int a_max);
 char        strlundelay        (char *a_src, int a_max);
 uchar       chrslashed         (char a_ch);
+uchar       chrslashed_more    (char a_ch);
 uchar       chrvisible         (uchar a_ch);
 uchar       chrworking         (uchar a_ch);
 
@@ -314,16 +333,20 @@ char        str4gyges               (int a_tab, int a_col, int a_row, int a_nada
 char        str6gyges               (char *a_src, int a_def, char *a_out, char a_check);
 char        str8gyges               (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char a_force, char *a_out, char a_check);
 
-char        VALID_tab               (int a_tab);
+short       MAX_tab                 (void);
+char*       LIST_tabs               (void);
+char        VALID_tab               (char a_index);
 char        LEGAL_tab               (int a_ntab, int a_tab);
-uchar       LABEL_tab               (int a_tab);
-int         INDEX_tab               (uchar a_label);
+uchar       LABEL_tab               (char  a_index);
+char        INDEX_tab               (uchar a_label);
 
+short       MAX_col                 (void);
 char        VALID_col               (int a_col);
 char        LEGAL_col               (int a_ncol, int a_col);
 uchar*      LABEL_col               (int a_col);
 int         INDEX_col               (uchar *a_label);
 
+short       MAX_row                 (void);
 char        VALID_row               (int a_row);
 char        LEGAL_row               (int a_nrow, int a_row);
 uchar*      LABEL_row               (int a_row);

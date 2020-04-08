@@ -6,6 +6,15 @@ static char s_numeric     [20] = "0123456789.-+";    /* only digits             
 static char s_empty       [200] = "                                                                                                                                                                                                       ";
 
 
+/*===[[ METIS ]]==============================================================*/
+/*
+ * metis  ww2··  convert comma representation back to real number
+ * metis  ww1··  convert dollar and other misc in uncomma conversion
+ *
+ *
+ *
+ */
+
 
 /*====================------------------------------------====================*/
 /*===----                     conversion to numeric                    ----===*/
@@ -747,7 +756,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
       return rce;
    }
    if      (a_unit == '-')   strcpy  (x_unit, "");
-   else if (a_unit == '.')   sprintf (x_unit, "%c", G_CHAR_SMALL);
+   else if (a_unit == '.')   sprintf (x_unit, "%c", G_CHAR_BIGDOT);
    else                      sprintf (x_unit, "%c", a_unit);
    /*---(parse out)----------------------*/
    for (i = 0; i < a_decs; ++i)  x_exp *= 10;
