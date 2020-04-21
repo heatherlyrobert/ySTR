@@ -363,6 +363,177 @@ strl2real          (char *a_src, double *a_val, int a_max)
    return 0;
 }
 
+char
+ystr__prefix       (cchar *a_src, char *a_out)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         x_len       =    0;
+   int         c           =    0;
+   int         d           =    0;
+   int         i, j;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   /*---(strip prefixes)-----------------*/
+   if (a_src [0]  == '$')  strlcpy (a_out, a_src + 1, LEN_RECD);
+   else                    strlcpy (a_out, a_src    , LEN_RECD);
+   /*---(convert signs)------------------*/
+   if (a_out [0] == '(')    a_out [0] = '-';
+   /*---(prepare)------------------------*/
+   DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
+   x_len  = strlen (a_out);
+   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
+   /*---(walk digits)--------------------*/
+   --rce;  for (i = x_len - 4; i > 0; i -= 4) {
+      /*--(filter)-----------------------*/
+      DEBUG_YSTR   yLOG_complex ("del check" , "%2dl, %2di, %s, %c", x_len, i, a_out, a_out [i]);
+      ++d;
+      if (a_out [i] != ',')  continue;
+      /*--(remove)-----------------------*/
+      for (j = i; j <= x_len; ++j)  a_out [j] = a_out [j + 1];
+      --x_len;
+      ++c;
+      DEBUG_YSTR   yLOG_complex ("updated"   , "%2d[%s]", x_len, a_out);
+      /*--(done)-------------------------*/
+   }
+   /*---(check)--------------------------*/
+   DEBUG_YSTR   yLOG_complex ("counts"    , "%dd, %dc", d, c);
+   --rce;  if (c > 0 && d != c) {
+      strlcpy (a_out, "0", LEN_RECD);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*--(bad characters)---------------*/
+   --rce;  for (i = 0; i < x_len; ++i) {
+      DEBUG_YSTR   yLOG_complex ("char check", "%2dl, %2di, %s, %c", x_len, i, a_out, a_out [i]);
+      if      (x_len == 1 && a_out [i] == '0')                        continue;
+      else if (i == 0 && strchr ("-+123456789", a_out [i]) != NULL)   continue;
+      else if (i >  0 && strchr ("1234567890" , a_out [i]) != NULL)   continue;
+      strlcpy (a_out, "0", LEN_RECD);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+ystr__suffix       (cchar *a_src, char *a_out)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         x_len       =    0;
+   int         c           =    0;
+   int         d           =    0;
+   int         i, j;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   /*---(prepare)------------------------*/
+   strlcpy (a_out, a_src, LEN_RECD);
+   DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
+   x_len  = strlen (a_out);
+   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
+   /*---(strip suffixes)-----------------*/
+   if (a_out [x_len - 1] == ')')  a_out [x_len - 1] = '\0';
+   /*---(walk digits)--------------------*/
+   --rce;  for (i = 3; i < x_len; i += 3) {
+      /*--(filter)-----------------------*/
+      DEBUG_YSTR   yLOG_complex ("del check" , "%2dl, %2di, %s, %c", x_len, i, a_out, a_out [i]);
+      ++d;
+      if (a_out [i] != '\'')  continue;
+      /*--(remove)-----------------------*/
+      for (j = i; j <= x_len; ++j)  a_out [j] = a_out [j + 1];
+      --x_len;
+      ++c;
+      DEBUG_YSTR   yLOG_complex ("updated"   , "%2d[%s]", x_len, a_out);
+      /*--(done)-------------------------*/
+   }
+   /*---(check)--------------------------*/
+   DEBUG_YSTR   yLOG_complex ("counts"    , "%dd, %dc", d, c);
+   --rce;  if (c > 0 && d != c) {
+      strlcpy (a_out, "0", LEN_RECD);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*--(bad characters)---------------*/
+   --rce;  for (i = 0; i < x_len; ++i) {
+      DEBUG_YSTR   yLOG_complex ("char check", "%2dl, %2di, %s, %c", x_len, i, a_out, a_out [i]);
+      if (strchr ("1234567890" , a_out [i]) != NULL)   continue;
+      strlcpy (a_out, "0", LEN_RECD);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+strl2comma         (cchar *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =   -1;
+   char       *x_dec       = NULL;
+   char        x_pre1      [LEN_RECD]  = "";
+   char        x_pre2      [LEN_RECD]  = "";
+   char        x_suf1      [LEN_RECD]  = "";
+   char        x_suf2      [LEN_RECD]  = "";
+   char        x_result    [LEN_RECD]  = "";
+   int         x_places    =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   /*---(prepare)------------------------*/
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_point   ("a_src"     , a_src);
+   --rce;  if (a_src == NULL) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_info    ("a_src"     , a_src);
+   /*---(find decimal)-------------------*/
+   x_dec  = strchr (a_src, '.');
+   DEBUG_YSTR   yLOG_point   ("x_dec"     , x_dec);
+   /*---(prepare parts)------------------*/
+   if (x_dec == NULL) {
+      strlcpy (x_pre1, a_src, LEN_RECD);
+   } else {
+      x_places  = x_dec - a_src + 1;
+      DEBUG_YSTR   yLOG_point   ("x_places"  , x_places);
+      strlcpy (x_pre1, a_src, x_places);
+      strlcpy (x_suf1, x_dec + 1, LEN_RECD);
+   }
+   DEBUG_YSTR   yLOG_info    ("x_pre1"    , x_pre1);
+   DEBUG_YSTR   yLOG_info    ("x_suf1"    , x_suf1);
+   /*---(process prefix)-----------------*/
+   rc = ystr__prefix (x_pre1, x_pre2);
+   DEBUG_YSTR   yLOG_value   ("prefix"    , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_info    ("x_pre2"    , x_pre2);
+   strlcpy (x_result, x_pre2, LEN_RECD);
+   /*---(process suffix)-----------------*/
+   if (x_dec != NULL) {
+      rc = ystr__suffix (x_suf1, x_suf2);
+      DEBUG_YSTR   yLOG_value   ("suffix"    , rc);
+      --rce;  if (rc < 0) {
+         DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+         return rce;
+      }
+      DEBUG_YSTR   yLOG_info    ("x_suf2"    , x_suf2);
+      sprintf (x_result, "%s.%s", x_pre2, x_suf2);
+   }
+   /*---(save back)----------------------*/
+   if (a_val != NULL)  *a_val = atof (x_result);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
 char         /*-> check string for numeric value ----------[ petal  [ 2g---- ]*/
 strl2num           (char *a_src, double *a_val, int a_max)
 {

@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5n"
-#define     P_VERTXT    "updated to handle extra/temp buffer in gyges"
+#define     P_VERNUM    "0.5o"
+#define     P_VERTXT    "added str2comma to take strings numbers with commas and return values"
 
 
 
@@ -87,6 +87,9 @@ char        ySTR_testloud      (void);
 char        ySTR_testend       (void);
 char*       ySTR_unit          (char *a_question, int a_num);
 
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        ystr__prefix            (cchar *a_str, char *a_out);
+char        ystr__suffix            (cchar *a_str, char *a_out);
 
 char        ystr__gyges2tab         (char *a_src, char *a_pos, int *a_val, char *a_abs, char a_def);
 char        ystr__gyges2col         (char *a_src, char *a_pos, int *a_val, char *a_abs);

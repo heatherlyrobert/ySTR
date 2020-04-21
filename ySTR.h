@@ -52,6 +52,7 @@
 
 
 typedef     unsigned char  uchar;
+typedef     const char     cchar;
 
 
 #define     ySTR_NOTRUNC   -1
@@ -309,7 +310,7 @@ char        strl2bin           (char   *a_src, double *a_val, int a_max);
 char        strl2oct           (char   *a_src, double *a_val, int a_max);
 char        strl2hex           (char   *a_src, double *a_val, int a_max);
 char        strl2real          (char   *a_src, double *a_val, int a_max);
-char        strl2comma         (char   *a_src, double *a_val, int a_max);
+char        strl2comma         (cchar  *a_src, double *a_val, int a_max);
 char        strl2num           (char   *a_src, double *a_val, int a_max);
 
 char        strl4bin           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
