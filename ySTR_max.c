@@ -252,8 +252,8 @@ strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
    return c;
 }
 
-int          /*--> clean string characters ---------------[--------[--------]-*/
-strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
+short
+ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -267,25 +267,32 @@ strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
     *
     */
    /*---(locals)-----------+-----------+-*/
-   char       *x_alpha     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
-   char       *x_alnum     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789";
-   char       *x_basic     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_-";
-   char       *x_write     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&";
-   char       *x_exten     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789_.,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$";
-   char        x_legal     [200]   = "";
+   char        rce         =  -10;
+   uchar      *x_alpha     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+   uchar      *x_alnum     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+   uchar      *x_files     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.";
+   uchar      *x_basic     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-";
+   uchar      *x_write     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_. ,:;!?-()\"\'&";
+   uchar      *x_exten     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$";
+   uchar       x_legal     [300]        = "";
    int         i, j;                     /* loop iterators -- characters        */
    int         x_len       = 0;            /* source string length                */
+   int         x_save      = 0;            /* source string length                */
    int         c           = 0;
-   char           m        = 31;            /* this is the marker char        */
+   uchar       m           = '¬';           /* this is the marker char        */
    /*---(defenses)-----------------------*/
-   if (a_src == NULL)     return  -11;
+   --rce;  if (a_src == NULL)     return rce;
    /*---(setup legal characters)---------*/
-   switch (a_mode) {
+   --rce;  switch (a_set) {
    case ySTR_ALPHA :
       strcpy (x_legal, x_alpha);
       break;
    case ySTR_ALNUM :
+   case ySTR_VARS  :
       strcpy (x_legal, x_alnum);
+      break;
+   case ySTR_FILES :
+      strcpy (x_legal, x_files);
       break;
    case ySTR_BASIC :
       strcpy (x_legal, x_basic);
@@ -296,13 +303,6 @@ strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
    case ySTR_EXTEN :
       strcpy (x_legal, x_exten);
       break;
-   case ySTR_PRINT :
-      for (i = ' '; i <= '~'; ++i) {
-         j = i - ' ';
-         x_legal [j    ] = i;
-         x_legal [j + 1] = '\0';
-      }
-      break;
    case ySTR_SEVEN :
       for (i = 1; i <= 127; ++i) {
          j = i - 1;
@@ -310,20 +310,60 @@ strlclean          (char *a_src, char a_mode, char a_compress, int a_max)
          x_legal [j + 1] = '\0';
       }
       break;
-   default : return -12;
+   case ySTR_PRINT :
+      for (i = ' '; i <= '~'; ++i) {
+         j = i - ' ';
+         x_legal [j    ] = i;
+         x_legal [j + 1] = '\0';
+      }
+      for (i = (uchar) '¡'; i <= (uchar) 'ÿ'; ++i) {
+         j = i - (uchar) '¡' + ('~' - ' ' + 1);
+         x_legal [j    ] = i;
+         x_legal [j + 1] = '\0';
+      }
+      break;
+   default : return rce;
    }
-   /*---(clear)--------------------------*/
-   x_len = strlen(a_src);
-   if (x_len > a_max)  x_len = a_max;
-   for (i = 0; i <= x_len; ++i) {
-      if (strchr (x_legal, a_src [i]) != 0)  continue;
+   /*---(length)-------------------------*/
+   x_len = x_save = strlen (a_src);
+   if (x_len > a_max)   x_len = a_max;
+   --rce;  if (a_type == 'g' && x_len != x_save)  return rce;
+   /*---(clean)--------------------------*/
+   for (i = 0; i < x_len; ++i) {
+      if (a_set == ySTR_VARS && i == 0) {
+         if (strchr (x_alpha, a_src [i]) != 0)  continue;
+      } else if (strchr (x_legal, a_src [i]) != 0)  continue;
       ++c;
-      if (a_compress == 'y')  a_src [i] = m;
-      else                    a_src [i] = '_';
+      if (a_type == 'c')  a_src [i] = '¬';
    }
-   if (a_compress == 'y')   strlddel (a_src, m, a_max);
+   if (a_type == 'c' && a_compress == 'y')   strlddel (a_src, m, x_save);
    /*---(complete)-----------------------*/
+   --rce;  if (a_type == 'g' && c != 0)  return rce;
    return c;
+}
+
+char         /*--> check string characters ---------------[--------[--------]-*/
+strlgood           (uchar *a_src, char a_set, int a_max)
+{
+   return ystr__check ('g', a_src, a_set, '-', a_max);
+}
+
+short        /*--> check string characters ---------------[--------[--------]-*/
+strlcheck          (uchar *a_src, char a_set, int a_max)
+{
+   return ystr__check ('k', a_src, a_set, '-', a_max);
+}
+
+short        /*--> check string characters ---------------[--------[--------]-*/
+strlmark           (uchar *a_src, char a_set, int a_max)
+{
+   return ystr__check ('c', a_src, a_set, '-', a_max);
+}
+
+short        /*--> check string characters ---------------[--------[--------]-*/
+strlclean          (uchar *a_src, char a_set, int a_max)
+{
+   return ystr__check ('c', a_src, a_set, 'y', a_max);
 }
 
 int          /*--> clean string characters ---------------[--------[--------]-*/

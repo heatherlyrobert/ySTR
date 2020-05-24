@@ -66,6 +66,8 @@ typedef     const char     cchar;
 
 #define     ySTR_ALPHA     'a'
 #define     ySTR_ALNUM     '9'
+#define     ySTR_VARS      'v'
+#define     ySTR_FILES     'f'
 #define     ySTR_BASIC     'b'
 #define     ySTR_WRITE     'w'
 #define     ySTR_EXTEN     'e'
@@ -286,7 +288,11 @@ int         strlupper          (char *a_src, int   a_max);
 int         strllower          (char *a_src, int   a_max);
 int         strltrim           (char *a_src, char  a_mode, int  a_max);
 int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
-int         strlclean          (char *a_src, char a_mode, char a_compress, int a_max);
+
+char        strlgood           (uchar *a_src, char a_set, int a_max);
+short       strlcheck          (uchar *a_src, char a_set, int a_max);
+short       strlmark           (uchar *a_src, char a_set, int a_max);
+short       strlclean          (uchar *a_src, char a_set, int a_max);
 
 int         strlchr            (char *a_src, char  a_chr , int a_max);
 int         strldcnt           (char *a_src, char  a_del , int  a_max);
