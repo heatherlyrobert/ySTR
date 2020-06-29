@@ -25,8 +25,8 @@
 
 #define     P_VERMAJOR  "0.Xx pre-production"
 #define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5p"
-#define     P_VERTXT    "improved strlclean.  added variations strlgood, strlcheck strlmark."
+#define     P_VERNUM    "0.5q"
+#define     P_VERTXT    "tiny changes to match yX11 translation to keysyms"
 
 
 

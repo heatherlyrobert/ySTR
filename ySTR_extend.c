@@ -99,6 +99,8 @@ chrslashed        (char a_ch)
    case 'n'  : x_ch = G_CHAR_RETURN    ;  break;    /*   110 n = 166 ¦   */
    case 'f'  : x_ch = G_CHAR_FIELD     ;  break;    /*   102 f = 167 §   */
    case 'g'  : x_ch = G_CHAR_GROUP     ;  break;    /*   103 g = 168 ¨   */
+   case 'd'  : x_ch = G_CHAR_DEL       ;  break;    /*   100 d = 190 ¾   */
+   case 'b'  : x_ch = G_CHAR_BS        ;  break;    /*    98 b = 191 ¿   */
    /*---(macro)---------------------*/
    case '+'  : x_ch = G_CHAR_DISPLAY   ;  break;    /*    43 + = 169 ©   */
    case '.'  : x_ch = G_CHAR_BREAK     ;  break;    /*    46 . = 170 ª   */
@@ -123,8 +125,6 @@ chrslashed        (char a_ch)
    case ']'  : x_ch = G_CHAR_SRBRACK   ;  break;    /*    93 ] = 187 »   */
    case '{'  : x_ch = G_CHAR_SLCHEV    ;  break;    /*   123 { = 188 ¼   */
    case '}'  : x_ch = G_CHAR_SRCHEV    ;  break;    /*   125 } = 189 ½   */
-   case 'd'  : x_ch = G_CHAR_DEL       ;  break;    /*   100 d = 190 ¾   */
-   case 'b'  : x_ch = G_CHAR_BS        ;  break;    /*    98 b = 191 ¿   */
    /*---(super/sub)-----------------*/
    case '5'  : x_ch = G_CHAR_SUB0      ;  break;    /*    53 5 = 192 À   */
    case '6'  : x_ch = G_CHAR_SUB1      ;  break;    /*    54 6 = 193 Á   */
@@ -138,7 +138,7 @@ chrslashed        (char a_ch)
    case 'x'  : x_ch = G_CHAR_POWX      ;  break;    /*   120 x = 201 É   */
    case 'y'  : x_ch = G_CHAR_POWY      ;  break;    /*   121 y = 202 Ê   */
    case '#'  : x_ch = G_CHAR_SMHASH    ;  break;    /*    35 # = 203 Ë   */
-   case 'o'  : x_ch = G_CHAR_DEGREE    ;  break;    /*   111 o = 204 Ì   */
+   case 'a'  : x_ch = G_CHAR_DEGREE    ;  break;    /*    97 a = 204 Ì   */
    case 'r'  : x_ch = G_CHAR_RADIAN    ;  break;    /*   114 r = 205 Í   */
    case '1'  : x_ch = G_CHAR_SQRT      ;  break;    /*    49 1 = 206 Î   */
    /*---(logic)---------------------*/
@@ -151,7 +151,7 @@ chrslashed        (char a_ch)
    case 'h'  : x_ch = G_CHAR_LEFT      ;  break;    /*   104 h = 214 Ö   */
    case '<'  : x_ch = G_CHAR_LE        ;  break;    /*    60 < = 221 Ý   */
    case '>'  : x_ch = G_CHAR_GE        ;  break;    /*    62 > = 222 Þ   */
-   case '/'  : x_ch = G_CHAR_NE        ;  break;    /*    61 = = 223 ß   */
+   case '/'  : x_ch = G_CHAR_NE        ;  break;    /*    61 / = 223 ß   */
    case '='  : x_ch = G_CHAR_EQUIV     ;  break;    /*    47 = = 229 å   */
    case '~'  : x_ch = G_CHAR_APPROX    ;  break;    /*   126 ~ = 230 æ   */
    case '$'  : x_ch = G_CHAR_RANGE     ;  break;    /*    36 $ = 177 ±   */
