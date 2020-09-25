@@ -334,7 +334,7 @@ ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int 
          if (strchr (x_alpha, a_src [i]) != 0)  continue;
       } else if (strchr (x_legal, a_src [i]) != 0)  continue;
       ++c;
-      if (a_type == 'c')  a_src [i] = '¬';
+      if (a_type == 'c')  a_src [i] = m;
    }
    if (a_type == 'c' && a_compress == 'y')   strlddel (a_src, m, x_save);
    /*---(complete)-----------------------*/
@@ -342,25 +342,25 @@ ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int 
    return c;
 }
 
-char         /*--> check string characters ---------------[--------[--------]-*/
+char         /*--> check for character -------------------[--------[--------]-*/
 strlgood           (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('g', a_src, a_set, '-', a_max);
 }
 
-short        /*--> check string characters ---------------[--------[--------]-*/
+short        /*--> find and count bad characters ---------[--------[--------]-*/
 strlcheck          (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('k', a_src, a_set, '-', a_max);
 }
 
-short        /*--> check string characters ---------------[--------[--------]-*/
+short        /*--> find and mark bad characters ----------[--------[--------]-*/
 strlmark           (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('c', a_src, a_set, '-', a_max);
 }
 
-short        /*--> check string characters ---------------[--------[--------]-*/
+short        /*--> find and remove bad characters --------[--------[--------]-*/
 strlclean          (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('c', a_src, a_set, 'y', a_max);

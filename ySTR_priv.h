@@ -23,10 +23,10 @@
 #define     P_CREATED   "2013-09"
 #define     P_DEPENDS   "none"
 
-#define     P_VERMAJOR  "0.Xx pre-production"
-#define     P_VERMINOR  "0.5x get gyges support cleaned up and integrated with gyges"
-#define     P_VERNUM    "0.5q"
-#define     P_VERTXT    "tiny changes to match yX11 translation to keysyms"
+#define     P_VERMAJOR  "1.--, production"
+#define     P_VERMINOR  "1.0-, use everywhere and make improvements"
+#define     P_VERNUM    "1.0a"
+#define     P_VERTXT    "updated with yURG and yLOG changes to globals"
 
 
 
