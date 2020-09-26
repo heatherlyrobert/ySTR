@@ -11,9 +11,17 @@
 #define     P_NICHE     "st (string handling)"
 #define     P_PURPOSE   "provide secure and useful string handling capabilities"
 
+#define     P_EXECUTE   "libySTR.so"
+#define     P_FULLPATH  "/usr/local/lib64/libySTR.so"
+#define     P_ONELINE   "astrea-kori (star-maiden) safe string handling"
+
+#define     P_SUFFIX    "n/a"
+#define     P_CONTENT   "n/a"
+
 #define     P_NAMESAKE  "astrea-kori (star-maiden)"
 #define     P_HERITAGE  "virgin goddess of justice, purity, and precision"
 #define     P_IMAGERY   "elegant with shinning wings, angel light, and flamming torch"
+#define     P_REASON    "greek goddess of precision to make strings safe"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -21,12 +29,16 @@
 
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2013-09"
-#define     P_DEPENDS   "none"
+#define     P_DEPENDS   "yLOG,yURG"
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.0-, use everywhere and make improvements"
-#define     P_VERNUM    "1.0a"
-#define     P_VERTXT    "updated with yURG and yLOG changes to globals"
+#define     P_VERNUM    "1.0b"
+#define     P_VERTXT    "dependencies between libraries became circular >:o  fixed"
+
+#define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
+#define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
+#define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
 
 
 
