@@ -33,8 +33,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.0-, use everywhere and make improvements"
-#define     P_VERNUM    "1.0b"
-#define     P_VERTXT    "dependencies between libraries became circular >:o  fixed"
+#define     P_VERNUM    "1.0c"
+#define     P_VERTXT    "added ability to take quoted and commented text out of code line"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

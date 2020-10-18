@@ -288,6 +288,9 @@ int         strlupper          (char *a_src, int   a_max);
 int         strllower          (char *a_src, int   a_max);
 int         strltrim           (char *a_src, char  a_mode, int  a_max);
 int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
+char        strlundoc          (char *a_dst, char *a_src, int a_max);
+char        strlunquote        (char *a_dst, char *a_src, int a_max);
+char        strlunall          (char *a_dst, char *a_src, int a_max);
 
 char        strlgood           (uchar *a_src, char a_set, int a_max);
 short       strlcheck          (uchar *a_src, char a_set, int a_max);

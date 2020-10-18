@@ -408,6 +408,102 @@ strllower          (char *a_src, int a_max)
    return c;
 }
 
+char
+strlundoc               (char *a_dst, char *a_src, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;          /* original string position       */
+   int         n           =    0;          /* new string position            */
+   char        c           =    0;          /* comment level                  */
+   /*---(defense)------------------------*/
+   if (a_src == NULL)  return  -11;
+   if (a_dst == NULL)  return  -12;
+   if (a_max <  0   )  a_max  = 0;
+   /*---(move)---------------------------*/
+   for (i = 0; n < a_max; ++i) {
+      /*---(check for end)---------*/
+      if (a_src [i] == '\0')  break;
+      /*---(new style)-------------*/
+      if (a_src [i] == '/' && a_src [i + 1] == '/') {
+         c += 20;
+         ++i;
+         continue;
+      }
+      /*---(start)-----------------*/
+      if (a_src [i] == '/' && a_src [i + 1] == '*') {
+         ++c;
+         ++i;
+         continue;
+      }
+      /*---(end)-------------------*/
+      if (a_src [i] == '*' && a_src [i + 1] == '/' && c > 0) {
+         --c;
+         ++i;
+         if (c < 0)  c == 0;
+         continue;
+      }
+      /*---(inside)----------------*/
+      if (c > 0)  continue;
+      /*---(copy)------------------*/
+      a_dst [n] = a_src [i];
+      ++n;
+      /*---(done)------------------*/
+   }
+   a_dst [n]         = '\0';
+   if (a_max > 0)  a_dst [a_max - 1] = '\0';
+   else            a_dst [0]         = '\0';
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+strlunquote             (char *a_dst, char *a_src, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;          /* original string position       */
+   int         n           =    0;          /* new string position            */
+   char        q           =    0;          /* quote status                   */
+   /*---(defense)------------------------*/
+   if (a_src == NULL)  return  -11;
+   if (a_dst == NULL)  return  -12;
+   if (a_max <  0   )  a_max  = 0;
+   /*---(move)---------------------------*/
+   for (i = 0; n < a_max; ++i) {
+      /*---(check for end)---------*/
+      if (a_src [i] == '\0')  break;
+      /*---(double quotes)---------*/
+      if (a_src [i] == '"') {
+         if (i == 0 || (i > 0 && a_src [i - 1] != '\\')) {
+            if (q == 0)   q = 1;
+            else          q = 0;
+            continue;
+         }
+      }
+      /*---(inside)----------------*/
+      if (q > 0)  continue;
+      /*---(copy)------------------*/
+      a_dst [n] = a_src [i];
+      ++n;
+      /*---(done)------------------*/
+   }
+   a_dst [n]         = '\0';
+   if (a_max > 0)  a_dst [a_max - 1] = '\0';
+   else            a_dst [0]         = '\0';
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+strlunall               (char *a_dst, char *a_src, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
+   char        t           [LEN_RECD]  = "";
+   rc = strlundoc   (t, a_src, LEN_RECD);
+   rc = strlunquote (a_dst, t, a_max);
+   return rc;
+}
+
 
 
 /*====================------------------------------------====================*/
