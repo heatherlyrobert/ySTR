@@ -9,19 +9,20 @@
 
 #define     P_FOCUS     "PS (programming support)"
 #define     P_NICHE     "st (string handling)"
+#define     P_SUBJECT   "useful, safe string handling"
 #define     P_PURPOSE   "provide secure and useful string handling capabilities"
-
-#define     P_EXECUTE   "libySTR.so"
-#define     P_FULLPATH  "/usr/local/lib64/libySTR.so"
-#define     P_ONELINE   "astrea-kori (star-maiden) safe string handling"
-
-#define     P_SUFFIX    "n/a"
-#define     P_CONTENT   "n/a"
 
 #define     P_NAMESAKE  "astrea-kori (star-maiden)"
 #define     P_HERITAGE  "virgin goddess of justice, purity, and precision"
 #define     P_IMAGERY   "elegant with shinning wings, angel light, and flamming torch"
-#define     P_REASON    "greek goddess of precision to make strings safe"
+#define     P_REASON    "greek goddess of precision keeps my strings safe"
+
+#define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
+
+#define     P_BASENAME  "libySTR.so"
+#define     P_FULLPATH  "/usr/local/lib64/libySTR.so"
+#define     P_SUFFIX    "n/a"
+#define     P_CONTENT   "n/a"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -33,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.0-, use everywhere and make improvements"
-#define     P_VERNUM    "1.0c"
-#define     P_VERTXT    "added ability to take quoted and commented text out of code line"
+#define     P_VERNUM    "1.0d"
+#define     P_VERTXT    "updated to support hestia/hearth ncurse display better"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

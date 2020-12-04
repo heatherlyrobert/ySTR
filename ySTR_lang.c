@@ -35,7 +35,7 @@ static      struct {
    char     recover     [LEN_HUND];         /* translation                    */
    char     locked      [LEN_HUND];         /* translation                    */
    char     invalid     [LEN_HUND];         /* translation                    */
-} ystr_langs    [MAX_LANGS] = {
+} const ystr_langs    [MAX_LANGS] = {
    /* 123   123456789012345        123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    123456789012345    12345678901234567890    123456789012345678901234567890123456789012345678901234567890 */
    /* iso,  ---language---    gmt  ---cluster------   --number/seq----   ---date---------   ---host---------   ---user---------   ---token/num----   ---password-----   ---attempt------   ---denied-------   ---locked-------   ---time-remaining----   ---success----------------------------------------------    ---failed and enter a tarpit---------------------------------    ---eat shit dumb ass--------------------   ---once more into hole -----------------------   ---i came into total darkness---------------  ---security questions------   ---send one-time code-------   --locked (user)-  -invalid (user)---*/
    { "et" , "estonian"       ,  0, "kobar"          , "jada"           , "kuupaev"        , "vastuvotva"     , "kasutaja"       , "sumboolne"      , "parool"         , "katse"          , "eitada"         , "lukustatud"     , "aega jaanud"         , "siin peab koik usaldamatus jaama maha"                  , "loobu lootust koigile kes te siia sisnete"                    , "kurat sa aknakruvi"                      , "veel kord auk"                                , "tulin kokku tumedamaks"                     , "turvalisuse kusimused"    , "saatke uks ajakood"         , "lukus"         , "on kehtetu"      },
@@ -58,7 +58,7 @@ static      struct {
 
 #define     MAX_CLUSTER     200
 #define     CNT_CLUSTER      64
-static char  ystr_clusters   [MAX_CLUSTER][LEN_LABEL] = {
+static const char  ystr_clusters   [MAX_CLUSTER][LEN_LABEL] = {
    /* julio-claudian    5 */ "augustus"       , "tiberius"       , "caligula"      , "claudius"      , "nero"          ,
    /* flavian           6 */ "galba"          , "otho"           , "vitellius"     , "vespasian"     , "titus"         , "domitian"      ,
    /* nerva-antonine    7 */ "nerva"          , "trajan"         , "hadrian"       , "antoninus"     , "lucius"        , "marcus"        , "commodus"      ,
@@ -76,7 +76,7 @@ static char  ystr_clusters   [MAX_CLUSTER][LEN_LABEL] = {
 
 #define     MAX_HOST        200
 #define     CNT_HOST         68
-static char ystr_hosts [MAX_HOST][LEN_LABEL] = {
+static const char ystr_hosts [MAX_HOST][LEN_LABEL] = {
    "deep_blue"       , "blue_gene"       , "hydra"           , "deep_crack"      , "kaissa"          ,
    "belle"           , "blitz"           , "deep_thought"    , "gideon"          , "deep_junior"     ,
    "zappa"           , "junior"          , "sjeng"           , "rondo"           , "rybka"           ,
@@ -94,6 +94,29 @@ static char ystr_hosts [MAX_HOST][LEN_LABEL] = {
    "----------"      ,
 };
 
+static char *s_dark = "\033[0;30m";
+static char *s_ligh = "\033[1;30m";
+
+static char *s_bloo = "\033[0;31m";
+static char *s_redd = "\033[1;31m";
+
+static char *s_fore = "\033[0;32m";
+static char *s_lawn = "\033[1;32m";
+
+static char *s_gold = "\033[0;33m";
+static char *s_yell = "\033[1;33m";
+
+static char *s_navy = "\033[0;34m";
+static char *s_teal = "\033[1;34m";
+
+static char *s_indi = "\033[0;35m";
+static char *s_mage = "\033[1;35m";
+
+static char *s_sadd = "\033[0;36m";
+static char *s_salm = "\033[1;34m";
+
+static char *s_mint = "\033[0;31m";
+static char *s_pale = "\033[1;31m";
 
 char
 ystr__getlang           (char *a_iso)
@@ -133,18 +156,73 @@ ystr__getlang           (char *a_iso)
    return rce;
 }
 
-int   ySTR_language (void) { return rand () % CNT_LANGS; }
-int   ySTR_cluster  (void) { return rand () % CNT_CLUSTER; }
-int   ySTR_host     (void) { return rand () % CNT_HOST; }
+char
+ySTR_language           (void)
+{
+   return rand () % (CNT_LANGS - 1);
+}
 
 char
-ySTR_prompt             (char a_style, int a_lang, int a_cluster, int  a_host, char *a_prompt, char *a_key)
+ySTR_host               (char l, char n, char *a_title, char *a_content)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_sint    (l);
+   --rce;  if (l < 0 || l >= CNT_LANGS) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(cluster)------------------------*/
+   DEBUG_YSTR   yLOG_value   ("n"         , n);
+   if (n < 0)  n = rand () % CNT_HOST;
+   n %= CNT_HOST;
+   DEBUG_YSTR   yLOG_value   ("n"         , n);
+   /*---(return)-------------------------*/
+   if (a_title   != NULL)  strlcpy (a_title  , ystr_langs [l].host   , LEN_LABEL);
+   if (a_content != NULL)  strlcpy (a_content, ystr_hosts [n]        , LEN_LABEL);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+   return n;
+}
+
+char
+ySTR_cluster            (char l, char n, char *a_title, char *a_content)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_sint    (l);
+   --rce;  if (l < 0 || l >= CNT_LANGS) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(cluster)------------------------*/
+   DEBUG_YSTR   yLOG_value   ("n"         , n);
+   if (n < 0)  n = rand () % CNT_CLUSTER;
+   n %= CNT_CLUSTER;
+   DEBUG_YSTR   yLOG_value   ("n"         , n);
+   /*---(return)-------------------------*/
+   if (a_title   != NULL)  strlcpy (a_title  , ystr_langs [l].cluster, LEN_LABEL);
+   if (a_content != NULL)  strlcpy (a_content, ystr_clusters [n]     , LEN_LABEL);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+   return n;
+}
+
+char
+ySTR_prompt             (char a_style, char *a_prefix, int a_lang, int a_cluster, int  a_host, char *a_prompt, char *a_key)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        x_num       [LEN_SHORT];
    int         i           =    0;
    char        x_rand      [LEN_LABEL];
+   char        t           [LEN_LABEL] = "";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(return vars)--------------------*/
@@ -189,6 +267,17 @@ ySTR_prompt             (char a_style, int a_lang, int a_cluster, int  a_host, c
             ystr_langs [a_lang].host   , a_host   , ystr_hosts    [a_host]   ,
             x_rand, ystr_langs [a_lang].user);
       break;
+   case YSTR_BREADCOLOR :
+      if (strlen (a_prefix) > 0)  sprintf (t, "%s[%s] ", s_bloo, a_prefix);
+      sprintf (a_prompt, "%s%s %s#%02d.%s%s> %s %s#%02d.%s%s> [%s/%s%s%s] %s :",
+            s_bloo, ystr_langs [a_lang].cluster,
+            s_gold, a_cluster, ystr_clusters [a_cluster],
+            s_bloo, ystr_langs [a_lang].host   ,
+            s_gold, a_host   , ystr_hosts    [a_host]   ,
+            s_bloo, x_rand,
+            s_gold, a_prefix,
+            s_bloo, ystr_langs [a_lang].user);
+      break;
    default :
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
@@ -229,6 +318,12 @@ ySTR_password           (char a_style, int a_lang, char *a_prompt)
       sprintf (a_prompt, "%s (@ %s, ? %s) :", ystr_langs [a_lang].password,
             ystr_langs [a_lang].recover, ystr_langs [a_lang].questions);
       break;
+   case YSTR_BREADCOLOR :
+      sprintf (a_prompt, "%s%s (%s@%s %s, %s?%s %s) :",
+            s_bloo, ystr_langs [a_lang].password,
+            s_gold, s_bloo, ystr_langs [a_lang].recover,
+            s_gold, s_bloo, ystr_langs [a_lang].questions);
+      break;
    default :
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
@@ -259,6 +354,15 @@ ySTR_word               (int a_lang, char a_which, char *a_word)
    a_lang %= CNT_LANGS;
    /*---(defense language)---------------*/
    switch (a_which) {
+   case YSTR_USERNAME  :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].user);
+      break;
+   case YSTR_TOKEN     :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].token);
+      break;
+   case YSTR_PASSWORD  :
+      sprintf (a_word, "%s"   , ystr_langs [a_lang].password);
+      break;
    case YSTR_PASSED    :
       sprintf (a_word, "%s"   , ystr_langs [a_lang].passed);
       break;
@@ -329,21 +433,21 @@ ySTR_prompt_box         (int a_lang, int a_cluster, int a_host, char *a_date, in
    x_rand [14] = '-';
    /*---(build box)----------------------*/
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].cluster , ystr_clusters [a_cluster]);
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%02d/%02d%-15.15s]", ystr_langs [a_lang].seq     , a_cluster, a_host, "");
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].host    , ystr_hosts [a_host]);
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].date    , a_date);
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].user    , " ");
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].token   , " ");
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].password, " ");
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    sprintf (t, "%-12.12s [%-20.20s]"         , ystr_langs [a_lang].attempt , x_rand);
-   ystr_oneline (t, x, y++);
+   ystr_oneline (t, x, y++, YSTR_CLEAR);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;

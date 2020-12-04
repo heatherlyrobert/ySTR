@@ -59,6 +59,37 @@ strldecode         (char *a_src, int a_max)
    return 0;
 }
 
+char
+strl__leet         (char a_dir, char *a_src, int a_max)
+{
+   int         i           =    0;
+   char       *p           = NULL;
+   char        c           =  '-';
+   char       *x_1st       = "abcdefghijklmnopqrstuvwxyz";
+   char       *x_2nd       = "46()3[&#!;<1-=0+9~57_|8*?2";
+   char       *x_3rd       = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   for (i = 0; i < a_max; ++i) {
+      c = a_src [i];
+      if (c == '\0')  break;
+      if      ((p = strchr (x_1st, c)) != NULL) {
+         if (a_dir == '>')  a_src [i] = x_2nd [p - x_1st];
+         else               a_src [i] = x_3rd [p - x_1st];
+      }
+      else if ((p = strchr (x_2nd, c)) != NULL) {
+         if (a_dir == '>')  a_src [i] = x_3rd [p - x_2nd];
+         else               a_src [i] = x_1st [p - x_2nd];
+      }
+      else if ((p = strchr (x_3rd, c)) != NULL) {
+         if (a_dir == '>')  a_src [i] = x_1st [p - x_3rd];
+         else               a_src [i] = x_2nd [p - x_3rd];
+      }
+   }
+   return 0;
+}
+
+char strl2leet (char *a_src, int a_max) { return strl__leet ('>', a_src, a_max); }
+char strl4leet (char *a_src, int a_max) { return strl__leet ('<', a_src, a_max); }
+
 char         /*--> reverse delayed characters ------------[ ------ [ ------ ]-*/
 strlundelay        (char *a_src, int a_max)
 {

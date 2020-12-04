@@ -481,6 +481,13 @@ strlunquote             (char *a_dst, char *a_src, int a_max)
       }
       /*---(inside)----------------*/
       if (q > 0)  continue;
+      /*---(single quotes)---------*/
+      if (a_src [i] == '\'') {
+         if (i + 2 < a_max && a_src [i + 2] == '\'') {
+            i += 2;
+            continue;
+         }
+      }
       /*---(copy)------------------*/
       a_dst [n] = a_src [i];
       ++n;
