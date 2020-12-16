@@ -50,6 +50,7 @@
 #ifndef YSTR_HGUARD
 #define YSTR_HGUARD loaded
 
+#include    "ySTR_solo.h"
 
 typedef     unsigned char  uchar;
 typedef     const char     cchar;
@@ -262,19 +263,19 @@ typedef     const char     cchar;
 
 
 
-#define     LEN_HUGE        10000       /* special cases only                 */
-#define     LEN_RECD         2000       /* longer likely means hacker         */
-#define     LEN_PATH          300       /* large, but not crazy length        */
-#define     LEN_FULL          200       /* large string length                */
-#define     LEN_HUND          100       /* conservative field/arg length      */
-#define     LEN_LONG           75       /* long descrition                    */
-#define     LEN_DESC           50       /* no one reads long descriptions     */
-#define     LEN_TITLE          30       /* for organizing                     */
-#define     LEN_LABEL          20       /* names and labels                   */
-#define     LEN_USER           12       /* user names                         */
-#define     LEN_HEX            10       /* hex codes                          */
-#define     LEN_TERSE          10       /* terse string                       */
-#define     LEN_SHORT           5       /* for small needs                    */
+/*> #define     LEN_HUGE        10000       /+ special cases only                 +/   <* 
+ *> #define     LEN_RECD         2000       /+ longer likely means hacker         +/   <* 
+ *> #define     LEN_PATH          300       /+ large, but not crazy length        +/   <* 
+ *> #define     LEN_FULL          200       /+ large string length                +/   <* 
+ *> #define     LEN_HUND          100       /+ conservative field/arg length      +/   <* 
+ *> #define     LEN_LONG           75       /+ long descrition                    +/   <* 
+ *> #define     LEN_DESC           50       /+ no one reads long descriptions     +/   <* 
+ *> #define     LEN_TITLE          30       /+ for organizing                     +/   <* 
+ *> #define     LEN_LABEL          20       /+ names and labels                   +/   <* 
+ *> #define     LEN_USER           12       /+ user names                         +/   <* 
+ *> #define     LEN_HEX            10       /+ hex codes                          +/   <* 
+ *> #define     LEN_TERSE          10       /+ terse string                       +/   <* 
+ *> #define     LEN_SHORT           5       /+ for small needs                    +/   <*/
 
 
 char*       ySTR_version       (void);
@@ -288,6 +289,7 @@ int         strlupper          (char *a_src, int   a_max);
 int         strllower          (char *a_src, int   a_max);
 int         strltrim           (char *a_src, char  a_mode, int  a_max);
 int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
+char        strlfile           (char *a_terse, char *a_holder, char *a_value, int a_max);
 char        strlundoc          (char *a_dst, char *a_src, int a_max);
 char        strlunquote        (char *a_dst, char *a_src, int a_max);
 char        strlunall          (char *a_dst, char *a_src, int a_max);

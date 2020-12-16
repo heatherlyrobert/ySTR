@@ -113,10 +113,10 @@ static char *s_indi = "\033[0;35m";
 static char *s_mage = "\033[1;35m";
 
 static char *s_sadd = "\033[0;36m";
-static char *s_salm = "\033[1;34m";
+static char *s_salm = "\033[1;36m";
 
-static char *s_mint = "\033[0;31m";
-static char *s_pale = "\033[1;31m";
+static char *s_mint = "\033[0;37m";
+static char *s_pale = "\033[1;37m";
 
 char
 ystr__getlang           (char *a_iso)

@@ -252,6 +252,64 @@ strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
    return c;
 }
 
+char
+strlfile                (char *a_option, char *a_holder, char *a_value, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   char        x_recd      [LEN_RECD]  = "";
+   int         l           =    0;
+   char       *x_valid     = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_/.";
+   int         i           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_FILE   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_ARGS  yLOG_point   ("a_option"  , a_option);
+   --rce;  if (a_option == NULL) {
+      yURG_error ("FATAL, option can not be null");
+      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_ARGS  yLOG_info    ("a_option"  , a_option);
+   DEBUG_ARGS  yLOG_point   ("a_holder"  , a_holder);
+   --rce;  if (a_holder == NULL) {
+      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_ARGS  yLOG_info    ("a_holder"  , a_holder);
+   DEBUG_ARGS  yLOG_point   ("a_value"   , a_value);
+   --rce;  if (a_value == NULL) {
+      yURG_error ("FATAL, %s <name>, name can not be null", a_option);
+      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_ARGS  yLOG_info    ("a_value"   , a_value);
+   /*---(check length)-------------------*/
+   l = strlen (a_value);
+   DEBUG_ARGS  yLOG_value   ("l"         , l);
+   --rce;  if (l <= 0) {
+      yURG_error ("FATAL, %s <name>, name can not be blank/empty", a_option);
+      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(check characters)---------------*/
+   --rce;  for (i = 0; i < l; ++i) {
+      if (strchr (x_valid, a_value [i]) != NULL)  continue;
+      yURG_error ("FATAL, %s <name>, name can not have a <%c> at character %d", a_option, a_value [i], i);
+      DEBUG_TOPS  yLOG_char  ("bad char"  , a_value [i]);
+      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(save back)----------------------*/
+   strlcpy (a_holder, a_value, a_max);
+   DEBUG_ARGS  yLOG_info    ("*a_holder" , *a_holder);
+   /*---(complete)-----------------------*/
+   DEBUG_FILE   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+
 short
 ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int a_max)
 {
