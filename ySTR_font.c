@@ -9,6 +9,7 @@ static char  (*s_displayer)  (int x, int y, char *a_text, char a_mode) = NULL;
 #define     MAX_WIDTH     450
 #define     MAX_HEIGHT     10
 
+#define     TYPE_ALPHA    "abcdefghijklmnopqrstuvwxyz "
 
 
 /*====================------------------------------------====================*/
@@ -474,7 +475,7 @@ ystr_font__index        (char a_range, int a_letter)
    /*---(numeric)------------------------*/
    --rce;  if (a_range == FONT_NUMS) {
       DEBUG_GRAF   yLOG_snote  ("number-type");
-      if (strchr (TYPE_NUM  , x_letter) != NULL) {
+      if (strchr (LTRS_NUMBER, x_letter) != NULL) {
          DEBUG_GRAF   yLOG_sint   (x_letter - '0');
          DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
          return x_letter - '0';
@@ -505,7 +506,7 @@ ystr_font__index        (char a_range, int a_letter)
          DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
          return x_letter - 'a';
       }
-      if (strchr (TYPE_NUM  , x_letter) != NULL) {
+      if (strchr (LTRS_NUMBER, x_letter) != NULL) {
          DEBUG_GRAF   yLOG_sint   (x_letter - '0');
          DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
          return x_letter - '0' + 27;
@@ -517,7 +518,7 @@ ystr_font__index        (char a_range, int a_letter)
    /*---(binary)-------------------------*/
    --rce;  if (a_range == 'b') {
       DEBUG_GRAF   yLOG_snote  ("binary-type");
-      if (strchr (TYPE_BINARY, x_letter) != NULL) {
+      if (strchr (LTRS_BINARY, x_letter) != NULL) {
          switch (x_letter) {
          case '0' :
             DEBUG_GRAF   yLOG_sint   (0);
