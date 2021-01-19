@@ -252,63 +252,6 @@ strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
    return c;
 }
 
-char
-strlfile                (char *a_option, char *a_holder, char *a_value, int a_max)
-{
-   /*---(locals)-----------+-----+-----+-*/
-   char        rce         =  -10;
-   char        rc          =    0;
-   char        x_recd      [LEN_RECD]  = "";
-   int         l           =    0;
-   char       *x_valid     = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_/.";
-   int         i           =    0;
-   /*---(header)-------------------------*/
-   DEBUG_FILE   yLOG_enter   (__FUNCTION__);
-   /*---(defense)------------------------*/
-   DEBUG_ARGS  yLOG_point   ("a_option"  , a_option);
-   --rce;  if (a_option == NULL) {
-      yURG_error ("FATAL, option can not be null");
-      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
-      return rce;
-   }
-   DEBUG_ARGS  yLOG_info    ("a_option"  , a_option);
-   DEBUG_ARGS  yLOG_point   ("a_holder"  , a_holder);
-   --rce;  if (a_holder == NULL) {
-      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
-      return rce;
-   }
-   DEBUG_ARGS  yLOG_info    ("a_holder"  , a_holder);
-   DEBUG_ARGS  yLOG_point   ("a_value"   , a_value);
-   --rce;  if (a_value == NULL) {
-      yURG_error ("FATAL, %s <name>, name can not be null", a_option);
-      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
-      return rce;
-   }
-   DEBUG_ARGS  yLOG_info    ("a_value"   , a_value);
-   /*---(check length)-------------------*/
-   l = strlen (a_value);
-   DEBUG_ARGS  yLOG_value   ("l"         , l);
-   --rce;  if (l <= 0) {
-      yURG_error ("FATAL, %s <name>, name can not be blank/empty", a_option);
-      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
-      return rce;
-   }
-   /*---(check characters)---------------*/
-   --rce;  for (i = 0; i < l; ++i) {
-      if (strchr (x_valid, a_value [i]) != NULL)  continue;
-      yURG_error ("FATAL, %s <name>, name can not have a <%c> at character %d", a_option, a_value [i], i);
-      DEBUG_TOPS  yLOG_char  ("bad char"  , a_value [i]);
-      DEBUG_TOPS  yLOG_exitr (__FUNCTION__, rce);
-      return rce;
-   }
-   /*---(save back)----------------------*/
-   strlcpy (a_holder, a_value, a_max);
-   DEBUG_ARGS  yLOG_info    ("*a_holder" , *a_holder);
-   /*---(complete)-----------------------*/
-   DEBUG_FILE   yLOG_exit    (__FUNCTION__);
-   return 0;
-}
-
 
 short
 ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int a_max)
@@ -706,3 +649,73 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
+
+
+int
+strlhint                (int n, char *a_spec, char *a_label)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         i           =    0;
+   int         l           =    0;
+   int         a           =    1;
+   int         b           =    1;
+   int         c           =    1;
+   char        t           [LEN_SHORT] = "";
+   char       *p           = NULL;
+   int         m           [LEN_SHORT] = { 0, 0, 0, 0, 0 };
+   /*---(defense)------------------------*/
+   --rce;  if (a_spec == NULL)         return rce;
+   l = strlen (a_spec);
+   --rce;  if (l < 1)                  return rce;
+   --rce;  if (l > 4)                  return rce;
+   /*---(default)------------------------*/
+   for (i = 0; i < l; ++i)   t [i] = '·';
+   t [l] = '\0';
+   if (a_label != NULL)  strcpy (a_label, t);
+   --rce;  if (n < 0)                  return rce;
+   /*> printf ("-----------------------------------------------------\n");            <*/
+   /*> printf ("%4dn %2d[%s]   %s\n", n, l, a_spec, t);                               <*/
+   /*---(set maximum)--------------------*/
+   a = 1;
+   --rce;  for (i = l - 1; i >= 0; --i) {
+      switch (a_spec [i]) {
+      case 'l'  : p = LTRS_LOWER;                break;
+      case 'u'  : p = LTRS_UPPER;                break;
+      case 'A'  : p = LTRS_LOWER LTRS_UPPER;     break;
+      case 'ê'  : p = LTRS_GREEK;                break;
+      case '9'  : p = LTRS_NUMBER;               break;
+      default   : return rce;                    break;
+      }
+      m [i] = a;
+      c  = strlen (p);
+      a *= c;
+      /*> printf ("%d) %2d  %-55.55s  %4dm  %5da\n", i, strlen (p), p, m [i], a);     <*/
+   }
+   --rce;  if (n >= a)                 return rce;
+   /*---(build hint)---------------------*/
+   /*> printf ("%2d[%s]   %s\n", l, a_spec, t);                                       <*/
+   --rce;  for (i = 0; i < l; ++i) {
+      switch (a_spec [i]) {
+      case 'l'  : p = LTRS_LOWER;                break;
+      case 'u'  : p = LTRS_UPPER;                break;
+      case 'A'  : p = LTRS_LOWER LTRS_UPPER;     break;
+      case 'ê'  : p = LTRS_GREEK;                break;
+      case '9'  : p = LTRS_NUMBER;               break;
+      default   : return rce;                    break;
+      }
+      c  = strlen (p);
+      b  = n / m [i];
+      /*> printf ("%2d[%s] %-5.5s, %dl : %4dn, %4da : %2dc, %di : %4dm %db : n = %4d\n", c, p, a_spec, l, n, a, c, i, m [i], b, n - (b * m [i]));   <*/
+      if (b > c)  return rce;
+      t [i] = p [b];
+      n -= b * m [i];
+   }
+   /*---(save back)----------------------*/
+   /*> printf ("%2d[%s]   %s\n", l, a_spec, t);                                       <*/
+   if (a_label != NULL)  strcpy (a_label, t);
+   /*---(complete)-----------------------*/
+   return a;
+}
+
+

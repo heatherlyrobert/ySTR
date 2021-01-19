@@ -118,7 +118,6 @@ typedef     const char     cchar;
 #define     ySTR_RIGHT     '>'
 #define     ySTR_CENTER    '|'
 
-
 #define     YSTR_CHECK     '-'   /* just that it is usable                    */
 #define     YSTR_USABLE    '-'   /* same as check                             */
 #define     YSTR_LEGAL     'y'   /* just check, no changes                    */
@@ -130,6 +129,8 @@ typedef     const char     cchar;
 char*       ySTR_version       (void);
 char        ySTR_debug         (char a_flag);
 
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+/*---(normal)------------------*/
 char        strlcpy            (char *a_dst, char *a_src , int  a_max);
 char        strlcat            (char *a_dst, char *a_src , int  a_max);
 int         strllen            (char *a_src, int   a_max );
@@ -138,7 +139,14 @@ int         strlupper          (char *a_src, int   a_max);
 int         strllower          (char *a_src, int   a_max);
 int         strltrim           (char *a_src, char  a_mode, int  a_max);
 int         strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
-char        strlfile           (char *a_terse, char *a_holder, char *a_value, int a_max);
+/*---(configuration)-----------*/
+char        strlfile                (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
+char        strlhome                (char *a_home);
+char        strlproj                (char *a_home, char *a_name);
+char        strlhere                (char *a_home, char *a_name);
+char*       strlrecd                (cchar *a_name, int n, int *c, char *a_recd, int a_max);
+char*       strlread                (cchar *a_name, int n, int *c);
+/*---(un)----------------------*/
 char        strlundoc          (char *a_dst, char *a_src, int a_max);
 char        strlunquote        (char *a_dst, char *a_src, int a_max);
 char        strlunall          (char *a_dst, char *a_src, int a_max);
@@ -164,8 +172,10 @@ uchar       chrslashed         (char a_ch);
 uchar       chrslashed_more    (char a_ch);
 uchar       chrvisible         (uchar a_ch);
 uchar       chrworking         (uchar a_ch);
+int         strlhint           (int n, char *a_spec, char *a_label);
 
-char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);
+char        strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, int *a_cnt, char *a_ptr [], int a_maxl);
+/*> char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);   <*/
 
 char        strl2bin           (char   *a_src, double *a_val, int a_max);
 char        strl2oct           (char   *a_src, double *a_val, int a_max);

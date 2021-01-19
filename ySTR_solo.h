@@ -20,21 +20,25 @@
 #define     LTRS_LOWER    "abcdefghijklmnopqrstuvwxyz"
 #define     LTRS_NUMBER   "0123456789"
 #define     LTRS_GREEK    "èéêëìíîïðñòóôõö÷øùúûüýþÿ"
+#define     LTRS_BPUNC    "_.,:;!?-()&"
+#define     LTRS_PUNCT    "_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
 /*---(combination)--------------------*/
 #define     LTRS_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+#define     LTRS_UPLOW    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define     LTRS_CHARS    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define     LTRS_ALPHA    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 #define     LTRS_ALNUM    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
-#define     LTRS_FILES    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+#define     LTRS_FILES    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_./"
 #define     LTRS_BASIC    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-"
 #define     LTRS_WRITE    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_. ,:;!?-()\"\'&"
 #define     LTRS_EXTEN    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
 /*---(numeric)------------------------*/
+#define     LTRS_TICK     "'+"
 #define     LTRS_BINARY   "01"
 #define     LTRS_NUMERIC  "0123456789.-+"
 #define     LTRS_HEX      "0123456789abcdef"
 /*---(general)------------------------*/
-#define     STR_EMTPY     "                                                                                                                                                                                                       "
+#define     STR_EMPTY     "                                                                                                                                                                                                       "
 #define     STR_DASH      "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
 #define     STR_EQUAL     "======================================================================================================================================================================================================="
 #define     STR_UNDER     "_______________________________________________________________________________________________________________________________________________________________________________________________________"
@@ -179,7 +183,7 @@
 /*---(logic)--------------------------*/
 #define     G_CHAR_BECAUSE      176   /*  °  */
 #define     G_CHAR_FOREACH      215   /*  ×  */
-#define     G_CHAR_EXISTS       216   /*  Ø  */
+#define     G_CHAR_RESISTS      216   /*  Ø  */
 #define     G_CHAR_IMPLIES      217   /*  Ù  */
 #define     G_CHAR_PROVES       218   /*  Ú  */
 #define     G_CHAR_FORCES       219   /*  Û  */

@@ -111,6 +111,9 @@ ySTR_unit          (char *a_question, int a_num)
       }
       snprintf (unit_answer, LEN_RECD, "ySTR values      : %s", t);
    }
+   else if (strncmp(a_question, "work"      , 20)  == 0) {
+      snprintf (unit_answer, LEN_RECD, "ySTR work        : %2d[%s]", strlen (mySTR.strtest), mySTR.strtest);
+   }
    /*---(argument testing)---------------*/
    else if (strncmp(a_question, "argc"      , 20)  == 0) {
       snprintf (unit_answer, LEN_RECD, "ySTR argc        : %d", mySTR.argc);

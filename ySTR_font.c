@@ -518,7 +518,7 @@ ystr_font__index        (char a_range, int a_letter)
    /*---(binary)-------------------------*/
    --rce;  if (a_range == 'b') {
       DEBUG_GRAF   yLOG_snote  ("binary-type");
-      if (strchr (LTRS_BINARY, x_letter) != NULL) {
+      if (strchr (LTRS_BINARY " ", x_letter) != NULL) {
          switch (x_letter) {
          case '0' :
             DEBUG_GRAF   yLOG_sint   (0);
