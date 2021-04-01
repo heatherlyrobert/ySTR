@@ -11,6 +11,11 @@ static char  (*s_displayer)  (int x, int y, char *a_text, char a_mode) = NULL;
 
 #define     TYPE_ALPHA    "abcdefghijklmnopqrstuvwxyz "
 
+#define     LEN_MAYANC    650
+#define     LEN_MAYANV    100
+#define     LEN_MAYANT      6
+
+
 
 /*====================------------------------------------====================*/
 /*===----                        binary fonts                          ----===*/
@@ -343,6 +348,25 @@ static const char horzleft     [MAX_HEIGHT][MAX_WIDTH] = {
 };
 
 
+static const char mayanc       [LEN_MAYANT][LEN_MAYANC] = {
+   " ƒ€‰€‰€‚ ƒ€€‰€‰€€‚ƒ€€‰€‰€€‚ƒ€€‰€‰€€‚ƒ€€€‰€€€‚ƒ€€€‰€€€‚ƒ€€€‰€€€‚ƒ€€€‰€€€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€€€€€€€‚ƒ€€€€€€€‚ƒ€€€‰€€€‚ƒ€€‰€€€€‚ƒ€€€€‰€€‚ƒ€€‰€€€€‚ƒ€‰‚‰ƒ‰€‚ƒ‰‰‚‰ƒ‰‰‚ƒ€€‚‰ƒ€€‚ƒ‰‰‚‰ƒ‰‰‚ƒ€€€‰€€€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€ƒ€‰ ‰€‚ƒ€‰ ‰€‚€‚ƒ€‰‰‰€’“‚ƒ’“€‰‰‰€‚ƒ‰€€€€€‰‚ƒ‰€‰€‰€‰‚ƒ‰€€€€€‰‚ƒ‰€€€€€‰‚ƒ‰€€€€€€‚ƒ€€€€€€‰‚ƒ‰€€‰€‰€‚ƒ€‰€‰€€‰‚ƒ€‰€€‰€‰‚ƒ‰€‰€€‰€‚ƒ€€€€€€€‚ƒ€€€€€€€‚ƒ‰€€€€€‰‚ƒ‰€€€€€‰‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚šœœœ‰œœœ™šœœœ‰œœœ™šœœœ‰œœœ™šœœœ‰œœœ™ƒ‰€€‰€€€‚ƒ€€€‰€€‰‚ƒ‰€€‰€€€‚ƒ€€€‰€€‰‚ƒ€ˆ€‡€‰ƒ€‘€€€‰ €€€€‰€‰‰€€€ƒ€‰ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€‰€‰€‰€‚ƒ€€€‰€€€‚ƒ€‰€€€‰€‚ƒ‰‰‰‰‰‰‰‚ƒ€€€‰€€€‚",
+   "ƒ…   „‚‡€‚ ƒ€†‡€‰† ‡‰€† ‰† ‡‰                  ‡…„†  ‡€€†  ‡‰ˆ‰†  ž Š Ÿ ‡€…      „€†‡€€€€€€€†‡€€€€€€€†  ƒˆ€‚ ƒ€ˆ‚      ƒ…    „€‚  ‡€… „€†‡ˆ… „ˆ†ƒ€† ‡€‚‡ ‡ŽŽ† ƒŠ‚ ‡ ƒŠ‚ †‡€ƒŠ‚€†‡ŽƒŠ‚Ž† † ž Ÿ  ž Ÿ ‡ ƒ€ˆ€ˆ€€ˆ†‡ˆ€€ˆ€ˆ€‚‡Š€‰€‰€Š†‡†ƒ… „‚‡†‡Š€‰€‰€Š†‡Š€€€‰€Š†‡…ƒŠ€‚ †‡ ƒ€Š‚„†‡…€ˆ…  †‡  „ˆ€„†‡€…ƒ‚ž Ÿž Ÿƒ‚„€†‡‚ƒ†‡ ƒ‰‰‚ †Ÿž‡ ƒ‰‰‚ †‡ˆ€ˆ€ˆ€Š†‡Š€ˆ€ˆ€ˆ†‡’“€Š’“‚ž‡      ž‡€€ „€‰€žŸ      ž ƒ€€€‚ †‡ ƒ€€€‚  ƒ‰€€‚ †‡ ƒ€€‰‚  • •  ‡ ‘€‚ ‘€†ƒ€‚ ƒ „€† ƒ€‚ ” ‡€Š€Š€Š€†‡ŽŽŽŽŽŽŽ†‡‰ˆ‰ˆ‰ˆ‰†‡ŽŽŽ† ƒ€‰€‚ ‡€ˆ€‚ƒˆ€†‡†‡€‚ Š ƒ€†",
+   "‡ˆ€… „€ˆ†‡€ˆ… „ˆ€†‡€ˆ… „ˆ€†‡€ˆ… „ˆ€†‡€‚  ƒ€†‡€‰€ˆ€‰€†‡€‰€Š€‰€†‡€€€ˆ€€€† ‡…„†  ‡€€†  ‡ˆ‰ˆ†  ž Š Ÿ ‡€€€…    „€€€†‡€€€€€‚  ƒ€€€€€† ƒ†[]‡€†‡†[]‡€€€† ƒ€ˆ‚    ƒ€ˆ‚ „€€…‰„€€…„€€…‰„€€…„ˆ€…‰„€ˆ…„ˆˆ…‰„ˆˆ… ž  Ÿ ‡ ž  Ÿ †‡€ž  Ÿ€†‡Žž  ŸŽ†ƒ‰† ž Ÿ  ž Ÿ ‡‰‚„‚ †‡ ƒ…‡† „‰… ‡†‡Š… Š „Š†‡Š€ˆ‰ˆ€Š†‡†  ƒ… ‡†ƒ†Š… ‡€†‡€† „Š‡‚ ƒŠ ‡€†‡€† Š‚  €Š…ž Ÿž Ÿ„Š€ ‡œœœœ™ Ÿž šœœœœ†‡ ƒ‚ Ÿž ƒ‚ †‡€‰‰‰‚ †Ÿž ƒ‰‰‰€†Ÿ  „€€…Ÿ  „’“€†Ÿ „€‰€ €†‡€€€Š€ €†‡ ‡ • †  ‡ • † †‡  ƒ  ‘‚  †‡€† „€… ‡€€€† ƒ  ” „€€€†   ‡€€€Š‡€Š€Š€Š€†‡ŽŽŽŽŽŽŽ†‡ˆ‰ˆ‰ˆ‰ˆ†‡ŽŽŽŽ†‡€‡€Š€†€†‡‰ †‡ˆˆŠˆŠˆˆ†ž    Ÿ",
+   "‡‰€‚ ƒ€‰†‡€‰‚ ƒ‰€†‡€‰‚ ƒ‰€†‡€‰‚ ƒ‰€†ž „‚Šƒ… Ÿ‡€ˆ™ šˆ€† ž   Ÿ  ƒœœœ‚  ‡…„†  ‡€€†  ‡‰ˆ‰†  ž Š Ÿ ‡€€€€€…  „€€€€€†‡€€€‚    ƒ€€€†‡€…„€‰… „€‰…   ƒ†[]‡€€†ƒ€†[]‡€†ƒ€€‚ˆƒ€€‚ƒ€€‚ˆƒ€€‚ƒ‰€‚ˆƒ€‰‚ƒ‰‰‚ˆƒ‰‰‚ ž  Ÿ ‡ ž  Ÿ †‡€ž  Ÿ€†‡Žž  ŸŽ†‡€† ž Ÿ  ž Ÿ ‡€†ƒœœœœœ… †‡ „œœœœœ‚‡† ƒˆ‚ ‡†‡Š‚ Š ƒŠ†‡Š€ƒˆ‰€Š†‡† ƒ…  ‡†‡€… €‚    ƒ€ „€† Š…„€…  „€…„Š ‡˜ Ÿž ›† €Š‚ž Ÿž ŸƒŠ€ ‡€ˆˆˆ… †Ÿž‡ „ˆˆˆ€†‡ „… Ÿž „… †Ÿ „€‰€‰€†Ÿ „€‰€‰€†Ÿ ‚  ƒ€ž‡€‚  ƒ€ž „€…  †‡  „€…  ‡  † †‡ ‡  †  „€‰€‚ †‡€ „€† ‡€‰€‰€€ ‡€… ” ƒ€…‡€Š€Š€Š€†‡ŽŽŽŽŽŽŽ†‡‰ˆ‰ˆ‰ˆ‰†‡ŽŽŽ†‡€‡€Š€†€†      ‡ †  † ‡  ž    Ÿ",
+   "„‚   ƒ…‡€… „€†‡€„† ‡„€† ˆ† ‡ˆ ž ƒ…„‚ Ÿ  ž Ÿ  ‡€†   ‡€†‡€ˆ€Š€ˆ€† ‡…„†  ‡€€†  ‡ˆ‰ˆ†  ž Š Ÿ ‡€€€€€€€†‡€€€€€€€†‡€‚      ƒ€†   ƒ…    „‚   ‡…„€‰…  ‡… „€‰… ƒ‚ ƒ‚„€‚ ƒ€…„€ ‡€…‡ŽŽ ‡† „œŠœ… ‡ „œŠœ… †‡€„œŠœ…€†‡Ž„œŠœ…Ž†  „€…  „€…  ‡€€€€€€€†‡€€€€€€€†‡Š€ˆ€ˆ€Š†‡†„‚ ƒ…‡†‡Š€ˆ€ˆ€Š†‡Š€ˆ€€€Š†‡€€€‰…  †‡  „‰€€€† „‰€      €‰… ‡œœœœœœ…„œœœœœœ†‡€‚„…ž Ÿž Ÿ„…ƒ€†‡‰€‰€‰€Š†‡Š€‰€‰€‰†‡ „ˆˆ… †Ÿž „ˆˆ… †‡’“€€€† žŸ’“€‡€  ž‡€…   †Ÿ€…   †‡ˆ€€ˆ€…  „€ˆ€€ˆ†‡  „€…  „€…  †‡€ ” ” ‡€€€   ”    • … ƒ€‰€† •‡€Š€Š€Š€†‡ŽŽŽŽŽŽŽ†‡ˆ‰ˆ‰ˆ‰ˆ†‡ŽŽŽŽ† „€ˆ€… ‡œœœœœˆ †  † ‡  ‡€… Š „€†",
+   " „€ˆ€ˆ€… „€€ˆ€ˆ€€…„€€ˆ€ˆ€€…„€€ˆ€ˆ€€…„€„€ˆ€…€…„€€˜ ›€€…„€ˆ€€€ˆ€…„€€€ˆ€€€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€€€€€€€…„€€€€€€€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€€€ˆ€€€…„€€€ˆ€€€…„€€€ˆ€€€…„€€€€ˆ€€…„…„…ˆ„…„…„ „…ˆ„… …„€€…ˆ„€€…„ˆˆ…ˆ„ˆˆ…„€€€ˆ€€€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€€€€€€€…„€€€€€€€…„ˆ€€€€€ˆ…„ˆ€ˆ€ˆ€ˆ…„ˆ€€€€€ˆ…„ˆ€€€€€ˆ…„€ˆ€ˆ€€€…„€€€ˆ€ˆ€…„€€ˆ€€ˆ€…„€ˆ€€ˆ€€…„€€€€€€€…„€€€€€€€…„€ˆ€€ˆ€ˆ…„ˆ€ˆ€€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„ˆ€€€€€ˆ…„ˆ€€€€€ˆ…›„…˜›„…˜›„…˜›„…˜„€€ˆ€€ˆ€…„€ˆ€€ˆ€€…„€ˆ€€€ˆ€…„€ˆ€€€ˆ€…”´ƒ€‰€€€…‡€‰€‚´„€…‘€…´„€ˆ€…´ … ” „€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€ˆ€ˆ€ˆ€…„€€€ˆ€€€…„€ˆ€€€ˆ€…„€€ˆ€ˆ€€…„€€€ˆ€€€…",
+};
+
+static const char mayanv       [LEN_MAYANT][LEN_MAYANV] = {
+   "š€™  ƒ‚ ƒ€‚ ƒ€‚ ƒ€‚ ƒ‰‚ ƒ‰‚ ‘€‚ ƒ€‚ ƒ‰‚ ƒ‚  ƒ€‚ ƒ€‚ ƒ‰‚",
+   "Ÿ ž  ž Ÿ ƒ… ‡€† „‰… ‡† ‡Š† ‘Š† „‚ ” „Š‚ ‡    ‡ˆ†",
+   "Ÿ ž  ž Ÿ ƒ… ‡€† ƒˆ‚ ‡† ‡Š† ‘€† ƒ… • ƒŠ… ‡    ‡‰†",
+   "Ÿ ž  ž Ÿ ƒ… ‡€† „‰… ‡† ‡Š† ‘€† „‚ ” „Š‚ ‡    ‡ˆ†",
+   "Ÿ ž  ž Ÿ ƒ… ‡€† ƒˆ‚ ‡† ‡Š† ‘Š† ƒ… • ƒŠ… ‡    ‡‰†",
+   "›€˜  „œ… „€… „€… „€… „ˆ… „ˆ… ‘€… „€… „ˆ… „…  „€… „€… „ˆ…",
+};
+
+
 
 /*---(font constants)-------*/
 #define     MAX_FONT       50
@@ -401,6 +425,8 @@ static tFONT  s_fonts [MAX_FONT] = {
    { "rob4dots"     , FONT_FULL   , &rob4dots    ,  5 ,  4 ,  0 ,  1 ,  1 , ' ' },
    { "rob4dots2"    , FONT_FULL   , &rob4dots2   ,  4 ,  4 ,  0 ,  1 ,  1 , ' ' },
    { "rob4dots3"    , FONT_FULL   , &rob4dots3   ,  4 ,  4 ,  0 ,  1 ,  1 , ' ' },
+   { "mayan_c"      , FONT_FULL   , &mayanc      ,  6 ,  9 ,  1 ,  0 ,  0 , ' ' },
+   { "mayan_v"      , FONT_FULL   , &mayanv      ,  6 ,  3 ,  1 ,  2 ,  2 , ' ' },
    { "end-of-fonts" , 0           , NULL         ,  0 ,  0 ,  0 ,  0 ,  0 ,  0  },
 };
 static  int     s_curr     =   -1;
@@ -516,9 +542,45 @@ ystr_font__index        (char a_range, int a_letter)
       return rce;
    }
    /*---(binary)-------------------------*/
-   --rce;  if (a_range == 'b') {
+   --rce;  if (a_range == FONT_BINARY) {
       DEBUG_GRAF   yLOG_snote  ("binary-type");
       if (strchr (LTRS_BINARY " ", x_letter) != NULL) {
+         switch (x_letter) {
+         case '0' :
+            DEBUG_GRAF   yLOG_sint   (0);
+            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            return 0;
+         case '1' :
+            DEBUG_GRAF   yLOG_sint   (1);
+            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            return 1;
+         case ' ' :
+            DEBUG_GRAF   yLOG_sint   (2);
+            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            return 2;
+         }
+      }
+      DEBUG_GRAF   yLOG_snote  ("out of range [0-1]");
+      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(mayan)--------------------------*/
+   --rce;  if (a_range == FONT_MAYANC) {
+      DEBUG_GRAF   yLOG_snote  ("mayan consonant-type");
+      if (strchr (LTRS_MAYANC, x_letter) != NULL) {
+         DEBUG_GRAF   yLOG_sint   (x_letter - 'a');
+         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         return x_letter - 'a';
+      }
+      if (strchr (LTRS_NUMBER, x_letter) != NULL) {
+         DEBUG_GRAF   yLOG_sint   (x_letter - '0');
+         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         return x_letter - '0' + 27;
+      }
+
+
+
+      if (strchr (LTRS_MAYANC " ", x_letter) != NULL) {
          switch (x_letter) {
          case '0' :
             DEBUG_GRAF   yLOG_sint   (0);

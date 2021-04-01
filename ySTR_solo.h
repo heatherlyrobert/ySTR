@@ -9,7 +9,6 @@
 #define     LEN_TITLE          30       /* for organizing                     */
 #define     LEN_LABEL          20       /* names and labels                   */
 #define     LEN_USER           12       /* user names                         */
-#define     LEN_HEX            10       /* hex codes                          */
 #define     LEN_TERSE          10       /* terse string                       */
 #define     LEN_SHORT           5       /* for small needs                    */
 
@@ -22,6 +21,8 @@
 #define     LTRS_GREEK    "èéêëìíîïðñòóôõö÷øùúûüýþÿ"
 #define     LTRS_BPUNC    "_.,:;!?-()&"
 #define     LTRS_PUNCT    "_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
+#define     LTRS_MAYANC   "qlyzdghsmkntwxr"
+#define     LTRS_MAYANV   "aeiouvf"
 /*---(combination)--------------------*/
 #define     LTRS_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 #define     LTRS_UPLOW    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -99,6 +100,7 @@
 #define     G_CHAR_RETURN       166   /*  ¦  */
 #define     G_CHAR_FIELD        167   /*  §  */
 #define     G_CHAR_GROUP        168   /*  ¨  */
+#define     G_CHAR_RFIELD       231   /*  ç  */
 /*---(macro)---------------------*/
 #define     G_CHAR_DISPLAY      169   /*  ©  */
 #define     G_CHAR_BREAK        170   /*  ª  */
@@ -109,7 +111,6 @@
 /*---(special)-------------------*/
 #define     G_CHAR_STORAGE      178   /*  ²  */
 #define     G_CHAR_MASK         172   /*  ¬  */
-#define     G_CHAR_TAB          173   /*  ­  */
 #define     G_CHAR_SUMMARY      174   /*  ®  */
 #define     G_CHAR_SYSTEM       175   /*  ¯  */
 /*---(delayed)-------------------*/
@@ -125,6 +126,8 @@
 #define     G_CHAR_SRCHEV       189   /*  ½  */
 #define     G_CHAR_DEL          190   /*  ¾  */
 #define     G_CHAR_BS           191   /*  ¿  */
+#define     G_CHAR_LGULL        229   /*  å  */
+#define     G_CHAR_RGULL        230   /*  æ  */
 /*---(super/sub)-----------------*/
 #define     G_CHAR_SUB0         192   /*  À  */
 #define     G_CHAR_SUB1         193   /*  Á  */
@@ -145,15 +148,15 @@
 #define     G_CHAR_AND          208   /*  Ð  */
 #define     G_CHAR_OR           209   /*  Ñ  */
 #define     G_CHAR_XOR          210   /*  Ò  */
-#define     G_CHAR_UP           211   /*  Ó  */
-#define     G_CHAR_DOWN         212   /*  Ô  */
-#define     G_CHAR_RIGHT        213   /*  Õ  */
-#define     G_CHAR_LEFT         214   /*  Ö  */
-#define     G_CHAR_LE           221   /*  Ý   <=  */
-#define     G_CHAR_GE           222   /*  Þ   >=  */
-#define     G_CHAR_NE           223   /*  ß   !=  */
-#define     G_CHAR_EQUIV        229   /*  å   ==  */
-#define     G_CHAR_APPROX       230   /*  æ   =~  */
+#define     G_CHAR_XNOR         211   /*  Ó  */
+#define     G_CHAR_UP           212   /*  Ô  */
+#define     G_CHAR_DOWN         213   /*  Õ  */
+#define     G_CHAR_RIGHT        214   /*  Ö  */
+#define     G_CHAR_LEFT         215   /*  ×  */
+#define     G_CHAR_LE           220   /*  Ü      <=  */
+#define     G_CHAR_GE           221   /*  Ý      >=  */
+#define     G_CHAR_NE           222   /*  Þ      !=  */
+#define     G_CHAR_APPROX       223   /*  ß      =~  */
 #define     G_CHAR_RANGE        177   /*  ±  */
 /*---(greek)---------------------*/
 #define     G_CHAR_ALPHA        232   /*  è  */
@@ -181,19 +184,20 @@
 #define     G_CHAR_PSI          254   /*  þ  */
 #define     G_CHAR_OMEGA        255   /*  ÿ  */
 /*---(logic)--------------------------*/
-#define     G_CHAR_BECAUSE      176   /*  °  */
-#define     G_CHAR_FOREACH      215   /*  ×  */
-#define     G_CHAR_RESISTS      216   /*  Ø  */
-#define     G_CHAR_IMPLIES      217   /*  Ù  */
-#define     G_CHAR_PROVES       218   /*  Ú  */
-#define     G_CHAR_FORCES       219   /*  Û  */
-#define     G_CHAR_CONTRA       220   /*  Ü  */
-#define     G_CHAR_UNION        224   /*  à  */
-#define     G_CHAR_INTERSECT    225   /*  á  */
+#define     G_CHAR_THEREFORE    176   /*  °  */
+#define     G_CHAR_FOREACH      228   /*  ä  */
+#define     G_CHAR_UNLIKELY     216   /*  Ø  */
+#define     G_CHAR_LIKELY       217   /*  Ù  */
+#define     G_CHAR_INFINITY     218   /*  Ú  */
+#define     G_CHAR_FUNCTION     219   /*  Û  */
+#define     G_CHAR_BOX          173   /*  ­  */
+#define     G_CHAR_EQUIV        224   /*  à      == */
+#define     G_CHAR_EXISTS       225   /*  á  */
 #define     G_CHAR_SUBSET       226   /*  â  */
-#define     G_CHAR_SUPERSET     227   /*  ã  */
-#define     G_CHAR_MEMBER       228   /*  ä  */
-#define     G_CHAR_ONLYIF       231   /*  ç  */
-/*---(complete)-----------------------*/
+#define     G_CHAR_MEMBER       227   /*  ã  */
+#define     G_CHAR_EMPTY        160   /*     */
+#define     G_CHAR_DIAMOND      231   /*  ›  */
+#define     G_CHAR_SETMATH      229   /*  ˜  */
 
+/*---(complete)-----------------------*/
 

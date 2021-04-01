@@ -28,7 +28,7 @@ strlencode         (char *a_src, char a_mode, int a_max)
 {
    /*---(normal)-------------------------*/
    strldchg (a_src, G_KEY_ESCAPE, G_CHAR_ESCAPE, a_max);
-   strldchg (a_src, G_KEY_TAB   , G_CHAR_TAB   , a_max);
+   /*> strldchg (a_src, G_KEY_TAB   , G_CHAR_TAB   , a_max);                          <*/
    strldchg (a_src, G_KEY_BS    , G_CHAR_BS    , a_max);
    strldchg (a_src, G_KEY_DEL   , G_CHAR_DEL   , a_max);
    strldchg (a_src, G_KEY_GROUP , G_CHAR_GROUP , a_max);
@@ -50,7 +50,7 @@ strldecode         (char *a_src, int a_max)
    strldchg (a_src, G_CHAR_ESCAPE , G_KEY_ESCAPE, a_max);
    strldchg (a_src, G_CHAR_GROUP  , G_KEY_GROUP , a_max);
    strldchg (a_src, G_CHAR_FIELD  , G_KEY_FIELD , a_max);
-   strldchg (a_src, G_CHAR_TAB    , G_KEY_TAB   , a_max);
+   /*> strldchg (a_src, G_CHAR_TAB    , G_KEY_TAB   , a_max);                         <*/
    strldchg (a_src, G_CHAR_BS     , G_KEY_BS    , a_max);
    strldchg (a_src, G_CHAR_DEL    , G_KEY_DEL   , a_max);
    strldchg (a_src, G_CHAR_SPACE  , G_KEY_SPACE , a_max);
@@ -142,7 +142,6 @@ chrslashed        (char a_ch)
                /*---(special)-------------------*/
    case ' '  : x_ch = G_CHAR_STORAGE   ;  break;    /*    32   = 178 ²   */
    case '*'  : x_ch = G_CHAR_MASK      ;  break;    /*    42 * = 172 ¬   */
-   case 't'  : x_ch = G_CHAR_TAB       ;  break;    /*   116 t = 173 ­   */
    case ':'  : x_ch = G_CHAR_SUMMARY   ;  break;    /*    58 : = 174 ®   */
    case '%'  : x_ch = G_CHAR_SYSTEM    ;  break;    /*    37 % = 175 ¯   */
                /*---(delayed)-------------------*/
@@ -173,19 +172,20 @@ chrslashed        (char a_ch)
    case 'r'  : x_ch = G_CHAR_RADIAN    ;  break;    /*   114 r = 205 Í   */
    case '1'  : x_ch = G_CHAR_SQRT      ;  break;    /*    49 1 = 206 Î   */
                /*---(logic)---------------------*/
-   case '&'  : x_ch = G_CHAR_AND       ;  break;    /*    38 & = 208 Ð   */
-   case '|'  : x_ch = G_CHAR_OR        ;  break;    /*   124 | = 209 Ñ   */
-   case '^'  : x_ch = G_CHAR_XOR       ;  break;    /*    94 ^ = 210 Ò   */
-   case 'k'  : x_ch = G_CHAR_UP        ;  break;    /*   107 k = 211 Ó   */
-   case 'j'  : x_ch = G_CHAR_DOWN      ;  break;    /*   106 j = 212 Ô   */
-   case 'l'  : x_ch = G_CHAR_RIGHT     ;  break;    /*   108 l = 213 Õ   */
-   case 'h'  : x_ch = G_CHAR_LEFT      ;  break;    /*   104 h = 214 Ö   */
-   case '<'  : x_ch = G_CHAR_LE        ;  break;    /*    60 < = 221 Ý   */
-   case '>'  : x_ch = G_CHAR_GE        ;  break;    /*    62 > = 222 Þ   */
-   case '/'  : x_ch = G_CHAR_NE        ;  break;    /*    61 / = 223 ß   */
-   case '='  : x_ch = G_CHAR_EQUIV     ;  break;    /*    47 = = 229 å   */
-   case '~'  : x_ch = G_CHAR_APPROX    ;  break;    /*   126 ~ = 230 æ   */
-   case '$'  : x_ch = G_CHAR_RANGE     ;  break;    /*    36 $ = 177 ±   */
+   case '&'  : x_ch = G_CHAR_AND       ;  break;
+   case '|'  : x_ch = G_CHAR_OR        ;  break;
+   case 'v'  : x_ch = G_CHAR_XOR       ;  break;
+   case 'i'  : x_ch = G_CHAR_XNOR      ;  break;
+   case 'k'  : x_ch = G_CHAR_UP        ;  break;
+   case 'j'  : x_ch = G_CHAR_DOWN      ;  break;
+   case 'l'  : x_ch = G_CHAR_RIGHT     ;  break;
+   case 'h'  : x_ch = G_CHAR_LEFT      ;  break;
+   case '<'  : x_ch = G_CHAR_LE        ;  break;
+   case '>'  : x_ch = G_CHAR_GE        ;  break;
+   case '/'  : x_ch = G_CHAR_NE        ;  break;
+   case '~'  : x_ch = G_CHAR_APPROX    ;  break;
+   case '$'  : x_ch = G_CHAR_RANGE     ;  break;
+               /*---(sets)----------------------*/
                /*---(greek)---------------------*/
    case 'A'  : x_ch = G_CHAR_ALPHA     ;  break;    /*    65 A = 232 è   */
    case 'B'  : x_ch = G_CHAR_BETA      ;  break;    /*    66 B = 233 é   */
@@ -224,19 +224,23 @@ chrslashed_more   (char a_ch)
    /*--- phoenicia/shrike mapping -------------*/
    switch (x_ch) {
       /*---(notes)---------------------*/
-   case 't'  : x_ch = G_CHAR_BECAUSE;   break;
+   case 't'  : x_ch = G_CHAR_THEREFORE; break;
    case 'a'  : x_ch = G_CHAR_FOREACH;   break;
-   case 'r'  : x_ch = G_CHAR_RESISTS;   break;
-   case 'i'  : x_ch = G_CHAR_IMPLIES;   break;
-   case 'p'  : x_ch = G_CHAR_PROVES;    break;
-   case 'f'  : x_ch = G_CHAR_FORCES;    break;
-   case 'c'  : x_ch = G_CHAR_CONTRA;    break;
-   case 'j'  : x_ch = G_CHAR_UNION;     break;
-   case 'k'  : x_ch = G_CHAR_INTERSECT; break;
+   case 'u'  : x_ch = G_CHAR_UNLIKELY;  break;
+   case 'l'  : x_ch = G_CHAR_LIKELY;    break;
+   case 'i'  : x_ch = G_CHAR_INFINITY;  break;
+   case 'q'  : x_ch = G_CHAR_EQUIV;     break;
+   case 'x'  : x_ch = G_CHAR_EXISTS;    break;
    case 'h'  : x_ch = G_CHAR_SUBSET;    break;
-   case 'l'  : x_ch = G_CHAR_SUPERSET;  break;
+   case 'f'  : x_ch = G_CHAR_FUNCTION;  break;
    case 'm'  : x_ch = G_CHAR_MEMBER;    break;
-   case 'o'  : x_ch = G_CHAR_ONLYIF;    break;
+   case 'e'  : x_ch = G_CHAR_EMPTY;     break;
+   case 'b'  : x_ch = G_CHAR_BOX;       break;
+   case 'd'  : x_ch = G_CHAR_DIAMOND;   break;
+   case 's'  : x_ch = G_CHAR_SETMATH;   break;
+   case 'r'  : x_ch = G_CHAR_RFIELD;    break;
+   case '['  : x_ch = G_CHAR_LGULL;     break;
+   case ']'  : x_ch = G_CHAR_RGULL;     break;
    }
    /*---(complete)-----------------------*/
    return x_ch;
@@ -250,7 +254,6 @@ chrvisible        (uchar a_ch)
    case G_KEY_RETURN  : a_ch = G_CHAR_RETURN;    break;
    case G_KEY_ENTER   : a_ch = G_CHAR_RETURN;    break;
    case G_KEY_ESCAPE  : a_ch = G_CHAR_ESCAPE;    break;
-   case G_KEY_TAB     : a_ch = G_CHAR_TAB;       break;
    case G_KEY_BS      : a_ch = G_CHAR_BS;        break;
    case G_KEY_DEL     : a_ch = G_CHAR_DEL;       break;
    case G_KEY_SPACE   : a_ch = G_CHAR_SPACE;     break;
@@ -272,7 +275,6 @@ chrworking        (uchar a_ch)
    switch (a_ch) {
    case G_CHAR_RETURN  : a_ch = G_KEY_RETURN;     break;
    case G_CHAR_ESCAPE  : a_ch = G_KEY_ESCAPE;     break;
-   case G_CHAR_TAB     : a_ch = G_KEY_TAB;        break;
    case G_CHAR_BS      : a_ch = G_KEY_BS;         break;
    case G_CHAR_DEL     : a_ch = G_KEY_DEL;        break;
    case G_CHAR_SPACE   : a_ch = G_KEY_SPACE;      break;

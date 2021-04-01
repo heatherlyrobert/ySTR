@@ -151,7 +151,7 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
    /*---(defense)------------------------*/
    DEBUG_YSTR  yLOG_point   ("a_value"   , a_value);
    --rce;  if (a_value == NULL) {
-      if (a_option != NULL)  yURG_error ("FATAL, %s <name>, name can not be null", a_option);
+      if (a_option != NULL)  yURG_err ('f', "%s <name>, name can not be null", a_option);
       DEBUG_YSTR  yLOG_exitr (__FUNCTION__, rce);
       return rce;
    }
@@ -160,14 +160,14 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
    l = strlen (a_value);
    DEBUG_YSTR  yLOG_value   ("l"         , l);
    --rce;  if (l <= 0) {
-      if (a_option != NULL)  yURG_error ("FATAL, %s <name>, name can not be blank/empty", a_option);
+      if (a_option != NULL)  yURG_err ('f', "%s <name>, name can not be blank/empty", a_option);
       DEBUG_YSTR  yLOG_exitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(check characters)---------------*/
    --rce;  for (i = 0; i < l; ++i) {
       if (strchr (LTRS_FILES, a_value [i]) != NULL)  continue;
-      if (a_option != NULL)  yURG_error ("FATAL, %s <name>, name can not have a <%c> at character %d", a_option, a_value [i], i);
+      if (a_option != NULL)  yURG_err ('f', "%s <name>, name can not have a <%c> at character %d", a_option, a_value [i], i);
       DEBUG_YSTR  yLOG_char  ("bad char"  , a_value [i]);
       DEBUG_YSTR  yLOG_exitr (__FUNCTION__, rce);
       return rce;

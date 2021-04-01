@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.0-, use everywhere and make improvements"
-#define     P_VERNUM    "1.0h"
-#define     P_VERTXT    "added ySTR_exec for run-time file and location handling"
+#define     P_VERNUM    "1.0i"
+#define     P_VERTXT    "small changes to extended character mapping in new shrike font"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -86,6 +86,7 @@ extern  tLOCAL mySTR;
 #define     FONT_ALPHA     'a'       /* [a-z]      */
 #define     FONT_NUMS      'n'       /* [0-9]      */
 #define     FONT_BINARY    'b'       /* [0-1]      */
+#define     FONT_MAYANC    'm'       /* [0-1]      */
 
 
 extern char   unit_answer [LEN_RECD];
