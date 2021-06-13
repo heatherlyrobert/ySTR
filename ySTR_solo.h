@@ -101,6 +101,7 @@
 #define     G_CHAR_FIELD        167   /*  ß  */
 #define     G_CHAR_GROUP        168   /*  ®  */
 #define     G_CHAR_RFIELD       231   /*  Á  */
+#define     G_CHAR_TAB          152   /*     */
 /*---(macro)---------------------*/
 #define     G_CHAR_DISPLAY      169   /*  ©  */
 #define     G_CHAR_BREAK        170   /*  ™  */
@@ -198,6 +199,7 @@
 #define     G_CHAR_EMPTY        160   /*  †  */
 #define     G_CHAR_DIAMOND      231   /*  õ  */
 #define     G_CHAR_SETMATH      229   /*  ò  */
+#define     G_CHAR_OPEN         143   /*  è  */
 
 /*---(complete)-----------------------*/
 
