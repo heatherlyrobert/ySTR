@@ -166,7 +166,7 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
    }
    /*---(check characters)---------------*/
    --rce;  for (i = 0; i < l; ++i) {
-      if (strchr (LTRS_FILES, a_value [i]) != NULL)  continue;
+      if (strchr (YSTR_FILES, a_value [i]) != NULL)  continue;
       if (a_option != NULL)  yURG_err ('f', "%s <name>, name can not have a <%c> at character %d", a_option, a_value [i], i);
       DEBUG_YSTR  yLOG_char  ("bad char"  , a_value [i]);
       DEBUG_YSTR  yLOG_exitr (__FUNCTION__, rce);

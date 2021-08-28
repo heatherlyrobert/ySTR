@@ -680,11 +680,11 @@ strlhint                (int n, char *a_spec, char *a_label)
    a = 1;
    --rce;  for (i = l - 1; i >= 0; --i) {
       switch (a_spec [i]) {
-      case 'l'  : p = LTRS_LOWER;                break;
-      case 'u'  : p = LTRS_UPPER;                break;
-      case 'A'  : p = LTRS_LOWER LTRS_UPPER;     break;
-      case 'ê'  : p = LTRS_GREEK;                break;
-      case '9'  : p = LTRS_NUMBER;               break;
+      case 'l'  : p = YSTR_LOWER;                break;
+      case 'u'  : p = YSTR_UPPER;                break;
+      case 'A'  : p = YSTR_LOWER YSTR_UPPER;     break;
+      case 'ê'  : p = YSTR_GREEK;                break;
+      case '9'  : p = YSTR_NUMBER;               break;
       default   : return rce;                    break;
       }
       m [i] = a;
@@ -697,11 +697,11 @@ strlhint                (int n, char *a_spec, char *a_label)
    /*> printf ("%2d[%s]   %s\n", l, a_spec, t);                                       <*/
    --rce;  for (i = 0; i < l; ++i) {
       switch (a_spec [i]) {
-      case 'l'  : p = LTRS_LOWER;                break;
-      case 'u'  : p = LTRS_UPPER;                break;
-      case 'A'  : p = LTRS_LOWER LTRS_UPPER;     break;
-      case 'ê'  : p = LTRS_GREEK;                break;
-      case '9'  : p = LTRS_NUMBER;               break;
+      case 'l'  : p = YSTR_LOWER;                break;
+      case 'u'  : p = YSTR_UPPER;                break;
+      case 'A'  : p = YSTR_LOWER YSTR_UPPER;     break;
+      case 'ê'  : p = YSTR_GREEK;                break;
+      case '9'  : p = YSTR_NUMBER;               break;
       default   : return rce;                    break;
       }
       c  = strlen (p);

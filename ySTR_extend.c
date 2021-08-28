@@ -224,15 +224,17 @@ chrslashed_more   (char a_ch)
    /*--- phoenicia/shrike mapping -------------*/
    switch (x_ch) {
       /*---(notes)---------------------*/
-   case 't'  : x_ch = G_CHAR_THEREFORE; break;
-   case 'a'  : x_ch = G_CHAR_FOREACH;   break;
+   case '!'  : x_ch = G_CHAR_THEREFORE; break;
+   case 'c'  : x_ch = G_CHAR_FALSE;     break;
    case 'u'  : x_ch = G_CHAR_UNLIKELY;  break;
    case 'l'  : x_ch = G_CHAR_LIKELY;    break;
+   case 't'  : x_ch = G_CHAR_TRUE;      break;
    case 'i'  : x_ch = G_CHAR_INFINITY;  break;
+   case 'f'  : x_ch = G_CHAR_FUNCTION;  break;
+   case 'a'  : x_ch = G_CHAR_FOREACH;   break;
    case 'q'  : x_ch = G_CHAR_EQUIV;     break;
    case 'x'  : x_ch = G_CHAR_EXISTS;    break;
    case 'h'  : x_ch = G_CHAR_SUBSET;    break;
-   case 'f'  : x_ch = G_CHAR_FUNCTION;  break;
    case 'm'  : x_ch = G_CHAR_MEMBER;    break;
    case 'e'  : x_ch = G_CHAR_EMPTY;     break;
    case 'b'  : x_ch = G_CHAR_BOX;       break;
@@ -242,6 +244,34 @@ chrslashed_more   (char a_ch)
    case '['  : x_ch = G_CHAR_LGULL;     break;
    case ']'  : x_ch = G_CHAR_RGULL;     break;
    case 'o'  : x_ch = G_CHAR_OPEN;      break;
+      /*---(line draw)-----------------*/
+   /*> case 'H'  : x_ch = '€';              break;                                    <*/
+   case 'H'  : x_ch = '€';              break;
+   case 'V'  : x_ch = '';              break;
+   case '0'  : x_ch = 'Œ';              break;
+   case '1'  : x_ch = 'ƒ';              break;
+   case '2'  : x_ch = '‰';              break;
+   case '3'  : x_ch = '‚';              break;
+   case '4'  : x_ch = '‡';              break;
+   case '5'  : x_ch = 'Š';              break;
+   case '6'  : x_ch = '†';              break;
+   case '7'  : x_ch = '„';              break;
+   case '8'  : x_ch = 'ˆ';              break;
+   case '9'  : x_ch = '…';              break;
+   case 'D'  : x_ch = '”';              break;
+   case 'U'  : x_ch = '•';              break;
+   case 'B'  : x_ch = 'œ';              break;
+   case 'T'  : x_ch = '';              break;
+   case 'L'  : x_ch = 'ž';              break;
+   case 'R'  : x_ch = 'Ÿ';              break;
+   case 'S'  : x_ch = '';              break;
+   case 'E'  : x_ch = '‘';              break;    
+   case 'M'  : x_ch = '';              break;
+   case 'N'  : x_ch = 'Ž';              break;    
+   case 'W'  : x_ch = '’';              break;    
+   case 'X'  : x_ch = '“';              break;    
+   case 'Y'  : x_ch = '–';              break;    
+   case 'Z'  : x_ch = '—';              break;    
    }
    /*---(complete)-----------------------*/
    return x_ch;
