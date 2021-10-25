@@ -65,23 +65,20 @@ strl__leet         (char a_dir, char *a_src, int a_max)
    int         i           =    0;
    char       *p           = NULL;
    char        c           =  '-';
-   char       *x_1st       = "abcdefghijklmnopqrstuvwxyz";
-   char       *x_2nd       = "46()3[&#!;<1-=0+9~57_|8*?2";
-   char       *x_3rd       = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
    for (i = 0; i < a_max; ++i) {
       c = a_src [i];
       if (c == '\0')  break;
-      if      ((p = strchr (x_1st, c)) != NULL) {
-         if (a_dir == '>')  a_src [i] = x_2nd [p - x_1st];
-         else               a_src [i] = x_3rd [p - x_1st];
+      if      ((p = strchr (YSTR_LOWER, c)) != NULL) {
+         if (a_dir == '>')  a_src [i] = YSTR_LEET  [p - YSTR_LOWER];
+         else               a_src [i] = YSTR_UPPER [p - YSTR_LOWER];
       }
-      else if ((p = strchr (x_2nd, c)) != NULL) {
-         if (a_dir == '>')  a_src [i] = x_3rd [p - x_2nd];
-         else               a_src [i] = x_1st [p - x_2nd];
+      else if ((p = strchr (YSTR_LEET , c)) != NULL) {
+         if (a_dir == '>')  a_src [i] = YSTR_UPPER [p - YSTR_LEET ];
+         else               a_src [i] = YSTR_LOWER [p - YSTR_LEET ];
       }
-      else if ((p = strchr (x_3rd, c)) != NULL) {
-         if (a_dir == '>')  a_src [i] = x_1st [p - x_3rd];
-         else               a_src [i] = x_2nd [p - x_3rd];
+      else if ((p = strchr (YSTR_UPPER, c)) != NULL) {
+         if (a_dir == '>')  a_src [i] = YSTR_LOWER [p - YSTR_UPPER];
+         else               a_src [i] = YSTR_LEET  [p - YSTR_UPPER];
       }
    }
    return 0;
@@ -115,6 +112,15 @@ strlundelay        (char *a_src, int a_max)
 uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
 chrslashed        (char a_ch)
 {
+   /*---(design notes)-------------------*/
+   /*
+    * reserved backslashes for special use...
+    *   \a  alt
+    *   \c  control
+    *   \t  tab
+    *   \w  wander
+    *
+    */
    /*---(locals)-----------+-----+-----+-*/
    uchar       x_ch        = a_ch;
    /*--- phoenicia/shrike mapping -------------*/
@@ -168,7 +174,7 @@ chrslashed        (char a_ch)
    case 'x'  : x_ch = G_CHAR_POWX      ;  break;    /*   120 x = 201 É   */
    case 'y'  : x_ch = G_CHAR_POWY      ;  break;    /*   121 y = 202 Ê   */
    case '#'  : x_ch = G_CHAR_SMHASH    ;  break;    /*    35 # = 203 Ë   */
-   case 'a'  : x_ch = G_CHAR_DEGREE    ;  break;    /*    97 a = 204 Ì   */
+   case 'o'  : x_ch = G_CHAR_DEGREE    ;  break;    /*    97 o = 204 Ì   */
    case 'r'  : x_ch = G_CHAR_RADIAN    ;  break;    /*   114 r = 205 Í   */
    case '1'  : x_ch = G_CHAR_SQRT      ;  break;    /*    49 1 = 206 Î   */
                /*---(logic)---------------------*/
@@ -185,7 +191,6 @@ chrslashed        (char a_ch)
    case '/'  : x_ch = G_CHAR_NE        ;  break;
    case '~'  : x_ch = G_CHAR_APPROX    ;  break;
    case '$'  : x_ch = G_CHAR_RANGE     ;  break;
-               /*---(sets)----------------------*/
                /*---(greek)---------------------*/
    case 'A'  : x_ch = G_CHAR_ALPHA     ;  break;    /*    65 A = 232 è   */
    case 'B'  : x_ch = G_CHAR_BETA      ;  break;    /*    66 B = 233 é   */
@@ -211,6 +216,8 @@ chrslashed        (char a_ch)
    case 'C'  : x_ch = G_CHAR_CHI       ;  break;    /*    67 C = 253 ý   */
    case 'Q'  : x_ch = G_CHAR_PSI       ;  break;    /*    81 Q = 254 þ   */
    case 'W'  : x_ch = G_CHAR_OMEGA     ;  break;    /*    87 W = 255 ÿ   */
+               /*---(trouble)-------------------*/
+   default   : x_ch = G_CHAR_RQUEST;      break;
    }
    /*---(complete)-----------------------*/
    return x_ch;
@@ -245,7 +252,6 @@ chrslashed_more   (char a_ch)
    case ']'  : x_ch = G_CHAR_RGULL;     break;
    case 'o'  : x_ch = G_CHAR_OPEN;      break;
       /*---(line draw)-----------------*/
-   /*> case 'H'  : x_ch = '€';              break;                                    <*/
    case 'H'  : x_ch = '€';              break;
    case 'V'  : x_ch = '';              break;
    case '0'  : x_ch = 'Œ';              break;
@@ -272,6 +278,7 @@ chrslashed_more   (char a_ch)
    case 'X'  : x_ch = '“';              break;    
    case 'Y'  : x_ch = '–';              break;    
    case 'Z'  : x_ch = '—';              break;    
+   default   : x_ch = G_CHAR_RQUEST;    break;
    }
    /*---(complete)-----------------------*/
    return x_ch;

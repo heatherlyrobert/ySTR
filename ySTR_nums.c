@@ -2,8 +2,8 @@
 #include    "ySTR.h"
 #include    "ySTR_priv.h"
 
-static char s_numeric     [20] = "0123456789.-+";    /* only digits               */
-static char s_empty       [200] = "                                                                                                                                                                                                       ";
+/*> static char s_numeric     [20] = "0123456789.-+";    /+ only digits               +/   <*/
+/*> static char s_empty       [200] = "                                                                                                                                                                                                       ";   <*/
 
 
 /*===[[ METIS ]]==============================================================*/
@@ -193,7 +193,6 @@ strl2hex           (char *a_src, double *a_val, int a_max)
    int         x_place     =    1;               /* base position             */
    long        x_final     =    0;               /* final value               */
    int         i           =    0;               /* iterator -- character     */
-   char        x_valid     [20] = "0123456789abcdef"; /* only hex digits           */
    char        x_del       =  '-';
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
@@ -238,7 +237,7 @@ strl2hex           (char *a_src, double *a_val, int a_max)
    }
    /*---(run digits)---------------------*/
    DEBUG_YSTR   yLOG_sint    (x_base);
-   DEBUG_YSTR   yLOG_snote   (x_valid);
+   DEBUG_YSTR   yLOG_snote   (YSTR_HEX);
    --rce;  for (i = x_len - 1; i >= x_min; --i) {
       x_ch = tolower (a_src [i]);
       DEBUG_YSTR   yLOG_schar   (x_ch);
@@ -247,7 +246,7 @@ strl2hex           (char *a_src, double *a_val, int a_max)
          continue;
       }
       x_del = '-';
-      if (strchr (x_valid   , x_ch    )  == 0) {
+      if (strchr (YSTR_HEX, x_ch    )  == 0) {
          DEBUG_YSTR   yLOG_snote   ("BOOM");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
@@ -279,7 +278,6 @@ strl2real          (char *a_src, double *a_val, int a_max)
    int         x_dec       =   -1;
    double      x_final     =    0;               /* final value               */
    double      x_power     =    1;               /* exponent                  */
-   char        x_valid     [20] = "0123456789.-+";    /* only digits               */
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    if (a_val != NULL)  *a_val = 0.0;
@@ -301,7 +299,7 @@ strl2real          (char *a_src, double *a_val, int a_max)
    strlcpy (x_temp, a_src, LEN_HUGE);
    DEBUG_YSTR   yLOG_snote   (x_temp);
    /*---(run digits)---------------------*/
-   DEBUG_YSTR   yLOG_snote   (x_valid);
+   DEBUG_YSTR   yLOG_snote   (YSTR_NUMERIC);
    --rce;  for (i = x_len - 1; i >= 0 ; --i) {
       x_curr = x_temp [i];
       DEBUG_YSTR   yLOG_schar   (x_curr);
@@ -328,7 +326,7 @@ strl2real          (char *a_src, double *a_val, int a_max)
          continue;
       }
       /*---(check rest)------------------*/
-      if (strchr (x_valid, x_curr)  == 0) {
+      if (strchr (YSTR_NUMERIC, x_curr)  == 0) {
          DEBUG_YSTR   yLOG_snote   ("BOOM");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce - 2;
@@ -551,8 +549,8 @@ strl2num           (char *a_src, double *a_val, int a_max)
       return rce;
    }
    DEBUG_YSTR   yLOG_value   ("a_src [0]" , a_src [0]);
-   DEBUG_YSTR   yLOG_info    ("valid"     , s_numeric);
-   --rce;  if (a_src [0] == 0 || strchr (s_numeric, a_src [0]) == NULL) {
+   DEBUG_YSTR   yLOG_info    ("valid"     , YSTR_NUMERIC);
+   --rce;  if (a_src [0] == 0 || strchr (YSTR_NUMERIC, a_src [0]) == NULL) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -693,7 +691,7 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("bBnq:s", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
@@ -767,7 +765,7 @@ strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("oOzZnq:s", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
@@ -833,7 +831,7 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("xXUDqQnN:sS", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
@@ -907,7 +905,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("iIfFcCaAsS$;pP?", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
@@ -1010,7 +1008,7 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    if (a_val < 0.0)  x_sign  = -1;
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("eE", a_fmt) == NULL) {
@@ -1071,7 +1069,7 @@ strl4roman         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("rR", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
@@ -1167,7 +1165,7 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("zZnqs:", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
@@ -1241,7 +1239,7 @@ strl4time          (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, s_empty, a_max);
+   strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
    --rce;  if (strchr ("tTdD", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);

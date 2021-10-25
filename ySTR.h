@@ -125,6 +125,8 @@ typedef     const char     cchar;
 #define     YSTR_EXACT     'e'   /* check, then grow/shrink to exact size     */
 #define     YSTR_VALID     "-uyae"
 
+#define     YSTR_CLIP      "/root/z_gehye/vi_clip.txt"
+
 
 char*       ySTR_version       (void);
 char        ySTR_debug         (char a_flag);
@@ -271,6 +273,8 @@ char        ystr_oneline            (char *a_text, int x, int y, char a_mode);
 char        ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, int *a_tall, char a_mode);
 
 
+char        strlexport              (int a_line, char *a_recd);
+char        strlimport              (int a_line, char *a_recd, int *a_len);
 
 #endif
 /*===[[ END ]]================================================================*/

@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.0-, use everywhere and make improvements"
-#define     P_VERNUM    "1.0k"
-#define     P_VERTXT    "added box drawing to extended slashed functions"
+#define     P_VERNUM    "1.0l"
+#define     P_VERTXT    "removed most duplicate string constants, to use ySTR_solo.h"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
