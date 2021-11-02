@@ -25,6 +25,8 @@
 #define     YSTR_LEET     "46()3[&#!;<1-=0+9~57_|8*?2"
 #define     YSTR_MAYANC   "qlyzdghsmkntwxr"
 #define     YSTR_MAYANV   "aeiouvf"
+#define     YSTR_MENU     "fevisomdtplbgaxcsh"
+/*> "file, edit, veiw, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
 /*---(combination)--------------------*/
 #define     YSTR_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 #define     YSTR_UPLOW    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -68,16 +70,16 @@
 
 
 /*---(normal txt2ystr)----------------*/
-#define     G_KEY_NULL            0
-#define     G_KEY_NOOP            0
-#define     G_KEY_ACK             6
-#define     G_KEY_DEL             8
+#define     G_KEY_NULL            0  /* NUL */
+#define     G_KEY_NOOP            0  /* NUL */
+#define     G_KEY_SKIP            6  /* ACK -- acknowledge     */
+#define     G_KEY_DEL             8  /* DEL */
 #define     G_KEY_TAB             9
 #define     G_KEY_RETURN         10
 #define     G_KEY_ENTER          13
 #define     G_KEY_ESCAPE         27
 #define     G_KEY_GROUP          29
-#define     G_KEY_FIELD          31
+#define     G_KEY_FIELD          31  /* US  -- unit separator  */
 #define     G_KEY_SPACE          32
 #define     G_KEY_DQUOTE         34
 #define     G_KEY_SQUOTE         39
@@ -88,7 +90,7 @@
 #define     G_KEY_BTICK          96
 #define     G_KEY_PIPE          124
 #define     G_KEY_TILDA         126
-#define     G_KEY_BS            127
+#define     G_KEY_BS            127  /* BS  */
 /*---(complete)-----------------------*/
 
 

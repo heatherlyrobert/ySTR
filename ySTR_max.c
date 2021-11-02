@@ -409,105 +409,145 @@ strllower          (char *a_src, int a_max)
 }
 
 char
-strlundoc               (char *a_dst, char *a_src, int a_max)
+strlundoc               (char *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;          /* original string position       */
-   int         n           =    0;          /* new string position            */
+   int         j           =    0;          /* original string position       */
    char        c           =    0;          /* comment level                  */
    /*---(defense)------------------------*/
    if (a_src == NULL)  return  -11;
-   if (a_dst == NULL)  return  -12;
-   if (a_max <  0   )  a_max  = 0;
+   if (a_max <= 0   ) {
+      a_src [0] = '\0';
+      if (a_max < 0)  return  -12;
+      else            return    0;
+   }
+   a_src [a_max - 1] = '\0';
    /*---(move)---------------------------*/
-   for (i = 0; n < a_max; ++i) {
+   for (i = 0; i < a_max; ++i) {
       /*---(check for end)---------*/
       if (a_src [i] == '\0')  break;
       /*---(new style)-------------*/
       if (a_src [i] == '/' && a_src [i + 1] == '/') {
-         c += 20;
-         ++i;
+         a_src [i] = '\0';
+         break;
+      }
+      /*---(ends)------------------*/
+      if (c == 0 && a_src [i] == '/' && a_src [i + 1] == '*')  c = 1;
+      if (c == 1 && a_src [i] == '*' && a_src [i + 1] == '/') {
+         for (j = i; j < a_max; ++j) {
+            if (a_src [j] == '\0')  break;
+            a_src [j] = a_src [j + 2];
+         }
+         --i;
+         c = 0;
          continue;
       }
-      /*---(start)-----------------*/
-      if (a_src [i] == '/' && a_src [i + 1] == '*') {
-         ++c;
-         ++i;
-         continue;
+      /*---(remove)----------------*/
+      if (c == 0)  continue;
+      for (j = i; j < a_max; ++j) {
+         if (a_src [j] == '\0')  break;
+         a_src [j] = a_src [j + 1];
       }
-      /*---(end)-------------------*/
-      if (a_src [i] == '*' && a_src [i + 1] == '/' && c > 0) {
-         --c;
-         ++i;
-         if (c < 0)  c == 0;
-         continue;
-      }
-      /*---(inside)----------------*/
-      if (c > 0)  continue;
-      /*---(copy)------------------*/
-      a_dst [n] = a_src [i];
-      ++n;
+      --i;
       /*---(done)------------------*/
    }
-   a_dst [n]         = '\0';
-   if (a_max > 0)  a_dst [a_max - 1] = '\0';
-   else            a_dst [0]         = '\0';
    /*---(complete)-----------------------*/
    return 0;
 }
 
-char
-strlunquote             (char *a_dst, char *a_src, int a_max)
+ystr__quote             (uchar a_type, uchar *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;          /* original string position       */
-   int         n           =    0;          /* new string position            */
+   int         j           =    0;          /* original string position       */
    char        q           =    0;          /* quote status                   */
    /*---(defense)------------------------*/
    if (a_src == NULL)  return  -11;
-   if (a_dst == NULL)  return  -12;
-   if (a_max <  0   )  a_max  = 0;
+   if (a_max <=  0) {
+      a_src [0] = '\0';
+      if (a_max < 0)  return  -12;
+      else            return    0;
+   }
+   a_src [a_max - 1] = '\0';
    /*---(move)---------------------------*/
-   for (i = 0; n < a_max; ++i) {
+   for (i = 0; i < a_max; ++i) {
       /*---(check for end)---------*/
       if (a_src [i] == '\0')  break;
-      /*---(double quotes)---------*/
-      if (a_src [i] == '"') {
-         if (i == 0 || (i > 0 && a_src [i - 1] != '\\')) {
-            if (q == 0)   q = 1;
-            else          q = 0;
-            continue;
-         }
-      }
-      /*---(inside)----------------*/
-      if (q > 0)  continue;
       /*---(single quotes)---------*/
       if (a_src [i] == '\'') {
          if (i + 2 < a_max && a_src [i + 2] == '\'') {
+            if (a_type == 'u') {
+               for (j = i; j < a_max - 3; ++j) {
+                  if (a_src [j] == '\0')  break;
+                  a_src [j] = a_src [j + 3];
+               }
+               --i;
+               continue;
+            }
             i += 2;
             continue;
          }
       }
-      /*---(copy)------------------*/
-      a_dst [n] = a_src [i];
-      ++n;
+      /*---(escaped quotes)--------*/
+      if (a_src [i] == '\\') {
+         if (i + 1 < a_max && a_src [i + 1] == '"') {
+            i += 1;
+            continue;
+         }
+      }
+      /*---(double quotes)---------*/
+      if (a_src [i] == '"') {
+         if (q == 0)  q = 1;
+         else         q = 0;
+         for (j = i; j < a_max; ++j) {
+            if (a_src [j] == '\0')  break;
+            a_src [j] = a_src [j + 1];
+         }
+         --i;
+         continue;
+      }
+      if (a_type == 'u' && q == 1) {
+         for (j = i; j < a_max; ++j) {
+            if (a_src [j] == '\0')  break;
+            a_src [j] = a_src [j + 1];
+         }
+         --i;
+         continue;
+      }
+      /*---(inside)----------------*/
+      if (q == 0)  continue;
+      if (a_type == 'r' && a_src [i] == G_KEY_SPACE)   a_src [i] = G_CHAR_PLACE;
       /*---(done)------------------*/
    }
-   a_dst [n]         = '\0';
-   if (a_max > 0)  a_dst [a_max - 1] = '\0';
-   else            a_dst [0]         = '\0';
    /*---(complete)-----------------------*/
    return 0;
 }
 
 char
-strlunall               (char *a_dst, char *a_src, int a_max)
+strldequote             (uchar *a_src, int a_max)
 {
-   /*---(locals)-----------+-----+-----+-*/
+   return ystr__quote ('d', a_src, a_max);
+}
+
+char
+strlrequote             (uchar *a_src, int a_max)
+{
+   return ystr__quote ('r', a_src, a_max);
+}
+
+char
+strlunquote             (uchar *a_src, int a_max)
+{
+   return ystr__quote ('u', a_src, a_max);
+}
+
+char
+strlunall               (char *a_src, int a_max)
+{
    char        rc          =    0;
-   char        t           [LEN_RECD]  = "";
-   rc = strlundoc   (t, a_src, LEN_RECD);
-   rc = strlunquote (a_dst, t, a_max);
+   rc = strlundoc   (a_src, a_max);
+   if (rc >= 0)  rc = strlunquote (a_src, a_max);
    return rc;
 }
 

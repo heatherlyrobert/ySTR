@@ -21,7 +21,7 @@ SCRP          v21  verify octal as string conversion to value                 
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((12.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+     local    v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
 
    COND       v21  input an octal zero                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((12.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  change the source string             strl2oct                    "00"                 , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -118,7 +118,7 @@ SCRP          v21  verify binary as string conversion to value                
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((13.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+     local    v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
 
    COND       v21  input an binary zero                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((13.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  change the source string             strl2bin                    "0b0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -187,7 +187,7 @@ SCRP          v21  verify hexadecimal as string conversion to value           
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((14.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+     local    v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
 
    COND       v21  input an hex zero                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((14.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  change the source string             strl2hex                    "0x0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -296,8 +296,8 @@ SCRP          v21  verify comma format as string conversion to value          
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((15.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a value holder                - - - - - - - - - - - - -   char    x_out    [LEN_RECD];                                                                                                                                                                 
-     code     v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+     local    v21  create a value holder                - - - - - - - - - - - - -   char    x_out    [LEN_RECD];                                                                                                                                                                 
+     local    v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
 
    GROUP      v21  start by testing integer component                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -494,7 +494,7 @@ SCRP          v21  verify real/float as string conversion to value            
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((15.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
+     local    v21  create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                      
 
    COND       v21  input an zero                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((15.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  change the source string             strl2real                   "0.0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -617,7 +617,7 @@ SCRP          v21  verify hex conversion to string                            
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((16.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1029,7 +1029,7 @@ SCRP          v21  verify octal conversion to string                          
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((17.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start with zero and no padding              (PUBLIC)               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1325,7 +1325,7 @@ SCRP          v21  verify binary conversion to string                         
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((18.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1545,7 +1545,7 @@ SCRP          v21  verify base-64 (mongo) conversion to string                
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((19.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1790,7 +1790,7 @@ SCRP          v21  verify comma conversion to string                          
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((20.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2312,7 +2312,7 @@ SCRP          v21  verify scientific notation numbers to string               
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((21.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2480,7 +2480,7 @@ SCRP          v21  verify roman conversion to string                          
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((22.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start small                                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2736,7 +2736,7 @@ SCRP          v21  verify time representations to string                      
 
    COND       v21  prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((23.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     v21  prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
-     code     v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
+     local    v21  create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                 
 
    GROUP      v21  start basic                                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 

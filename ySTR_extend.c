@@ -28,7 +28,6 @@ strlencode         (char *a_src, char a_mode, int a_max)
 {
    /*---(normal)-------------------------*/
    strldchg (a_src, G_KEY_ESCAPE, G_CHAR_ESCAPE, a_max);
-   /*> strldchg (a_src, G_KEY_TAB   , G_CHAR_TAB   , a_max);                          <*/
    strldchg (a_src, G_KEY_BS    , G_CHAR_BS    , a_max);
    strldchg (a_src, G_KEY_DEL   , G_CHAR_DEL   , a_max);
    strldchg (a_src, G_KEY_GROUP , G_CHAR_GROUP , a_max);
@@ -50,7 +49,6 @@ strldecode         (char *a_src, int a_max)
    strldchg (a_src, G_CHAR_ESCAPE , G_KEY_ESCAPE, a_max);
    strldchg (a_src, G_CHAR_GROUP  , G_KEY_GROUP , a_max);
    strldchg (a_src, G_CHAR_FIELD  , G_KEY_FIELD , a_max);
-   /*> strldchg (a_src, G_CHAR_TAB    , G_KEY_TAB   , a_max);                         <*/
    strldchg (a_src, G_CHAR_BS     , G_KEY_BS    , a_max);
    strldchg (a_src, G_CHAR_DEL    , G_KEY_DEL   , a_max);
    strldchg (a_src, G_CHAR_SPACE  , G_KEY_SPACE , a_max);

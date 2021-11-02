@@ -149,9 +149,11 @@ char        strlhere                (char *a_home, char *a_name);
 char*       strlrecd                (cchar *a_name, int n, int *c, char *a_recd, int a_max);
 char*       strlread                (cchar *a_name, int n, int *c);
 /*---(un)----------------------*/
-char        strlundoc          (char *a_dst, char *a_src, int a_max);
-char        strlunquote        (char *a_dst, char *a_src, int a_max);
-char        strlunall          (char *a_dst, char *a_src, int a_max);
+char        strlundoc               (char *a_src, int a_max);
+char        strlunquote             (uchar *a_src, int a_max);
+char        strldequote             (uchar *a_src, int a_max);
+char        strlrequote             (uchar *a_src, int a_max);
+char        strlunall               (char *a_src, int a_max);
 
 char        strlgood           (uchar *a_src, char a_set, int a_max);
 short       strlcheck          (uchar *a_src, char a_set, int a_max);

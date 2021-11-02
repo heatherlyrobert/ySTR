@@ -93,7 +93,7 @@ ySTR_unit          (char *a_question, int a_num)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        s           [LEN_LABEL];
-   char        t           [LEN_RECD ];
+   uchar       t           [LEN_RECD ];
    int         i           =    0;
    /*---(initialize)---------------------*/
    strlcpy (unit_answer, "ySTR_unit, unknown request", 100);
@@ -105,7 +105,7 @@ ySTR_unit          (char *a_question, int a_num)
       strlcpy (t, "", LEN_RECD);
       for (i = 0; i < 10; ++i) {
          if (mySTR.strtest [i] == 0)  break;
-         sprintf (s, "%03d", mySTR.strtest [i]);
+         sprintf (s, "%03d", (uchar) mySTR.strtest [i]);
          if (i > 0)  strlcat (t, " ", LEN_RECD);
          strlcat (t, s  , LEN_RECD);
       }
