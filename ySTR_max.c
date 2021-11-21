@@ -409,7 +409,7 @@ strllower          (char *a_src, int a_max)
 }
 
 char
-strlundoc               (char *a_src, int a_max)
+strlundoc               (uchar *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;          /* original string position       */
@@ -543,7 +543,7 @@ strlunquote             (uchar *a_src, int a_max)
 }
 
 char
-strlunall               (char *a_src, int a_max)
+strlunall               (uchar *a_src, int a_max)
 {
    char        rc          =    0;
    rc = strlundoc   (a_src, a_max);
