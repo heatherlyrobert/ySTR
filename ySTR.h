@@ -135,6 +135,7 @@ char        ySTR_debug              (char a_flag);
 /*---(normal)------------------*/
 char        strlcpy                 (char *a_dst, char *a_src , int  a_max);
 char        strlcat                 (char *a_dst, char *a_src , int  a_max);
+char        strlrev                 (char *a_dst, char *a_src , int  a_max);
 int         strllen                 (char *a_src, int   a_max );
 char        strltrunc               (char *a_src, int   a_max );
 int         strlupper               (char *a_src, int   a_max);
@@ -199,6 +200,7 @@ char        strl4time               (double a_val, char *a_out, int a_cnt, char 
 char        strl4main               (double a_val, char *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
 
 char        strlpad                 (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
+char        strlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int a_max);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
@@ -277,6 +279,11 @@ char        ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, in
 
 char        strlexport              (int a_line, char *a_recd);
 char        strlimport              (int a_line, char *a_recd, int *a_len);
+char        strlage                 (long a_epoch, char *a_age);
+char        str2mongo               (long a_epoch, char *a_mongo);
+char        str4mongo               (char *a_mongo, long *a_epoch);
+
+
 
 #endif
 /*===[[ END ]]================================================================*/

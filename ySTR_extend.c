@@ -229,7 +229,7 @@ chrslashed_more   (char a_ch)
    /*--- phoenicia/shrike mapping -------------*/
    switch (x_ch) {
       /*---(notes)---------------------*/
-   case '!'  : x_ch = G_CHAR_THEREFORE; break;
+   case '!'  : x_ch = G_CHAR_REDACT;    break;
    case 'c'  : x_ch = G_CHAR_FALSE;     break;
    case 'u'  : x_ch = G_CHAR_UNLIKELY;  break;
    case 'l'  : x_ch = G_CHAR_LIKELY;    break;

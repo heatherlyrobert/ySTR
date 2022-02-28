@@ -276,14 +276,14 @@ strlproj                (char *a_home, char *a_name)
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_name, ""    , LEN_TITLE);
+   strlcpy (a_name, ""    , LEN_LABEL);
    DEBUG_YSTR   yLOG_spoint  (a_home);
    --rce;  if (a_home == NULL) {
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    x_len = strlen (a_home);
-   DEBUG_YSTR   yLOG_sint    (x_home);
+   DEBUG_YSTR   yLOG_sint    (x_len);
    --rce;  if (x_len <= 0) {
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -298,9 +298,9 @@ strlproj                (char *a_home, char *a_name)
    else             ++p;
    q = strchr  (p, '.');
    DEBUG_YSTR   yLOG_spoint  (q);
-   if (q == NULL)  x_len = LEN_TITLE;
+   if (q == NULL)  x_len = LEN_LABEL;
    else            x_len = q - p + 1;
-   if (x_len > LEN_TITLE)  x_len = LEN_TITLE;
+   if (x_len > LEN_LABEL)  x_len = LEN_LABEL;
    DEBUG_YSTR   yLOG_sint    (x_len);
    /*---(save back)----------------------*/
    strlcpy (a_name, p, x_len);
@@ -317,12 +317,12 @@ strlhere                 (char *a_home, char *a_name)
    char        rce         =  -10;
    char        rc          =    0;
    char        x_home      [LEN_HUND]  = "";
-   char        x_name      [LEN_TITLE] = "";
+   char        x_name      [LEN_LABEL] = "";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defaults)-----------------------*/
-   if (a_name != NULL)    strlcpy (a_name, "", LEN_TITLE);
-   if (a_home != NULL)    strlcpy (a_home, "", LEN_TITLE);
+   if (a_home != NULL)    strlcpy (a_home, "", LEN_HUND);
+   if (a_name != NULL)    strlcpy (a_name, "", LEN_LABEL);
    /*---(get directory)------------------*/
    rc = strlhome (x_home);
    DEBUG_YSTR   yLOG_value   ("get_home"   , rc);
@@ -338,8 +338,8 @@ strlhere                 (char *a_home, char *a_name)
       return rce;
    }
    /*---(save results)-------------------*/
-   strlcpy (a_name, x_name, LEN_TITLE);
    strlcpy (a_home, x_home, LEN_HUND);
+   strlcpy (a_name, x_name, LEN_LABEL);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -491,3 +491,86 @@ strlimport              (int a_line, char *a_recd, int *a_len)
    DEBUG_SCRP   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                      date handling                           ----===*/
+/*====================------------------------------------====================*/
+static void      o___DATES___________________o (void) {;}
+
+char
+strlage                 (long a_epoch, char *a_age)
+{
+   long        x_age       =    0;
+   char        x_unit      =  '-';
+   if (a_epoch == 0)  {
+      strcpy (a_age, "·?·");
+   } else {
+      x_age = time (NULL) - a_epoch;
+      if (x_age < 0)  x_age = 0;  /* tasks added since start */
+      x_unit = 's';
+      if (x_age >= 60) {
+         x_age /= 60; x_unit = 'm';
+         if (x_age >= 60) {
+            x_age /= 60; x_unit = 'h';
+            if (x_age >= 24) {
+               x_age /= 24; x_unit = 'd';
+               if (x_age > 30) {
+                  x_age /= 30; x_unit = 'n';
+                  if (x_age >= 12) {
+                     x_age /= 12; x_unit = 'y';
+                     if (x_age > 99) { x_age  = 99; x_unit = '!'; }
+                  }
+               }
+            }
+         }
+      }
+      sprintf (a_age, "%2d%c", x_age, x_unit);
+   }
+   return 0;
+}
+
+char
+str2mongo               (long a_epoch, char *a_mongo)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   long        x_now       =    0;
+   tTIME      *x_broke     = NULL;
+   /*---(set time)-----------------------*/
+   if (a_epoch > 0)  x_now  = a_epoch;
+   else              x_now  = time (NULL);
+   /*---(break it down)------------------*/
+   x_broke   = localtime (&x_now);
+   /*---(take the pieces)----------------*/
+   a_mongo [0] = YSTR_MONGO [x_broke->tm_year - 100];
+   a_mongo [1] = YSTR_MONGO [x_broke->tm_mon];
+   a_mongo [2] = YSTR_MONGO [x_broke->tm_mday - 1];
+   a_mongo [3] = YSTR_MONGO [x_broke->tm_hour];
+   a_mongo [4] = YSTR_MONGO [x_broke->tm_min];
+   a_mongo [5] = YSTR_MONGO [x_broke->tm_sec];
+   a_mongo [6] = '\0';
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+str4mongo               (char *a_mongo, long *a_epoch)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   tTIME       x_broke;
+   /*---(take the pieces)----------------*/
+   x_broke.tm_year  = strchr (YSTR_MONGO, a_mongo [0]) - YSTR_MONGO + 100;
+   x_broke.tm_mon   = strchr (YSTR_MONGO, a_mongo [1]) - YSTR_MONGO;
+   x_broke.tm_mday  = strchr (YSTR_MONGO, a_mongo [2]) - YSTR_MONGO + 1;
+   x_broke.tm_hour  = strchr (YSTR_MONGO, a_mongo [3]) - YSTR_MONGO;
+   x_broke.tm_min   = strchr (YSTR_MONGO, a_mongo [4]) - YSTR_MONGO;
+   x_broke.tm_sec   = strchr (YSTR_MONGO, a_mongo [5]) - YSTR_MONGO;
+   x_broke.tm_isdst = -1;
+   /*---(break it down)------------------*/
+   *a_epoch   = mktime (&x_broke);
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+

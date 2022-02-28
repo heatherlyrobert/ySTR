@@ -896,7 +896,6 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    long      x_int       = 0;             /* whole part                     */
    long      x_frac      = 0;             /* fractional part                */
    long      x_pct       = 1;             /* fractional part                */
-
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(defence)------------------------*/
@@ -907,7 +906,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    }
    strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
-   --rce;  if (strchr ("iIfFcCaAsS$;pP?", a_fmt) == NULL) {
+   --rce;  if (strchr ("iIfFcCaAsS$#pP?", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -935,10 +934,10 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    /*---(assemble prefix)----------------*/
    if (tolower (a_fmt) == '$')  strcat (x_final, "$");
    if (x_sign < 0) {
-      if (strchr ("iIfcsp", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
-      if (strchr ("a$"    , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
+      if (strchr ("iIfcspP", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
+      if (strchr ("a$"     , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
    } else {
-      if (strchr ("s"     , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
+      if (strchr ("s"      , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
    }
    DEBUG_YSTR  yLOG_snote    (x_final);
    /*---(format integer part)------------*/
@@ -950,7 +949,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    /*---(decimal part)-------------------*/
    if (strchr ("iI", a_fmt) == 0 && a_decs > 0) {
       sprintf (x_temp, "%0*lld", a_decs, x_frac);
-      if (strchr ("ACS;F", a_fmt) != NULL)  ystr__space_decs (x_temp, 3, '\'');
+      if (strchr ("ACS#F", a_fmt) != NULL)  ystr__space_decs (x_temp, 3, '\'');
       strcat  (x_final, ".");
       strcat  (x_final, x_temp);
    }
@@ -958,18 +957,22 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    /*---(assemble suffix)----------------*/
    strcat (x_final, x_unit);
    if (x_sign < 0) {
-      switch (tolower (a_fmt)) {
-      case 'a' : case '$' : case 'p' : strcat (x_final, ")");  break;
-      case ';' :                       strcat (x_final, " -"); break;
-      case 'P' :                       strcat (x_final, ".");  break;
+      switch (a_fmt) {
+      case 'a' : case 'A' : case '$' : strcat (x_final, ")");  break;
+      case 'p' :                       strcat (x_final, ")");  break;
+      case 'P' :                       strcat (x_final, "´");  break;
+      case '#' :                       strcat (x_final, " -"); break;
       }
    } else {
-      switch (tolower (a_fmt)) {
-      case 'a' : case '$' :            strcat (x_final, "_");  break;
+      switch (a_fmt) {
+      case 'a' : case 'A' : case '$' : strcat (x_final, "_");  break;
       case 'p' :                       strcat (x_final, ")");  break;
-      case 'P' :                       strcat (x_final, ".");  break;
-      case ';' :                       strcat (x_final, " +"); break;
+      case 'P' :                       strcat (x_final, "´");  break;
+      case '#' :                       strcat (x_final, " +"); break;
       }
+   }
+   if (a_fmt == 'I' && a_decs > 0) {
+      for (i = 0; i <= a_decs; ++i)  strcat (x_final, " ");
    }
    DEBUG_YSTR  yLOG_snote    (x_final);
    /*---(create)---------------*/

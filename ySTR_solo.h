@@ -14,6 +14,7 @@
 
 
 /*---(identifiers)--------------------*/
+#define     YSTR_INIT     'I'
 #define     YSTR_IUPPER   'A'
 #define     YSTR_ILOWER   'a'
 #define     YSTR_INUMBER  '0'
@@ -24,6 +25,7 @@
 #define     YSTR_UPPER    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define     YSTR_LOWER    "abcdefghijklmnopqrstuvwxyz"
 #define     YSTR_NUMBER   "0123456789"
+#define     YSTR_FLOAT    "0123456789."
 #define     YSTR_GREEK    "èéêëìíîïðñòóôõö÷øùúûüýþÿ"
 #define     YSTR_BPUNC    "_.,:;!?-()&"
 #define     YSTR_PUNCT    "_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
@@ -31,7 +33,7 @@
 #define     YSTR_MAYANC   "qlyzdghsmkntwxr"
 #define     YSTR_MAYANV   "aeiouvf"
 #define     YSTR_MENU     "fevisomdtplbgaxcsh"
-/*> "file, edit, veiw, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
+/*> "file, edit, view, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
 /*---(combination)--------------------*/
 #define     YSTR_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 #define     YSTR_UPLOW    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -43,11 +45,24 @@
 #define     YSTR_BASIC    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-"
 #define     YSTR_WRITE    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_. ,:;!?-()\"\'&"
 #define     YSTR_EXTEN    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
+/*---(special)------------------------*/
+#define     YSTR_UNIV     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
+#define     YSTR_ADDR     "@$0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
+#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#ÑÐÒÔÓÕÆÇÈÎ"
+#define     YSTR_GROUP    "()[]¸¹º»"
+#define     YSTR_SUBS     "ÀÁÂÃÄÅ"
+#define     YSTR_POWS     "ÆÇÈÎÉÊ"
+#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ_"
+#define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789èéêëìíîïðñòóôõö÷øùúûüýþÿ_ÀÁÂÃÄÅ"
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
 #define     YSTR_BINARY   "01"
 #define     YSTR_NUMERIC  "0123456789.-+"
 #define     YSTR_HEX      "0123456789abcdef"
+#define     YSTR_HEXUP    "0123456789abcdefABCDEF"
+#define     YSTR_OCTAL    "01234567"
+#define     YSTR_MONGO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+#define     YSTR_MUCHO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÐÑÒÓÔÕÖ×ØÙÜÝÞßèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 /*---(general)------------------------*/
 #define     YSTR_EMPTY     "                                                                                                                                                                                                       "
 #define     YSTR_DASH      "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -55,6 +70,7 @@
 #define     YSTR_UNDER     "_______________________________________________________________________________________________________________________________________________________________________________________________________"
 #define     YSTR_EDOTS     "·······································································································································································································"
 #define     YSTR_PLUS      "····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····"
+#define     YSTR_COLS      "----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----"
 /*---(yVIKEYS)------------------------*/
 #define     YSTR_LARROW    "×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×"
 #define     YSTR_RARROW    "Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö"
@@ -196,7 +212,7 @@
 #define     G_CHAR_PSI          254   /*  þ  */
 #define     G_CHAR_OMEGA        255   /*  ÿ  */
 /*---(logic)--------------------------*/
-#define     G_CHAR_THEREFORE    176   /*  °  */
+#define     G_CHAR_REDACT       176   /*  °  */
 #define     G_CHAR_FALSE        153   /*  ™  */
 #define     G_CHAR_UNLIKELY     216   /*  Ø  */
 #define     G_CHAR_LIKELY       217   /*  Ù  */

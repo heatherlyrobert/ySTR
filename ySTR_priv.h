@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.1-, use everywhere and make improvements"
-#define     P_VERNUM    "1.1b"
-#define     P_VERTXT    "many small changes to support yVIKEYS break-out"
+#define     P_VERNUM    "1.1c"
+#define     P_VERTXT    "created age and mongo date functions"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

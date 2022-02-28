@@ -94,6 +94,32 @@ strlcat            (char *a_dst, char *a_src, int a_max)
    return  0;
 }
 
+char             /* ---- : secure version of strcat --------------------------*/
+strlrev            (char *a_dst, char *a_src, int a_max)
+{
+   /*---(design notes)-------------------*/
+   /*
+    * rc = 0 if success, -1 if truncate    (standard returns total length)
+    * force a null on a zero length string (standard does not)
+    * a truncate only registers on the source string
+    *
+    */
+   /*---(locals)-------*-----------------*/
+   register char *d    = a_dst;
+   register char *s    = a_src;
+   register int   n    = a_max;
+   int            dlen = 0;
+   /*---(find dst end)-------------------*/
+   for (n = 0; n < a_max && *s != '\0'; ++n)   s++;
+   d [n] = *s--;
+   /*---(copy)---------------------------*/
+   while (s >= a_src) {
+      *d++ = *s--;
+   }
+   /*---(complete)-----------------------*/
+   return  0;
+}
+
 char             /* ---- : secure version of truncate ------------------------*/
 strltrunc          (char *a_src, int a_max)
 {
@@ -687,6 +713,14 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
+}
+
+char
+strlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int a_max)
+{
+   char        t           [LEN_LABEL] = "";
+   sprintf (t, "%d", a_src);
+   return strlpad (t, a_out, a_fil, a_ali, a_max);
 }
 
 
