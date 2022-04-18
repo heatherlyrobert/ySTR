@@ -1198,7 +1198,7 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    case 3 : strcat (x_temp, "0");
    }
    for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
-   if (strchr ("zZ", a_fmt) != NULL)  strcat (x_temp, "°");
+   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, " ");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];

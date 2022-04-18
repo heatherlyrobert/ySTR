@@ -52,6 +52,9 @@
 #define     YSTR_GROUP    "()[]¸¹÷»"
 #define     YSTR_SUBS     "ְֱֲֳִֵ"
 #define     YSTR_POWS     "ֶַָ־ֹÊ"
+#define     YSTR_SJOIN    "׀ׁׂ"
+#define     YSTR_CJOIN    "׀ׁׂ׃װױײ"
+#define     YSTR_JOIN     "׀ׁׂ׃װױײ"
 #define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZטיךכלםמןנסעףפץצקרשתûü‎‏ÿ_"
 #define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789טיךכלםמןנסעףפץצקרשתûü‎‏ÿ_ְֱֲֳִֵ"
 /*---(numeric)------------------------*/

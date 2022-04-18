@@ -526,7 +526,7 @@ strlage                 (long a_epoch, char *a_age)
             }
          }
       }
-      sprintf (a_age, "%2d%c", x_age, x_unit);
+      sprintf (a_age, "%d%c", x_age, x_unit);
    }
    return 0;
 }

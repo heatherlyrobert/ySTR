@@ -723,7 +723,7 @@ LEGAL_col               (int a_ncol, int a_col)
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
-   if (a_col >= a_ncol) {
+   if (a_col >  a_ncol) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
@@ -846,7 +846,7 @@ LEGAL_row               (int a_nrow, int a_row)
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
-   if (a_row >= a_nrow) {
+   if (a_row >  a_nrow) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
