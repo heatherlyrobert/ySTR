@@ -164,7 +164,9 @@ strltrim           (char *a_src, char a_mode, int a_max)
    register int   n        = a_max;
    register int   c        = 0;
    register char  l        = '-';
-   char           m        = 31;            /* this is the marker char        */
+   /*> char       m           = '¬';           /+ this is the marker char        +/   <*/
+   /*> char           m        = 31;            /+ this is the marker char        +/   <*/
+   char           m        = 26;            /* this is the marker char        */
    int            x_len    = 0;
    int            x_lim    = 0;
    char           x_str    = '-';
@@ -305,7 +307,8 @@ ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int 
    int         x_len       = 0;            /* source string length                */
    int         x_save      = 0;            /* source string length                */
    int         c           = 0;
-   uchar       m           = '¬';           /* this is the marker char        */
+   /*> uchar       m           = '¬';           /+ this is the marker char        +/   <*/
+   uchar       m           = 26;            /* this is the marker char        */
    /*---(defenses)-----------------------*/
    --rce;  if (a_src == NULL)     return rce;
    /*---(setup legal characters)---------*/
@@ -346,6 +349,15 @@ ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int 
          j = i - (uchar) '¡' + ('~' - ' ' + 1);
          x_legal [j    ] = i;
          x_legal [j + 1] = '\0';
+      }
+      break;
+   case ySTR_HEATHERLY :
+      j = 0;
+      for (i = ' '; i <= (uchar) 'ÿ'; ++i) {
+         if (i == 127)  continue;
+         x_legal [j  ] = i;
+         x_legal [++j] = '\0';
+
       }
       break;
    default : return rce;

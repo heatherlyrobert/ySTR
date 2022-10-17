@@ -55,14 +55,26 @@ strl2bin           (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_schar   (x_ch);
    x_ch = tolower (a_src [0]);
-   if (x_ch == 'b') {
-      DEBUG_YSTR   yLOG_snote   ("pre=b");
+   /*> if (x_ch == 'b') {                                                             <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=b");                                        <* 
+    *>    x_min  =  1;                                                                <* 
+    *> } else if (strncmp ("0b", a_src, 2) == 0) {                                    <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=0b");                                       <* 
+    *>    x_min  =  2;                                                                <* 
+    *> } else if (strncmp ("0B", a_src, 2) == 0) {                                    <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=0b");                                       <* 
+    *>    x_min  =  2;                                                                <* 
+    *> }                                                                              <*/
+   if (x_ch == 'é') {
+      DEBUG_YSTR   yLOG_snote   ("pre=é");
       x_min  =  1;
-   } else if (strncmp ("0b", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0b");
+   }
+   else if (strncmp ("0B", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0B");
       x_min  =  2;
-   } else if (strncmp ("0B", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0b");
+   }
+   else if (strncmp ("0é", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0é");
       x_min  =  2;
    }
    --rce; if (x_min <= 0) {
@@ -135,11 +147,21 @@ strl2oct           (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_schar   (x_ch);
    x_ch = tolower (a_src [0]);
-   if (x_ch == 'o') {
-      DEBUG_YSTR   yLOG_snote   ("pre=o");
+   /*> if (x_ch == 'o') {                                                             <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=o");                                        <* 
+    *>    x_min  =  1;                                                                <* 
+    *> } else if (strncmp ("0o", a_src, 2) == 0) {                                    <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=0o");                                       <* 
+    *>    x_min  =  2;                                                                <* 
+    *> } else if (x_ch == '0') {                                                      <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=0");                                        <* 
+    *>    x_min  =  1;                                                                <* 
+    *> }                                                                              <*/
+   if (x_ch == 'ö') {
+      DEBUG_YSTR   yLOG_snote   ("pre=ö");
       x_min  =  1;
-   } else if (strncmp ("0o", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0o");
+   } else if (strncmp ("0ö", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0ö");
       x_min  =  2;
    } else if (x_ch == '0') {
       DEBUG_YSTR   yLOG_snote   ("pre=0");
@@ -214,14 +236,24 @@ strl2hex           (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_schar   (x_ch);
    x_ch = tolower (a_src [0]);
-   if (x_ch == 'x') {
-      DEBUG_YSTR   yLOG_snote   ("pre=x");
+   /*> if (x_ch == 'x') {                                                             <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=x");                                        <* 
+    *>    x_min  =  1;                                                                <* 
+    *> } else if (strncmp ("0x", a_src, 2) == 0) {                                    <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=0x");                                       <* 
+    *>    x_min  =  2;                                                                <* 
+    *> } else if (strncmp ("0X", a_src, 2) == 0) {                                    <* 
+    *>    DEBUG_YSTR   yLOG_snote   ("pre=0x");                                       <* 
+    *>    x_min  =  2;                                                                <* 
+    *> }                                                                              <*/
+   if (x_ch == 'õ') {
+      DEBUG_YSTR   yLOG_snote   ("pre=õ");
       x_min  =  1;
-   } else if (strncmp ("0x", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0x");
+   } else if (strncmp ("0õ", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0õ");
       x_min  =  2;
    } else if (strncmp ("0X", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0x");
+      DEBUG_YSTR   yLOG_snote   ("pre=0X");
       x_min  =  2;
    }
    --rce; if (x_min <= 0) {
@@ -550,7 +582,7 @@ strl2num           (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_value   ("a_src [0]" , a_src [0]);
    DEBUG_YSTR   yLOG_info    ("valid"     , YSTR_NUMERIC);
-   --rce;  if (a_src [0] == 0 || strchr (YSTR_NUMERIC, a_src [0]) == NULL) {
+   --rce;  if (a_src [0] == 0 || strchr ("éõö" YSTR_NUMERIC, a_src [0]) == NULL) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -560,23 +592,39 @@ strl2num           (char *a_src, double *a_val, int a_max)
    DEBUG_YSTR   yLOG_value   ("a_src [1]" , a_src [1]);
    if (x_len > 1 && a_src [0] == '0') {
       switch (a_src [1]) {
-      case 'b':  case 'B':
-         DEBUG_CELL   yLOG_note    ("binary");
+      case 'B': case 'é':
+         DEBUG_YSTR   yLOG_note    ("binary");
          rc = strl2bin  (a_src, &x_value, a_max);
          break;
-      case 'x':  case 'X':
-         DEBUG_CELL   yLOG_note    ("hexadecimal");
+      case 'X': case 'õ':
+         DEBUG_YSTR   yLOG_note    ("hexadecimal");
          rc = strl2hex  (a_src, &x_value, a_max);
          break;
-      case 'o':  case 'O':  default :
-         DEBUG_CELL   yLOG_note    ("octal");
+      case 'ö': default :
+         DEBUG_YSTR   yLOG_note    ("octal");
+         rc = strl2oct  (a_src, &x_value, a_max);
+         break;
+      }
+   }
+   else if (x_len > 1) {
+      switch (a_src [0]) {
+      case 'é':
+         DEBUG_YSTR   yLOG_note    ("binary");
+         rc = strl2bin  (a_src, &x_value, a_max);
+         break;
+      case 'õ':
+         DEBUG_YSTR   yLOG_note    ("hexadecimal");
+         rc = strl2hex  (a_src, &x_value, a_max);
+         break;
+      case 'ö':
+         DEBUG_YSTR   yLOG_note    ("octal");
          rc = strl2oct  (a_src, &x_value, a_max);
          break;
       }
    }
    /*---(float, int)---------------------*/
    if (rc < 0) {
-      DEBUG_CELL   yLOG_note    ("float/int");
+      DEBUG_YSTR   yLOG_note    ("float/int");
       rc = strl2real (a_src, &x_value, a_max);
    }
    /*---(save result)--------------------*/
@@ -853,8 +901,8 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
       strcpy  (x_prefix, "0");
       ++x_len;
    }
-   for (i = x_len / 2; i < a_cnt; ++i)  strcat (x_prefix, "00");
-   if (strchr ("xXUD"  , a_fmt) != 0)   sprintf (x_final, "x%s%s", x_prefix, x_temp);
+   for (i = x_len / 2; i < a_cnt; ++i)  strcat  (x_prefix, "00");
+   if (strchr ("xXUD"  , a_fmt) != 0)   sprintf (x_final, "õ%s%s", x_prefix, x_temp);
    else                                 sprintf (x_final, "%s%s" , x_prefix, x_temp);
    /*---(delimit)--------------*/
    if (strchr ("XDqQ"  , a_fmt) != 0)   ystr__space_ints (x_final, 2, '\'');
@@ -906,7 +954,7 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    }
    strlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
-   --rce;  if (strchr ("iIfFcCaAsS$#pP?", a_fmt) == NULL) {
+   --rce;  if (strchr ("iIfF,cCaAsS$#pP?", a_fmt) == NULL) {
       strlcpy (a_out, "#p/fmt", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -934,10 +982,10 @@ strl4comma         (double a_val, char *a_out, int a_decs, char a_fmt, char a_un
    /*---(assemble prefix)----------------*/
    if (tolower (a_fmt) == '$')  strcat (x_final, "$");
    if (x_sign < 0) {
-      if (strchr ("iIfcspP", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
-      if (strchr ("a$"     , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
+      if (strchr ("iIf,cspP", tolower (a_fmt)) != NULL)  strcat (x_final, "-");
+      if (strchr ("a$"      , tolower (a_fmt)) != NULL)  strcat (x_final, "(");
    } else {
-      if (strchr ("s"      , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
+      if (strchr ("s"       , tolower (a_fmt)) != NULL)  strcat (x_final, "+");
    }
    DEBUG_YSTR  yLOG_snote    (x_final);
    /*---(format integer part)------------*/
@@ -1156,10 +1204,10 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    int         i           =    0;               /* iterator -- character     */
    char        x_temp      [200] = "";
    char        x_final     [200] = "";
-   char        x_chars     [200] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
    long        x_int       =    0;
    int         x_digit     =    0;
    int         x_place     =    0;
+   int         x_inc       =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(defence)------------------------*/
@@ -1184,11 +1232,12 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    x_int  = a_val;
    /*---(translate base)-------*/
    if (x_int == 0)  strcat (x_temp, "0000");
+   x_inc   = strlen (YSTR_MONGO);
    while (x_int > 0) {
-      x_digit = x_int % 62;
-      x_temp [x_place++] = x_chars [x_digit];
+      x_digit = x_int % x_inc;
+      x_temp [x_place++] = YSTR_MONGO [x_digit];
       x_temp [x_place  ] = '\0';
-      x_int /= 62;
+      x_int /= x_inc;
    }
    /*---(make prefix)----------*/
    x_len = strlen (x_temp);
@@ -1290,10 +1339,10 @@ char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
 strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, char a_unit, int a_max)
 {
    char        rc          = 0;
-   DEBUG_APIS   yLOG_value   ("a_bytes"   , a_bytes);
-   DEBUG_APIS   yLOG_char    ("a_fmt"     , a_fmt);
-   DEBUG_APIS   yLOG_char    ("a_fmt"     , a_unit);
-   DEBUG_APIS   yLOG_value   ("a_max"     , a_max);
+   DEBUG_YSTR   yLOG_value   ("a_bytes"   , a_bytes);
+   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
+   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_unit);
+   DEBUG_YSTR   yLOG_value   ("a_max"     , a_max);
    if (str9format (a_fmt) < 0) {
       strlcpy (a_out, "#p/fmt", a_max);
       DEBUG_YSTR   yLOG_snote   ("filler bad");

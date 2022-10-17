@@ -125,6 +125,7 @@ chrslashed        (char a_ch)
    switch (x_ch) {
       /*---(notes)---------------------*/
    case '-'  : x_ch = G_KEY_FIELD      ;  break;    /*    45 - =  31    */
+   case 'w'  : x_ch = G_KEY_SPACE      ;  break;    /*    45 w =  32    */
    case '!'  : x_ch = G_CHAR_REXCLAM   ;  break;    /*    33 ! = 161 ¡   */
    case '?'  : x_ch = G_CHAR_RQUEST    ;  break;    /*    63 ? = 162 ¢   */
                /*---(hidden)--------------------*/
@@ -145,6 +146,7 @@ chrslashed        (char a_ch)
    case '@'  : x_ch = G_CHAR_HUGEDOT   ;  break;    /*    64 @ = 180 Ï   */
                /*---(special)-------------------*/
    case ' '  : x_ch = G_CHAR_STORAGE   ;  break;    /*    32   = 178 ²   */
+   case 'J'  : x_ch = G_CHAR_STORAGE   ;  break;    /*    32 J = 178 ²   */
    case '*'  : x_ch = G_CHAR_MASK      ;  break;    /*    42 * = 172 ¬   */
    case ':'  : x_ch = G_CHAR_SUMMARY   ;  break;    /*    58 : = 174 ®   */
    case '%'  : x_ch = G_CHAR_SYSTEM    ;  break;    /*    37 % = 175 ¯   */
@@ -215,7 +217,7 @@ chrslashed        (char a_ch)
    case 'Q'  : x_ch = G_CHAR_PSI       ;  break;    /*    81 Q = 254 þ   */
    case 'W'  : x_ch = G_CHAR_OMEGA     ;  break;    /*    87 W = 255 ÿ   */
                /*---(trouble)-------------------*/
-   default   : x_ch = G_CHAR_RQUEST;      break;
+   default   : x_ch = 0;                  break;
    }
    /*---(complete)-----------------------*/
    return x_ch;
@@ -249,6 +251,7 @@ chrslashed_more   (char a_ch)
    case '['  : x_ch = G_CHAR_LGULL;     break;
    case ']'  : x_ch = G_CHAR_RGULL;     break;
    case 'o'  : x_ch = G_CHAR_OPEN;      break;
+   case 'w'  : x_ch = G_CHAR_BTICK;     break;
       /*---(line draw)-----------------*/
    case 'H'  : x_ch = '€';              break;
    case 'V'  : x_ch = '';              break;
@@ -276,10 +279,35 @@ chrslashed_more   (char a_ch)
    case 'X'  : x_ch = '“';              break;    
    case 'Y'  : x_ch = '–';              break;    
    case 'Z'  : x_ch = '—';              break;    
-   default   : x_ch = G_CHAR_RQUEST;    break;
+               /*---(trouble)-------------------*/
+   default   : x_ch = 0;                break;
    }
    /*---(complete)-----------------------*/
    return x_ch;
+}
+
+char         /*--> decode special characters -------------[ ------ [ ------ ]-*/
+strlunslash        (uchar *a_src, int a_max)
+{
+   int         i, j;
+   for (i = 0; i < a_max; ++i) {
+      /*---(filter)----------------------*/
+      if (a_src [i] == '\0')          break;
+      if (a_src [i] != G_KEY_BSLASH && a_src [i] != G_CHAR_DBSLASH)  continue;
+      /*---(fix)-------------------------*/
+      if (a_src [i + 1] == '_') {
+         a_src [i] = chrslashed_more (a_src [i + 2]);
+         a_src [++i] = '¬';
+         a_src [++i] = '¬';
+      } else {
+         a_src [i] = chrslashed      (a_src [i + 1]);
+         a_src [++i] = '¬';
+      }
+      /*---(compress)--------------------*/
+
+   }
+   strlddel (a_src, '¬', a_max);
+   return 0;
 }
 
 uchar        /*--> convert control in printable ----------[ ------ [ ------ ]-*/

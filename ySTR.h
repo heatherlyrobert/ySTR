@@ -73,6 +73,7 @@ typedef     const char     cchar;
 #define     ySTR_WRITE     'w'
 #define     ySTR_EXTEN     'e'
 #define     ySTR_PRINT     'p'
+#define     ySTR_HEATHERLY 'h'
 #define     ySTR_SEVEN     '7'
 
 #define     ySTR_NORM      '-'
@@ -175,6 +176,7 @@ char        strlundelay             (char *a_src, int a_max);
 char        strl2leet               (char *a_src, int a_max);
 uchar       chrslashed              (char a_ch);
 uchar       chrslashed_more         (char a_ch);
+char        strlunslash             (uchar *a_src, int a_max);
 uchar       chrvisible              (uchar a_ch);
 uchar       chrworking              (uchar a_ch);
 int         strlhint                (int n, char *a_spec, char *a_label);

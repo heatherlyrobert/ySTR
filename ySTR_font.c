@@ -442,44 +442,44 @@ ySTR_font               (char *a_font, int *a_wide, int *a_tall)
    char        rce         =  -10;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_GRAF   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    if (a_wide != NULL)  *a_wide = -1;
    if (a_tall != NULL)  *a_tall = -1;
    /*---(find)---------------------------*/
-   DEBUG_GRAF   yLOG_point   ("a_font"    , a_font);
+   DEBUG_YSTR   yLOG_point   ("a_font"    , a_font);
    --rce;  if (a_font == NULL) {
-      DEBUG_GRAF   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_GRAF   yLOG_info    ("a_font"    , a_font);
+   DEBUG_YSTR   yLOG_info    ("a_font"    , a_font);
    /*---(shortcut)-----------------------*/
-   DEBUG_GRAF   yLOG_info    ("a_font"    , a_font);
+   DEBUG_YSTR   yLOG_info    ("a_font"    , a_font);
    if (s_curr >= 0 && s_curr < s_count) {
       if (strcmp (a_font, s_fonts [s_curr].name) == 0) {
-         DEBUG_GRAF   yLOG_note    ("current matches, shortcut used");
-         DEBUG_GRAF   yLOG_exit    (__FUNCTION__);
+         DEBUG_YSTR   yLOG_note    ("current matches, shortcut used");
+         DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
          if (a_wide != NULL)  *a_wide = s_fonts [s_curr].wide + s_fonts [s_curr].xoff;
          if (a_tall != NULL)  *a_tall = s_fonts [s_curr].tall + s_fonts [s_curr].yoff;
          return 1;
       }
    }
    /*---(shortcut)-----------------------*/
-   DEBUG_GRAF   yLOG_note    ("does not match current, walk through fonts");
+   DEBUG_YSTR   yLOG_note    ("does not match current, walk through fonts");
    --rce;
    s_curr = -1;
    for (i = 0; i < s_count; ++i) {
-      DEBUG_GRAF   yLOG_bullet  (i           , s_fonts [i].name);
+      DEBUG_YSTR   yLOG_bullet  (i           , s_fonts [i].name);
       if (strcmp (a_font, s_fonts [i].name) != 0)  continue;
-      DEBUG_GRAF   yLOG_note    ("found");
+      DEBUG_YSTR   yLOG_note    ("found");
       s_curr = i;
       if (a_wide != NULL)  *a_wide = s_fonts [s_curr].wide + s_fonts [s_curr].xoff;
       if (a_tall != NULL)  *a_tall = s_fonts [s_curr].tall + s_fonts [s_curr].yoff;
-      DEBUG_GRAF   yLOG_exit    (__FUNCTION__);
+      DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
       return 0;
    }
    /*---(error)--------------------------*/
-   DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+   DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
    return rce;
 }
 
@@ -490,91 +490,91 @@ ystr_font__index        (char a_range, int a_letter)
    char        rce         =  -10;
    char        x_letter    =  '-';
    /*---(prepare)------------------------*/
-   DEBUG_GRAF   yLOG_senter (__FUNCTION__);
+   DEBUG_YSTR   yLOG_senter (__FUNCTION__);
    x_letter = tolower (a_letter);
    /*---(defense)------------------------*/
    --rce;  if (a_letter < 32 || a_letter > 126) {
-      DEBUG_GRAF   yLOG_snote  ("non-printable");
-      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_snote  ("non-printable");
+      DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(numeric)------------------------*/
    --rce;  if (a_range == FONT_NUMS) {
-      DEBUG_GRAF   yLOG_snote  ("number-type");
+      DEBUG_YSTR   yLOG_snote  ("number-type");
       if (strchr (YSTR_NUMBER, x_letter) != NULL) {
-         DEBUG_GRAF   yLOG_sint   (x_letter - '0');
-         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         DEBUG_YSTR   yLOG_sint   (x_letter - '0');
+         DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
          return x_letter - '0';
       }
-      DEBUG_GRAF   yLOG_snote  ("out of range [0-9]");
-      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_snote  ("out of range [0-9]");
+      DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(alpha)--------------------------*/
    --rce;  if (a_range == FONT_ALPHA) {
-      DEBUG_GRAF   yLOG_snote  ("alpha-type");
+      DEBUG_YSTR   yLOG_snote  ("alpha-type");
       if (strchr (TYPE_ALPHA, x_letter) != NULL) {
          if (x_letter == ' ')  x_letter = 'z' + 1;
-         DEBUG_GRAF   yLOG_sint   (x_letter - 'a');
-         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         DEBUG_YSTR   yLOG_sint   (x_letter - 'a');
+         DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
          return x_letter - 'a';
       }
-      DEBUG_GRAF   yLOG_snote  ("out of range [a-z]");
-      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_snote  ("out of range [a-z]");
+      DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(full)---------------------------*/
    --rce;  if (a_range == FONT_FULL) {
-      DEBUG_GRAF   yLOG_snote  ("full-type");
+      DEBUG_YSTR   yLOG_snote  ("full-type");
       if (strchr (TYPE_ALPHA, x_letter) != NULL) {
          if (x_letter == ' ')  x_letter = 'z' + 1;
-         DEBUG_GRAF   yLOG_sint   (x_letter - 'a');
-         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         DEBUG_YSTR   yLOG_sint   (x_letter - 'a');
+         DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
          return x_letter - 'a';
       }
       if (strchr (YSTR_NUMBER, x_letter) != NULL) {
-         DEBUG_GRAF   yLOG_sint   (x_letter - '0');
-         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         DEBUG_YSTR   yLOG_sint   (x_letter - '0');
+         DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
          return x_letter - '0' + 27;
       }
-      DEBUG_GRAF   yLOG_snote  ("out of range [a-z0-9]");
-      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_snote  ("out of range [a-z0-9]");
+      DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(binary)-------------------------*/
    --rce;  if (a_range == FONT_BINARY) {
-      DEBUG_GRAF   yLOG_snote  ("binary-type");
+      DEBUG_YSTR   yLOG_snote  ("binary-type");
       if (strchr (YSTR_BINARY " ", x_letter) != NULL) {
          switch (x_letter) {
          case '0' :
-            DEBUG_GRAF   yLOG_sint   (0);
-            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            DEBUG_YSTR   yLOG_sint   (0);
+            DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
             return 0;
          case '1' :
-            DEBUG_GRAF   yLOG_sint   (1);
-            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            DEBUG_YSTR   yLOG_sint   (1);
+            DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
             return 1;
          case ' ' :
-            DEBUG_GRAF   yLOG_sint   (2);
-            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            DEBUG_YSTR   yLOG_sint   (2);
+            DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
             return 2;
          }
       }
-      DEBUG_GRAF   yLOG_snote  ("out of range [0-1]");
-      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_snote  ("out of range [0-1]");
+      DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(mayan)--------------------------*/
    --rce;  if (a_range == FONT_MAYANC) {
-      DEBUG_GRAF   yLOG_snote  ("mayan consonant-type");
+      DEBUG_YSTR   yLOG_snote  ("mayan consonant-type");
       if (strchr (YSTR_MAYANC, x_letter) != NULL) {
-         DEBUG_GRAF   yLOG_sint   (x_letter - 'a');
-         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         DEBUG_YSTR   yLOG_sint   (x_letter - 'a');
+         DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
          return x_letter - 'a';
       }
       if (strchr (YSTR_NUMBER, x_letter) != NULL) {
-         DEBUG_GRAF   yLOG_sint   (x_letter - '0');
-         DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+         DEBUG_YSTR   yLOG_sint   (x_letter - '0');
+         DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
          return x_letter - '0' + 27;
       }
 
@@ -583,27 +583,27 @@ ystr_font__index        (char a_range, int a_letter)
       if (strchr (YSTR_MAYANC " ", x_letter) != NULL) {
          switch (x_letter) {
          case '0' :
-            DEBUG_GRAF   yLOG_sint   (0);
-            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            DEBUG_YSTR   yLOG_sint   (0);
+            DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
             return 0;
          case '1' :
-            DEBUG_GRAF   yLOG_sint   (1);
-            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            DEBUG_YSTR   yLOG_sint   (1);
+            DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
             return 1;
          case ' ' :
-            DEBUG_GRAF   yLOG_sint   (2);
-            DEBUG_GRAF   yLOG_sexit  (__FUNCTION__);
+            DEBUG_YSTR   yLOG_sint   (2);
+            DEBUG_YSTR   yLOG_sexit  (__FUNCTION__);
             return 2;
          }
       }
-      DEBUG_GRAF   yLOG_snote  ("out of range [0-1]");
-      DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_snote  ("out of range [0-1]");
+      DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
       return rce;
    }
    /*---(unknown)------------------------*/
    --rce;
-   DEBUG_GRAF   yLOG_snote  ("font type unknown");
-   DEBUG_GRAF   yLOG_sexitr (__FUNCTION__, rce);
+   DEBUG_YSTR   yLOG_snote  ("font type unknown");
+   DEBUG_YSTR   yLOG_sexitr (__FUNCTION__, rce);
    return rce;
 }
 
@@ -646,19 +646,19 @@ ystr_font__index        (char a_range, int a_letter)
  *>    char        x_msg       [200]       = "";                                             <* 
  *>    char        x_count     =    0;                                                       <* 
  *>    /+---(begin)--------------------------+/                                              <* 
- *>    DEBUG_GRAF   yLOG_enter   (__FUNCTION__);                                             <* 
- *>    DEBUG_GRAF   yLOG_value   ("a_y"       , a_y);                                        <* 
- *>    DEBUG_GRAF   yLOG_value   ("a_x"       , a_x);                                        <* 
+ *>    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);                                             <* 
+ *>    DEBUG_YSTR   yLOG_value   ("a_y"       , a_y);                                        <* 
+ *>    DEBUG_YSTR   yLOG_value   ("a_x"       , a_x);                                        <* 
  *>    /+---(find)---------------------------+/                                              <* 
- *>    DEBUG_GRAF   yLOG_note    ("find font");                                              <* 
+ *>    DEBUG_YSTR   yLOG_note    ("find font");                                              <* 
  *>    rc = FONT__find (a_font);                                                             <* 
- *>    DEBUG_GRAF   yLOG_value   ("rc"        , rc);                                         <* 
+ *>    DEBUG_YSTR   yLOG_value   ("rc"        , rc);                                         <* 
  *>    --rce;  if (rc < 0) {                                                                 <* 
- *>       DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);                                     <* 
+ *>       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);                                     <* 
  *>       return rce;                                                                        <* 
  *>    }                                                                                     <* 
  *>    /+---(font values)--------------------+/                                              <* 
- *>    DEBUG_GRAF   yLOG_note    ("gather font settings");                                   <* 
+ *>    DEBUG_YSTR   yLOG_note    ("gather font settings");                                   <* 
  *>    x_range  = s_fonts [s_curr].range;                                                    <* 
  *>    x_ptr    = s_fonts [s_curr].ptr;                                                      <* 
  *>    x_tall   = s_fonts [s_curr].tall;                                                     <* 
@@ -666,11 +666,11 @@ ystr_font__index        (char a_range, int a_letter)
  *>    x_gap    = s_fonts [s_curr].gap;                                                      <* 
  *>    x_empty  = s_fonts [s_curr].empty;                                                    <* 
  *>    /+---(index)--------------------------+/                                              <* 
- *>    DEBUG_GRAF   yLOG_note    ("get letter index");                                       <* 
+ *>    DEBUG_YSTR   yLOG_note    ("get letter index");                                       <* 
  *>    rc = FONT__index  (x_range, a_num);                                                   <* 
- *>    DEBUG_GRAF   yLOG_value   ("rc"        , rc);                                         <* 
+ *>    DEBUG_YSTR   yLOG_value   ("rc"        , rc);                                         <* 
  *>    --rce;  if (rc < 0) {                                                                 <* 
- *>       DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);                                     <* 
+ *>       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);                                     <* 
  *>       return rce;                                                                        <* 
  *>    }                                                                                     <* 
  *>    /+---(update issue)-------------------+/                                              <* 
@@ -683,7 +683,7 @@ ystr_font__index        (char a_range, int a_letter)
  *>       }                                                                                  <* 
  *>    }                                                                                     <* 
  *>    /+---(complete)-----------------------+/                                              <* 
- *>    DEBUG_GRAF   yLOG_exit   (__FUNCTION__);                                              <* 
+ *>    DEBUG_YSTR   yLOG_exit   (__FUNCTION__);                                              <* 
  *>    return x_count;                                                                       <* 
  *> }                                                                                        <*/
 
@@ -703,26 +703,26 @@ ystr_font__addltr       (char a_ltr)
    int         x_row       =    0;
    char        t           [LEN_LABEL];
    /*---(header)-------------------------*/
-   DEBUG_GRAF   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(set letter)---------------------*/
-   DEBUG_GRAF   yLOG_schar   (a_ltr);
+   DEBUG_YSTR   yLOG_schar   (a_ltr);
    /*---(sizes)--------------------------*/
    x_wide   = s_fonts [s_curr].wide;
-   DEBUG_GRAF   yLOG_sint    (x_wide);
+   DEBUG_YSTR   yLOG_sint    (x_wide);
    x_gap    = s_fonts [s_curr].gap;
-   DEBUG_GRAF   yLOG_sint    (x_gap);
+   DEBUG_YSTR   yLOG_sint    (x_gap);
    x_offx   = s_fonts [s_curr].xoff;
-   DEBUG_GRAF   yLOG_sint    (x_offx);
+   DEBUG_YSTR   yLOG_sint    (x_offx);
    x_tall   = s_fonts [s_curr].tall;
-   DEBUG_GRAF   yLOG_sint    (x_tall);
+   DEBUG_YSTR   yLOG_sint    (x_tall);
    /*---(pointers)-----------------------*/
    x_ptr    = s_fonts [s_curr].ptr;
-   DEBUG_GRAF   yLOG_spoint  (x_ptr);
+   DEBUG_YSTR   yLOG_spoint  (x_ptr);
    x_offset = ystr_font__index  (s_fonts [s_curr].range, a_ltr);
    if (x_offset < 0)   x_offset = 0;
-   DEBUG_GRAF   yLOG_sint    (x_offset);
+   DEBUG_YSTR   yLOG_sint    (x_offset);
    x_pos    = x_ptr + (x_offset * (x_wide + x_gap));
-   DEBUG_GRAF   yLOG_spoint  (x_pos);
+   DEBUG_YSTR   yLOG_spoint  (x_pos);
    /*---(copy letter)--------------------*/
    for (x_row = 0; x_row < x_tall ; ++x_row) {
       if (x_offx == 0)  sprintf (t, "%*.*s"  , x_wide, x_wide, x_pos);
@@ -731,9 +731,9 @@ ystr_font__addltr       (char a_ltr)
       x_pos += MAX_WIDTH;
    }
    /*---(summary)------------------------*/
-   DEBUG_GRAF   yLOG_sint    (x_wide + x_offx);
+   DEBUG_YSTR   yLOG_sint    (x_wide + x_offx);
    /*---(complete)-----------------------*/
-   DEBUG_GRAF   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return x_wide + x_offx;
 }
 
@@ -748,10 +748,10 @@ ystr_font__addrow       (char *a_text, char a_gap, int x, int y, char a_mode)
    int         x_row       =    0;
    int         x_col       =    0;
    /*---(header)-------------------------*/
-   DEBUG_GRAF   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(get length)---------------------*/
    x_len = strlen (a_text);
-   DEBUG_GRAF   yLOG_value   ("x_len"     , x_len);
+   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
    /*---(clear working)------------------*/
    for (x_row = 0; x_row < MAX_HEIGHT; ++x_row)  {
       strcpy (s_working [x_row], "");
@@ -759,7 +759,7 @@ ystr_font__addrow       (char *a_text, char a_gap, int x, int y, char a_mode)
    /*---(create working)-----------------*/
    for (x_ltr = 0; x_ltr < x_len ; ++x_ltr) {
       x_ch = a_text [x_ltr];
-      DEBUG_GRAF   yLOG_char    ("x_ch"      , x_ch);
+      DEBUG_YSTR   yLOG_char    ("x_ch"      , x_ch);
       if (x_ch == '¦')  break;
       x_wide += ystr_font__addltr (x_ch);
    }
@@ -772,15 +772,15 @@ ystr_font__addrow       (char *a_text, char a_gap, int x, int y, char a_mode)
    }
    /*---(display)------------------------*/
    if (s_displayer != NULL) {
-      DEBUG_GRAF   yLOG_value   ("y"         , y);
-      DEBUG_GRAF   yLOG_value   ("x"         , x);
+      DEBUG_YSTR   yLOG_value   ("y"         , y);
+      DEBUG_YSTR   yLOG_value   ("x"         , x);
       for (x_row = 0; x_row < MAX_HEIGHT; ++x_row) {
          if (strlen (s_working [x_row]) <= 0)  break;
          s_displayer (x, y + x_row, s_working [x_row], a_mode);
       }
    }
    /*---(complete)-----------------------*/
-   DEBUG_GRAF   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return x_wide;
 }
 
@@ -799,33 +799,33 @@ ySTR_display            (char *a_font, char *a_text, char a_gap, int x, int y, i
    int         x_row       =    0;
    int         x_tall      =    0;
    /*---(begin)--------------------------*/
-   DEBUG_GRAF   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_GRAF   yLOG_point   ("a_text"    , a_text);
+   DEBUG_YSTR   yLOG_point   ("a_text"    , a_text);
    --rce;  if (a_text == NULL) {
-      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_GRAF   yLOG_info    ("a_text"    , a_text);
+   DEBUG_YSTR   yLOG_info    ("a_text"    , a_text);
    strcpy (x_work, a_text);
    x_len = strlen (x_work);
-   DEBUG_GRAF   yLOG_value   ("x_len"     , x_len);
+   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
    --rce;  if (x_len <= 0) {
-      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(find font)----------------------*/
-   DEBUG_GRAF   yLOG_note    ("find font");
+   DEBUG_YSTR   yLOG_note    ("find font");
    rc = ySTR_font (a_font, NULL, NULL);
-   DEBUG_GRAF   yLOG_value   ("rc"        , rc);
+   DEBUG_YSTR   yLOG_value   ("rc"        , rc);
    --rce;  if (rc < 0) {
-      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(walk through text)--------------*/
    p = strtok_r (x_work, "\n¦", &r);
    while (p != NULL) {
-      DEBUG_GRAF   yLOG_value   ("x_row"    , x_row);
+      DEBUG_YSTR   yLOG_value   ("x_row"    , x_row);
       w = ystr_font__addrow (p, a_gap, x, y + x_tall, a_mode);
       if (w > x_wide)  x_wide = w;
       p = strtok_r (NULL, "\n¦", &r);
@@ -833,12 +833,12 @@ ySTR_display            (char *a_font, char *a_text, char a_gap, int x, int y, i
       ++x_row;
    }
    /*---(save values)--------------------*/
-   DEBUG_GRAF   yLOG_value   ("x_wide"   , x_wide);
-   DEBUG_GRAF   yLOG_value   ("x_tall"   , x_tall);
+   DEBUG_YSTR   yLOG_value   ("x_wide"   , x_wide);
+   DEBUG_YSTR   yLOG_value   ("x_tall"   , x_tall);
    if (a_wide != NULL)  *a_wide = x_wide;
    if (a_tall != NULL)  *a_tall = x_tall;
    /*---(complete)-----------------------*/
-   DEBUG_GRAF   yLOG_exit   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_exit   (__FUNCTION__);
    return 0;
 }
 
@@ -862,19 +862,19 @@ ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, int *a_tall, c
    int         w           =    0;
    int         x_tall      =    0;
    /*---(begin)--------------------------*/
-   DEBUG_GRAF   yLOG_enter   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_GRAF   yLOG_point   ("a_text"    , a_text);
+   DEBUG_YSTR   yLOG_point   ("a_text"    , a_text);
    --rce;  if (a_text == NULL) {
-      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_GRAF   yLOG_info    ("a_text"    , a_text);
+   DEBUG_YSTR   yLOG_info    ("a_text"    , a_text);
    strcpy (x_work, a_text);
    x_len = strlen (x_work);
-   DEBUG_GRAF   yLOG_value   ("x_len"     , x_len);
+   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
    --rce;  if (x_len <= 0) {
-      DEBUG_GRAF   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(walk through text)--------------*/
@@ -887,12 +887,12 @@ ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, int *a_tall, c
       p = strtok_r (NULL, "\n¦", &r);
    }
    /*---(save values)--------------------*/
-   DEBUG_GRAF   yLOG_value   ("x_wide"   , x_wide);
-   DEBUG_GRAF   yLOG_value   ("x_tall"   , x_tall);
+   DEBUG_YSTR   yLOG_value   ("x_wide"   , x_wide);
+   DEBUG_YSTR   yLOG_value   ("x_tall"   , x_tall);
    if (a_wide != NULL)  *a_wide = x_wide;
    if (a_tall != NULL)  *a_tall = x_tall;
    /*---(complete)-----------------------*/
-   DEBUG_GRAF   yLOG_exit   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_exit   (__FUNCTION__);
    return 0;
 }
 

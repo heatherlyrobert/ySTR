@@ -406,29 +406,29 @@ strlexport              (int a_line, char *a_recd)
    char        rc          =    0;
    int         x_len       =    0;
    /*---(header)-------------------------*/
-   DEBUG_PROG   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SCRP   yLOG_spoint  ( a_recd);
+   DEBUG_YSTR   yLOG_spoint  ( a_recd);
    --rce;  if (a_recd == NULL) {
-      DEBUG_PROG   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(open)---------------------------*/
    if (a_line == 0)  f = fopen (YSTR_CLIP, "wt");
    else              f = fopen (YSTR_CLIP, "at");
-   DEBUG_SCRP   yLOG_spoint  (f);
+   DEBUG_YSTR   yLOG_spoint  (f);
    --rce;  if (f == NULL) {
-      DEBUG_PROG   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(write)--------------------------*/
    x_len = fprintf (f, "%s\n", a_recd);
-   DEBUG_SCRP   yLOG_sint    (x_len);
+   DEBUG_YSTR   yLOG_sint    (x_len);
    /*---(close)--------------------------*/
    rc    = fclose (f);
-   DEBUG_SCRP   yLOG_sint    (rc);
+   DEBUG_YSTR   yLOG_sint    (rc);
    /*---(complete)-----------------------*/
-   DEBUG_PROG   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -443,11 +443,11 @@ strlimport              (int a_line, char *a_recd, int *a_len)
    int         x_len       =    0;
    int         c           =    0;
    /*---(header)-------------------------*/
-   DEBUG_SCRP   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_SCRP   yLOG_spoint  (a_recd);
+   DEBUG_YSTR   yLOG_spoint  (a_recd);
    --rce;  if (a_recd == NULL) {
-      DEBUG_SCRP   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(defaults)-----------------------*/
@@ -455,32 +455,32 @@ strlimport              (int a_line, char *a_recd, int *a_len)
    strlcpy (a_recd, "", LEN_RECD);
    /*---(open)---------------------------*/
    f = fopen (YSTR_CLIP, "rt");
-   DEBUG_SCRP   yLOG_spoint  (f);
+   DEBUG_YSTR   yLOG_spoint  (f);
    --rce;  if (f == NULL) {
-      DEBUG_SCRP   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(read)---------------------------*/
    --rce;  while (c <= a_line)  {
       fgets (x_recd, LEN_RECD, f);
       if (feof (f)) {
-         DEBUG_SCRP   yLOG_sexitr  (__FUNCTION__, rce);
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
       ++c;
    }
-   DEBUG_SCRP   yLOG_sint    (c);
+   DEBUG_YSTR   yLOG_sint    (c);
    /*---(close)--------------------------*/
    rc = fclose (f);
-   DEBUG_SCRP   yLOG_sint    (rc);
+   DEBUG_YSTR   yLOG_sint    (rc);
    /*---(clean)--------------------------*/
    x_len = strlen (x_recd);
    if (x_len > 0) {
-      DEBUG_SCRP   yLOG_sint    (x_len);
-      DEBUG_SCRP   yLOG_schar   (chrvisible (x_recd [x_len - 1]));
+      DEBUG_YSTR   yLOG_sint    (x_len);
+      DEBUG_YSTR   yLOG_schar   (chrvisible (x_recd [x_len - 1]));
       if (x_recd [x_len - 1] == '\n')  x_recd [--x_len] = '\0';
       if (x_len > 0) {
-         DEBUG_SCRP   yLOG_schar   (chrvisible (x_recd [x_len - 1]));
+         DEBUG_YSTR   yLOG_schar   (chrvisible (x_recd [x_len - 1]));
          if (x_recd [x_len - 1] == '³' )  x_recd [--x_len] = '\0';
       }
    }
@@ -488,7 +488,7 @@ strlimport              (int a_line, char *a_recd, int *a_len)
    strlcpy (a_recd, x_recd, LEN_RECD);
    if (a_len != NULL)  *a_len = x_len;
    /*---(complete)-----------------------*/
-   DEBUG_SCRP   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 

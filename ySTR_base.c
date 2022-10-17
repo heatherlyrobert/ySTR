@@ -67,7 +67,7 @@ str9format           (char a_format)
 {
    if (a_format == ' ')                                                return -1;
    if (a_format ==  0 )                                                return -2;
-   if (strchr ("? iIfF cCaAsS$#pP eE rR bBoOxXzZ tTdD", a_format) == 0) return -3;
+   if (strchr ("? iIfF ,cCaAsS$#pP eE rR bBoOxXzZ tTdD", a_format) == 0) return -3;
    return 0;
 }
 

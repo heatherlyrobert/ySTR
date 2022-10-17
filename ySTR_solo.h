@@ -48,14 +48,14 @@
 /*---(special)------------------------*/
 #define     YSTR_UNIV     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_ADDR     "@$0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
-#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#ÑĞÒÔÓÕÆÇÈÎ"
+#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#›ÑĞÒÔÓÕÆÇÈÉÊÎÍÌ"
 #define     YSTR_GROUP    "()[]¸¹º»"
 #define     YSTR_SUBS     "ÀÁÂÃÄÅ"
 #define     YSTR_POWS     "ÆÇÈÎÉÊ"
 #define     YSTR_SJOIN    "ĞÑÒ"
 #define     YSTR_CJOIN    "ĞÑÒÓÔÕÖ"
 #define     YSTR_JOIN     "ĞÑÒÓÔÕÖ"
-#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïğñòóôõö÷øùúûüışÿ_"
+#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïğñòóôõö÷øùúûüışÿ_‘"
 #define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789èéêëìíîïğñòóôõö÷øùúûüışÿ_ÀÁÂÃÄÅ"
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
@@ -66,6 +66,7 @@
 #define     YSTR_OCTAL    "01234567"
 #define     YSTR_MONGO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define     YSTR_MUCHO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzĞÑÒÓÔÕÖ×ØÙÜİŞßèéêëìíîïğñòóôõö÷øùúûüışÿ"
+#define     YSTR_MUCHO2   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€’“”•–—Ÿœèéêëìíîïğñòóôõö÷øùúûüışÿ"
 /*---(general)------------------------*/
 #define     YSTR_EMPTY     "                                                                                                                                                                                                       "
 #define     YSTR_DASH      "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -229,8 +230,9 @@
 #define     G_CHAR_MEMBER       227   /*  ã  */
 #define     G_CHAR_BOX          173   /*  ­  */
 #define     G_CHAR_EMPTY        160   /*     */
-#define     G_CHAR_DIAMOND      231   /*  ›  */
-#define     G_CHAR_SETMATH      229   /*  ˜  */
+#define     G_CHAR_DIAMOND      155   /*  ›  */
+#define     G_CHAR_SETMATH      152   /*  ˜  */
+#define     G_CHAR_BTICK         96   /*  `  */
 #define     G_CHAR_OPEN         143   /*    */
 
 /*---(complete)-----------------------*/
