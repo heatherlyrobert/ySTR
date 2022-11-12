@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.1-, use everywhere and make improvements"
-#define     P_VERNUM    "1.1e"
-#define     P_VERTXT    "fixed trouble, made marker char 26 ascii substitute"
+#define     P_VERNUM    "1.1f"
+#define     P_VERTXT    "small update to output of binary and octal numbers"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

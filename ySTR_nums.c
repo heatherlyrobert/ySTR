@@ -768,7 +768,7 @@ strl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max
    case 3 : strcat (x_temp, "0");
    }
    for (i = x_len / 4; i < a_nibs; ++i)  strcat (x_temp, "0000");
-   if (strchr ("bB", a_fmt) != NULL)     strcat (x_temp, "b");
+   if (strchr ("bB", a_fmt) != NULL)     strcat (x_temp, "é");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
@@ -829,8 +829,8 @@ strl4oct           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    /*---(translate base)-------*/
    sprintf  (x_temp, "%o",       (long)  a_val);
    /*---(make prefix)----------*/
-   if (strchr ("oO", a_fmt) != NULL)  strcpy  (x_prefix, "o");
-   if (strchr ("zZ", a_fmt) != NULL)  strcpy  (x_prefix, "0");
+   if (strchr ("oO", a_fmt) != NULL)  strcpy  (x_prefix, "ö");
+   if (strchr ("zZ", a_fmt) != NULL)  strcpy  (x_prefix, "ö");
    x_len = strlen (x_temp);
    if (x_len % 3 == 1) { strcat  (x_prefix, "00"); x_len += 2; }
    if (x_len % 3 == 2) { strcat  (x_prefix,  "0"); x_len += 1; }
