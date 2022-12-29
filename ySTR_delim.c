@@ -37,11 +37,11 @@ strldpos           (char *a_src, char  a_del, int a_cnt, int a_max)
    register char *s        = a_src;         /* source pointer                 */
    register int   n        = a_max;
    register int   c        = 0;
-   register char  l        = '\0';          /* duplicate space skipper        */
+   register char  l        = '\0';          /* duplicate skipper              */
    /*---(search)-------------------------*/
    while (*s != '\0') {
       if (n < 1)  break;
-      if (*s == a_del && l != ' ') {
+      if (*s == a_del && l != a_del) {
          ++c;
          if (c >= a_cnt)  return a_max - n;
       }

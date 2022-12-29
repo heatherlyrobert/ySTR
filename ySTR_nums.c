@@ -236,17 +236,16 @@ strl2hex           (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_schar   (x_ch);
    x_ch = tolower (a_src [0]);
-   /*> if (x_ch == 'x') {                                                             <* 
-    *>    DEBUG_YSTR   yLOG_snote   ("pre=x");                                        <* 
-    *>    x_min  =  1;                                                                <* 
-    *> } else if (strncmp ("0x", a_src, 2) == 0) {                                    <* 
-    *>    DEBUG_YSTR   yLOG_snote   ("pre=0x");                                       <* 
-    *>    x_min  =  2;                                                                <* 
-    *> } else if (strncmp ("0X", a_src, 2) == 0) {                                    <* 
-    *>    DEBUG_YSTR   yLOG_snote   ("pre=0x");                                       <* 
-    *>    x_min  =  2;                                                                <* 
-    *> }                                                                              <*/
-   if (x_ch == 'õ') {
+   if (x_ch == 'x') {
+      DEBUG_YSTR   yLOG_snote   ("pre=x");
+      x_min  =  1;
+   } else if (strncmp ("0x", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0x");
+      x_min  =  2;
+   } else if (strncmp ("0X", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0x");
+      x_min  =  2;
+   } else if (x_ch == 'õ') {
       DEBUG_YSTR   yLOG_snote   ("pre=õ");
       x_min  =  1;
    } else if (strncmp ("0õ", a_src, 2) == 0) {
@@ -895,8 +894,10 @@ strl4hex           (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    /*---(translate base)-------*/
    if (strchr ("xXqns" , a_fmt) != 0)   sprintf  (x_temp, "%x", (long) a_val);
    else                                 sprintf  (x_temp, "%X", (long) a_val);
+   DEBUG_YSTR   yLOG_snote   (x_temp);
    /*---(make prefix)----------*/
    x_len = strlen (x_temp);
+   DEBUG_YSTR   yLOG_sint    (x_len);
    if (x_len % 2 == 1) {
       strcpy  (x_prefix, "0");
       ++x_len;

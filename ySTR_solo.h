@@ -67,6 +67,8 @@
 #define     YSTR_MONGO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define     YSTR_MUCHO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÐÑÒÓÔÕÖ×ØÙÜÝÞßèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 #define     YSTR_MUCHO2   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€Ž’“”•–—žŸœèéêëìíîïðñòóôõö÷øùúûüýþÿ"
+#define     YSTR_COUNT    "·123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ°"
+#define     YSTR_BIGGUN   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ_.,:;!?-()¶'&<>{}[]+*/=#@^%`~^|$ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãä¸¹¼½¾¿º»åæ®¯ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎ€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—°"
 /*---(general)------------------------*/
 #define     YSTR_EMPTY     "                                                                                                                                                                                                       "
 #define     YSTR_DASH      "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
