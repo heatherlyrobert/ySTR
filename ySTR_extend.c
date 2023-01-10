@@ -217,7 +217,7 @@ chrslashed        (char a_ch)
    case 'Q'  : x_ch = G_CHAR_PSI       ;  break;    /*    81 Q = 254 þ   */
    case 'W'  : x_ch = G_CHAR_OMEGA     ;  break;    /*    87 W = 255 ÿ   */
                /*---(trouble)-------------------*/
-   default   : x_ch = 0;                  break;
+   default   : x_ch = G_CHAR_REDACT    ;  break;    /*  ILLEGAL          */
    }
    /*---(complete)-----------------------*/
    return x_ch;
@@ -280,7 +280,7 @@ chrslashed_more   (char a_ch)
    case 'Y'  : x_ch = '–';              break;    
    case 'Z'  : x_ch = '—';              break;    
                /*---(trouble)-------------------*/
-   default   : x_ch = 0;                break;
+   default   : x_ch = G_CHAR_REDACT    ;  break;    /*  ILLEGAL          */
    }
    /*---(complete)-----------------------*/
    return x_ch;

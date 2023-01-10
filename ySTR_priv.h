@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.1-, use everywhere and make improvements"
-#define     P_VERNUM    "1.1g"
-#define     P_VERTXT    "fixed bug in strldpos for skipping duplicates"
+#define     P_VERNUM    "1.1h"
+#define     P_VERTXT    "fixed bug chrslashed leading to null return, bad for ySTR"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
