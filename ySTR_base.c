@@ -133,7 +133,6 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ySTR_testquiet     (void)
 {
    ySTR_debug ('-');
-   mySTR.logger = yLOGS_begin ("ySTR" , YLOG_SYS, YLOG_QUIET);
    return 0;
 }
 
@@ -151,7 +150,7 @@ ySTR_testloud      (void)
 char       /*----: stop logging ----------------------------------------------*/
 ySTR_testend       (void)
 {
-   yLOGS_end     ();
+   DEBUG_YSTR  yLOGS_end     ();
    return 0;
 }
 

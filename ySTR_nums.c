@@ -48,7 +48,7 @@ strl2bin           (char *a_src, double *a_val, int a_max)
    DEBUG_YSTR   yLOG_snote   (a_src);
    x_len = strllen (a_src, LEN_HUGE);
    DEBUG_YSTR   yLOG_sint    (x_len);
-   --rce; if (x_len <= 2) {
+   --rce; if (x_len <= 1) {
       DEBUG_YSTR   yLOG_snote   ("too short");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -65,17 +65,18 @@ strl2bin           (char *a_src, double *a_val, int a_max)
     *>    DEBUG_YSTR   yLOG_snote   ("pre=0b");                                       <* 
     *>    x_min  =  2;                                                                <* 
     *> }                                                                              <*/
-   if (x_ch == 'é') {
-      DEBUG_YSTR   yLOG_snote   ("pre=é");
+   if (x_ch == 'b') {
+      DEBUG_YSTR   yLOG_snote   ("pre=b");
       x_min  =  1;
-   }
-   else if (strncmp ("0B", a_src, 2) == 0) {
+   } else if (strncmp ("0b", a_src, 2) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("pre=0b");
+      x_min  =  2;
+   } else if (strncmp ("0B", a_src, 2) == 0) {
       DEBUG_YSTR   yLOG_snote   ("pre=0B");
       x_min  =  2;
-   }
-   else if (strncmp ("0é", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0é");
-      x_min  =  2;
+   } else if (x_ch == 'é') {
+      DEBUG_YSTR   yLOG_snote   ("pre=é");
+      x_min  =  1;
    }
    --rce; if (x_min <= 0) {
       DEBUG_YSTR   yLOG_snote   ("wrong prefix");
@@ -140,7 +141,7 @@ strl2oct           (char *a_src, double *a_val, int a_max)
    DEBUG_YSTR   yLOG_snote   (a_src);
    x_len = strllen (a_src, LEN_HUGE);
    DEBUG_YSTR   yLOG_sint    (x_len);
-   --rce; if (x_len <= 1) {
+   --rce; if (x_len <  2) {
       DEBUG_YSTR   yLOG_snote   ("too short");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -157,12 +158,12 @@ strl2oct           (char *a_src, double *a_val, int a_max)
     *>    DEBUG_YSTR   yLOG_snote   ("pre=0");                                        <* 
     *>    x_min  =  1;                                                                <* 
     *> }                                                                              <*/
-   if (x_ch == 'ö') {
+   if (x_ch == 'o') {
+      DEBUG_YSTR   yLOG_snote   ("pre=o");
+      x_min  =  1;
+   } else if (x_ch == 'ö') {
       DEBUG_YSTR   yLOG_snote   ("pre=ö");
       x_min  =  1;
-   } else if (strncmp ("0ö", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0ö");
-      x_min  =  2;
    } else if (x_ch == '0') {
       DEBUG_YSTR   yLOG_snote   ("pre=0");
       x_min  =  1;
@@ -248,12 +249,6 @@ strl2hex           (char *a_src, double *a_val, int a_max)
    } else if (x_ch == 'õ') {
       DEBUG_YSTR   yLOG_snote   ("pre=õ");
       x_min  =  1;
-   } else if (strncmp ("0õ", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0õ");
-      x_min  =  2;
-   } else if (strncmp ("0X", a_src, 2) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("pre=0X");
-      x_min  =  2;
    }
    --rce; if (x_min <= 0) {
       DEBUG_YSTR   yLOG_snote   ("wrong prefix");

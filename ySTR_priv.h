@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.1-, use everywhere and make improvements"
-#define     P_VERNUM    "1.1h"
-#define     P_VERTXT    "fixed bug chrslashed leading to null return, bad for ySTR"
+#define     P_VERNUM    "1.1i"
+#define     P_VERTXT    "passes all unit testing and added strlage and strlsize"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -114,5 +114,6 @@ char        ystr_gyges__unit_check  (int b, int x, int y, char z, char a_check);
 char        ystr__getlang           (char *a_iso);
 
 char        ystr_font__index        (char a_range, int a_letter);
+char*       FONT__unit              (char *a_question, int a_num);
 
 #endif

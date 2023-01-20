@@ -449,7 +449,7 @@ ySTR_font               (char *a_font, int *a_wide, int *a_tall)
    /*---(find)---------------------------*/
    DEBUG_YSTR   yLOG_point   ("a_font"    , a_font);
    --rce;  if (a_font == NULL) {
-      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_YSTR   yLOG_info    ("a_font"    , a_font);

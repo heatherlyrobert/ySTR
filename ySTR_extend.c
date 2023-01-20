@@ -244,9 +244,9 @@ chrslashed_more   (char a_ch)
    case 'h'  : x_ch = G_CHAR_SUBSET;    break;
    case 'm'  : x_ch = G_CHAR_MEMBER;    break;
    case 'e'  : x_ch = G_CHAR_EMPTY;     break;
-   case 'b'  : x_ch = G_CHAR_BOX;       break;
+   case 'b'  : x_ch = G_CHAR_DSLASH;    break;
    case 'd'  : x_ch = G_CHAR_DIAMOND;   break;
-   case 's'  : x_ch = G_CHAR_SETMATH;   break;
+   case 's'  : x_ch = G_CHAR_SUFFIX;    break;
    case 'r'  : x_ch = G_CHAR_RFIELD;    break;
    case '['  : x_ch = G_CHAR_LGULL;     break;
    case ']'  : x_ch = G_CHAR_RGULL;     break;

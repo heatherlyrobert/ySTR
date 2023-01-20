@@ -134,7 +134,6 @@
 #define     G_CHAR_FIELD        167   /*  ß  */
 #define     G_CHAR_GROUP        168   /*  ®  */
 #define     G_CHAR_RFIELD       231   /*  Á  */
-#define     G_CHAR_TAB          152   /*     */
 /*---(macro)---------------------*/
 #define     G_CHAR_DISPLAY      169   /*  ©  */
 #define     G_CHAR_BREAK        170   /*  ™  */
@@ -191,7 +190,7 @@
 #define     G_CHAR_GE           221   /*  ›      >=  */
 #define     G_CHAR_NE           222   /*  ﬁ      !=  */
 #define     G_CHAR_APPROX       223   /*  ﬂ      =~  */
-#define     G_CHAR_RANGE        177   /*  ±  */
+#define     G_CHAR_RANGE        152   /*  ò  */
 /*---(greek)---------------------*/
 #define     G_CHAR_ALPHA        232   /*  Ë  */
 #define     G_CHAR_BETA         233   /*  È  */
@@ -219,21 +218,21 @@
 #define     G_CHAR_OMEGA        255   /*  ˇ  */
 /*---(logic)--------------------------*/
 #define     G_CHAR_REDACT       176   /*  ∞  */
-#define     G_CHAR_FALSE        153   /*  ô  */
+#define     G_CHAR_FALSE        218   /*  ⁄  */
 #define     G_CHAR_UNLIKELY     216   /*  ÿ  */
 #define     G_CHAR_LIKELY       217   /*  Ÿ  */
-#define     G_CHAR_TRUE         154   /*  ö  */
-#define     G_CHAR_INFINITY     218   /*  ⁄  */
-#define     G_CHAR_FUNCTION     219   /*  €  */
+#define     G_CHAR_TRUE         219   /*  €  */
+#define     G_CHAR_INFINITY     153   /*  ô  */
+#define     G_CHAR_FUNCTION     154   /*  ö  */
 #define     G_CHAR_FOREACH      228   /*  ‰  */
 #define     G_CHAR_EQUIV        224   /*  ‡      == */
 #define     G_CHAR_EXISTS       225   /*  ·  */
 #define     G_CHAR_SUBSET       226   /*  ‚  */
 #define     G_CHAR_MEMBER       227   /*  „  */
-#define     G_CHAR_BOX          173   /*  ≠  */
+#define     G_CHAR_DSLASH       155   /*  õ  */
 #define     G_CHAR_EMPTY        160   /*  †  */
-#define     G_CHAR_DIAMOND      155   /*  õ  */
-#define     G_CHAR_SETMATH      152   /*  ò  */
+#define     G_CHAR_DIAMOND      173   /*  ≠  */
+#define     G_CHAR_SUFFIX       177   /*  ±  */
 #define     G_CHAR_BTICK         96   /*  `  */
 #define     G_CHAR_OPEN         143   /*  è  */
 

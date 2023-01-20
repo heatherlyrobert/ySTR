@@ -500,34 +500,162 @@ strlimport              (int a_line, char *a_recd, int *a_len)
 static void      o___DATES___________________o (void) {;}
 
 char
-strlage                 (long a_epoch, char *a_age)
-{
+strlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
+{  /*---(notes)--------------------------*/
+   /*
+    *  age is almost always more important to me than date, and
+    *  quicker for me to interpret.  it also only needs three chars.
+    *  if i keep to one way of presenting, it is even easier, for me.
+    *  build-once, use-often.
+    *
+    *  -  = normal lower case units (also 'n' type)
+    *  u  = upper case for large units
+    *  N  = fill spaces with '·'
+    *  U  = both u and N options
+    */
+   /*---(locals)-------------------------*/
+   char        rce         =  -10;
    long        x_age       =    0;
    char        x_unit      =  '-';
-   if (a_epoch == 0)  {
-      strcpy (a_age, "·?·");
-   } else {
-      x_age = time (NULL) - a_epoch;
-      if (x_age < 0)  x_age = 0;  /* tasks added since start */
-      x_unit = 's';
+   /*---(default)------------------------*/
+   if (a_age != NULL)  strcpy (a_age, "  ·");
+   /*---(defense)------------------------*/
+   --rce;  if (a_age == NULL)  return rce;
+   /*---(weird epoch)--------------------*/
+   --rce;  if (a_epoch <= 0) {
+      strcpy (a_age, "#/n");  /* n = negative/zero */
+      return rce;
+   }
+   /*---(time difference)----------------*/
+   x_age = time (NULL) - a_epoch;
+   --rce;  if (x_age < 0) {
+      strcpy (a_age, "#/f");  /* f = future epoch  */
+      return rce;
+   }
+   /*---(figure age)---------------------*/
+   x_unit = 's';
+   if (x_age == 0) {
+      strcpy (a_age, " <s");
+      return 0;
+   }
+   --rce;  if (x_age >= 60) {
+      x_age /= 60; x_unit = 'm';
       if (x_age >= 60) {
-         x_age /= 60; x_unit = 'm';
-         if (x_age >= 60) {
-            x_age /= 60; x_unit = 'h';
-            if (x_age >= 24) {
-               x_age /= 24; x_unit = 'd';
-               if (x_age > 30) {
-                  x_age /= 30; x_unit = 'n';
-                  if (x_age >= 12) {
-                     x_age /= 12; x_unit = 'y';
-                     if (x_age > 99) { x_age  = 99; x_unit = '!'; }
+         x_age /= 60; x_unit = 'h';
+         if (x_age >= 24) {
+            x_age /= 24; x_unit = 'd';
+            if (x_age >= 30) {                /* months avg 30 days, close ;) */
+               x_age /= 30; x_unit = 'o';
+               if (x_age >= 12) {
+                  x_age /= 12; x_unit = 'y';
+                  if (x_age >= 100) {
+                     x_age /= 100; x_unit = 'c';
+                     if (x_age >= 100) {
+                        strcpy (a_age, "#/h");  /* huge date 100+ centuries */
+                        return rce;
+                     }
                   }
                }
             }
          }
       }
-      sprintf (a_age, "%d%c", x_age, x_unit);
    }
+   /*---(adjust for format)--------------*/
+   if (a_fmt != 0 && strchr ("uU", a_fmt) != NULL) {
+      switch (x_unit) {
+      case 'o' :  x_unit = 'M';  break;
+      case 'y' :  x_unit = 'Y';  break;
+      case 'c' :  x_unit = 'C';  break;
+      }
+   }
+   /*---(save-back)----------------------*/
+   sprintf (a_age, "%2d%c", x_age, x_unit);
+   /*---(check for fill)-----------------*/
+   if (a_fmt != 0 && strchr ("NU", a_fmt) != NULL) {
+      if (a_age [0] == ' ')  a_age [0] = '·';
+   }
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+strlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
+{  /*---(notes)--------------------------*/
+   /*
+    *  scaled sizes are almost always more important to me than single unit.
+    *  quicker for me to interpret.  it also only needs three chars.
+    *  if i keep to one way of presenting, it is even easier, for me.
+    *  build-once, use-often.
+    *
+    *  -  = normal lower case units (also 'n' type)
+    *  u  = upper case for large units
+    *  N  = fill spaces with '·'
+    *  U  = both u and N options
+    *  t  = shows less than 1,000 numbers (rather than <k)
+    *  T  = t plus U and N
+    *
+    */
+   /*---(locals)-------------------------*/
+   char        rce         =  -10;
+   llong       x_size      =    0;
+   char        x_unit      =  '-';
+   /*---(default)------------------------*/
+   if (a_bytes != NULL)  strcpy (a_size, "   ·");
+   /*---(defense)------------------------*/
+   --rce;  if (a_size == NULL)  return rce;
+   /*---(weird epoch)--------------------*/
+   --rce;  if (a_bytes <  0) {
+      strcpy (a_size, "#/ne");  /* n = negative/zero */
+      return rce;
+   }
+   x_size  = a_bytes;
+   /*---(check trival size)--------------*/
+   x_unit  = '´';
+   if (strchr ("tT", a_fmt) == NULL && x_size == 0) {
+      strcpy (a_size, "  <´");
+      return 0;
+   }
+   /*---(figure size)--------------------*/
+   if (x_size >= 1000) {
+      x_size /= 1000;
+      x_unit  = 'k';
+      if (x_size >= 1000) {
+         x_size /= 1000;
+         x_unit  = 'm';
+         if (x_size >= 1000) {
+            x_size /= 1000;
+            x_unit  = 'g';
+            if (x_size >= 1000) {
+               x_size /= 1000;
+               x_unit  = 't';
+               if (x_size >= 1000) {
+                  strcpy (a_size, "#/hu");  /* 1,000+ exabytes */
+                  return rce;
+               }
+            }
+         }
+      }
+   }
+   /*---(adjust for format)--------------*/
+   if (a_fmt != 0 && strchr ("uUtT", a_fmt) != NULL) {
+      switch (x_unit) {
+      case 'm' :  x_unit = 'M';  break;
+      case 'g' :  x_unit = 'G';  break;
+      case 't' :  x_unit = 'T';  break;
+      }
+   }
+   /*---(save-back)----------------------*/
+   if (strchr ("tT", a_fmt) == NULL && x_unit == '´') {
+      strcpy (a_size, "  <k");
+   } else {
+      sprintf (a_size, "%3d%c", x_size, x_unit);
+   }
+   /*---(check for fill)-----------------*/
+   if (a_fmt != 0 && strchr ("NTU", a_fmt) != NULL) {
+      if (a_size [0] == ' ')  a_size [0] = '·';
+      if (a_size [1] == ' ')  a_size [1] = '·';
+   }
+   /*---(complete)-----------------------*/
    return 0;
 }
 

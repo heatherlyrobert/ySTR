@@ -54,6 +54,7 @@
 
 typedef     unsigned char  uchar;
 typedef     const char     cchar;
+typedef     long long      llong;
 
 
 #define     ySTR_NOTRUNC   -1
@@ -281,7 +282,8 @@ char        ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, in
 
 char        strlexport              (int a_line, char *a_recd);
 char        strlimport              (int a_line, char *a_recd, int *a_len);
-char        strlage                 (long a_epoch, char *a_age);
+char        strlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT]);
+char        strlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT]);
 char        str2mongo               (long a_epoch, char *a_mongo);
 char        str4mongo               (char *a_mongo, long *a_epoch);
 
