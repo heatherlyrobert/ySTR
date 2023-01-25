@@ -141,8 +141,8 @@ ySTR_testloud      (void)
 {
    ySTR_debug ('y');
    mySTR.logger = yLOGS_begin ("ySTR" , YLOG_SYS, YLOG_NOISE);
-   yURG_name  ("kitchen"      , YURG_ON);
-   yURG_name  ("ystr"         , YURG_ON);
+   yURG_by_name  ("kitchen"      , YURG_ON);
+   yURG_by_name  ("ystr"         , YURG_ON);
    DEBUG_YSTR   yLOG_info     ("ySTR"    , ySTR_version   ());
    return 0;
 }

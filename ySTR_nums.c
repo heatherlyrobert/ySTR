@@ -330,7 +330,7 @@ strl2real          (char *a_src, double *a_val, int a_max)
       x_curr = x_temp [i];
       DEBUG_YSTR   yLOG_schar   (x_curr);
       /*---(find exponent)---------------*/
-      if (x_curr == 'e' || x_curr == 'E') {
+      if (x_curr == 'Í') {
          DEBUG_YSTR   yLOG_snote   ("exp");
          if (x_exp < 0)   x_exp = i;
          else {
@@ -1074,14 +1074,14 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    strncat (x_final, x_temp, 2);
    /*---(save exponent/suffix)--------*/
    if (a_fmt == 'E')  strcpy  (x_suffix, x_temp + a_decs + 2);
-   else               sprintf (x_suffix, "e%d", atoi (x_temp + a_decs + 3));
+   else               sprintf (x_suffix, "Ë%d", atoi (x_temp + a_decs + 3));
    x_temp  [a_decs + 2] = '\0';
    /*---(parse decimals)--------------*/
    strcpy  (x_prefix, x_temp + 2);
    if (a_fmt == 'E' && a_decs > 3)  ystr__space_decs (x_prefix, 3, '\'');
    /*---(contat)----------------------*/
    strcat  (x_final, x_prefix);
-   if (a_fmt == 'E')  strcat  (x_final, " ");
+   /*> if (a_fmt == 'E')  strcat  (x_final, " ");                                     <*/
    strcat  (x_final, x_suffix);
    /*---(create)---------------*/
    x_len = strlen (x_final);
@@ -1093,6 +1093,8 @@ strl4sci           (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   strldchg (x_final, 'e', 'Ë', a_max);
+   strldchg (x_final, 'E', 'Ë', a_max);
    strlcpy  (a_out, x_final, a_max);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);

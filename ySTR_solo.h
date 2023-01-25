@@ -48,14 +48,14 @@
 /*---(special)------------------------*/
 #define     YSTR_UNIV     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_ADDR     "@$0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
-#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#›ÑĞÒÔÓÕÆÇÈÉÊÎÍÌ"
+#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#©ÑĞÒÔÓÕÆÇÈÉÊÎËÍÌ"
 #define     YSTR_GROUP    "()[]¸¹º»"
 #define     YSTR_SUBS     "ÀÁÂÃÄÅ"
 #define     YSTR_POWS     "ÆÇÈÎÉÊ"
 #define     YSTR_SJOIN    "ĞÑÒ"
 #define     YSTR_CJOIN    "ĞÑÒÓÔÕÖ"
 #define     YSTR_JOIN     "ĞÑÒÓÔÕÖ"
-#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïğñòóôõö÷øùúûüışÿ_‘"
+#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïğñòóôõö÷øùúûüışÿ_ç"
 #define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789èéêëìíîïğñòóôõö÷øùúûüışÿ_ÀÁÂÃÄÅ"
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
@@ -133,9 +133,8 @@
 #define     G_CHAR_RETURN       166   /*  ¦  */
 #define     G_CHAR_FIELD        167   /*  §  */
 #define     G_CHAR_GROUP        168   /*  ¨  */
-#define     G_CHAR_RFIELD       231   /*  ç  */
 /*---(macro)---------------------*/
-#define     G_CHAR_DISPLAY      169   /*  ©  */
+#define     G_CHAR_DISPLAY      173   /*  ­  */
 #define     G_CHAR_BREAK        170   /*  ª  */
 #define     G_CHAR_WAIT         171   /*  «  */
 #define     G_CHAR_HALT         179   /*  ³  */
@@ -231,10 +230,11 @@
 #define     G_CHAR_MEMBER       227   /*  ã  */
 #define     G_CHAR_DSLASH       155   /*  ›  */
 #define     G_CHAR_EMPTY        160   /*     */
-#define     G_CHAR_DIAMOND      173   /*  ­  */
+#define     G_CHAR_DIAMOND      169   /*  ©  */
 #define     G_CHAR_SUFFIX       177   /*  ±  */
 #define     G_CHAR_BTICK         96   /*  `  */
-#define     G_CHAR_OPEN         143   /*    */
+#define     G_CHAR_RFIELD       143   /*    */
+#define     G_CHAR_LOCAL        231   /*  ç  */
 
 /*---(complete)-----------------------*/
 

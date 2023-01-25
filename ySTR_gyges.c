@@ -14,7 +14,7 @@ static int ySTR_cmax  =   701;    /*   a to zz       */
 static int ySTR_rmax  =  9998;    /*   1 to 9999     */
 
 
-static uchar *ySTR_tvalid  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤";
+static uchar *ySTR_tvalid  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢";
 static uchar *ySTR_cvalid  = "abcdefghijklmnopqrstuvwxyz";
 static uchar *ySTR_rvalid  = "0123456789";
 

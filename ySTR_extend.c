@@ -250,7 +250,7 @@ chrslashed_more   (char a_ch)
    case 'r'  : x_ch = G_CHAR_RFIELD;    break;
    case '['  : x_ch = G_CHAR_LGULL;     break;
    case ']'  : x_ch = G_CHAR_RGULL;     break;
-   case 'o'  : x_ch = G_CHAR_OPEN;      break;
+   case 'o'  : x_ch = G_CHAR_LOCAL;     break;
    case 'w'  : x_ch = G_CHAR_BTICK;     break;
       /*---(line draw)-----------------*/
    case 'H'  : x_ch = '€';              break;
