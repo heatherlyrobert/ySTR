@@ -189,6 +189,7 @@ char        strl2bin                (char   *a_src, double *a_val, int a_max);
 char        strl2oct                (char   *a_src, double *a_val, int a_max);
 char        strl2hex                (char   *a_src, double *a_val, int a_max);
 char        strl2real               (char   *a_src, double *a_val, int a_max);
+char        strl2sci                (char *a_src, double *a_val, int a_max);
 char        strl2comma              (cchar  *a_src, double *a_val, int a_max);
 char        strl2num                (char   *a_src, double *a_val, int a_max);
 

@@ -387,6 +387,110 @@ strl2real          (char *a_src, double *a_val, int a_max)
    return 0;
 }
 
+char         /*-> interpret float/int numbers -------------[ petal  [ 2g---- ]*/
+strl2sci           (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;
+   char        rc          =  -10;
+   int         l           =    0;
+   char        x_temp      [LEN_HUGE ] = "";      /* temp version              */
+   int         c           =    0;
+   char       *p           = NULL;
+   char        x_base      [LEN_LABEL] = "";
+   char        x_exp       [LEN_LABEL] = "";
+   double      b           =  0.0;
+   double      e           =  0.0;
+   double      m           =    0;
+   int         i           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_point   ("a_src"     , a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_info    ("a_src"     , a_src);
+   l = strlen (a_src);
+   DEBUG_YSTR   yLOG_value   ("l"         , l);
+   --rce; if (l <  3) {
+      DEBUG_YSTR   yLOG_note    ("too short");
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(prepare)------------------------*/
+   strlcpy (x_temp, a_src, LEN_HUGE);
+   DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);
+   /*---(divide)-------------------------*/
+   c = strldcnt (x_temp, 'Ë', LEN_HUGE);
+   DEBUG_YSTR   yLOG_value   ("c"         , c);
+   --rce; if (c != 1) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   p = strchr (x_temp, 'Ë');
+   DEBUG_YSTR   yLOG_point   ("p"         , p);
+   --rce; if (p == NULL) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   p [0] = '\0';
+   ++p;
+   strlcpy (x_base, x_temp, LEN_LABEL);
+   DEBUG_YSTR   yLOG_info    ("x_base"    , x_base);
+   strlcpy (x_exp , p     , LEN_LABEL);
+   DEBUG_YSTR   yLOG_info    ("x_exp"     , x_exp);
+   /*---(process base)-------------------*/
+   DEBUG_YSTR   yLOG_note    ("process base");
+   l = strlen (x_base);
+   DEBUG_YSTR   yLOG_value   ("l"         , l);
+   --rce; if (l <  1) {
+      DEBUG_YSTR   yLOG_note    ("too short");
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   rc = strl2real (x_base, &b, LEN_LABEL);
+   DEBUG_YSTR   yLOG_value   ("strl2real" , rc);
+   --rce; if (rc < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(process exponent)---------------*/
+   DEBUG_YSTR   yLOG_note    ("process exponent");
+   l = strlen (x_base);
+   DEBUG_YSTR   yLOG_value   ("l"         , l);
+   --rce; if (l <  1) {
+      DEBUG_YSTR   yLOG_note    ("too short");
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_value   ("l"         , l);
+   for (i = 0; i < l; ++i) {
+      if (strchr ("0123456789+-", x_exp [i]) != NULL)  continue;
+      DEBUG_YSTR   yLOG_complex ("badchar"   , "%2d, %3d, %c", i, x_exp [i], x_exp [i]);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   rc = strl2real (x_exp , &e, LEN_LABEL);
+   DEBUG_YSTR   yLOG_value   ("strl2real" , rc);
+   --rce; if (rc < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(merge)--------------------------*/
+   m = 1;
+   if (e >= 0)  { for (i = 0; i < e; ++i)   m *= 10; }
+   else         { for (i = 0; i > e; --i)   m /= 10; }
+   /*---(return value)-------------------*/
+   DEBUG_YSTR   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = b * m;
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
 char
 ystr__prefix       (cchar *a_src, char *a_out)
 {
@@ -584,23 +688,7 @@ strl2num           (char *a_src, double *a_val, int a_max)
    DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
    /*---(oct, bin, hex)------------------*/
    DEBUG_YSTR   yLOG_value   ("a_src [1]" , a_src [1]);
-   if (x_len > 1 && a_src [0] == '0') {
-      switch (a_src [1]) {
-      case 'B': case 'é':
-         DEBUG_YSTR   yLOG_note    ("binary");
-         rc = strl2bin  (a_src, &x_value, a_max);
-         break;
-      case 'X': case 'õ':
-         DEBUG_YSTR   yLOG_note    ("hexadecimal");
-         rc = strl2hex  (a_src, &x_value, a_max);
-         break;
-      case 'ö': default :
-         DEBUG_YSTR   yLOG_note    ("octal");
-         rc = strl2oct  (a_src, &x_value, a_max);
-         break;
-      }
-   }
-   else if (x_len > 1) {
+   if (x_len > 1) {
       switch (a_src [0]) {
       case 'é':
          DEBUG_YSTR   yLOG_note    ("binary");
@@ -615,6 +703,11 @@ strl2num           (char *a_src, double *a_val, int a_max)
          rc = strl2oct  (a_src, &x_value, a_max);
          break;
       }
+   }
+   /*---(float, int)---------------------*/
+   if (rc < 0 && strchr (a_src, 'Ë') != NULL) {
+      DEBUG_YSTR   yLOG_note    ("scientific notation");
+      rc = strl2sci (a_src, &x_value, a_max);
    }
    /*---(float, int)---------------------*/
    if (rc < 0) {
