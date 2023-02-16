@@ -188,6 +188,7 @@ chrslashed        (char a_ch)
    case 'h'  : x_ch = G_CHAR_LEFT      ;  break;
    case '<'  : x_ch = G_CHAR_LE        ;  break;
    case '>'  : x_ch = G_CHAR_GE        ;  break;
+   case '='  : x_ch = G_CHAR_EQUIV     ;  break;
    case '/'  : x_ch = G_CHAR_NE        ;  break;
    case '~'  : x_ch = G_CHAR_APPROX    ;  break;
    case '$'  : x_ch = G_CHAR_RANGE     ;  break;
@@ -252,6 +253,7 @@ chrslashed_more   (char a_ch)
    case ']'  : x_ch = G_CHAR_RGULL;     break;
    case 'o'  : x_ch = G_CHAR_LOCAL;     break;
    case 'w'  : x_ch = G_CHAR_BTICK;     break;
+   case '\'' : x_ch = G_CHAR_BTICK;     break;
       /*---(line draw)-----------------*/
    case 'H'  : x_ch = 'Ä';              break;
    case 'V'  : x_ch = 'Å';              break;

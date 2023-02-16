@@ -291,6 +291,168 @@ strl2hex           (char *a_src, double *a_val, int a_max)
    return 0;
 }
 
+char         /*-> interpret hexadecimal numbers -----------[ petal  [ 2f---- ]*/
+strl2mongor        (char *a_src, ullong *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_ch        =  '-';               /* current character         */
+   int         x_min       =   -1;               /* first translatable char   */
+   int         x_base      =    0;               /* base position             */
+   ullong      x_digit     =    0;               /* digit value               */
+   ullong      x_place     =    1;               /* base position             */
+   ullong      x_final     =    0;               /* final value               */
+   int         i           =    0;               /* iterator -- character     */
+   char        x_del       =  '-';
+   char       *p           = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_YSTR   yLOG_snote   ("null input");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_snote   (a_src);
+   x_len = strllen (a_src, LEN_HUGE);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   --rce; if (x_len <  5) {
+      DEBUG_YSTR   yLOG_snote   ("too short");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_schar   (x_ch);
+   x_ch = tolower (a_src [0]);
+   if (x_ch == 'í') {
+      DEBUG_YSTR   yLOG_snote   ("pre=í");
+      x_min  =  1;
+   }
+   --rce; if (x_min <= 0) {
+      DEBUG_YSTR   yLOG_snote   ("wrong prefix");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_ch = a_src [x_min];
+   --rce; if (x_ch == '\0') {
+      DEBUG_YSTR   yLOG_snote   ("only prefix");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(run digits)---------------------*/
+   x_base = strlen (YSTR_MONGO);
+   DEBUG_YSTR   yLOG_sint    (x_base);
+   DEBUG_YSTR   yLOG_snote   (YSTR_HEX);
+   --rce;  for (i = x_len - 1; i >= x_min; --i) {
+      x_ch = a_src [i];
+      DEBUG_YSTR   yLOG_schar   (x_ch);
+      if (x_ch == '\'' && x_del != 'y') {
+         x_del = 'y';
+         continue;
+      }
+      x_del = '-';
+      p = strchr (YSTR_MONGO, x_ch);
+      if (p == NULL) {
+         DEBUG_YSTR   yLOG_snote   ("BOOM");
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+      x_digit = p - YSTR_MONGO;
+      x_final += x_digit * x_place;
+      DEBUG_YSTR   yLOG_sint    (x_final);
+      x_place *= x_base;
+   }
+   /*---(return value)-------------------*/
+   DEBUG_YSTR   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> interpret hexadecimal numbers -----------[ petal  [ 2f---- ]*/
+strl2mongo         (char *a_src, double *a_val, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   char        x_ch        =  '-';               /* current character         */
+   int         x_min       =   -1;               /* first translatable char   */
+   int         x_base      =    0;               /* base position             */
+   int         x_digit     =    0;               /* digit value               */
+   long        x_place     =    1;               /* base position             */
+   long        x_final     =    0;               /* final value               */
+   int         i           =    0;               /* iterator -- character     */
+   char        x_del       =  '-';
+   char       *p           = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   if (a_val != NULL)  *a_val = 0.0;
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL) {
+      DEBUG_YSTR   yLOG_snote   ("null input");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_snote   (a_src);
+   x_len = strllen (a_src, LEN_HUGE);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   --rce; if (x_len <  5) {
+      DEBUG_YSTR   yLOG_snote   ("too short");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_schar   (x_ch);
+   x_ch = tolower (a_src [0]);
+   if (x_ch == 'í') {
+      DEBUG_YSTR   yLOG_snote   ("pre=í");
+      x_min  =  1;
+   }
+   --rce; if (x_min <= 0) {
+      DEBUG_YSTR   yLOG_snote   ("wrong prefix");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_ch = a_src [x_min];
+   --rce; if (x_ch == '\0') {
+      DEBUG_YSTR   yLOG_snote   ("only prefix");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(run digits)---------------------*/
+   x_base = strlen (YSTR_MONGO);
+   DEBUG_YSTR   yLOG_sint    (x_base);
+   DEBUG_YSTR   yLOG_snote   (YSTR_HEX);
+   --rce;  for (i = x_len - 1; i >= x_min; --i) {
+      x_ch = a_src [i];
+      DEBUG_YSTR   yLOG_schar   (x_ch);
+      if (x_ch == '\'' && x_del != 'y') {
+         x_del = 'y';
+         continue;
+      }
+      x_del = '-';
+      p = strchr (YSTR_MONGO, x_ch);
+      if (p == NULL) {
+         DEBUG_YSTR   yLOG_snote   ("BOOM");
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+      x_digit = p - YSTR_MONGO;
+      x_final += x_digit * x_place;
+      DEBUG_YSTR   yLOG_sint    (x_final);
+      x_place *= x_base;
+   }
+   /*---(return value)-------------------*/
+   DEBUG_YSTR   yLOG_snote   ("assigning");
+   if (a_val != NULL)  *a_val = (double) x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
 char         /*-> interpret float/int numbers -------------[ petal  [ 2g---- ]*/
 strl2real          (char *a_src, double *a_val, int a_max)
 {
@@ -610,6 +772,8 @@ strl2comma         (cchar *a_src, double *a_val, int a_max)
    char        x_suf2      [LEN_RECD]  = "";
    char        x_result    [LEN_RECD]  = "";
    int         x_places    =    0;
+   int         l           =    0;
+   char        x_sign      =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
@@ -624,6 +788,19 @@ strl2comma         (cchar *a_src, double *a_val, int a_max)
    /*---(find decimal)-------------------*/
    x_dec  = strchr (a_src, '.');
    DEBUG_YSTR   yLOG_point   ("x_dec"     , x_dec);
+   /*---(check trailing sign)------------*/
+   l  = strlen (a_src);
+   DEBUG_YSTR   yLOG_value   ("l"         , l);
+   if (l >= 3) {
+      DEBUG_YSTR   yLOG_char    ("l - 2"     , a_src [l - 2]);
+      DEBUG_YSTR   yLOG_char    ("l - 1"     , a_src [l - 1]);
+      if (a_src [l - 2] == ' ' && strchr ("+-", a_src [l - 1]) != NULL) {
+         switch (a_src [l - 1]) {
+         case '+' : x_sign = +1;  break;
+         case '-' : x_sign = -1;  break;
+         }
+      }
+   }
    /*---(prepare parts)------------------*/
    if (x_dec == NULL) {
       strlcpy (x_pre1, a_src, LEN_RECD);
@@ -632,6 +809,8 @@ strl2comma         (cchar *a_src, double *a_val, int a_max)
       DEBUG_YSTR   yLOG_point   ("x_places"  , x_places);
       strlcpy (x_pre1, a_src, x_places);
       strlcpy (x_suf1, x_dec + 1, LEN_RECD);
+      l = strlen (x_suf1);
+      if (x_sign != 0)  x_suf1 [l - 2] = '\0';
    }
    DEBUG_YSTR   yLOG_info    ("x_pre1"    , x_pre1);
    DEBUG_YSTR   yLOG_info    ("x_suf1"    , x_suf1);
@@ -656,7 +835,8 @@ strl2comma         (cchar *a_src, double *a_val, int a_max)
       sprintf (x_result, "%s.%s", x_pre2, x_suf2);
    }
    /*---(save back)----------------------*/
-   if (a_val != NULL)  *a_val = atof (x_result);
+   if (x_sign == 0)  x_sign = 1;
+   if (a_val != NULL)  *a_val = atof (x_result) * x_sign;;
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -680,7 +860,7 @@ strl2num           (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_value   ("a_src [0]" , a_src [0]);
    DEBUG_YSTR   yLOG_info    ("valid"     , YSTR_NUMERIC);
-   --rce;  if (a_src [0] == 0 || strchr ("éõö" YSTR_NUMERIC, a_src [0]) == NULL) {
+   --rce;  if (a_src [0] == 0 || strchr ("éõöí" YSTR_NUMERIC "$()", a_src [0]) == NULL) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
@@ -692,22 +872,31 @@ strl2num           (char *a_src, double *a_val, int a_max)
       switch (a_src [0]) {
       case 'é':
          DEBUG_YSTR   yLOG_note    ("binary");
-         rc = strl2bin  (a_src, &x_value, a_max);
-         break;
-      case 'õ':
-         DEBUG_YSTR   yLOG_note    ("hexadecimal");
-         rc = strl2hex  (a_src, &x_value, a_max);
+         rc = strl2bin   (a_src, &x_value, a_max);
          break;
       case 'ö':
          DEBUG_YSTR   yLOG_note    ("octal");
-         rc = strl2oct  (a_src, &x_value, a_max);
+         rc = strl2oct   (a_src, &x_value, a_max);
+         break;
+      case 'õ':
+         DEBUG_YSTR   yLOG_note    ("hexadecimal");
+         rc = strl2hex   (a_src, &x_value, a_max);
+         break;
+      case 'í':
+         DEBUG_YSTR   yLOG_note    ("mongo");
+         rc = strl2mongo (a_src, &x_value, a_max);
          break;
       }
    }
-   /*---(float, int)---------------------*/
+   /*---(scientific)---------------------*/
    if (rc < 0 && strchr (a_src, 'Ë') != NULL) {
       DEBUG_YSTR   yLOG_note    ("scientific notation");
       rc = strl2sci (a_src, &x_value, a_max);
+   }
+   /*---(commma)-------------------------*/
+   if (rc < 0 && strchr (a_src, ',') != NULL) {
+      DEBUG_YSTR   yLOG_note    ("comma notation");
+      rc = strl2comma (a_src, &x_value, a_max);
    }
    /*---(float, int)---------------------*/
    if (rc < 0) {
@@ -805,6 +994,54 @@ ystr__space_decs     (char *a_out, int a_cnt, char a_char)
    x_len = strlen (a_out);
    for (i = 0; i < x_add; ++i)  a_out [--x_len] = '\0';
    /*> printf ("a_out = %s\n", a_out);                                                <*/
+   return 0;
+}
+
+char
+strl4bool          (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   long        x_num       =    0;
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_final     [200] = "";
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_YSTR   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (a_out, YSTR_EMPTY, a_max);
+   DEBUG_YSTR   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("yY"    , a_fmt) == NULL) {
+      strlcpy (a_out, "#p/fmt", a_max);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_sint    (a_val);
+   /*---(any binary)-----------*/
+   if (a_val == 0) {
+      switch (a_fmt) {
+      case 'Y' :   strlcpy  (a_out, "Ú", a_max);    break;
+      case 'y' :   strlcpy  (a_out, "-", a_max);    break;
+      }
+   } else if (a_val < 0) {
+      switch (a_fmt) {
+      case 'Y' :   strlcpy  (a_out, "Û", a_max);    break;
+      case 'y' :   strlcpy  (a_out, "t", a_max);    break;
+      }
+   } else {
+      switch (a_fmt) {
+      case 'Y' :   strlcpy  (a_out, "Û", a_max);    break;
+      case 'y' :   strlcpy  (a_out, "T", a_max);    break;
+      }
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -1232,7 +1469,7 @@ strl4roman         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
    x_int = (int) a_val;
    if (x_int == 0) {
       if (a_fmt == 'r')  strcpy (a_out, "o");
-      else                strcpy (a_out, "O");
+      else               strcpy (a_out, "O");
       return 0;
    }
    /*---(parse)--------------------------*/
@@ -1287,7 +1524,7 @@ strl4roman         (double a_val, char *a_out, int a_decs, char a_fmt, int a_max
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
+strl4mongor        (ullong a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -1295,9 +1532,9 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    int         i           =    0;               /* iterator -- character     */
    char        x_temp      [200] = "";
    char        x_final     [200] = "";
-   long        x_int       =    0;
-   int         x_digit     =    0;
-   int         x_place     =    0;
+   ullong      x_int       =    0;
+   ullong      x_digit     =    0;
+   ullong      x_place     =    0;
    int         x_inc       =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
@@ -1338,7 +1575,83 @@ strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
    case 3 : strcat (x_temp, "0");
    }
    for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
-   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, " ");
+   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, "í");
+   /*---(flip)-----------------*/
+   x_len = strlen (x_temp) - 1;
+   for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
+   /*---(delimit)--------------*/
+   if (strchr ("Zq"    , a_fmt) != 0)   ystr__space_ints (x_final, 4, '\'');
+   if (strchr ("s"     , a_fmt) != 0)   ystr__space_ints (x_final, 4, ' ');
+   if (strchr (":"     , a_fmt) != 0)   ystr__space_ints (x_final, 4, ':');
+   /*---(check)----------------*/
+   x_len = strlen (x_final);
+   DEBUG_YSTR   yLOG_sint    (a_max);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   --rce;  if (x_len > a_max) {
+      strlcpy (a_out, "#p/max", a_max);
+      DEBUG_YSTR   yLOG_snote   ("too long");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy  (a_out, x_final, a_max);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
+char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
+strl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   int         x_len       =    0;
+   int         i           =    0;               /* iterator -- character     */
+   char        x_temp      [200] = "";
+   char        x_final     [200] = "";
+   long        x_int       =    0;
+   int         x_digit     =    0;
+   long        x_place     =    0;
+   int         x_inc       =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   /*---(defence)------------------------*/
+   DEBUG_YSTR   yLOG_spoint  (a_out);
+   --rce;  if (a_out == NULL) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   strlcpy (a_out, YSTR_EMPTY, a_max);
+   DEBUG_YSTR   yLOG_schar   (a_fmt);
+   --rce;  if (strchr ("zZnqs:", a_fmt) == NULL) {
+      strlcpy (a_out, "#p/fmt", a_max);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_sint    (a_val);
+   --rce;  if (a_val < 0) {
+      strlcpy (a_out, "#p/neg", a_max);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_int  = a_val;
+   /*---(translate base)-------*/
+   if (x_int == 0)  strcat (x_temp, "0000");
+   x_inc   = strlen (YSTR_MONGO);
+   while (x_int > 0) {
+      x_digit = x_int % x_inc;
+      x_temp [x_place++] = YSTR_MONGO [x_digit];
+      x_temp [x_place  ] = '\0';
+      x_int /= x_inc;
+   }
+   /*---(make prefix)----------*/
+   x_len = strlen (x_temp);
+   switch (x_len % 4) {
+   case 1 : strcat (x_temp, "0");
+   case 2 : strcat (x_temp, "0");
+   case 3 : strcat (x_temp, "0");
+   }
+   for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
+   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, "í");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
@@ -1445,6 +1758,9 @@ strl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, char a_u
       return -2;
    }
    switch (a_fmt) {
+   case 'y' : case 'Y' :
+      rc = strl4bool  (a_val, a_out, a_bytes, a_fmt, a_max);
+      break;
    case 'b' : case 'B' :
       rc = strl4bin   (a_val, a_out, a_bytes, a_fmt, a_max);
       break;

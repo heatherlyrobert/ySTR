@@ -55,6 +55,7 @@
 typedef     unsigned char  uchar;
 typedef     const char     cchar;
 typedef     long long      llong;
+typedef     unsigned long long      ullong;
 
 
 #define     ySTR_NOTRUNC   -1
@@ -188,6 +189,8 @@ char        strlparse               (char *a_src, char *a_disp, char *a_final, c
 char        strl2bin                (char   *a_src, double *a_val, int a_max);
 char        strl2oct                (char   *a_src, double *a_val, int a_max);
 char        strl2hex                (char   *a_src, double *a_val, int a_max);
+char        strl2mongo              (char *a_src, double *a_val, int a_max);
+char        strl2mongor             (char *a_src, ullong *a_val, int a_max);
 char        strl2real               (char   *a_src, double *a_val, int a_max);
 char        strl2sci                (char *a_src, double *a_val, int a_max);
 char        strl2comma              (cchar  *a_src, double *a_val, int a_max);
@@ -200,6 +203,7 @@ char        strl4comma              (double a_val, char *a_out, int a_cnt, char 
 char        strl4sci                (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4roman              (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4mongo              (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
+char        strl4mongor             (ullong a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4time               (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
 char        strl4main               (double a_val, char *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
 

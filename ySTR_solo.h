@@ -25,6 +25,7 @@
 #define     YSTR_UPPER    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define     YSTR_LOWER    "abcdefghijklmnopqrstuvwxyz"
 #define     YSTR_NUMBER   "0123456789"
+#define     YSTR_NUML     "éöõí0123456789"
 #define     YSTR_FLOAT    "0123456789."
 #define     YSTR_GREEK    "èéêëìíîïðñòóôõö÷øùúûüýþÿ"
 #define     YSTR_BPUNC    "_.,:;!?-()&"
@@ -48,14 +49,15 @@
 /*---(special)------------------------*/
 #define     YSTR_UNIV     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_ADDR     "@$0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
-#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#©ÑÐÒÔÓÕÆÇÈÉÊÎËÍÌ"
+#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#©ÑÐÒÔÓÕÆÇÈÉÊÎËÍÌ´`àÞÜÝ¬°âã"
 #define     YSTR_GROUP    "()[]¸¹º»"
+#define     YSTR_SEQ      "()[]¸¹,"
 #define     YSTR_SUBS     "ÀÁÂÃÄÅ"
 #define     YSTR_POWS     "ÆÇÈÎÉÊ"
 #define     YSTR_SJOIN    "ÐÑÒ"
 #define     YSTR_CJOIN    "ÐÑÒÓÔÕÖ"
 #define     YSTR_JOIN     "ÐÑÒÓÔÕÖ"
-#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ_ç"
+#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ_ç®"
 #define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789èéêëìíîïðñòóôõö÷øùúûüýþÿ_ÀÁÂÃÄÅ"
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
@@ -64,6 +66,7 @@
 #define     YSTR_HEX      "0123456789abcdef"
 #define     YSTR_HEXUP    "0123456789abcdefABCDEF"
 #define     YSTR_OCTAL    "01234567"
+#define     YSTR_ROMAN    "oivxlcdmOIVXLCDM"
 #define     YSTR_MONGO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define     YSTR_MUCHO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÐÑÒÓÔÕÖ×ØÙÜÝÞßèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 #define     YSTR_MUCHO2   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€Ž’“”•–—žŸœèéêëìíîïðñòóôõö÷øùúûüýþÿ"
@@ -88,6 +91,8 @@
 #define     YSTR_RULERISH  "····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····À····+····Á····+····Â····+····Ã····+····Ä····+····"
 #define     YSTR_DELIMIT   "123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789"
 #define     YSTR_MACRO     "····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····"
+#define     YSTR_ZEROS     "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+#define     YSTR_ONES      "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
 /*---(yLOG)---------------------------*/
 #define     YSTR_YLOG      "+··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´··+··+··´··+··+··´··+··´"
 /*---(yUNIT)--------------------------*/
@@ -100,6 +105,7 @@
 /*---(normal txt2ystr)----------------*/
 #define     G_KEY_NULL            0  /* NUL */
 #define     G_KEY_NOOP            0  /* NUL */
+#define     G_KEY_SHIFT          15  /* SI shift in, totally unused */
 #define     G_KEY_SKIP            6  /* ACK -- acknowledge     */
 #define     G_KEY_DEL             8  /* DEL */
 #define     G_KEY_TAB             9
