@@ -308,7 +308,8 @@ ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int 
    int         x_save      = 0;            /* source string length                */
    int         c           = 0;
    /*> uchar       m           = '¬';           /+ this is the marker char        +/   <*/
-   uchar       m           = 26;            /* this is the marker char        */
+   /*> uchar       m           = 26;            /+ this is the marker char        +/   <*/
+   uchar       m           = '°';           /* this is the marker char        */
    /*---(defenses)-----------------------*/
    --rce;  if (a_src == NULL)     return rce;
    /*---(setup legal characters)---------*/

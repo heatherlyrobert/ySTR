@@ -1027,7 +1027,7 @@ strl4bool          (double a_val, char *a_out, int a_nibs, char a_fmt, int a_max
    if (a_val == 0) {
       switch (a_fmt) {
       case 'Y' :   strlcpy  (a_out, "Ú", a_max);    break;
-      case 'y' :   strlcpy  (a_out, "-", a_max);    break;
+      case 'y' :   strlcpy  (a_out, "·", a_max);    break;
       }
    } else if (a_val < 0) {
       switch (a_fmt) {

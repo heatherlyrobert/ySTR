@@ -150,6 +150,7 @@ chrslashed        (char a_ch)
    case '*'  : x_ch = G_CHAR_MASK      ;  break;    /*    42 * = 172 ¬   */
    case ':'  : x_ch = G_CHAR_SUMMARY   ;  break;    /*    58 : = 174 ®   */
    case '%'  : x_ch = G_CHAR_SYSTEM    ;  break;    /*    37 % = 175 ¯   */
+   case 't'  : x_ch = G_CHAR_POINT     ;  break;    /*    37 t = 225 á   */
                /*---(delayed)-------------------*/
    case '\\' : x_ch = G_CHAR_DBSLASH   ;  break;    /*    92 \ = 181 µ   */
    case '"'  : x_ch = G_CHAR_DDQUOTE   ;  break;    /*    34 " = 182 ¶   */
@@ -241,7 +242,7 @@ chrslashed_more   (char a_ch)
    case 'f'  : x_ch = G_CHAR_FUNCTION;  break;
    case 'a'  : x_ch = G_CHAR_FOREACH;   break;
    case 'q'  : x_ch = G_CHAR_EQUIV;     break;
-   case 'x'  : x_ch = G_CHAR_EXISTS;    break;
+   case 'x'  : x_ch = G_CHAR_POINT;     break;
    case 'h'  : x_ch = G_CHAR_SUBSET;    break;
    case 'm'  : x_ch = G_CHAR_MEMBER;    break;
    case 'e'  : x_ch = G_CHAR_EMPTY;     break;

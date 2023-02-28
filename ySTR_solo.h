@@ -49,7 +49,7 @@
 /*---(special)------------------------*/
 #define     YSTR_UNIV     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_ADDR     "@$0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
-#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#©ÑĞÒÔÓÕÆÇÈÉÊÎËÍÌ´`àŞÜİ¬°âã"
+#define     YSTR_OPER     "|&=!<>*/%+-.?:^~#©ÑĞÒÔÓÕÆÇÈÉÊÎËÍÌ´`àŞÜİ¬°âãá"
 #define     YSTR_GROUP    "()[]¸¹º»"
 #define     YSTR_SEQ      "()[]¸¹,"
 #define     YSTR_SUBS     "ÀÁÂÃÄÅ"
@@ -57,7 +57,7 @@
 #define     YSTR_SJOIN    "ĞÑÒ"
 #define     YSTR_CJOIN    "ĞÑÒÓÔÕÖ"
 #define     YSTR_JOIN     "ĞÑÒÓÔÕÖ"
-#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïğñòóôõö÷øùúûüışÿ_ç®"
+#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïğñòóôõö÷øùúûüışÿ_ç@®"
 #define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789èéêëìíîïğñòóôõö÷øùúûüışÿ_ÀÁÂÃÄÅ"
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
@@ -231,7 +231,7 @@
 #define     G_CHAR_FUNCTION     154   /*  š  */
 #define     G_CHAR_FOREACH      228   /*  ä  */
 #define     G_CHAR_EQUIV        224   /*  à      == */
-#define     G_CHAR_EXISTS       225   /*  á  */
+#define     G_CHAR_POINT        225   /*  á  */
 #define     G_CHAR_SUBSET       226   /*  â  */
 #define     G_CHAR_MEMBER       227   /*  ã  */
 #define     G_CHAR_DSLASH       155   /*  ›  */
