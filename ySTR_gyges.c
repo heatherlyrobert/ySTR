@@ -14,9 +14,7 @@ static int ySTR_cmax  =   701;    /*   a to zz       */
 static int ySTR_rmax  =  9998;    /*   1 to 9999     */
 
 
-static uchar *ySTR_tvalid  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢";
-static uchar *ySTR_cvalid  = "abcdefghijklmnopqrstuvwxyz";
-static uchar *ySTR_rvalid  = "0123456789";
+static uchar *ySTR_tvalid  = YSTR_TABS;
 
 
 static char    (*zSTR_checker)   (int b, int x, int y, int z, char a_check) = NULL;
@@ -291,7 +289,7 @@ ystr__gyges2col         (char *a_src, char *a_pos, int *a_val, char *a_abs)
       DEBUG_YSTR   yLOG_sint    (a_src [i]);
       if (a_src [i] == '\0')                         break;
       DEBUG_YSTR   yLOG_schar   (a_src [i]);
-      if (strchr (ySTR_cvalid, a_src [i]) == NULL)   break;
+      if (strchr (YSTR_LOWER, a_src [i]) == NULL)   break;
       if (i > x_pos)   *a_val *= 26;
       *a_val += a_src [i] - 'a' + 1;
       DEBUG_YSTR   yLOG_sint    (*a_val);
@@ -340,7 +338,7 @@ ystr__gyges2row         (char *a_src, char *a_pos, int *a_val, char *a_abs)
       DEBUG_YSTR   yLOG_sint    (a_src [i]);
       if (a_src [i] == '\0')                         break;
       DEBUG_YSTR   yLOG_schar   (a_src [i]);
-      if (strchr (ySTR_rvalid, a_src [i]) == NULL)   break;
+      if (strchr (YSTR_NUMBER, a_src [i]) == NULL)   break;
       if (i >  x_pos)  *a_val *= 10;
       *a_val += a_src[i] - '0';
       DEBUG_YSTR   yLOG_sint    (*a_val);
@@ -784,12 +782,12 @@ INDEX_col               (uchar *a_label)
       return -2;
    }
    strcpy (s_temp, a_label);
-   DEBUG_YSTR   yLOG_snote   (ySTR_cvalid);
+   DEBUG_YSTR   yLOG_snote   (YSTR_LOWER);
    s_value = 0;
    for (i = 0; i < x_len; ++i) {
       if (i == 0 && s_temp [i] == G_CHAR_SPACE)  continue;
       if (i == 0 && s_temp [i] == G_KEY_SPACE)   continue;
-      if (strchr (ySTR_cvalid, s_temp [i]) == NULL) {
+      if (strchr (YSTR_LOWER, s_temp [i]) == NULL) {
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -3);
          return -3;
       }
@@ -904,7 +902,7 @@ INDEX_row               (uchar *a_label)
       return -2;
    }
    strcpy (s_temp, a_label);
-   DEBUG_YSTR   yLOG_snote   (ySTR_rvalid);
+   DEBUG_YSTR   yLOG_snote   (YSTR_NUMBER);
    for (i = 0; i < x_len; ++i) {
       DEBUG_YSTR   yLOG_schar   (s_temp [i]);
       if (s_temp [i] == G_KEY_SPACE)  continue;
@@ -912,7 +910,7 @@ INDEX_row               (uchar *a_label)
          s_temp [i] = G_KEY_SPACE;
          continue;
       }
-      if (strchr (ySTR_rvalid, s_temp [i]) == NULL) {
+      if (strchr (YSTR_NUMBER, s_temp [i]) == NULL) {
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, -3);
          return -3;
       }

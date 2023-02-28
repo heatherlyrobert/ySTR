@@ -33,18 +33,22 @@
 static void      o___STRINGS_________________o (void) {;}
 
 char         /*--> secure version of strcpy --------------[ leaf   [ ------ ]-*/
-strlcpy            (char *a_dst, char *a_src, int a_max)
+strlcpy            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
-    * rc = 0 if success, -1 if truncate    (standard returns total length)
+    * rc = 0 if success, 1 if truncate     (standard returns total length)
     * force a null on a zero length string (standard does not)
     *
     */
-   /*---(locals)-----------+-----------+-*/
-   register char *d        = a_dst;
+   /*---(locals)-----------+-----+-----+-*/
+   char           rce      =  -10;
+   register char *d        = r_dst;
    register char *s        = a_src;
    register int   n        = a_max;
+   /*---(defense)------------------------*/
+   --rce;  if (r_dst == NULL)  return rce;
+   --rce;  if (a_src == NULL)  return rce;
    /*---(copy)---------------------------*/
    while (*s != '\0') {
       if (n <= 1)  break;
@@ -55,31 +59,38 @@ strlcpy            (char *a_dst, char *a_src, int a_max)
    /*---(terminate)----------------------*/
    *d = '\0';
    /*---(check for tuncation)------------*/
-   if (*s != '\0') return -1;
+   if (*s != '\0') return 1;
    /*---(complete)-----------------------*/
    return  0;
 }
 
 char             /* ---- : secure version of strcat --------------------------*/
-strlcat            (char *a_dst, char *a_src, int a_max)
+strlcat            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
-    * rc = 0 if success, -1 if truncate    (standard returns total length)
+    * rc = 0 if success, 1 if truncate     (standard returns total length)
     * force a null on a zero length string (standard does not)
     * a truncate only registers on the source string
     *
     */
    /*---(locals)-------*-----------------*/
-   register char *d    = a_dst;
+   char           rce      =  -10;
+   register char *d    = r_dst;
    register char *s    = a_src;
    register int   n    = a_max;
    int            dlen = 0;
+   /*---(defense)------------------------*/
+   --rce;  if (r_dst == NULL)  return rce;
+   --rce;  if (a_src == NULL)  return rce;
    /*---(find dst end)-------------------*/
    while (n-- >  0 && *d != '\0')  d++;
-   dlen = d - a_dst;
+   dlen = d - r_dst;
    n    = a_max - dlen;
-   /*---(copy)---------------------------*/
+   /*---(early truncation)---------------*/
+   if (a_max <= 1)   { r_dst [0]         = '\0';  return 1; }
+   if (n     <= 1)   { r_dst [a_max - 1] = '\0';  return 1; }
+   /*---(concat)-------------------------*/
    while (*s != '\0') {
       if (n <= 1)  break;
       *d++ = *s;
@@ -89,13 +100,13 @@ strlcat            (char *a_dst, char *a_src, int a_max)
    /*---(terminate)----------------------*/
    *d = '\0';
    /*---(check for tuncation)------------*/
-   if (*s != '\0') return -1;
+   if (*s != '\0') return 1;
    /*---(complete)-----------------------*/
    return  0;
 }
 
 char             /* ---- : secure version of strcat --------------------------*/
-strlrev            (char *a_dst, char *a_src, int a_max)
+strlrev            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -105,19 +116,32 @@ strlrev            (char *a_dst, char *a_src, int a_max)
     *
     */
    /*---(locals)-------*-----------------*/
-   register char *d    = a_dst;
+   char           rce      =  -10;
+   register char *d    = r_dst;
    register char *s    = a_src;
    register int   n    = a_max;
    int            dlen = 0;
+   char           x_trunc = 0;
+   /*---(defense)------------------------*/
+   --rce;  if (r_dst == NULL)  return rce;
+   --rce;  if (a_src == NULL)  return rce;
+   /*---(early truncation)---------------*/
+   if (a_max <= 1)   { r_dst [0]         = '\0';  return 1; }
    /*---(find dst end)-------------------*/
-   for (n = 0; n < a_max && *s != '\0'; ++n)   s++;
-   d [n] = *s--;
-   /*---(copy)---------------------------*/
+   for (n = 0; n < a_max - 1 && *s != '\0'; ++n)   s++;
+   if (s == a_src)   { r_dst [0] = '\0';  return 1; }
+   if (*s != '\0')  x_trunc = 1;
+   /*---(reverse)------------------------*/
+   *s--;
    while (s >= a_src) {
-      *d++ = *s--;
+      *d = *s;
+      d++;
+      s--;
    }
+   /*---(terminate)----------------------*/
+   r_dst [a_max - 1] = '\0';
    /*---(complete)-----------------------*/
-   return  0;
+   return  x_trunc;
 }
 
 char             /* ---- : secure version of truncate ------------------------*/
@@ -147,7 +171,7 @@ strllen            (char *a_src, int a_max)
 }
 
 int              /* ---- : count contiguous spaces ---------------------------*/
-strltrim           (char *a_src, char a_mode, int a_max)
+strltrim           (char *b_src, char a_mode, int a_max)
 {  /*---(design notes)-------------------*/
    /*
     *   n = none   (string untouched)
@@ -160,7 +184,8 @@ strltrim           (char *a_src, char a_mode, int a_max)
     *
     */
    /*---(locals)-----------+-----------+-*/
-   register char *s        = a_src;         /* source pointer                 */
+   char           rce      =   -10;
+   register char *s        = b_src;         /* source pointer                 */
    register int   n        = a_max;
    register int   c        = 0;
    register char  l        = '-';
@@ -170,15 +195,18 @@ strltrim           (char *a_src, char a_mode, int a_max)
    int            x_len    = 0;
    int            x_lim    = 0;
    char           x_str    = '-';
+   /*---(defense)------------------------*/
+   --rce;  if (b_src == NULL)  return rce;
+   if (a_max < 0)  a_max = 0;
    /*---(get the length)-----------------*/
-   x_len = strllen (a_src, a_max);
+   x_len = strllen (b_src, a_max);
    if (x_len < 0)  {
-      a_src [a_max] = '\0';
+      b_src [a_max] = '\0';
       x_len         = a_max;
    }
    /*---(mark leading)-------------------*/
    if (strchr (ySTR_ALL_HEADS, a_mode) != 0) {
-      s    = a_src;
+      s    = b_src;
       n    = a_max;
       while (*s != '\0') {
          if (n < 1)                                  break;
@@ -191,10 +219,10 @@ strltrim           (char *a_src, char a_mode, int a_max)
    /*---(wack trailing)------------------*/
    if (strchr (ySTR_ALL_TAILS, a_mode) != 0) {
       /*> printf ("checking tail\n");                                                 <*/
-      s    = a_src + x_len - 1;
+      s    = b_src + x_len - 1;
       n    = a_max;
-      /*> printf ("a_src = %-10p, x_len = %-4d, s = %-10p, *s = %3d\n", a_src, x_len, s, *s);   <*/
-      while (s >= a_src) {
+      /*> printf ("b_src = %-10p, x_len = %-4d, s = %-10p, *s = %3d\n", b_src, x_len, s, *s);   <*/
+      while (s >= b_src) {
          if (n < 1)                                  break;
          if (*s != ' ' && *s != '\t' && *s != '\v')  break;
          *s = '\0';
@@ -205,7 +233,7 @@ strltrim           (char *a_src, char a_mode, int a_max)
    }
    /*---(mark internal)------------------*/
    if (strchr (ySTR_ALL_INTER , a_mode) != 0) {
-      s     = a_src;
+      s     = b_src;
       n     = x_len;
       x_lim = 0;
       l     = 'y';
@@ -234,7 +262,9 @@ strltrim           (char *a_src, char a_mode, int a_max)
       }
    }
    /*---(compress)-----------------------*/
-   c = strlddel (a_src, m, a_max);
+   c = strlddel (b_src, m, a_max);
+   /*> if (a_max > 0)  b_src [a_max - 1] = '\0';                                      <* 
+    *> else            b_src [a_max    ] = '\0';                                      <*/
    /*---(complete)-----------------------*/
    return x_len - c;
 }

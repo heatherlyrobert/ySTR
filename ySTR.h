@@ -136,15 +136,15 @@ char        ySTR_debug              (char a_flag);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 /*---(normal)------------------*/
-char        strlcpy                 (char *a_dst, char *a_src , int  a_max);
-char        strlcat                 (char *a_dst, char *a_src , int  a_max);
-char        strlrev                 (char *a_dst, char *a_src , int  a_max);
+char        strlcpy                 (char *r_dst, char *a_src , int  a_max);
+char        strlcat                 (char *r_dst, char *a_src , int  a_max);
+char        strlrev                 (char *r_dst, char *a_src , int  a_max);
 int         strllen                 (char *a_src, int   a_max );
-char        strltrunc               (char *a_src, int   a_max );
-int         strlupper               (char *a_src, int   a_max);
-int         strllower               (char *a_src, int   a_max);
-int         strltrim                (char *a_src, char  a_mode, int  a_max);
-int         strlrepl                (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max);
+char        strltrunc               (char *b_src, int   a_max );
+int         strlupper               (char *b_src, int   a_max);
+int         strllower               (char *b_src, int   a_max);
+int         strltrim                (char *b_src, char  a_mode, int  a_max);
+int         strlrepl                (char *b_src, char *a_old, char *a_new, int a_cnt, int a_max);
 /*---(configuration)-----------*/
 char        strlfile                (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
 char        strlhome                (char *a_home);
@@ -164,11 +164,12 @@ short       strlcheck               (uchar *a_src, char a_set, int a_max);
 short       strlmark                (uchar *a_src, char a_set, int a_max);
 short       strlclean               (uchar *a_src, char a_set, int a_max);
 
-int         strlchr                 (char *a_src, char  a_chr , int a_max);
-int         strldcnt                (char *a_src, char  a_del , int  a_max);
-int         strldpos                (char *a_src, char  a_del , int  a_cnt , int  a_max);
-int         strldchg                (char *a_src, char  a_del , char a_new , int  a_max);
-int         strlddel                (char *a_src, char  a_del , int  a_max);
+int         strlchr                 (char *b_src, char a_chr, int a_max);
+int         strldcnt                (char *b_src, char a_del, int a_max);
+int         strlddcnt               (char *b_src, char a_del, int a_max);
+int         strldpos                (char *b_src, char a_del, int a_cnt, int a_max);
+int         strldchg                (char *b_src, char a_del, char a_new, int a_max);
+int         strlddel                (char *b_src, char a_del, int a_max);
 
 char        strlstore               (char *a_src, int a_max);
 char        strlunstore             (char *a_src, int a_max);
