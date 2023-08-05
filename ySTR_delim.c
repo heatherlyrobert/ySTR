@@ -5,9 +5,9 @@
 
 
 /*====================------------------------------------====================*/
-/*===----                           delimeter                          ----===*/
+/*===----                     delimiter count                          ----===*/
 /*====================------------------------------------====================*/
-static void      o___DELIMITER_______________o (void) {;}
+static void      o___COUNT___________________o (void) {;}
 
 int           /*-> count delimiters in string */
 strld_cnt               (char *b_src, char a_del, char a_dup, int a_max)
@@ -36,6 +36,13 @@ strld_cnt               (char *b_src, char a_del, char a_dup, int a_max)
 
 int  strldcnt   (char *b_src, char a_del, int a_max)  { return strld_cnt (b_src, a_del, 0, a_max); }
 int  strlddcnt  (char *b_src, char a_del, int a_max)  { return strld_cnt (b_src, a_del, 1, a_max); }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                    delimiter position                        ----===*/
+/*====================------------------------------------====================*/
+static void      o___POSITION________________o (void) {;}
 
 int          /*--> find next delimiter in string ---------[ ------ [ ------ ]-*/
 strld_pos               (char *b_src, char  a_del, int a_cnt, char a_dup, int a_max)
@@ -69,8 +76,15 @@ int  strlddpos  (char *b_src, char a_del, int a_cnt, int a_max)  { return strld_
 int          /*--> find next delimiter in string ---------[ ------ [ ------ ]-*/
 strlchr            (char *b_src, char  a_chr, int a_max)
 {
-   return strldpos (b_src, a_chr, 1, a_max);
+   return strldpos (b_src, a_chr, 0, a_max);
 }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                    change and delete                         ----===*/
+/*====================------------------------------------====================*/
+static void      o___CHANGE__________________o (void) {;}
 
 int          /*--> change all delimeter in string --------[ ------ [ ------ ]-*/
 strldchg           (char *b_src, char  a_del, char  a_new, int a_max)

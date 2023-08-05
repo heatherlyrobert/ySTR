@@ -136,14 +136,14 @@ char        ySTR_debug              (char a_flag);
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 /*---(normal)------------------*/
-char        strlcpy                 (char *r_dst, char *a_src , int  a_max);
-char        strlcat                 (char *r_dst, char *a_src , int  a_max);
-char        strlrev                 (char *r_dst, char *a_src , int  a_max);
-int         strllen                 (char *a_src, int   a_max );
-char        strltrunc               (char *b_src, int   a_max );
-int         strlupper               (char *b_src, int   a_max);
-int         strllower               (char *b_src, int   a_max);
-int         strltrim                (char *b_src, char  a_mode, int  a_max);
+char        strlcpy                 (char *r_dst, char *a_src, int a_max);
+char        strlcat                 (char *r_dst, char *a_src, int a_max);
+char        strlrev                 (char *r_dst, char *a_src, int a_max);
+int         strllen                 (char *a_src, int a_max);
+char        strltrunc               (char *b_src, int a_max);
+int         strlupper               (char *b_src, int a_max);
+int         strllower               (char *b_src, int a_max);
+int         strltrim                (char *b_src, char a_mode, int  a_max);
 int         strlrepl                (char *b_src, char *a_old, char *a_new, int a_cnt, int a_max);
 /*---(configuration)-----------*/
 char        strlfile                (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
@@ -183,6 +183,7 @@ char        strlunslash             (uchar *a_src, int a_max);
 uchar       chrvisible              (uchar a_ch);
 uchar       chrworking              (uchar a_ch);
 int         strlhint                (int n, char *a_spec, char *a_label);
+char*       strldisp                (char a_txt [LEN_HUND], char a_len, char *a_out, char a_max);
 
 char        strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, int *a_cnt, char *a_ptr [], int a_maxl);
 /*> char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);   <*/

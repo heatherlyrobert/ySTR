@@ -1,4 +1,5 @@
 
+#define     LEN_MASS       100000       /* special cases only                 */
 #define     LEN_HUGE        10000       /* special cases only                 */
 #define     LEN_RECD         2000       /* longer likely means hacker         */
 #define     LEN_PATH          300       /* large, but not crazy length        */
@@ -35,6 +36,7 @@
 #define     YSTR_MAYANV   "aeiouvf"
 #define     YSTR_MENU     "fevisomdtplbgaxcsh"
 #define     YSTR_TABS     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
+#define     YSTR_COLORS   "wrgybpocWRGYBPOC"
 /*> "file, edit, view, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
 /*---(combination)--------------------*/
 #define     YSTR_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

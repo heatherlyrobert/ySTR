@@ -110,7 +110,7 @@ strlrev            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
-    * rc = 0 if success, -1 if truncate    (standard returns total length)
+    * rc = 0 if success,  1 if truncate    (standard returns total length)
     * force a null on a zero length string (standard does not)
     * a truncate only registers on the source string
     *
@@ -828,6 +828,33 @@ strlhint                (int n, char *a_spec, char *a_label)
    if (a_label != NULL)  strcpy (a_label, t);
    /*---(complete)-----------------------*/
    return a;
+}
+
+char*
+strldisp                (char a_txt [LEN_HUND], char a_len, char *a_out, char a_max)
+{
+   char        rce         =  -10;
+   int         l           =    0;
+   --rce;  if (a_out == NULL) {
+      return rce;
+   }
+   --rce;  if (a_txt == NULL) {
+      snprintf (a_out, a_max, "(a_out)");
+      return rce;
+   }
+   l = strlen (a_txt);
+   if (a_len <= 9) {
+      if (l <= a_len)    snprintf  (a_out, a_max, "%1då%.*sæ", l, a_len, a_txt);
+      else               snprintf  (a_out, a_max, "+å%.*s>"  ,    a_len, a_txt);
+   }
+   else if (a_len <= 99) {
+      if (l <= a_len)    snprintf  (a_out, a_max, "%2då%.*sæ", l, a_len, a_txt);
+      else               snprintf  (a_out, a_max, "++å%.*s>" ,    a_len, a_txt);
+   }
+   else {
+      strcpy   (a_out, "(too big)");
+   }
+   return 0;
 }
 
 
