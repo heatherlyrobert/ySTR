@@ -36,7 +36,7 @@
 #define     YSTR_MAYANV   "aeiouvf"
 #define     YSTR_MENU     "fevisomdtplbgaxcsh"
 #define     YSTR_TABS     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
-#define     YSTR_COLORS   "wrgybpocWRGYBPOC"
+#define     YSTR_COLORS   "wruybpocWRGYBPOC"
 /*> "file, edit, view, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
 /*---(combination)--------------------*/
 #define     YSTR_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -58,9 +58,9 @@
 #define     YSTR_SUBS     "ÀÁÂÃÄÅ"
 #define     YSTR_POWS     "ÆÇÈÎÉÊ"
 #define     YSTR_SJOIN    "ÐÑÒ"
-#define     YSTR_CJOIN    "ÐÑÒÓÔÕÖ"
-#define     YSTR_JOIN     "ÐÑÒÓÔÕÖ"
-#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ_ç@®"
+#define     YSTR_CJOIN    "ÐÑÒÓÔÕ"
+#define     YSTR_JOIN     "ÐÑÒÓÔÕ"
+#define     YSTR_VARL     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ_ç@®"
 #define     YSTR_VARN     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789èéêëìíîïðñòóôõö÷øùúûüýþÿ_ÀÁÂÃÄÅ"
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
