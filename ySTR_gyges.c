@@ -39,7 +39,7 @@ static int      s_value;
 static void      o___CONFIG__________________o (void) {;}
 
 char
-str0gyges          (void *a_checker)
+ystr0gyges          (void *a_checker)
 {
    zSTR_checker = a_checker;
    return 0;
@@ -187,7 +187,7 @@ ystr__gyges2prep        (char *a_src, int *a_tab, int *a_col, int *a_row, int *a
       return 1;
    }
    /*---(check sizes)--------------------*/
-   x_len = strllen (a_src, LEN_LABEL);
+   x_len = ystrllen (a_src, LEN_LABEL);
    DEBUG_YSTR   yLOG_value   ("x_len"       , x_len);
    --rce;  if (x_len <=  0) {
       DEBUG_YSTR   yLOG_note    ("aborting, a_src contains nothing, no point");
@@ -362,7 +362,7 @@ ystr__gyges2row         (char *a_src, char *a_pos, int *a_val, char *a_abs)
 }
 
 char         /*-> convert label into coordinates -----[ leaf   [ge.#HB.1B#.Z0]*/ /*-[01.0000.K44.W]-*/ /*-[--.---.---.--]-*/
-str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada, char *a_abs, int a_def, char a_check)
+ystr2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada, char *a_abs, int a_def, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;           /* return code for errors        */
@@ -404,7 +404,7 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada,
       return rce;
    }
    /*---(check length)-------------------*/
-   x_len = strllen (a_src, LEN_LABEL);
+   x_len = ystrllen (a_src, LEN_LABEL);
    DEBUG_YSTR   yLOG_value   ("x_pos"       , x_pos);
    DEBUG_YSTR   yLOG_value   ("x_len"       , x_len);
    --rce;  if (x_len != x_pos) {
@@ -428,7 +428,7 @@ str2gyges         (char *a_src, int *a_tab, int *a_col, int *a_row, int *a_nada,
    /*---(save for shortcut)--------------*/
    DEBUG_YSTR   yLOG_note    ("save shortcuts");
    s_func  = 2;
-   strlcpy (s_label, a_src, LEN_LABEL);
+   ystrlcpy (s_label, a_src, LEN_LABEL);
    s_tab   = x_tab;
    s_col   = x_col;
    s_row   = x_row;
@@ -467,13 +467,13 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return  rce;
    }
-   strlcpy (a_out  , "n/a", LEN_LABEL);
+   ystrlcpy (a_out  , "n/a", LEN_LABEL);
    DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
    /*---(shortcut saved)-----------------*/
    if (s_func == 4 && a_tab == s_tab && a_col == s_col && a_row == s_row  && a_abs == s_abs && a_check == s_check) {
       DEBUG_YSTR   yLOG_note    ("shortcut, same as last request");
       /*---(return values)------------------*/
-      if (a_out != NULL)  strlcpy (a_out, s_label, LEN_LABEL);
+      if (a_out != NULL)  ystrlcpy (a_out, s_label, LEN_LABEL);
       /*---(complete)-----------------------*/
       DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
       return  1;
@@ -484,7 +484,7 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
    DEBUG_YSTR   yLOG_value   ("a_row"     , a_row);
    if (a_col == -1 && a_row == -1 && a_tab == -1) {
       DEBUG_YSTR   yLOG_note    ("requested ROOT");
-      if (a_out != NULL)  strlcpy (a_out  , "ROOT", LEN_LABEL);
+      if (a_out != NULL)  ystrlcpy (a_out  , "ROOT", LEN_LABEL);
       DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
       return 1;
    }
@@ -494,7 +494,7 @@ ystr__gyges4prep        (int a_tab, int a_col, int a_row, char a_abs, char *a_ou
 }
 
 char         /*-> convert position into label --------[ leaf   [ge.IB4.5B#.B0]*/ /*-[02.0000.200.!]-*/ /*-[--.---.---.--]-*/
-str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char *a_out, char a_check)
+ystr4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char *a_out, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_cname     [100]       = "";
@@ -562,13 +562,13 @@ str4gyges         (int a_tab, int a_col, int a_row, int a_nada, char a_abs, char
    /*---(create label)-------------------*/
    sprintf (x_label, "%s%c%s%s%s%d", x_tref, x_tab, x_cref, x_cname, x_rref, a_row + 1);
    if (a_out != NULL) {
-      strlcpy  (a_out, x_label, LEN_LABEL);
+      ystrlcpy  (a_out, x_label, LEN_LABEL);
       DEBUG_YSTR   yLOG_info    ("a_out"     , a_out);
    }
    /*---(save for shortcut)--------------*/
    DEBUG_YSTR   yLOG_note    ("save shortcuts");
    s_func  = 4;
-   strlcpy (s_label, x_label, LEN_LABEL);
+   ystrlcpy (s_label, x_label, LEN_LABEL);
    s_tab   = a_tab;
    s_col   = a_col;
    s_row   = a_row;
@@ -738,7 +738,7 @@ LABEL_col               (int a_col)
    DEBUG_YSTR   yLOG_sint    (ySTR_cmin);
    DEBUG_YSTR   yLOG_sint    (ySTR_cmax);
    /*---(defense)------------------------*/
-   strlcpy (s_temp, "¢¢", LEN_TERSE);
+   ystrlcpy (s_temp, "¢¢", LEN_TERSE);
    if (a_col < ySTR_cmin) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return s_temp;
@@ -862,7 +862,7 @@ LABEL_row               (int a_row)
    DEBUG_YSTR   yLOG_sint    (ySTR_rmin);
    DEBUG_YSTR   yLOG_sint    (ySTR_rmax);
    /*---(defense)------------------------*/
-   strlcpy (s_temp, "¢¢¢¢", LEN_TERSE);
+   ystrlcpy (s_temp, "¢¢¢¢", LEN_TERSE);
    if (a_row < ySTR_rmin) {
       DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
       return s_temp;
@@ -929,26 +929,26 @@ INDEX_row               (uchar *a_label)
 static void      o___COMBOS__________________o (void) {;}
 
 char         /*-> make label pretty ------------------[ leaf   [gc.420.353.30]*/ /*-[00.0000.000.!]-*/ /*-[--.---.---.--]-*/
-str6gyges         (char *a_src, int a_def, char *a_out, char a_check)
+ystr6gyges         (char *a_src, int a_def, char *a_out, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
    int         x_col, x_row, x_tab;
    int         x_abs       =    0;
    /*---(default)------------------------*/
-   if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
+   if (a_out != NULL)    ystrlcpy (a_out  , "n/a", LEN_LABEL);
    /*---(get coordinates)----------------*/
-   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, NULL, &x_abs, a_def, a_check);
+   rc = ystr2gyges (a_src, &x_tab, &x_col, &x_row, NULL, &x_abs, a_def, a_check);
    if (rc < 0)   return rc;
    /*---(make new label)-----------------*/
-   rc = str4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
+   rc = ystr4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
    if (rc < 0)   return rc;
    /*---(complete)-----------------------*/
    return 0;
 }
 
 char         /*-> adjust address using offsets -------[ leaf   [gc.660.553.40]*/ /*-[00.0000.000.!]-*/ /*-[--.---.---.--]-*/
-str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char a_force, char *a_out, char a_check)
+ystr8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, char a_force, char *a_out, char a_check)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rc          =    0;
@@ -958,10 +958,10 @@ str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, 
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
-   if (a_out != NULL)    strlcpy (a_out  , "n/a", LEN_LABEL);
+   if (a_out != NULL)    ystrlcpy (a_out  , "n/a", LEN_LABEL);
    /*---(get coordinates)----------------*/
-   rc = str2gyges (a_src, &x_tab, &x_col, &x_row, NULL, &x_abs, 0, a_check);
-   DEBUG_YSTR   yLOG_value   ("str2gyges" , rc);
+   rc = ystr2gyges (a_src, &x_tab, &x_col, &x_row, NULL, &x_abs, 0, a_check);
+   DEBUG_YSTR   yLOG_value   ("ystr2gyges" , rc);
    if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rc);
       return rc;
@@ -978,8 +978,8 @@ str8gyges         (char *a_src, int a_toff, int a_coff, int a_roff, int a_nada, 
    if (x_abswork >= 2)  x_abswork -= 2;
    else                 x_row += a_roff;
    /*---(make new label)-----------------*/
-   rc = str4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
-   DEBUG_YSTR   yLOG_value   ("str4gyges" , rc);
+   rc = ystr4gyges (x_tab, x_col, x_row, 0, x_abs, a_out, a_check);
+   DEBUG_YSTR   yLOG_value   ("ystr4gyges" , rc);
    if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rc);
       return rc;

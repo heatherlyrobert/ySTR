@@ -10,7 +10,7 @@
 static void      o___ARGS____________________o (void) {;}
 
 char         /*--> parse command line ----------------------------------------*/
-strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, int *a_cnt, char *a_ptr [], int a_maxl)
+ystrlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, int *a_cnt, char *a_ptr [], int a_maxl)
 {
    /*---(locals)-------------------------*/
    char        rce         =  -10;
@@ -23,8 +23,8 @@ strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, 
    /*---(header)-------------------------*/
    DEBUG_YSTR  yLOG_enter   (__FUNCTION__);
    /*---(defaults)-----------------------*/
-   strlcpy  (mySTR.strtest , "", LEN_RECD);
-   if (a_disp != NULL)   strlcpy  (a_disp, "", a_maxl);
+   ystrlcpy  (mySTR.strtest , "", LEN_RECD);
+   if (a_disp != NULL)   ystrlcpy  (a_disp, "", a_maxl);
    /*---(defense)------------------------*/
    DEBUG_YSTR  yLOG_point   ("a_src"     , a_src);
    --rce;  if (a_src == NULL) {
@@ -63,7 +63,7 @@ strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, 
       return 0;
    }
    /*---(copy source)--------------------*/
-   strlcpy (a_final, a_src, a_maxl);
+   ystrlcpy (a_final, a_src, a_maxl);
    a_ptr [c] = a_final;
    /*---(process string)-----------------*/
    for (i = 0; i < l; ++i) {
@@ -111,9 +111,9 @@ strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, 
       /*---(done)------------------------*/
    }
    /*---(update)-------------------------*/
-   if (a_disp != NULL)   strlcpy  (a_disp, a_final, a_maxl);
-   strlcpy  (mySTR.strtest , a_final, LEN_RECD);
-   strldchg (a_final, '¤', '\0', LEN_RECD);
+   if (a_disp != NULL)   ystrlcpy  (a_disp, a_final, a_maxl);
+   ystrlcpy  (mySTR.strtest , a_final, LEN_RECD);
+   ystrldchg (a_final, '¤', '\0', LEN_RECD);
    DEBUG_YSTR  yLOG_value   ("c"         , c);
    if (a_cnt != NULL)  *a_cnt = c + 1;
    /*---(complete)-----------------------*/
@@ -129,7 +129,7 @@ strlparse               (char *a_src, char *a_disp, char *a_final, char a_maxc, 
 static void      o___CONFIG__________________o (void) {;}
 
 char
-strlfile                (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max)
+ystrlfile                (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -147,7 +147,7 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
       return rce;
    }
    DEBUG_YSTR  yLOG_info    ("a_holder"  , a_holder);
-   strlcpy (a_holder, "", a_max);
+   ystrlcpy (a_holder, "", a_max);
    /*---(defense)------------------------*/
    DEBUG_YSTR  yLOG_point   ("a_value"   , a_value);
    --rce;  if (a_value == NULL) {
@@ -173,7 +173,7 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
       return rce;
    }
    /*---(check extension)----------------*/
-   strlcpy (t, a_value, a_max);
+   ystrlcpy (t, a_value, a_max);
    DEBUG_YSTR  yLOG_point   ("a_ext"     , a_ext);
    if (a_ext != NULL) {
       DEBUG_YSTR  yLOG_note    ("extention provided");
@@ -183,8 +183,8 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
          if (l > e + 1) {
             DEBUG_YSTR  yLOG_complex ("compare"   , "[%s] to [%s]", a_ext, t + l - e);
             if (strcmp (t + l - e, a_ext) != 0) {
-               if (a_ext [0] != '.')  strlcat (t, ".", a_max);
-               strlcat (t, a_ext, a_max);
+               if (a_ext [0] != '.')  ystrlcat (t, ".", a_max);
+               ystrlcat (t, a_ext, a_max);
                DEBUG_YSTR  yLOG_info    ("fixed"     , t);
             }
          }
@@ -192,7 +192,7 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
    }
    /*---(save back)----------------------*/
    DEBUG_YSTR  yLOG_point   ("a_holder"  , a_holder);
-   strlcpy (a_holder, t, a_max);
+   ystrlcpy (a_holder, t, a_max);
    DEBUG_YSTR  yLOG_info    ("a_holder"  , a_holder);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
@@ -207,7 +207,7 @@ strlfile                (char *a_option, char *a_holder, char *a_value, char *a_
 static void      o___LOCATION________________o (void) {;}
 
 char
-strlhome                (char *a_home)
+ystrlhome                (char *a_home)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -223,7 +223,7 @@ strlhome                (char *a_home)
       return rce;
    }
    /*---(default)------------------------*/
-   strlcpy (a_home, ""    , LEN_HUND);
+   ystrlcpy (a_home, ""    , LEN_HUND);
    /*---(get the home)-------------------*/
    p = getcwd (x_home, LEN_HUND);
    DEBUG_YSTR   yLOG_spoint  (p);
@@ -253,14 +253,14 @@ strlhome                (char *a_home)
       return rce;
    }
    /*---(save back)----------------------*/
-   strlcpy (a_home, x_home, LEN_HUND);
+   ystrlcpy (a_home, x_home, LEN_HUND);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
 char
-strlproj                (char *a_home, char *a_name)
+ystrlproj                (char *a_home, char *a_name)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -276,7 +276,7 @@ strlproj                (char *a_home, char *a_name)
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_name, ""    , LEN_LABEL);
+   ystrlcpy (a_name, ""    , LEN_LABEL);
    DEBUG_YSTR   yLOG_spoint  (a_home);
    --rce;  if (a_home == NULL) {
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -289,7 +289,7 @@ strlproj                (char *a_home, char *a_name)
       return rce;
    }
    /*---(prepare)------------------------*/
-   strlcpy (x_home, a_home, LEN_HUND);
+   ystrlcpy (x_home, a_home, LEN_HUND);
    DEBUG_YSTR   yLOG_snote   (x_home);
    /*---(get the name)-------------------*/
    p = strrchr (x_home, '/');
@@ -303,7 +303,7 @@ strlproj                (char *a_home, char *a_name)
    if (x_len > LEN_LABEL)  x_len = LEN_LABEL;
    DEBUG_YSTR   yLOG_sint    (x_len);
    /*---(save back)----------------------*/
-   strlcpy (a_name, p, x_len);
+   ystrlcpy (a_name, p, x_len);
    DEBUG_YSTR   yLOG_snote   (a_name);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
@@ -311,7 +311,7 @@ strlproj                (char *a_home, char *a_name)
 }
 
 char
-strlhere                 (char *a_home, char *a_name)
+ystrlhere                 (char *a_home, char *a_name)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -321,25 +321,25 @@ strlhere                 (char *a_home, char *a_name)
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defaults)-----------------------*/
-   if (a_home != NULL)    strlcpy (a_home, "", LEN_HUND);
-   if (a_name != NULL)    strlcpy (a_name, "", LEN_LABEL);
+   if (a_home != NULL)    ystrlcpy (a_home, "", LEN_HUND);
+   if (a_name != NULL)    ystrlcpy (a_name, "", LEN_LABEL);
    /*---(get directory)------------------*/
-   rc = strlhome (x_home);
+   rc = ystrlhome (x_home);
    DEBUG_YSTR   yLOG_value   ("get_home"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(get name)-----------------------*/
-   rc = strlproj (x_home, x_name);
+   rc = ystrlproj (x_home, x_name);
    DEBUG_YSTR   yLOG_value   ("get_name"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(save results)-------------------*/
-   strlcpy (a_home, x_home, LEN_HUND);
-   strlcpy (a_name, x_name, LEN_LABEL);
+   ystrlcpy (a_home, x_home, LEN_HUND);
+   ystrlcpy (a_name, x_name, LEN_LABEL);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -353,7 +353,7 @@ strlhere                 (char *a_home, char *a_name)
 static void      o___FILE____________________o (void) {;}
 
 char*
-strlrecd                (cchar *a_name, int n, int *c, char *a_recd, int a_max)
+ystrlrecd                (cchar *a_name, int n, int *c, char *a_recd, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -386,19 +386,19 @@ strlrecd                (cchar *a_name, int n, int *c, char *a_recd, int a_max)
    fclose (f);
    /*---(save back)----------------------*/
    if (c      != NULL)  *c = i;
-   if (a_recd != NULL)  strlcpy (a_recd, mySTR.strtest, a_max);
+   if (a_recd != NULL)  ystrlcpy (a_recd, mySTR.strtest, a_max);
    /*---(complete)-----------------------*/
    return mySTR.strtest;
 }
 
 char*
-strlread                (cchar *a_name, int n, int *c)
+ystrlread                (cchar *a_name, int n, int *c)
 {
-   return strlrecd (a_name, n, c, mySTR.strtest, LEN_RECD);
+   return ystrlrecd (a_name, n, c, mySTR.strtest, LEN_RECD);
 }
 
 char
-strlexport              (int a_line, char *a_recd)
+ystrlexport              (int a_line, char *a_recd)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -433,7 +433,7 @@ strlexport              (int a_line, char *a_recd)
 }
 
 char
-strlimport              (int a_line, char *a_recd, int *a_len)
+ystrlimport              (int a_line, char *a_recd, int *a_len)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -452,7 +452,7 @@ strlimport              (int a_line, char *a_recd, int *a_len)
    }
    /*---(defaults)-----------------------*/
    if (a_len != NULL)  *a_len = 0;
-   strlcpy (a_recd, "", LEN_RECD);
+   ystrlcpy (a_recd, "", LEN_RECD);
    /*---(open)---------------------------*/
    f = fopen (YSTR_CLIP, "rt");
    DEBUG_YSTR   yLOG_spoint  (f);
@@ -477,15 +477,15 @@ strlimport              (int a_line, char *a_recd, int *a_len)
    x_len = strlen (x_recd);
    if (x_len > 0) {
       DEBUG_YSTR   yLOG_sint    (x_len);
-      DEBUG_YSTR   yLOG_schar   (chrvisible (x_recd [x_len - 1]));
+      DEBUG_YSTR   yLOG_schar   (ychrvisible (x_recd [x_len - 1]));
       if (x_recd [x_len - 1] == '\n')  x_recd [--x_len] = '\0';
       if (x_len > 0) {
-         DEBUG_YSTR   yLOG_schar   (chrvisible (x_recd [x_len - 1]));
+         DEBUG_YSTR   yLOG_schar   (ychrvisible (x_recd [x_len - 1]));
          if (x_recd [x_len - 1] == '³' )  x_recd [--x_len] = '\0';
       }
    }
    /*---(copy)---------------------------*/
-   strlcpy (a_recd, x_recd, LEN_RECD);
+   ystrlcpy (a_recd, x_recd, LEN_RECD);
    if (a_len != NULL)  *a_len = x_len;
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
@@ -500,7 +500,7 @@ strlimport              (int a_line, char *a_recd, int *a_len)
 static void      o___DATES___________________o (void) {;}
 
 char
-strlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
+ystrlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
 {  /*---(notes)--------------------------*/
    /*
     *  age is almost always more important to me than date, and
@@ -579,7 +579,7 @@ strlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
 }
 
 char
-strlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
+ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
 {  /*---(notes)--------------------------*/
    /*
     *  scaled sizes are almost always more important to me than single unit.
@@ -660,7 +660,7 @@ strlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
 }
 
 char
-str2mongo               (long a_epoch, char *a_mongo)
+ystr2mongo               (long a_epoch, char *a_mongo)
 {
    /*---(locals)-----------+-----+-----+-*/
    long        x_now       =    0;
@@ -683,7 +683,7 @@ str2mongo               (long a_epoch, char *a_mongo)
 }
 
 char
-str4mongo               (char *a_mongo, long *a_epoch)
+ystr4mongo               (char *a_mongo, long *a_epoch)
 {
    /*---(locals)-----------+-----+-----+-*/
    tTIME       x_broke;

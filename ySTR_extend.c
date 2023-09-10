@@ -10,49 +10,49 @@
 static void      o___EXTENDED________________o (void) {;}
 
 char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
-strlstore          (char *a_src, int a_max)
+ystrlstore          (char *a_src, int a_max)
 {
-   strldchg (a_src, G_KEY_SPACE, G_CHAR_STORAGE, a_max);
+   ystrldchg (a_src, G_KEY_SPACE, G_CHAR_STORAGE, a_max);
    return 0;
 }
 
 char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
-strlunstore        (char *a_src, int a_max)
+ystrlunstore        (char *a_src, int a_max)
 {
-   strldchg (a_src, G_CHAR_STORAGE, G_KEY_SPACE, a_max);
+   ystrldchg (a_src, G_CHAR_STORAGE, G_KEY_SPACE, a_max);
    return 0;
 }
 
 char         /*--> encode special characters -------------[ ------ [ ------ ]-*/
-strlencode         (char *a_src, char a_mode, int a_max)
+ystrlencode         (char *a_src, char a_mode, int a_max)
 {
    /*---(normal)-------------------------*/
-   strldchg (a_src, G_KEY_ESCAPE, G_CHAR_ESCAPE, a_max);
-   strldchg (a_src, G_KEY_BS    , G_CHAR_BS    , a_max);
-   strldchg (a_src, G_KEY_DEL   , G_CHAR_DEL   , a_max);
-   strldchg (a_src, G_KEY_GROUP , G_CHAR_GROUP , a_max);
-   strldchg (a_src, G_KEY_FIELD , G_CHAR_FIELD , a_max);
+   ystrldchg (a_src, G_KEY_RETURN, G_CHAR_RETURN, a_max);
+   ystrldchg (a_src, G_KEY_ESCAPE, G_CHAR_ESCAPE, a_max);
+   ystrldchg (a_src, G_KEY_BS    , G_CHAR_BS    , a_max);
+   ystrldchg (a_src, G_KEY_DEL   , G_CHAR_DEL   , a_max);
+   ystrldchg (a_src, G_KEY_GROUP , G_CHAR_GROUP , a_max);
+   ystrldchg (a_src, G_KEY_FIELD , G_CHAR_FIELD , a_max);
    /*---(big)----------------------------*/
    if (a_mode == ySTR_MAX) {
-      strldchg (a_src, G_KEY_RETURN, G_CHAR_RETURN, a_max);
-      strldchg (a_src, G_KEY_SPACE , G_CHAR_SPACE , a_max);
+      ystrldchg (a_src, G_KEY_SPACE , G_CHAR_SPACE , a_max);
    }
    /*---(complete)-----------------------*/
    return 0;
 }
 
 char         /*--> decode special characters -------------[ ------ [ ------ ]-*/
-strldecode         (char *a_src, int a_max)
+ystrldecode         (char *a_src, int a_max)
 {
    /*---(normal)-------------------------*/
-   strldchg (a_src, G_CHAR_RETURN , G_KEY_RETURN, a_max);
-   strldchg (a_src, G_CHAR_ESCAPE , G_KEY_ESCAPE, a_max);
-   strldchg (a_src, G_CHAR_GROUP  , G_KEY_GROUP , a_max);
-   strldchg (a_src, G_CHAR_FIELD  , G_KEY_FIELD , a_max);
-   strldchg (a_src, G_CHAR_BS     , G_KEY_BS    , a_max);
-   strldchg (a_src, G_CHAR_DEL    , G_KEY_DEL   , a_max);
-   strldchg (a_src, G_CHAR_SPACE  , G_KEY_SPACE , a_max);
-   strldchg (a_src, G_CHAR_NULL   , G_KEY_NULL  , a_max);
+   ystrldchg (a_src, G_CHAR_RETURN , G_KEY_RETURN, a_max);
+   ystrldchg (a_src, G_CHAR_ESCAPE , G_KEY_ESCAPE, a_max);
+   ystrldchg (a_src, G_CHAR_GROUP  , G_KEY_GROUP , a_max);
+   ystrldchg (a_src, G_CHAR_FIELD  , G_KEY_FIELD , a_max);
+   ystrldchg (a_src, G_CHAR_BS     , G_KEY_BS    , a_max);
+   ystrldchg (a_src, G_CHAR_DEL    , G_KEY_DEL   , a_max);
+   ystrldchg (a_src, G_CHAR_SPACE  , G_KEY_SPACE , a_max);
+   ystrldchg (a_src, G_CHAR_NULL   , G_KEY_NULL  , a_max);
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -82,11 +82,11 @@ strl__leet         (char a_dir, char *a_src, int a_max)
    return 0;
 }
 
-char strl2leet (char *a_src, int a_max) { return strl__leet ('>', a_src, a_max); }
-char strl4leet (char *a_src, int a_max) { return strl__leet ('<', a_src, a_max); }
+char ystrl2leet (char *a_src, int a_max) { return strl__leet ('>', a_src, a_max); }
+char ystrl4leet (char *a_src, int a_max) { return strl__leet ('<', a_src, a_max); }
 
 char         /*--> reverse delayed characters ------------[ ------ [ ------ ]-*/
-strlundelay        (char *a_src, int a_max)
+ystrlundelay        (char *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        t           [5] = "";
@@ -97,18 +97,18 @@ strlundelay        (char *a_src, int a_max)
    sprintf (t, "%c", G_CHAR_DBSLASH);
    /*> printf ("    t [%s]\n", t);                                                    <*/
    /*> printf ("    c [%s]\n", dslash);                                               <*/
-   strlrepl (a_src, t, dslash, 100, a_max);
+   ystrlrepl (a_src, t, dslash, 100, a_max);
    sprintf (t, "%c", G_CHAR_DDQUOTE);
    /*> printf ("    t [%s]\n", t);                                                    <*/
    /*> printf ("    c [%s]\n", dquote);                                               <*/
-   strlrepl (a_src, t, dquote, 100, a_max);
+   ystrlrepl (a_src, t, dquote, 100, a_max);
    /*> printf ("    d [%s]\n", a_src);                                                <*/
    /*---(complete)-----------------------*/
    return 0;
 }
 
 uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
-chrslashed        (char a_ch)
+ychrslashed        (char a_ch)
 {
    /*---(design notes)-------------------*/
    /*
@@ -226,7 +226,7 @@ chrslashed        (char a_ch)
 }
 
 uchar        /*--> convert backslashed characters --------[ ------ [ ------ ]-*/
-chrslashed_more   (char a_ch)
+ychrslashed_more   (char a_ch)
 {
    /*---(locals)-----------+-----+-----+-*/
    uchar       x_ch        = a_ch;
@@ -290,7 +290,7 @@ chrslashed_more   (char a_ch)
 }
 
 char         /*--> decode special characters -------------[ ------ [ ------ ]-*/
-strlunslash        (uchar *a_src, int a_max)
+ystrlunslash        (uchar *a_src, int a_max)
 {
    int         i, j;
    for (i = 0; i < a_max; ++i) {
@@ -299,22 +299,22 @@ strlunslash        (uchar *a_src, int a_max)
       if (a_src [i] != G_KEY_BSLASH && a_src [i] != G_CHAR_DBSLASH)  continue;
       /*---(fix)-------------------------*/
       if (a_src [i + 1] == '_') {
-         a_src [i] = chrslashed_more (a_src [i + 2]);
+         a_src [i] = ychrslashed_more (a_src [i + 2]);
          a_src [++i] = '¬';
          a_src [++i] = '¬';
       } else {
-         a_src [i] = chrslashed      (a_src [i + 1]);
+         a_src [i] = ychrslashed      (a_src [i + 1]);
          a_src [++i] = '¬';
       }
       /*---(compress)--------------------*/
 
    }
-   strlddel (a_src, '¬', a_max);
+   ystrlddel (a_src, '¬', a_max);
    return 0;
 }
 
 uchar        /*--> convert control in printable ----------[ ------ [ ------ ]-*/
-chrvisible        (uchar a_ch)
+ychrvisible        (uchar a_ch)
 {
    /*---(translate)----------------------*/
    switch (a_ch) {
@@ -334,7 +334,7 @@ chrvisible        (uchar a_ch)
 }
 
 uchar        /*--> convert printable into control --------[ ------ [ ------ ]-*/
-chrworking        (uchar a_ch)
+ychrworking        (uchar a_ch)
 {
    /*> DEBUG_YSTR   yLOG_senter  (__FUNCTION__);                                      <*/
    /*> DEBUG_YSTR   yLOG_sint    (a_ch);                                              <*/

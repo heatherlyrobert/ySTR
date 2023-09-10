@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "1.--, production"
 #define     P_VERMINOR  "1.1-, use everywhere and make improvements"
-#define     P_VERNUM    "1.1o"
-#define     P_VERTXT    "added ySRC source register variables support"
+#define     P_VERNUM    "1.1p"
+#define     P_VERTXT    "updated ySTR functions to ¶ystr¶ prefix"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -100,8 +100,8 @@ char*       ySTR_unit          (char *a_question, int a_num);
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        ystr__prefix            (cchar *a_str, char *a_out);
 char        ystr__suffix            (cchar *a_str, char *a_out);
-char        strl__home              (char *a_home);
-char        strl__name              (char *a_home, char *a_name);
+/*> char        strl__home              (char *a_home);                               <*/
+/*> char        strl__name              (char *a_home, char *a_name);                 <*/
 
 char        ystr__gyges2tab         (char *a_src, char *a_pos, int *a_val, char *a_abs, char a_def);
 char        ystr__gyges2col         (char *a_src, char *a_pos, int *a_val, char *a_abs);

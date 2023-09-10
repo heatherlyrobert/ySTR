@@ -22,13 +22,13 @@ ySTR_version       (void)
 {
    char    t [20] = "";
 #if    __TINYC__ > 0
-   strlcpy (t, "[tcc built  ]", 15);
+   ystrlcpy (t, "[tcc built  ]", 15);
 #elif  __GNUC__  > 0
-   strlcpy (t, "[gnu gcc    ]", 15);
+   ystrlcpy (t, "[gnu gcc    ]", 15);
 #elif  __HEPH__  > 0
    strncpy (t, "[hephaestus ]", 15);
 #else
-   strlcpy (t, "[unknown    ]", 15);
+   ystrlcpy (t, "[unknown    ]", 15);
 #endif
    snprintf (ySTR_ver, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return ySTR_ver;
@@ -45,7 +45,7 @@ ySTR_debug         (char a_flag)
 }
 
 char
-str9align            (char a_align)
+ystr9align            (char a_align)
 {
    if (a_align  == ' ')                                               return -1;
    if (a_align  ==  0 )                                               return -2;
@@ -54,7 +54,7 @@ str9align            (char a_align)
 }
 
 char
-str9filler           (char a_filler)
+ystr9filler           (char a_filler)
 {
    if (a_filler == ' ')                                               return -1;
    if (a_filler ==  0 )                                               return -2;
@@ -63,7 +63,7 @@ str9filler           (char a_filler)
 }
 
 char
-str9format           (char a_format)
+ystr9format           (char a_format)
 {
    if (a_format == ' ')                                                return -1;
    if (a_format ==  0 )                                                return -2;
@@ -72,7 +72,7 @@ str9format           (char a_format)
 }
 
 char
-str9decs             (int a_decs)
+ystr9decs             (int a_decs)
 {
    if (a_decs < 0)  return -1;
    if (a_decs > 9)  return -2;
@@ -96,18 +96,18 @@ ySTR_unit          (char *a_question, int a_num)
    uchar       t           [LEN_RECD ];
    int         i           =    0;
    /*---(initialize)---------------------*/
-   strlcpy (unit_answer, "ySTR_unit, unknown request", 100);
+   ystrlcpy (unit_answer, "ySTR_unit, unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strncmp(a_question, "string"    , 20)  == 0) {
       snprintf (unit_answer, LEN_RECD, "ySTR string      : [%s]", mySTR.strtest);
    }
    else if (strncmp(a_question, "values"    , 20)  == 0) {
-      strlcpy (t, "", LEN_RECD);
+      ystrlcpy (t, "", LEN_RECD);
       for (i = 0; i < 10; ++i) {
          if (mySTR.strtest [i] == 0)  break;
          sprintf (s, "%03d", (uchar) mySTR.strtest [i]);
-         if (i > 0)  strlcat (t, " ", LEN_RECD);
-         strlcat (t, s  , LEN_RECD);
+         if (i > 0)  ystrlcat (t, " ", LEN_RECD);
+         ystrlcat (t, s  , LEN_RECD);
       }
       snprintf (unit_answer, LEN_RECD, "ySTR values      : %s", t);
    }
@@ -120,7 +120,7 @@ ySTR_unit          (char *a_question, int a_num)
    }
    else if (strncmp(a_question, "argv"      , 20)  == 0) {
       if (a_num < 20 && a_num < mySTR.argc)  {
-         snprintf (unit_answer, LEN_RECD, "ySTR argv (%2d)   : %3d [%-.40s]", a_num, strllen (mySTR.argv[a_num], 2000), mySTR.argv[a_num]);
+         snprintf (unit_answer, LEN_RECD, "ySTR argv (%2d)   : %3d [%-.40s]", a_num, ystrllen (mySTR.argv[a_num], 2000), mySTR.argv[a_num]);
       } else {
          snprintf (unit_answer, LEN_RECD, "ySTR argv (%2d)   : index out of range", a_num);
       }

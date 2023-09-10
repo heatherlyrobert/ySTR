@@ -34,8 +34,8 @@ strld_cnt               (char *b_src, char a_del, char a_dup, int a_max)
    return c;
 }
 
-int  strldcnt   (char *b_src, char a_del, int a_max)  { return strld_cnt (b_src, a_del, 0, a_max); }
-int  strlddcnt  (char *b_src, char a_del, int a_max)  { return strld_cnt (b_src, a_del, 1, a_max); }
+int  ystrldcnt   (char *b_src, char a_del, int a_max)  { return strld_cnt (b_src, a_del, 0, a_max); }
+int  ystrlddcnt  (char *b_src, char a_del, int a_max)  { return strld_cnt (b_src, a_del, 1, a_max); }
 
 
 
@@ -70,13 +70,13 @@ strld_pos               (char *b_src, char  a_del, int a_cnt, char a_dup, int a_
    return --rce;
 }
 
-int  strldpos   (char *b_src, char a_del, int a_cnt, int a_max)  { return strld_pos (b_src, a_del, a_cnt, 0, a_max); }
+int  ystrldpos   (char *b_src, char a_del, int a_cnt, int a_max)  { return strld_pos (b_src, a_del, a_cnt, 0, a_max); }
 int  strlddpos  (char *b_src, char a_del, int a_cnt, int a_max)  { return strld_pos (b_src, a_del, a_cnt, 1, a_max); }
 
 int          /*--> find next delimiter in string ---------[ ------ [ ------ ]-*/
-strlchr            (char *b_src, char  a_chr, int a_max)
+ystrlchr            (char *b_src, char  a_chr, int a_max)
 {
-   return strldpos (b_src, a_chr, 0, a_max);
+   return ystrldpos (b_src, a_chr, 0, a_max);
 }
 
 
@@ -87,7 +87,7 @@ strlchr            (char *b_src, char  a_chr, int a_max)
 static void      o___CHANGE__________________o (void) {;}
 
 int          /*--> change all delimeter in string --------[ ------ [ ------ ]-*/
-strldchg           (char *b_src, char  a_del, char  a_new, int a_max)
+ystrldchg           (char *b_src, char  a_del, char  a_new, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char           rce      =   -10;
@@ -138,7 +138,7 @@ strlddel_OLD       (char *b_src, char  a_del, int a_max)
 }
 
 int          /*--> remove all delimeter in string --------[ ------ [ ------ ]-*/
-strlddel           (char *b_src, char  a_del, int a_max)
+ystrlddel           (char *b_src, char  a_del, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char           rce      =   -10;

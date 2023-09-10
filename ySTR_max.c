@@ -33,7 +33,7 @@
 static void      o___STRINGS_________________o (void) {;}
 
 char         /*--> secure version of strcpy --------------[ leaf   [ ------ ]-*/
-strlcpy            (char *r_dst, char *a_src, int a_max)
+ystrlcpy            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -65,7 +65,7 @@ strlcpy            (char *r_dst, char *a_src, int a_max)
 }
 
 char             /* ---- : secure version of strcat --------------------------*/
-strlcat            (char *r_dst, char *a_src, int a_max)
+ystrlcat            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -106,7 +106,7 @@ strlcat            (char *r_dst, char *a_src, int a_max)
 }
 
 char             /* ---- : secure version of strcat --------------------------*/
-strlrev            (char *r_dst, char *a_src, int a_max)
+ystrlrev            (char *r_dst, char *a_src, int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -145,14 +145,14 @@ strlrev            (char *r_dst, char *a_src, int a_max)
 }
 
 char             /* ---- : secure version of truncate ------------------------*/
-strltrunc          (char *a_src, int a_max)
+ystrltrunc          (char *a_src, int a_max)
 {
    if (a_max > 0) *(a_src + a_max) = '\0';
    return 0;
 }
 
 int              /* ---- : secure version of strlen --------------------------*/
-strllen            (char *a_src, int a_max)
+ystrllen            (char *a_src, int a_max)
 {  /*---(locals)-----------+-----------+-*/
    register char *s        = a_src;         /* source pointer                 */
    register int   n        = a_max;
@@ -171,7 +171,7 @@ strllen            (char *a_src, int a_max)
 }
 
 int              /* ---- : count contiguous spaces ---------------------------*/
-strltrim           (char *b_src, char a_mode, int a_max)
+ystrltrim           (char *b_src, char a_mode, int a_max)
 {  /*---(design notes)-------------------*/
    /*
     *   n = none   (string untouched)
@@ -197,9 +197,12 @@ strltrim           (char *b_src, char a_mode, int a_max)
    char           x_str    = '-';
    /*---(defense)------------------------*/
    --rce;  if (b_src == NULL)  return rce;
-   if (a_max < 0)  a_max = 0;
+   if (a_max <= 0) {
+      *s = '\0';
+      return 1;
+   }
    /*---(get the length)-----------------*/
-   x_len = strllen (b_src, a_max);
+   x_len = ystrllen (b_src, a_max);
    if (x_len < 0)  {
       b_src [a_max] = '\0';
       x_len         = a_max;
@@ -262,7 +265,7 @@ strltrim           (char *b_src, char a_mode, int a_max)
       }
    }
    /*---(compress)-----------------------*/
-   c = strlddel (b_src, m, a_max);
+   c = ystrlddel (b_src, m, a_max);
    /*> if (a_max > 0)  b_src [a_max - 1] = '\0';                                      <* 
     *> else            b_src [a_max    ] = '\0';                                      <*/
    /*---(complete)-----------------------*/
@@ -270,7 +273,7 @@ strltrim           (char *b_src, char a_mode, int a_max)
 }
 
 int              /* ---- : replace substrings --------------------------------*/
-strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
+ystrlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         = -10;
@@ -304,7 +307,7 @@ strlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
       s = t + leno;
    }
    strcat   (x_final, s);
-   strlcpy  (a_src, x_final, a_max);
+   ystrlcpy  (a_src, x_final, a_max);
    /*---(complete)-----------------------*/
    return c;
 }
@@ -405,38 +408,38 @@ ystr__check        (char a_type, uchar *a_src, char a_set, char a_compress, int 
       ++c;
       if (a_type == 'c')  a_src [i] = m;
    }
-   if (a_type == 'c' && a_compress == 'y')   strlddel (a_src, m, x_save);
+   if (a_type == 'c' && a_compress == 'y')   ystrlddel (a_src, m, x_save);
    /*---(complete)-----------------------*/
    --rce;  if (a_type == 'g' && c != 0)  return rce;
    return c;
 }
 
 char         /*--> check for character -------------------[--------[--------]-*/
-strlgood           (uchar *a_src, char a_set, int a_max)
+ystrlgood           (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('g', a_src, a_set, '-', a_max);
 }
 
 short        /*--> find and count bad characters ---------[--------[--------]-*/
-strlcheck          (uchar *a_src, char a_set, int a_max)
+ystrlcheck          (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('k', a_src, a_set, '-', a_max);
 }
 
 short        /*--> find and mark bad characters ----------[--------[--------]-*/
-strlmark           (uchar *a_src, char a_set, int a_max)
+ystrlmark           (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('c', a_src, a_set, '-', a_max);
 }
 
 short        /*--> find and remove bad characters --------[--------[--------]-*/
-strlclean          (uchar *a_src, char a_set, int a_max)
+ystrlclean          (uchar *a_src, char a_set, int a_max)
 {
    return ystr__check ('c', a_src, a_set, 'y', a_max);
 }
 
 int          /*--> clean string characters ---------------[--------[--------]-*/
-strlupper          (char *a_src, int a_max)
+ystrlupper          (char *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
@@ -457,7 +460,7 @@ strlupper          (char *a_src, int a_max)
 }
 
 int          /*--> clean string characters ---------------[--------[--------]-*/
-strllower          (char *a_src, int a_max)
+ystrllower          (char *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
@@ -478,7 +481,7 @@ strllower          (char *a_src, int a_max)
 }
 
 char
-strlundoc               (uchar *a_src, int a_max)
+ystrlundoc               (uchar *a_src, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;          /* original string position       */
@@ -594,29 +597,29 @@ ystr__quote             (uchar a_type, uchar *a_src, int a_max)
 }
 
 char
-strldequote             (uchar *a_src, int a_max)
+ystrldequote             (uchar *a_src, int a_max)
 {
    return ystr__quote ('d', a_src, a_max);
 }
 
 char
-strlrequote             (uchar *a_src, int a_max)
+ystrlrequote             (uchar *a_src, int a_max)
 {
    return ystr__quote ('r', a_src, a_max);
 }
 
 char
-strlunquote             (uchar *a_src, int a_max)
+ystrlunquote             (uchar *a_src, int a_max)
 {
    return ystr__quote ('u', a_src, a_max);
 }
 
 char
-strlunall               (uchar *a_src, int a_max)
+ystrlunall               (uchar *a_src, int a_max)
 {
    char        rc          =    0;
-   rc = strlundoc   (a_src, a_max);
-   if (rc >= 0)  rc = strlunquote (a_src, a_max);
+   rc = ystrlundoc   (a_src, a_max);
+   if (rc >= 0)  rc = ystrlunquote (a_src, a_max);
    return rc;
 }
 
@@ -628,7 +631,7 @@ strlunall               (uchar *a_src, int a_max)
 static void      o___PADDING_________________o (void) {;}
 
 char
-strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_max)
+ystrlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -652,24 +655,24 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy (a_out, YSTR_EMPTY, a_max);
+   ystrlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_spoint  (a_src);
    --rce;  if (a_src == NULL) {
-      strlcpy (a_out, "#p/src", a_max);
+      ystrlcpy (a_out, "#p/src", a_max);
       DEBUG_YSTR   yLOG_snote   ("a_src null");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_YSTR   yLOG_schar   (a_ali);
-   --rce;  if (str9align (a_ali) < 0) {
-      strlcpy (a_out, "#p/ali", a_max);
+   --rce;  if (ystr9align (a_ali) < 0) {
+      ystrlcpy (a_out, "#p/ali", a_max);
       DEBUG_YSTR   yLOG_snote   ("alignment bad");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    DEBUG_YSTR   yLOG_schar   (a_fil);
-   --rce;  if (str9filler (a_fil) < 0) {
-      strlcpy (a_out, "#p/fil", a_max);
+   --rce;  if (ystr9filler (a_fil) < 0) {
+      ystrlcpy (a_out, "#p/fil", a_max);
       DEBUG_YSTR   yLOG_snote   ("filler bad");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -748,23 +751,23 @@ strlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_ma
    case '^' : sprintf (x_final, "[%.*s%s%.*s]", x_npre - 1, x_fore + 1, x_temp, x_nsuf - 1, x_back + x_len + x_npre); break;
    }
    /*---(copy)---------------------------*/
-   strlcpy (a_out, x_final, a_max + 1);
+   ystrlcpy (a_out, x_final, a_max + 1);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
 char
-strlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int a_max)
+ystrlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int a_max)
 {
    char        t           [LEN_LABEL] = "";
    sprintf (t, "%d", a_src);
-   return strlpad (t, a_out, a_fil, a_ali, a_max);
+   return ystrlpad (t, a_out, a_fil, a_ali, a_max);
 }
 
 
 int
-strlhint                (int n, char *a_spec, char *a_label)
+ystrlhint                (int n, char *a_spec, char *a_label)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -831,7 +834,7 @@ strlhint                (int n, char *a_spec, char *a_label)
 }
 
 char*
-strldisp                (char a_txt [LEN_HUND], char a_len, char *a_out, char a_max)
+ystrldisp                (char a_txt [LEN_HUND], char a_len, char *a_out, char a_max)
 {
    char        rce         =  -10;
    int         l           =    0;
