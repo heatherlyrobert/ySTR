@@ -1,4 +1,9 @@
 
+/*---(shared clipboard)---------------*/
+#define     YSTR_CLIP     "/root/z_gehye/vi_clip.txt"
+
+
+/*---(standard lengths)---------------*/
 #define     LEN_MASS       100000       /* special cases only                 */
 #define     LEN_HUGE        10000       /* special cases only                 */
 #define     LEN_RECD         2000       /* longer likely means hacker         */
@@ -32,8 +37,9 @@
 #define     YSTR_BPUNC    "_.,:;!?-()&"
 #define     YSTR_PUNCT    "_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
 #define     YSTR_LEET     "46()3[&#!;<1-=0+9~57_|8*?2"
-#define     YSTR_MAYANC   "qlyzdghsmkntwxr"
-#define     YSTR_MAYANV   "aeiouvf"
+#define     YSTR_MAYANC   "dgnlswyqtkhzmcxr"
+#define     YSTR_MAYANV   "aieovuf"
+#define     YSTR_MAYANO   "´Ö×ÕÔ€„"
 #define     YSTR_MENU     "fevisomdtplbgaxcsh"
 #define     YSTR_TABS     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_COLORS   "wruybpocWRGYBPOC"

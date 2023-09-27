@@ -663,17 +663,17 @@ ystrlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_m
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_YSTR   yLOG_schar   (a_ali);
-   --rce;  if (ystr9align (a_ali) < 0) {
-      ystrlcpy (a_out, "#p/ali", a_max);
-      DEBUG_YSTR   yLOG_snote   ("alignment bad");
-      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
-      return rce;
-   }
    DEBUG_YSTR   yLOG_schar   (a_fil);
    --rce;  if (ystr9filler (a_fil) < 0) {
       ystrlcpy (a_out, "#p/fil", a_max);
       DEBUG_YSTR   yLOG_snote   ("filler bad");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_schar   (a_ali);
+   --rce;  if (ystr9align (a_ali) < 0) {
+      ystrlcpy (a_out, "#p/ali", a_max);
+      DEBUG_YSTR   yLOG_snote   ("alignment bad");
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }

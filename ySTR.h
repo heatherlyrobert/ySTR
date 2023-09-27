@@ -249,44 +249,6 @@ char        ystr9unit               (char a_unit);
 
 char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 
-/*> #define     YSTR_BREADCRUMB    'b'                                                <* 
- *> #define     YSTR_BREADCOLOR    'c'                                                <*/
-
-/*> #define     YSTR_USERNAME      'u'                                                <* 
- *> #define     YSTR_TOKEN         't'                                                <* 
- *> #define     YSTR_PASSWORD      'p'                                                <*/
-
-/*> #define     YSTR_INVALID       'I'                                                <* 
- *> #define     YSTR_LOCKED        'L'                                                <* 
- *> #define     YSTR_QUESTIONS     '?'                                                <* 
- *> #define     YSTR_RECOVER       '@'                                                <* 
- *> #define     YSTR_DENIED        'D'                                                <* 
- *> #define     YSTR_PASSED        'P'                                                <* 
- *> #define     YSTR_FAILURE       'F'                                                <* 
- *> #define     YSTR_TIMEOUT       'T'                                                <* 
- *> #define     YSTR_REFRESH       'R'                                                <* 
- *> #define     YSTR_CANCEL        'C'                                                <*/
-
-/*> char        ySTR_language           (void);                                                                                               <* 
- *> char        ySTR_cluster            (char l, char n, char *a_word, char *a_content);                                                      <* 
- *> char        ySTR_host               (char l, char n, char *a_title, char *a_content);                                                     <* 
- *> char        ySTR_prompt             (char a_style, char *a_prefix, int a_lang, int a_cluster, int a_host, char *a_prompt, char *a_key);   <* 
- *> char        ySTR_password           (char a_style, int a_lang, char *a_prompt);                                                           <* 
- *> char        ySTR_word               (int a_lang, char a_which, char *a_word);                                                             <* 
- *> char        ySTR_prompt_box         (int a_lang, int a_cluster, int a_host, char *a_date, int x, int y);                                  <*/
-
-/*> #define     YSTR_GAPS          'y'                                                <* 
- *> #define     YSTR_NOGAPS        '-'                                                <*/
-
-/*> #define     YSTR_CLEAR         'c'                                                <* 
- *> #define     YSTR_MERGE         'm'                                                <*/
-
-/*> char        ySTR_font               (char *a_font, int *a_wide, int *a_tall);                                                        <* 
- *> char        ySTR_displayer          (void *a_displayer);                                                                             <* 
- *> char        ySTR_display            (char *a_font, char *a_text, char a_gap, int x, int y, int *a_wide, int *a_tall, char a_mode);   <* 
- *> char        ystr_oneline            (char *a_text, int x, int y, char a_mode);                                                       <* 
- *> char        ySTR_wrapping           (char *a_text, int x, int y, int *a_wide, int *a_tall, char a_mode);                             <*/
-
 
 char        ystrlexport             (int a_line, char *a_recd);
 char        ystrlimport             (int a_line, char *a_recd, int *a_len);
