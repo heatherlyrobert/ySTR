@@ -128,7 +128,6 @@ typedef     unsigned long long      ullong;
 #define     YSTR_EXACT     'e'   /* check, then grow/shrink to exact size     */
 #define     YSTR_VALID     "-uyae"
 
-#define     YSTR_CLIP      "/root/z_gehye/vi_clip.txt"
 
 
 char*       ySTR_version            (void);

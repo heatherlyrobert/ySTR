@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0a"
-#define     P_VERTXT    "moved ySTR_font and ySTR_lang to yASCII (better fit)"
+#define     P_VERNUM    "2.0b"
+#define     P_VERTXT    "finally updated vi_clip location to /tmp, better solution coming"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
