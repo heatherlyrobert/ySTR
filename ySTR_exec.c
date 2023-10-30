@@ -260,6 +260,71 @@ ystrlhome                (char *a_home)
 }
 
 char
+ystrlbase                (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   char        x_name      [LEN_PATH]  = "";
+   char       *p           = NULL;
+   char       *q           = NULL;
+   int         x_len       =    0;
+   int         l           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   /*---(default)------------------------*/
+   if (r_path != NULL)  strcpy (r_path, "");
+   if (r_base != NULL)  strcpy (r_base, "");
+   if (r_proj != NULL)  strcpy (r_proj, "");
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_spoint  (a_name);
+   --rce;  if (a_name == NULL) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   x_len = strlen (a_name);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   --rce;  if (x_len <= 0) {
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(prepare)------------------------*/
+   ystrlcpy (x_name, a_name, LEN_PATH);
+   DEBUG_YSTR   yLOG_snote   (x_name);
+   /*---(parse)--------------------------*/
+   p = strrchr (x_name, '/');
+   DEBUG_YSTR   yLOG_spoint  (p);
+   if (p == NULL)  p = x_name;
+   else            ++p;
+   q = strrchr (p, '.');
+   DEBUG_YSTR   yLOG_spoint  (q);
+   if (q != NULL)  ++q;
+   /*---(handle path)--------------------*/
+   if (p != x_name) {
+      l = p - x_name;
+      if (r_path != NULL)  ystrlcpy (r_path, x_name, l + 1);
+      rc += 1;
+   }
+   /*---(handle base)--------------------*/
+   l = p - x_name;
+   if (l < x_len) {
+      if (r_base != NULL)  ystrlcpy (r_base, p, LEN_HUND);
+      rc += 2;
+   }
+   /*---(handle proj)--------------------*/
+   if (strncmp ("/home/system/", x_name, 13) == 0 && p == x_name + 13) {
+      if (q == NULL)  l = LEN_LABEL;
+      else            l = q - p;
+      if (l > LEN_LABEL)  l = LEN_LABEL;
+      DEBUG_YSTR   yLOG_sint    (l);
+      if (r_proj != NULL)  ystrlcpy (r_proj, p, l);
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return rc;
+}
+
+char
 ystrlproj                (char *a_home, char *a_name)
 {
    /*---(locals)-----------+-----+-----+-*/

@@ -147,6 +147,7 @@ int         ystrlrepl               (char *b_src, char *a_old, char *a_new, int 
 /*---(configuration)-----------*/
 char        ystrlfile               (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
 char        ystrlhome               (char *a_home);
+char        ystrlbase                (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL]);
 char        ystrlproj               (char *a_home, char *a_name);
 char        ystrlhere               (char *a_home, char *a_name);
 char*       ystrlrecd               (cchar *a_name, int n, int *c, char *a_recd, int a_max);
