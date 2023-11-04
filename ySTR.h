@@ -147,7 +147,7 @@ int         ystrlrepl               (char *b_src, char *a_old, char *a_new, int 
 /*---(configuration)-----------*/
 char        ystrlfile               (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
 char        ystrlhome               (char *a_home);
-char        ystrlbase                (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL]);
+char        ystrlbase               (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL], char *r_level);
 char        ystrlproj               (char *a_home, char *a_name);
 char        ystrlhere               (char *a_home, char *a_name);
 char*       ystrlrecd               (cchar *a_name, int n, int *c, char *a_recd, int a_max);
@@ -254,8 +254,9 @@ char        ystrlexport             (int a_line, char *a_recd);
 char        ystrlimport             (int a_line, char *a_recd, int *a_len);
 char        ystrlage                (long a_epoch, char a_fmt, char a_age [LEN_SHORT]);
 char        ystrlsize               (llong a_bytes, char a_fmt, char a_size [LEN_SHORT]);
-char        ystr2mongo               (long a_epoch, char *a_mongo);
-char        ystr4mongo               (char *a_mongo, long *a_epoch);
+char        ystrlcount              (llong a_value, char a_fmt, char a_count [LEN_SHORT]);
+char        ystr2mongo              (long a_epoch, char *a_mongo);
+char        ystr4mongo              (char *a_mongo, long *a_epoch);
 
 
 

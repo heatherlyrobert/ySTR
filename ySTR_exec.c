@@ -260,7 +260,7 @@ ystrlhome                (char *a_home)
 }
 
 char
-ystrlbase                (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL])
+ystrlbase               (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL], char *r_level)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -270,12 +270,14 @@ ystrlbase                (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char 
    char       *q           = NULL;
    int         x_len       =    0;
    int         l           =    0;
+   int         c           =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(default)------------------------*/
-   if (r_path != NULL)  strcpy (r_path, "");
-   if (r_base != NULL)  strcpy (r_base, "");
-   if (r_proj != NULL)  strcpy (r_proj, "");
+   if (r_path  != NULL)  strcpy (r_path, "");
+   if (r_base  != NULL)  strcpy (r_base, "");
+   if (r_proj  != NULL)  strcpy (r_proj, "");
+   if (r_level != NULL)  *r_level = 0;
    /*---(defense)------------------------*/
    DEBUG_YSTR   yLOG_spoint  (a_name);
    --rce;  if (a_name == NULL) {
@@ -290,7 +292,12 @@ ystrlbase                (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char 
    }
    /*---(prepare)------------------------*/
    ystrlcpy (x_name, a_name, LEN_PATH);
+   if (x_len > 1 && x_name [x_len - 1] == '/')  x_name [--x_len] = '\0';
    DEBUG_YSTR   yLOG_snote   (x_name);
+   /*---(calculate level)----------------*/
+   c = ystrldcnt (x_name, '/', LEN_PATH);
+   if (x_name [0] == '/' && c > 0)  --c;
+   if (r_level != NULL)  *r_level = c;
    /*---(parse)--------------------------*/
    p = strrchr (x_name, '/');
    DEBUG_YSTR   yLOG_spoint  (p);
@@ -644,7 +651,7 @@ ystrlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
 }
 
 char
-ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
+ystr_size                (llong a_bytes, char a_base, char a_fmt, char a_size [LEN_SHORT])
 {  /*---(notes)--------------------------*/
    /*
     *  scaled sizes are almost always more important to me than single unit.
@@ -664,6 +671,7 @@ ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
    char        rce         =  -10;
    llong       x_size      =    0;
    char        x_unit      =  '-';
+   int         x_mult      = 1000;
    /*---(default)------------------------*/
    if (a_bytes != NULL)  strcpy (a_size, "   ·");
    /*---(defense)------------------------*/
@@ -675,25 +683,26 @@ ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
    }
    x_size  = a_bytes;
    /*---(check trival size)--------------*/
+   if (a_base = 'b')  x_mult = 1024;
    x_unit  = '´';
    if (strchr ("tT", a_fmt) == NULL && x_size == 0) {
       strcpy (a_size, "  <´");
       return 0;
    }
    /*---(figure size)--------------------*/
-   if (x_size >= 1000) {
-      x_size /= 1000;
+   if (x_size >= x_mult) {
+      x_size /= x_mult;
       x_unit  = 'k';
-      if (x_size >= 1000) {
-         x_size /= 1000;
+      if (x_size >= x_mult) {
+         x_size /= x_mult;
          x_unit  = 'm';
-         if (x_size >= 1000) {
-            x_size /= 1000;
+         if (x_size >= x_mult) {
+            x_size /= x_mult;
             x_unit  = 'g';
-            if (x_size >= 1000) {
-               x_size /= 1000;
+            if (x_size >= x_mult) {
+               x_size /= x_mult;
                x_unit  = 't';
-               if (x_size >= 1000) {
+               if (x_size >= x_mult) {
                   strcpy (a_size, "#/hu");  /* 1,000+ exabytes */
                   return rce;
                }
@@ -723,6 +732,99 @@ ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
    /*---(complete)-----------------------*/
    return 0;
 }
+
+char
+ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
+{
+   return ystr_size (a_bytes, 'b', a_fmt, a_size);
+}
+
+char
+ystrlcount               (llong a_value, char a_fmt, char a_count [LEN_SHORT])
+{
+   return ystr_size (a_value, '-', a_fmt, a_count);
+}
+
+/*> char                                                                              <* 
+ *> ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])     <* 
+ *> {  /+---(notes)--------------------------+/                                       <* 
+ *>    /+                                                                             <* 
+ *>     *  scaled sizes are almost always more important to me than single unit.      <* 
+ *>     *  quicker for me to interpret.  it also only needs three chars.              <* 
+ *>     *  if i keep to one way of presenting, it is even easier, for me.             <* 
+ *>     *  build-once, use-often.                                                     <* 
+ *>     *                                                                             <* 
+ *>     *  -  = normal lower case units (also 'n' type)                               <* 
+ *>     *  u  = upper case for large units                                            <* 
+ *>     *  N  = fill spaces with '·'                                                  <* 
+ *>     *  U  = both u and N options                                                  <* 
+ *>     *  t  = shows less than 1,000 numbers (rather than <k)                        <* 
+ *>     *  T  = t plus U and N                                                        <* 
+ *>     *                                                                             <* 
+ *>     +/                                                                            <* 
+ *>    /+---(locals)-------------------------+/                                       <* 
+ *>    char        rce         =  -10;                                                <* 
+ *>    llong       x_size      =    0;                                                <* 
+ *>    char        x_unit      =  '-';                                                <* 
+ *>    /+---(default)------------------------+/                                       <* 
+ *>    if (a_bytes != NULL)  strcpy (a_size, "   ·");                                 <* 
+ *>    /+---(defense)------------------------+/                                       <* 
+ *>    --rce;  if (a_size == NULL)  return rce;                                       <* 
+ *>    /+---(weird epoch)--------------------+/                                       <* 
+ *>    --rce;  if (a_bytes <  0) {                                                    <* 
+ *>       strcpy (a_size, "#/ne");  /+ n = negative/zero +/                           <* 
+ *>       return rce;                                                                 <* 
+ *>    }                                                                              <* 
+ *>    x_size  = a_bytes;                                                             <* 
+ *>    /+---(check trival size)--------------+/                                       <* 
+ *>    x_unit  = '´';                                                                 <* 
+ *>    if (strchr ("tT", a_fmt) == NULL && x_size == 0) {                             <* 
+ *>       strcpy (a_size, "  <´");                                                    <* 
+ *>       return 0;                                                                   <* 
+ *>    }                                                                              <* 
+ *>    /+---(figure size)--------------------+/                                       <* 
+ *>    if (x_size >= 1000) {                                                          <* 
+ *>       x_size /= 1000;                                                             <* 
+ *>       x_unit  = 'k';                                                              <* 
+ *>       if (x_size >= 1000) {                                                       <* 
+ *>          x_size /= 1000;                                                          <* 
+ *>          x_unit  = 'm';                                                           <* 
+ *>          if (x_size >= 1000) {                                                    <* 
+ *>             x_size /= 1000;                                                       <* 
+ *>             x_unit  = 'g';                                                        <* 
+ *>             if (x_size >= 1000) {                                                 <* 
+ *>                x_size /= 1000;                                                    <* 
+ *>                x_unit  = 't';                                                     <* 
+ *>                if (x_size >= 1000) {                                              <* 
+ *>                   strcpy (a_size, "#/hu");  /+ 1,000+ exabytes +/                 <* 
+ *>                   return rce;                                                     <* 
+ *>                }                                                                  <* 
+ *>             }                                                                     <* 
+ *>          }                                                                        <* 
+ *>       }                                                                           <* 
+ *>    }                                                                              <* 
+ *>    /+---(adjust for format)--------------+/                                       <* 
+ *>    if (a_fmt != 0 && strchr ("uUtT", a_fmt) != NULL) {                            <* 
+ *>       switch (x_unit) {                                                           <* 
+ *>       case 'm' :  x_unit = 'M';  break;                                           <* 
+ *>       case 'g' :  x_unit = 'G';  break;                                           <* 
+ *>       case 't' :  x_unit = 'T';  break;                                           <* 
+ *>       }                                                                           <* 
+ *>    }                                                                              <* 
+ *>    /+---(save-back)----------------------+/                                       <* 
+ *>    if (strchr ("tT", a_fmt) == NULL && x_unit == '´') {                           <* 
+ *>       strcpy (a_size, "  <k");                                                    <* 
+ *>    } else {                                                                       <* 
+ *>       sprintf (a_size, "%3d%c", x_size, x_unit);                                  <* 
+ *>    }                                                                              <* 
+ *>    /+---(check for fill)-----------------+/                                       <* 
+ *>    if (a_fmt != 0 && strchr ("NTU", a_fmt) != NULL) {                             <* 
+ *>       if (a_size [0] == ' ')  a_size [0] = '·';                                   <* 
+ *>       if (a_size [1] == ' ')  a_size [1] = '·';                                   <* 
+ *>    }                                                                              <* 
+ *>    /+---(complete)-----------------------+/                                       <* 
+ *>    return 0;                                                                      <* 
+ *> }                                                                                 <*/
 
 char
 ystr2mongo               (long a_epoch, char *a_mongo)
