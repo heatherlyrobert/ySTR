@@ -572,7 +572,7 @@ ystrlimport              (int a_line, char *a_recd, int *a_len)
 static void      o___DATES___________________o (void) {;}
 
 char
-ystrlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
+ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT])
 {  /*---(notes)--------------------------*/
    /*
     *  age is almost always more important to me than date, and
@@ -590,24 +590,24 @@ ystrlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
    long        x_age       =    0;
    char        x_unit      =  '-';
    /*---(default)------------------------*/
-   if (a_age != NULL)  strcpy (a_age, "  ·");
+   if (r_age != NULL)  strcpy (r_age, "  ·");
    /*---(defense)------------------------*/
-   --rce;  if (a_age == NULL)  return rce;
+   --rce;  if (r_age == NULL)  return rce;
    /*---(weird epoch)--------------------*/
    --rce;  if (a_epoch <= 0) {
-      strcpy (a_age, "#/n");  /* n = negative/zero */
+      strcpy (r_age, "#/n");  /* n = negative/zero */
       return rce;
    }
    /*---(time difference)----------------*/
-   x_age = time (NULL) - a_epoch;
+   x_age = a_now - a_epoch;
    --rce;  if (x_age < 0) {
-      strcpy (a_age, "#/f");  /* f = future epoch  */
+      strcpy (r_age, "#/f");  /* f = future epoch  */
       return rce;
    }
    /*---(figure age)---------------------*/
    x_unit = 's';
    if (x_age == 0) {
-      strcpy (a_age, " <s");
+      strcpy (r_age, " <s");
       return 0;
    }
    --rce;  if (x_age >= 60) {
@@ -623,7 +623,7 @@ ystrlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
                   if (x_age >= 100) {
                      x_age /= 100; x_unit = 'c';
                      if (x_age >= 100) {
-                        strcpy (a_age, "#/h");  /* huge date 100+ centuries */
+                        strcpy (r_age, "#/h");  /* huge date 100+ centuries */
                         return rce;
                      }
                   }
@@ -641,13 +641,25 @@ ystrlage                 (long a_epoch, char a_fmt, char a_age [LEN_SHORT])
       }
    }
    /*---(save-back)----------------------*/
-   sprintf (a_age, "%2d%c", x_age, x_unit);
+   sprintf (r_age, "%2d%c", x_age, x_unit);
    /*---(check for fill)-----------------*/
    if (a_fmt != 0 && strchr ("NU", a_fmt) != NULL) {
-      if (a_age [0] == ' ')  a_age [0] = '·';
+      if (r_age [0] == ' ')  r_age [0] = '·';
    }
    /*---(complete)-----------------------*/
    return 0;
+}
+
+char
+ystrlage                 (long a_epoch, char a_fmt, char r_age [LEN_SHORT])
+{
+   return ystrl_age (time (NULL), a_epoch, a_fmt, r_age);
+}
+
+char
+ystrlager                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT])
+{
+   return ystrl_age (a_now, a_epoch, a_fmt, r_age);
 }
 
 char

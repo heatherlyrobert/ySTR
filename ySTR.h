@@ -253,6 +253,7 @@ char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 char        ystrlexport             (int a_line, char *a_recd);
 char        ystrlimport             (int a_line, char *a_recd, int *a_len);
 char        ystrlage                (long a_epoch, char a_fmt, char a_age [LEN_SHORT]);
+char        ystrlager                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT]);
 char        ystrlsize               (llong a_bytes, char a_fmt, char a_size [LEN_SHORT]);
 char        ystrlcount              (llong a_value, char a_fmt, char a_count [LEN_SHORT]);
 char        ystr2mongo              (long a_epoch, char *a_mongo);
