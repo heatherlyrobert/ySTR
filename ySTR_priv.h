@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0f"
-#define     P_VERTXT    "added variation on ystrlage to force current date (for unit testing)"
+#define     P_VERNUM    "2.0g"
+#define     P_VERTXT    "brought key translation from yX11 and simplified extended keys"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

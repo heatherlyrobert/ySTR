@@ -180,6 +180,7 @@ char        ystrl2leet              (char *a_src, int a_max);
 char        ystrl4leet              (char *a_src, int a_max);
 uchar       ychrslashed             (char a_ch);
 uchar       ychrslashed_more        (char a_ch);
+uchar       ychrbackward            (uchar a_ch, char *r_slash, char *r_base);
 char        ystrlunslash            (uchar *a_src, int a_max);
 uchar       ychrvisible             (uchar a_ch);
 uchar       ychrworking             (uchar a_ch);

@@ -37,13 +37,16 @@
 #define     YSTR_BPUNC    "_.,:;!?-()&"
 #define     YSTR_PUNCT    "_. ,:;!?-()\"\'&<>{}[]+*/=#@\\^%`~^|$"
 #define     YSTR_LEET     "46()3[&#!;<1-=0+9~57_|8*?2"
-#define     YSTR_MAYANC   "dgnlswyqtkhzmcxr"
-#define     YSTR_MAYANV   "aieovuf"
-#define     YSTR_MAYANO   "´Ö×ÕÔ€„"
 #define     YSTR_MENU     "fevisomdtplbgaxcsh"
 #define     YSTR_TABS     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_COLORS   "wruybpocWRGYBPOC"
 /*> "file, edit, view, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
+/*---(mayan)--------------------------*/
+#define     YSTR_MAYANF   "dgnlswyqtkhzmcDGTQK"
+#define     YSTR_MAYANC   "dgnlswyqtkhzmc"
+#define     YSTR_MAYANV   "aieovuf"
+#define     YSTR_MAYANE   "aieovufbjprx"
+#define     YSTR_MAYANO   "´Ö×ÕÔ€„"
 /*---(combination)--------------------*/
 #define     YSTR_UPNUM    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 #define     YSTR_UPLOW    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -90,6 +93,7 @@
 #define     YSTR_EDOTS     "·······································································································································································································"
 #define     YSTR_PLUS      "····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····+····"
 #define     YSTR_COLS      "----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----·----"
+#define     YSTR_HORZ      "€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€"
 /*---(yVIKEYS)------------------------*/
 #define     YSTR_LARROW    "×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×·×"
 #define     YSTR_RARROW    "Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö·Ö"
@@ -183,15 +187,15 @@
 #define     G_CHAR_SUB3         195   /*  Ã  */
 #define     G_CHAR_SUB4         196   /*  Ä  */
 #define     G_CHAR_SUBN         197   /*  Å  */
+#define     G_CHAR_SCINOTE      203   /*  Ë  */
+#define     G_CHAR_SQRT         206   /*  Î  */
 #define     G_CHAR_POW2         198   /*  Æ  */
 #define     G_CHAR_POW3         199   /*  Ç  */
 #define     G_CHAR_POW4         200   /*  È  */
 #define     G_CHAR_POWX         201   /*  É  */
 #define     G_CHAR_POWY         202   /*  Ê  */
-#define     G_CHAR_SMHASH       203   /*  Ë  */
 #define     G_CHAR_DEGREE       204   /*  Ì  */
 #define     G_CHAR_RADIAN       205   /*  Í  */
-#define     G_CHAR_SQRT         206   /*  Î  */
 /*---(logic)---------------------*/
 #define     G_CHAR_AND          208   /*  Ð  */
 #define     G_CHAR_OR           209   /*  Ñ  */
@@ -201,8 +205,10 @@
 #define     G_CHAR_DOWN         213   /*  Õ  */
 #define     G_CHAR_RIGHT        214   /*  Ö  */
 #define     G_CHAR_LEFT         215   /*  ×  */
+/*---(math)----------------------*/
 #define     G_CHAR_LE           220   /*  Ü      <=  */
 #define     G_CHAR_GE           221   /*  Ý      >=  */
+#define     G_CHAR_EQUIV        224   /*  à      == */
 #define     G_CHAR_NE           222   /*  Þ      !=  */
 #define     G_CHAR_APPROX       223   /*  ß      =~  */
 #define     G_CHAR_RANGE        152   /*  ˜  */
@@ -240,7 +246,6 @@
 #define     G_CHAR_INFINITY     153   /*  ™  */
 #define     G_CHAR_FUNCTION     154   /*  š  */
 #define     G_CHAR_FOREACH      228   /*  ä  */
-#define     G_CHAR_EQUIV        224   /*  à      == */
 #define     G_CHAR_POINT        225   /*  á  */
 #define     G_CHAR_SUBSET       226   /*  â  */
 #define     G_CHAR_MEMBER       227   /*  ã  */
