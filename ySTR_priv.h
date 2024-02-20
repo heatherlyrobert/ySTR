@@ -14,7 +14,7 @@
 
 #define     P_NAMESAKE  "astrea-kori (star-maiden)"
 #define     P_HERITAGE  "virgin goddess of justice, purity, and precision"
-#define     P_IMAGERY   "elegant with shinning wings, angel light, and flamming torch"
+#define     P_IMAGERY   "elegant woman with shinning wings, angel light, and flamming torch"
 #define     P_REASON    "greek goddess of precision keeps my strings safe"
 
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0g"
-#define     P_VERTXT    "brought key translation from yX11 and simplified extended keys"
+#define     P_VERNUM    "2.0h"
+#define     P_VERTXT    "few updates to _nums and _exec.  unit test updated"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

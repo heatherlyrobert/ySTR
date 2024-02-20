@@ -190,26 +190,30 @@ char*       ystrldisp               (char a_txt [LEN_HUND], char a_len, char *a_
 char        ystrlparse              (char *a_src, char *a_disp, char *a_final, char a_maxc, int *a_cnt, char *a_ptr [], int a_maxl);
 /*> char        strlargs           (char *a_src, int   a_max , int  a_cnt , int *a_argc, char *argv[]);   <*/
 
-char        ystrl2bin               (char   *a_src, double *a_val, int a_max);
-char        ystrl2oct               (char   *a_src, double *a_val, int a_max);
-char        ystrl2hex               (char   *a_src, double *a_val, int a_max);
-char        ystrl2mongo             (char *a_src, double *a_val, int a_max);
-char        ystrl2mongor            (char *a_src, ullong *a_val, int a_max);
-char        ystrl2real              (char   *a_src, double *a_val, int a_max);
-char        ystrl2sci               (char *a_src, double *a_val, int a_max);
-char        ystrl2comma             (cchar  *a_src, double *a_val, int a_max);
-char        ystrl2num               (char   *a_src, double *a_val, int a_max);
+char        ystrl2bin               (char  *a_src, double *a_val, int a_max);
+char        ystrl2oct               (char  *a_src, double *a_val, int a_max);
+char        ystrl2hex               (char  *a_src, double *a_val, int a_max);
+char        ystrl2mongo             (char  *a_src, double *a_val, int a_max);
+char        ystrl2mongor            (char  *a_src, ullong *a_val, int a_max);
+char        ystrl2real              (char  *a_src, double *a_val, int a_max);
+char        ystrl2sci               (char  *a_src, double *a_val, int a_max);
+char        ystrl2comma             (cchar *a_src, double *a_val, int a_max);
+char        ystrl2num               (char  *a_src, double *a_val, int a_max);
 
-char        ystrl4bin               (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4oct               (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4hex               (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4comma             (double a_val, char *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
-char        ystrl4sci               (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4roman             (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4mongo             (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4mongor            (ullong a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4time              (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max);
-char        ystrl4main              (double a_val, char *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
+char        ystrl4bin               (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4oct               (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4hex               (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4comma             (double a_val, char   *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
+char        ystrl4sci               (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4roman             (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4mongo             (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4mongor            (ullong a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4time              (double a_val, char   *a_out, int a_cnt, char a_fmt, int a_max);
+char        ystrl4main              (double a_val, char   *a_out, int a_cnt, char a_fmt, char a_unit, int a_max);
+
+char        ystrlbit2bin            (char  *a_src, char a_len, char *r_out, char a_fmt, int a_max);
+char        ystrlbin2bit            (char  *a_src, int a_max, char *r_bits, char a_blen);
+char        ystrlbin2val            (char  *a_src, double *r_val, int a_max);
 
 char        ystrlpad                (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
 char        ystrlpadn               (int   a_src, char *a_out, char a_fil, char a_ali, int a_max);

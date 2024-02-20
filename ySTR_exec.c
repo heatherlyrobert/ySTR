@@ -238,8 +238,8 @@ ystrlhome                (char *a_home)
    --rce; if (x_len > 16 && strncmp ("/home/system/"         , x_home, 13) == 0) {
       DEBUG_YSTR   yLOG_snote   ("system");
       ;;
-   } else if (x_len > 16 && strncmp ("/home/monkey/"         , x_home, 13) == 0) {
-      DEBUG_YSTR   yLOG_snote   ("monkey");
+   } else if (x_len > 19 && strncmp ("/home/keepsake/"       , x_home, 15) == 0) {
+      DEBUG_YSTR   yLOG_snote   ("keepsake");
       ;;
    } else if (x_len > 25 && strncmp ("/home/member/p_gvskav/", x_home, 22) == 0) {
       DEBUG_YSTR   yLOG_snote   ("member");

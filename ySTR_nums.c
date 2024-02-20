@@ -16,6 +16,7 @@
  */
 
 
+
 /*====================------------------------------------====================*/
 /*===----                     conversion to numeric                    ----===*/
 /*====================------------------------------------====================*/
@@ -326,8 +327,8 @@ ystrl2mongor        (char *a_src, ullong *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_schar   (x_ch);
    x_ch = tolower (a_src [0]);
-   if (x_ch == 'í') {
-      DEBUG_YSTR   yLOG_snote   ("pre=í");
+   if (x_ch == 'ÿ') {
+      DEBUG_YSTR   yLOG_snote   ("pre=ÿ");
       x_min  =  1;
    }
    --rce; if (x_min <= 0) {
@@ -407,8 +408,8 @@ ystrl2mongo         (char *a_src, double *a_val, int a_max)
    }
    DEBUG_YSTR   yLOG_schar   (x_ch);
    x_ch = tolower (a_src [0]);
-   if (x_ch == 'í') {
-      DEBUG_YSTR   yLOG_snote   ("pre=í");
+   if (x_ch == 'ÿ') {
+      DEBUG_YSTR   yLOG_snote   ("pre=ÿ");
       x_min  =  1;
    }
    --rce; if (x_min <= 0) {
@@ -882,7 +883,7 @@ ystrl2num           (char *a_src, double *a_val, int a_max)
          DEBUG_YSTR   yLOG_note    ("hexadecimal");
          rc = ystrl2hex   (a_src, &x_value, a_max);
          break;
-      case 'í':
+      case 'ÿ':
          DEBUG_YSTR   yLOG_note    ("mongo");
          rc = ystrl2mongo (a_src, &x_value, a_max);
          break;
@@ -1055,6 +1056,9 @@ ystrl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_ma
    int         i           =    0;               /* iterator -- character     */
    char        x_temp      [200] = "";
    char        x_final     [200] = "";
+   char        x_nibs      =    0;
+   char        x_on        [LEN_TERSE] =  "1";
+   char        x_off       [LEN_TERSE] =  "0";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(defence)------------------------*/
@@ -1065,7 +1069,7 @@ ystrl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_ma
    }
    ystrlcpy (a_out, YSTR_EMPTY, a_max);
    DEBUG_YSTR   yLOG_schar   (a_fmt);
-   --rce;  if (strchr ("bBnq:s", a_fmt) == NULL) {
+   --rce;  if (strchr ("bBnq:s-", a_fmt) == NULL) {
       ystrlcpy (a_out, "#p/fmt", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
@@ -1076,22 +1080,34 @@ ystrl4bin           (double a_val, char *a_out, int a_nibs, char a_fmt, int a_ma
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
+   /*---(prepare)--------------*/
+   if (a_fmt == '-') {
+      strcpy (x_on  , "#");
+      strcpy (x_off , "-");
+   }
    /*---(any binary)-----------*/
    x_num = (long) a_val;
-   if (x_num == 0)   strcat (x_temp, "0000");
+   if (x_num == 0) {
+      if (a_fmt == '-')     strcat (x_temp, "----");
+      else                  strcat (x_temp, "0000");
+   }
    while (x_num > 0) {
-      if (x_num % 2 == 0)   strcat (x_temp, "0");
-      else                  strcat (x_temp, "1");
+      if (x_num % 2 == 0)   strcat (x_temp, x_off);
+      else                  strcat (x_temp, x_on);
       x_num /= 2;
    }
    /*---(make prefix)----------*/
    x_len = strlen (x_temp);
    switch (x_len % 4) {
-   case 1 : strcat (x_temp, "0");
-   case 2 : strcat (x_temp, "0");
-   case 3 : strcat (x_temp, "0");
+   case 1 : strcat (x_temp, x_off);
+   case 2 : strcat (x_temp, x_off);
+   case 3 : strcat (x_temp, x_off);
    }
-   for (i = x_len / 4; i < a_nibs; ++i)  strcat (x_temp, "0000");
+   x_len = strlen (x_temp);
+   for (i = x_len / 4; i < a_nibs; ++i) {
+      if (a_fmt == '-')     strcat (x_temp, "----");
+      else                  strcat (x_temp, "0000");
+   }
    if (strchr ("bB", a_fmt) != NULL)     strcat (x_temp, "é");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
@@ -1485,7 +1501,6 @@ ystrl4roman         (double a_val, char *a_out, int a_decs, char a_fmt, int a_ma
    if (x_int / 300  == 1)    {  strcat (x_final, "CCC"   );  x_int -=  300; }
    if (x_int / 200  == 1)    {  strcat (x_final, "CC"    );  x_int -=  200; }
    if (x_int / 100  == 1)    {  strcat (x_final, "C"     );  x_int -=  100; }
-   if (x_int / 100  == 1)    {  strcat (x_final, "C"     );  x_int -=  100; }
    if (x_int / 90   == 1)    {  strcat (x_final, "XC"    );  x_int -=   90; }
    if (x_int / 80   == 1)    {  strcat (x_final, "LXXX"  );  x_int -=   80; }
    if (x_int / 70   == 1)    {  strcat (x_final, "LXX"   );  x_int -=   70; }
@@ -1575,7 +1590,7 @@ ystrl4mongor        (ullong a_val, char *a_out, int a_cnt, char a_fmt, int a_max
    case 3 : strcat (x_temp, "0");
    }
    for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
-   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, "í");
+   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, "ÿ");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
@@ -1651,7 +1666,7 @@ ystrl4mongo         (double a_val, char *a_out, int a_cnt, char a_fmt, int a_max
    case 3 : strcat (x_temp, "0");
    }
    for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_temp, "0000");
-   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, "í");
+   if (strchr ("zZ", a_fmt) != NULL)    strcat (x_temp, "ÿ");
    /*---(flip)-----------------*/
    x_len = strlen (x_temp) - 1;
    for (i = x_len; i >= 0; --i) x_final [x_len - i] = x_temp[i];
@@ -1686,6 +1701,11 @@ ystrl4time          (double a_val, char *a_out, int a_decs, char a_fmt, int a_ma
    int         i           =    0;
    long        x_now       = 0;
    tTIME      *x_time      = NULL;
+   char        x_hrs       =    0;
+   char        x_min       =    0;
+   char        x_shift     =    0;
+   char        t           [LEN_TERSE] = "";
+   char       *x_shifts    = "gdmoauei";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(defence)------------------------*/
@@ -1715,13 +1735,56 @@ ystrl4time          (double a_val, char *a_out, int a_decs, char a_fmt, int a_ma
    x_time = localtime (&x_now);
    switch (a_fmt) {
    case 'd': strftime (x_final, 50, "%Y-%b-%d", x_time);
+             x_final [5] = tolower (x_final [5]);
              break;
    case 't': strftime (x_final, 50, "%H:%M", x_time);
              break;
    case 'D': strftime (x_final, 50, "%Y-%b-%d %H:%M", x_time);
+             x_final [5] = tolower (x_final [5]);
              break;
-   case 'T': strftime (x_final, 50, "%Y.%m.%d.%H.%M.%S", x_time);
+   case 'T': strftime (x_final, 50, "%Y.%m.%d.%H.%M.%S.%u.%W.%j", x_time);
+             sprintf (t, "%-2.2s", x_final + 11);
+             x_hrs = atoi (t);
+             sprintf (t, "%-2.2s", x_final + 14);
+             x_min = atoi (t);
+             switch (x_hrs) {
+             case 23 : case  0 :
+                x_shift = 7;  break;
+             case  1 :
+                if (x_min < 30) x_shift = 7;  else x_shift = 0;  break;
+             case  2 : case  3 :
+                x_shift = 0;  break;
+             case  4 :
+                if (x_min < 30) x_shift = 0;  else x_shift = 1;  break;
+             case  5 : case  6 :
+                x_shift = 1;  break;
+             case  7 :
+                if (x_min < 30) x_shift = 1;  else x_shift = 2;  break;
+             case  8 : case  9 :
+                x_shift = 2;  break;
+             case 10 :
+                if (x_min < 30) x_shift = 2;  else x_shift = 3;  break;
+             case 11 : case 12 :
+                x_shift = 3;  break;
+             case 13 :
+                if (x_min < 30) x_shift = 3;  else x_shift = 4;  break;
+             case 14 : case 15 :
+                x_shift = 4;  break;
+             case 16 :
+                if (x_min < 30) x_shift = 4;  else x_shift = 5;  break;
+             case 17 : case 18 :
+                x_shift = 5;  break;
+             case 19 :
+                if (x_min < 30) x_shift = 5;  else x_shift = 6;  break;
+             case 20 : case 21 :
+                x_shift = 6;  break;
+             case 22 :
+                if (x_min < 30) x_shift = 6;  else x_shift = 7;  break;
+             }
+             sprintf (t, ".%d%c", x_shift, x_shifts [x_shift]);
+             strcat  (x_final, t);
              break;
+
    }
    /*---(create)---------------*/
    x_len = strlen (x_final);
@@ -1789,3 +1852,51 @@ ystrl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, char a_
    /*---(complete)-----------------------*/
    return rc;
 }
+
+char
+ystrlbit2bin            (char *a_bits, char a_blen, char *r_out, char a_fmt, int a_max)
+{
+   int         i           =    0;
+   char        t           [LEN_LABEL] = "";
+   strcpy (r_out, "");
+   for (i = 0; i < a_blen; ++i) {
+      if (i > 0 )  ystrlcat (r_out, ":", a_max);
+      ystrl4bin (a_bits [0], t, 2, a_fmt, LEN_LABEL);
+      ystrlcat (r_out, t, a_max);
+   }
+   return 0;
+}
+
+/*> char                                                                                         <* 
+ *> ystrlbin2bit            (char *a_src, int a_max, char *r_bits, char a_blen)                  <* 
+ *> {                                                                                            <* 
+ *>    int         i           =    0;                                                           <* 
+ *>    int         x_bits      =    0;                                                           <* 
+ *>    int         x_byte      =    0;                                                           <* 
+ *>    int         x_val       =    0;                                                           <* 
+ *>    uchar       c           =  ' ';                                                           <* 
+ *>    for (i = 0; i < x_bits; ++i) {                                                            <* 
+ *>       x_val = pow (2, 15 - i);                                                               <* 
+ *>       c = g_char [a_index].image [y][i];                                                     <* 
+ *>       if (c == '#')  x_byte += x_val;                                                        <* 
+ *>       DEBUG_YSTR    yLOG_complex ("loop"      , "%2d, %5d, %c, %5c", x, x_val, c, x_byte);   <* 
+ *>    }                                                                                         <* 
+ *> }                                                                                            <*/
+
+/*> char                                                                                         <* 
+ *> ystrlbin2val            (char  *a_src, double *r_val, int a_max)                             <* 
+ *> {                                                                                            <* 
+ *>    int         x_byte      =    0;                                                           <* 
+ *>    int         x_val       =    0;                                                           <* 
+ *>    uchar       c           =  ' ';                                                           <* 
+ *>    x_byte = 0;                                                                               <* 
+ *>    for (x = 0; x < x_bits; ++x) {                                                            <* 
+ *>       x_val = pow (2, 15 - x);                                                               <* 
+ *>       c = g_char [a_index].image [y][x];                                                     <* 
+ *>       if (c == '#')  x_byte += x_val;                                                        <* 
+ *>       DEBUG_INPT    yLOG_complex ("loop"      , "%2d, %5d, %c, %5c", x, x_val, c, x_byte);   <* 
+ *>    }                                                                                         <* 
+ *>    ystrl4bin ((double) x_byte, t, 4, 'n', LEN_LABEL);                                        <* 
+ *> }                                                                                            <*/
+
+
