@@ -1,0 +1,264 @@
+.TH ySTR_nums 3 2015-jun "linux" "interfacing applications with library"
+
+.SH NAME
+.B ySTR
+\- library of secure, useful, second-order string functions
+
+.SH PATRON
+.B astrea-kori
+(star-maiden)
+virgin goddess of justice, purity, and precision
+
+.SH IMAGERY
+elegant woman with shinning wings, angel light, and flamming torch
+
+.SH SUMMARY
+ySTR is a second-order string handling library, supplementing the c-string
+standard, with widely-used, standardized, well-tested, and traceable string
+functions.  DRY (don't repeat yourself), standardize, centralize.
+
+.SH DOCUMENTATION FILES
+.nf
+ySTR (3)           interfacing applications with library
+ySTR_chars (3)     specifics of character functions
+ySTR_exec (3)      helpful program execution functions
+ySTR_extend (3)    extended shrike charset (128-255)
+ySTR_max (3)       length limited functions
+.B ySTR_nums (3)······specifics of number format conversions
+ySTR_solo (3)      helpful string macros/constants
+ySTR (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        command overview
+c) comma           ornamented format conversion to and from value
+d) sci-note        scientific notation conversion to and from value
+e) binary          binary (base-2) conversion to and from value
+f) octal           octal (base-8) conversion to and from value
+g) hex             hex (base-16) conversion to and from value
+h) mongo           mongo (base-62) conversion to and from value
+i) roman           roman numercal format conversion from value
+j) time            time format conversion from value
+k) real            real-number conversion to and from value
+
+.SH A) OVERVIEW
+number format converion is fundamental to many of my applications, including
+gyges (my spreadsheet).  keeping formats consistent and universally available
+improves the quality of all my programs, and helps teach my eye to read
+them quickly.
+
+.SS converting from value into formatting string
+.nf
+char strl4...  (double a_val, char *r_out, int a_cnt, char a_frm, int a_max)
+   1) a_val, source number, any decimals are ignored
+   2) r_out, returning formatted string
+   3) a_cnt, number of bytes displayed, 0 means minimum necessary
+   4) a_fmt, discussed in each section below
+   5) a_max, maximum length of r_out string
+
+.SS converting from string into value...
+.nf
+char strl2...  (char *a_src, double *r_val, int a_max)
+   1) a_src, source string for conversion
+   2i r_val, returning double value
+   3) a_max, maximum length of a_src string
+
+.SS notes
+these functions are all intentionally called the same way to make usage of
+general formatting much simplier (such as in gyges).  the use of a double
+for a_val/r_val is also for maximum flexibility.
+
+.SH B) SYNOPSIS
+.nf
+.B #include  <ySTR.h>
+.sp
+---(conversion to value)-----------------------
+.BI "char ystrl2bin    (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2oct    (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2hex    (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2comma  (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2sci    (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2mongo  (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2real   (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.BI "char ystrl2num    (char *" "a_src" ", double *" "r_val" ", int " "a_max" ");"
+.sp
+---(formatting a value)------------------------
+.BI "char ystrl4bin   (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4oct   (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4hex   (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4comma (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", char "a_unit" " ", int " "a_max" ");"
+.BI "char ystrl4mongo (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4real  (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4roman (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4time  (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", int " "a_max" ");"
+.BI "char ystrl4main  (double " "a_val" ", char *" "r_out" ", int " "a_cnt" ", char " "a_frm" ", char "a_unit" " ", int " "a_max" ");"
+
+.sp
+.B link with -L/usr/local/lib, and either -lySTR or -lySTR_debug
+
+.SH C) COMMA (base-10)
+this is really about helpful and tranditional ornamentation on base-10 numbers
+to make them more readable or comparable.  easily converting in and out of these
+numbers makes reporting and parsing easier.
+
+a_cnt specifies the number of decimal places shown.
+
+a_fmt universal options, available in gyges...
+   i   12345                integer long
+   f   12345.1698           floating point
+   c   1,345.16982          comma delimited
+   C   1,345.169'82         comma/quote delimited
+   a   (1,221.16982)        accounting, comma delimited
+   A   (1,221.169'82)       accounting, comma/quote delimited
+   $   $(12,345.12)         dollar, comma delimited, () for neg
+   s   +12,345.16           explicit sign, comma delimited
+   S   +345.169'82          explicit sign, comma/quote delimited
+   #   345.169'82 +         technical, comma/quote delimited, tail sign
+
+a_unit (extra parameter) scales the end result by a modifier...
+   for ease of interpretation, units above zero are uppercase, below
+   are lowercase.  this does not fully match the international standard.
+   Y   yotto     x24   1000000000000000000000000.0
+   Z   zetta     x21   1000000000000000000000.0
+   E   exa       x18   1000000000000000000.0
+   P   peta      x15   1000000000000000.0
+   T   tera      x12   1000000000000.0
+   G   giga      x09   1000000000.0
+   M   mega      x06   1000000.0
+   K   kilo      x03   1000.0
+   H   hecto     x03   100.0
+   D   deca      x01   10.0
+   -   none        -   1.0
+   .   none        -   1.0
+   d   deci     -x01   0.1
+   c   centa    -x02   0.01
+   m   milli    -x03   0.001
+   u   micro    -x06   0.000001
+   n   nano     -x09   0.000000001
+   p   pico     -x12   0.000000000001
+   f   femto    -x15   0.000000000000001
+   a   atto     -x18   0.000000000000000001
+   z   zepto    -x21   0.000000000000000000001
+   y   yocto    -x24   0.000000000000000000000001
+
+a_unit examples on comma format...
+   normal       1,708,418,788
+   kilo (K)     1,708,419K
+   mega (M)     1,708M
+   giga (G)     2G     
+   giga (G)     1.71G        with two decimals
+
+.SH D) SCI-NOTE (base-10)
+besides units, scientific notation is an excellent way to highligh significant
+digits and show numbers is manageable format.
+
+a_fmt universal options, available in gyges...
+   e   1.484Ë9              normal
+   E   +1.484'236Ë+09       explicit sign and quote delimited
+
+caution, in gyges the sci-note symbol (Ë) is a mathmatical operator, not a
+notation.  Ë means the previous number mutilplied by 10 raised to the power
+of the next number.
+
+.SH E) BINARY (base-2)
+my binary notation is prefixed with é0110 (beta), but can accept b0110, 0b0110,
+and 0B0110 as prefixes for converting back into numbers.  BUT, yRPN, yCALC,
+and gyges only accept é (beta) as the correct prefix.
+
+a_cnt for binary refers to nibbles, not bytes.
+
+a_fmt universal options, available in gyges...
+   b   é10100110            prefixed, no separators
+   B   é'0101'0110          prefixed, quote separators
+
+a_fmt specialty options, only programatically available...
+   n   01010110             no separators
+   s   0101 0110            space separators
+   q   0101'0110            quote separators
+   :   0101:0110            colon separators
+   -   -#-#-##-             pixel image/font format
+
+.SH F) OCTAL (base-8)
+my octal notation is prefixed with ö755 (omicron), but can accept o755,
+and 0755 as prefixes for converting back into numbers.  BUT, yRPN, yCALC,
+and gyges only accept ö (omicron) as the correct prefix.
+
+a_fmt universal options, available in gyges...
+   o   ö755                 prefixed
+   O   ö'755'432            prefixed, quote separators
+
+.SH G) HEXIDECIMAL (base-16)
+my hex notation is prefixed with õb59c (xi), but can accept xb59c, 0xb59c,
+0Xb59c, as prefixes for converting back into numbers.  BUT, yRPN, yCALC,
+and gyges only accept õ (xi) as the correct prefix.
+
+a_fmt universal options, available in gyges...
+   x   õaf9254              prefixed, no separators
+   X   õ'af'92'54           prefixed, quote separators
+
+a_fmt specialty options, only programatically available...
+   u   õAF9254              prefixed, no separators, uppercase
+   U   õ'AF'92'54           prefixed, quote separators, uppercase
+   n   af9254               no separators
+   N   AF9254               no separators, uppercase
+   s   af 92 54             space separators
+   S   AF 92 54             space separators, uppercase
+   q   af'92'54             quote separators
+   Q   AF'92'54             quote separators, uppercase
+   :   AF:92:54             colon separators, uppercase
+
+.SH H) MONGO (base-62)
+my mongo notation is prefixed with ÿ3vlQSlTN (omega), both incomming and
+outgoing.  mongo can not be used unprefixed.
+
+a_fmt universal options, available in gyges...
+   z   ÿ3vlQSlTN            prefixed, no separators
+   Z   ÿ'3vlQ'SlTN          prefixed, quote separators
+
+.SH I) ROMAN
+my roman notation is unprefixed and used primarily for bullet points, etc.
+
+a_fmt universal options, available in gyges...
+   r   lxviii               lowercase
+   R   LXVIII               uppercase
+
+.SH J) TIME
+my time notations are simply to make it easy to use and convert time formats.
+
+a_fmt universal options, available in gyges...
+   d   2017-jan-12          date
+   t   14:32                time, military
+   D   2017-jan-12 14:32    date
+
+a_fmt universal and special...
+  the time stamp version is especially key as it is my standard for file
+  dates, log file naming, process logging, etc.
+   T   2017.01.12.14.32.01.4.02.012.4a
+       yrs.mon.day.hrs.min.sec.dow.woy.doy.sft
+       dow = day of week (sunday = 0)
+       woy = week of year
+       doy = day of year
+       sft = one of eight 3hr shifts
+   this standard organization of fields allows quick regex searching.
+
+shifts for timestamp...
+   0g  graveyard   22:30 < to <= 01:30
+   1d  dawn        01:30 < to <= 04:30
+   2m  morning     04:30 < to <= 07:30
+   3o  noon        07:30 < to <= 10:30
+   4a  afternoon   10:30 < to <= 13:30
+   5u  dusk        13:30 < to <= 16:30
+   6e  evening     16:30 < to <= 19:30
+   7i  midnight    19:30 < to <= 22:30
+
+.SH K) REAL (base-10)
+real number conversion is really just a simplistic version of comma notation and used to support the others.
+it is built for floats and integers, but that can also be done with printf(), atoi() and atof().
+
+.SH AUTHOR
+jelloshrike at gmail dot com
+
+.SH COLOPHON
+this page is part of a documentation package meant to make use of the
+heatherly tools easier and faster.

@@ -1,0 +1,163 @@
+.TH ySTR_delim 3 2015-jun "linux" "interfacing applications with library"
+
+.SH NAME
+.B ySTR
+\- library of secure, useful, second-order string functions
+
+.SH PATRON
+.B astrea-kori
+(star-maiden)
+virgin goddess of justice, purity, and precision
+
+.SH IMAGERY
+elegant woman with shinning wings, angel light, and flamming torch
+
+.SH SUMMARY
+ySTR is a second-order string handling library, supplementing the c-string
+standard, with widely-used, standardized, well-tested, and traceable string
+functions.  DRY (don't repeat yourself), standardize, centralize.
+
+.SH DOCUMENTATION FILES
+.nf
+ySTR (3)           interfacing applications with library
+.B ySTR_chars (3)·····specifics of character functions
+ySTR_exec (3)      specifics of program execution functions
+ySTR_extend (3)    specifics of extended shrike charset (128-255)
+ySTR_max (3)       specifics of length limited functions
+ySTR_nums (3)      specifics of number format conversions
+ySTR_solo (3)      specifics of helpful string macros/constants
+ySTR (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) overview        quick summary
+b) synopsis        command overview
+c) common          similarities between all functions
+d) counting        counting delimiters
+e) finding         finding delimiter position
+f) changing        changing and deleting delimiters
+g) sets            filtering based on character set
+
+.SH A) OVERVIEW
+these delimiter functions automate some very repetitive operations that are
+used in many of my programs, especially with input parsing.
+
+.SH B) SYNOPSIS
+.nf
+.B #include  <ySTR.h>
+.sp
+---(single characters)-------------------------
+.BI "short  strldcnt  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
+.BI "short  strlddcnt (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
+.BI "short  strldpos  (char *" "a_src" ", char " "a_del" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "short  strlddpos (char *" "a_src" ", char " "a_del" ", int " "a_cnt" ", int " "a_max" ");"
+.BI "short  strldchg  (char *" "a_src" ", char " "a_del" ", char " "a_new" ", int " "a_max" ");"
+.BI "short  strlddel  (char *" "a_src" ", char " "a_del" ", int " "a_max" ");"
+.sp
+---(character sets)----------------------------
+.BI "char   strlgood  (char *" "a_src" ", char " "a_set" ", int " "a_max" ");"
+.BI "short  strlcheck (char *" "a_src" ", char " "a_set" ", int " "a_max" ");"
+.BI "short  strlmark  (char *" "a_src" ", char " "a_set" ", int " "a_max" ");"
+.BI "short  strlclean (char *" "a_src" ", char " "a_set" ", int " "a_max" ");"
+
+.sp
+.B link with -L/usr/local/lib, and either -lySTR or -lySTR_debug
+
+.SH C) COMMON
+all the delimiter functions are structured very similarly.
+
+a_src, the source string
+
+a_del, the primary delimiter
+
+a_set, a specific, standard set of characters
+
+a_max, the maximum length of a_src for execution safety
+
+return the count or position as a integer
+
+.SH D) COUNTING
+fundamental to handling input parsing is determining how many fields exist
+in the input -- either to reject or adjust handling procedures.
+
+.SS unique delimiters
+.nf
+strldcnt  (char *a_src, char a_del, int a_max)
+   will return a count of all instances of the delimiter
+
+.SS delimiters, skipping duplicates
+.nf
+strlddcnt (char *a_src, char a_del, int a_max)
+   will return a count of all instances except duplicated ones
+
+.SH E) FINDING
+finding delimiters, either single or as a series (somewhat like strtok), is also
+useful depending on string complexity.  this might involve finding one delimiter,
+then looking for another following that one.
+
+.SS unique delimiters
+.nf
+strldpos  (char *a_src, char a_del, int a_cnt, int a_max)
+   will return position of nth (a_cnt) instance
+
+.SS delimiters, skipping duplicates
+strlddpos (char *a_src, char a_del, int a_cnt, int a_max)
+   will return position of nth (a_cnt) instance, skipping duplicates
+
+.SH F) CHANGING
+updateing delimiters or eliminating them is very, very common.
+
+.SS swapping a delimiter
+.nf
+strldchg  (char *a_src, char a_del, char a_new, int a_max)
+   changes all a_del to a_new up to a_max
+
+.SS removing a delimiter
+.nf
+strlddel  (char *a_src, char a_del, int a_max)
+   removes all instances of a_del from a_src
+
+.SH G) SETS
+locating non-legal characters and counting, marking, or removing them.  this
+is especially useful for user input, file input, etc as they are pre-tested.
+
+.SS standard character set options
+.nf
+ySTR_NUMERIC     0-9.-+
+ySTR_ALPHA       a-zA-Z_
+ySTR_ALNUM       a-zA-Z0-9_
+ySTR_VARS        same
+ySTR_FILES       plus ./
+ySTR_BASIC       plus .-
+ySTR_WRITE       plus . ,:;!?-()"'&
+ySTR_EXTEN       plus . ,:;!?-()"'&<>{}[]+*/=#@\\^%`~^|$
+ySTR_SEVEN       ASII 1 - 127             (standard ASCII)
+ySTR_PRINT       ASII 32 - 126, 161 - 255 (no control or boxdraw)
+ySTR_HEATHERLY   ASII 32 - 126, 128 - 255 (no control)
+
+.SS checking if good (y/n)
+.nf
+strlgood  (char *a_src, char a_set, int a_max)
+   returns 0 for good and <0 for trouble
+
+.SS counting troubles
+.nf
+strlcheck (char *a_src, char a_set, int a_max)
+   returns count of illegal characters
+
+.SS masking troubles
+.nf
+strlmark  (char *a_src, char a_set, int a_max)
+   returns count, but also changes bad characters to '°' redaction char
+
+.SS removing troubles
+.nf
+strlclean (char *a_src, char a_set, int a_max)
+   returns count, but removes all bad characters from string
+
+.SH AUTHOR
+jelloshrike at gmail dot com
+
+.SH COLOPHON
+this page is part of a documentation package meant to make use of the
+heatherly tools easier and faster.

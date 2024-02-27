@@ -67,6 +67,7 @@ typedef     unsigned long long      ullong;
 #define     ySTR_EVERY     'e'
 #define     ySTR_MAX       'm'
 
+#define     ySTR_NUMERIC   'n'
 #define     ySTR_ALPHA     'a'
 #define     ySTR_ALNUM     '9'
 #define     ySTR_VARS      'v'
@@ -164,12 +165,12 @@ short       ystrlcheck              (uchar *a_src, char a_set, int a_max);
 short       ystrlmark               (uchar *a_src, char a_set, int a_max);
 short       ystrlclean              (uchar *a_src, char a_set, int a_max);
 
-int         ystrlchr                (char *b_src, char a_chr, int a_max);
-int         ystrldcnt               (char *b_src, char a_del, int a_max);
-int         ystrlddcnt              (char *b_src, char a_del, int a_max);
-int         ystrldpos               (char *b_src, char a_del, int a_cnt, int a_max);
-int         ystrldchg               (char *b_src, char a_del, char a_new, int a_max);
-int         ystrlddel               (char *b_src, char a_del, int a_max);
+short       ystrlchr                (char *b_src, char a_chr, int a_max);
+short       ystrldcnt               (char *b_src, char a_del, int a_max);
+short       ystrlddcnt              (char *b_src, char a_del, int a_max);
+short       ystrldpos               (char *b_src, char a_del, int a_cnt, int a_max);
+short       ystrldchg               (char *b_src, char a_del, char a_new, int a_max);
+short       ystrlddel               (char *b_src, char a_del, int a_max);
 
 char        ystrlstore              (char *a_src, int a_max);
 char        ystrlunstore            (char *a_src, int a_max);
