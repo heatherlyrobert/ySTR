@@ -339,7 +339,7 @@ ystrlproj                (char *a_home, char *a_name)
    char        x_home      [LEN_HUND]  = "";
    char       *p           = NULL;
    char       *q           = NULL;
-   int         x_len       =    0;
+   int         l           =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(check return)-------------------*/
@@ -354,14 +354,15 @@ ystrlproj                (char *a_home, char *a_name)
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   x_len = strlen (a_home);
-   DEBUG_YSTR   yLOG_sint    (x_len);
-   --rce;  if (x_len <= 0) {
+   l = strlen (a_home);
+   DEBUG_YSTR   yLOG_sint    (l);
+   --rce;  if (l <= 0) {
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(prepare)------------------------*/
    ystrlcpy (x_home, a_home, LEN_HUND);
+   if (x_home [l - 1] == '/')  x_home [--l] = '\0';
    DEBUG_YSTR   yLOG_snote   (x_home);
    /*---(get the name)-------------------*/
    p = strrchr (x_home, '/');
@@ -370,12 +371,12 @@ ystrlproj                (char *a_home, char *a_name)
    else             ++p;
    q = strchr  (p, '.');
    DEBUG_YSTR   yLOG_spoint  (q);
-   if (q == NULL)  x_len = LEN_LABEL;
-   else            x_len = q - p + 1;
-   if (x_len > LEN_LABEL)  x_len = LEN_LABEL;
-   DEBUG_YSTR   yLOG_sint    (x_len);
+   if (q == NULL)  l = LEN_LABEL;
+   else            l = q - p + 1;
+   if (l > LEN_LABEL)  l = LEN_LABEL;
+   DEBUG_YSTR   yLOG_sint    (l);
    /*---(save back)----------------------*/
-   ystrlcpy (a_name, p, x_len);
+   ystrlcpy (a_name, p, l);
    DEBUG_YSTR   yLOG_snote   (a_name);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
@@ -651,15 +652,50 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
 }
 
 char
-ystrlage                 (long a_epoch, char a_fmt, char r_age [LEN_SHORT])
+ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT])
 {
    return ystrl_age (time (NULL), a_epoch, a_fmt, r_age);
 }
 
 char
-ystrlager                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT])
+ystrlager               (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT])
 {
    return ystrl_age (a_now, a_epoch, a_fmt, r_age);
+}
+
+char
+ystrlunage              (char a_age [LEN_SHORT], int *r_secs)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        x_age       [LEN_SHORT] = "";
+   int         l           =    0;
+   char        x_unit      =  '-';
+   int         x_multi     =    0;
+   int         x_num       =    0;
+   if (r_secs != NULL)  *r_secs = 0;
+   --rce;  if (a_age == NULL)  return rce;
+   ystrlcpy (x_age, a_age, LEN_SHORT);
+   l = strlen (x_age);
+   --rce;  if (l  < 2)         return rce;
+   --rce;  if (l  > 3)         return rce;
+   x_unit = x_age [l - 1];
+   --rce;  switch (x_unit) {
+   case  's' : x_multi = 1;                         break;
+   case  'm' : x_multi = 60;                        break;
+   case  'h' : x_multi = 60 * 60;                   break;
+   case  'd' : x_multi = 60 * 60 * 24;              break;
+   case  'o' : x_multi = 60 * 60 * 24 * 30;         break;
+   case  'y' : x_multi = 60 * 60 * 24 * 365;        break;
+   case  'c' : x_multi = 60 * 60 * 24 * 365 * 100;  break;
+   default   : return rce;
+   }
+   x_age [l - 1] = '\0';
+   x_num = atoi (x_age);
+   --rce;  if (x_num == 0 && strcmp (x_age, "0") != 0)  return rce;
+   x_num *= x_multi;
+   if (r_secs != NULL)  *r_secs = x_num;
+   return 0;
 }
 
 char

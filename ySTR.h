@@ -185,7 +185,7 @@ uchar       ychrbackward            (uchar a_ch, char *r_slash, char *r_base);
 char        ystrlunslash            (uchar *a_src, int a_max);
 uchar       ychrvisible             (uchar a_ch);
 uchar       ychrworking             (uchar a_ch);
-int         ystrlhint               (int n, char *a_spec, char *a_label);
+int         ystrlhint               (int n, char a_spec [LEN_SHORT], char r_label [LEN_SHORT]);
 char*       ystrldisp               (char a_txt [LEN_HUND], char a_len, char *a_out, char a_max);
 
 char        ystrlparse              (char *a_src, char *a_disp, char *a_final, char a_maxc, int *a_cnt, char *a_ptr [], int a_maxl);
@@ -259,7 +259,8 @@ char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 char        ystrlexport             (int a_line, char *a_recd);
 char        ystrlimport             (int a_line, char *a_recd, int *a_len);
 char        ystrlage                (long a_epoch, char a_fmt, char a_age [LEN_SHORT]);
-char        ystrlager                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT]);
+char        ystrlager               (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT]);
+char        ystrlunage              (char a_age [LEN_SHORT], int *r_secs);
 char        ystrlsize               (llong a_bytes, char a_fmt, char a_size [LEN_SHORT]);
 char        ystrlcount              (llong a_value, char a_fmt, char a_count [LEN_SHORT]);
 char        ystr2mongo              (long a_epoch, char *a_mongo);

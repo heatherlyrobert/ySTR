@@ -643,7 +643,7 @@ ystrlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int 
 
 
 int
-ystrlhint                (int n, char *a_spec, char *a_label)
+ystrlhint                (int n, char a_spec [LEN_SHORT], char r_label [LEN_SHORT])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -663,7 +663,7 @@ ystrlhint                (int n, char *a_spec, char *a_label)
    /*---(default)------------------------*/
    for (i = 0; i < l; ++i)   t [i] = '·';
    t [l] = '\0';
-   if (a_label != NULL)  strcpy (a_label, t);
+   if (r_label != NULL)  strcpy (r_label, t);
    --rce;  if (n < 0)                  return rce;
    /*> printf ("-----------------------------------------------------\n");            <*/
    /*> printf ("%4dn %2d[%s]   %s\n", n, l, a_spec, t);                               <*/
@@ -704,7 +704,7 @@ ystrlhint                (int n, char *a_spec, char *a_label)
    }
    /*---(save back)----------------------*/
    /*> printf ("%2d[%s]   %s\n", l, a_spec, t);                                       <*/
-   if (a_label != NULL)  strcpy (a_label, t);
+   if (r_label != NULL)  strcpy (r_label, t);
    /*---(complete)-----------------------*/
    return a;
 }

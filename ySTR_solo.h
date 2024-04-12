@@ -40,7 +40,10 @@
 #define     YSTR_MENU     "fevisomdtplbgaxcsh"
 #define     YSTR_TABS     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ®¯¤¢"
 #define     YSTR_COLORS   "wruybpocWRGYBPOC"
+#define     YSTR_COLORGL  "-ohiwrknlysgabdpmcuvteOHIWRKNLYSGABDPMCUVTE!"
 /*> "file, edit, view, insert, select, format, modify, dataset, tools, palette, layers, buffer, language, auditor, execute, configure, script, share"   <+/   <*/
+#define     YSTR_CALC_PRE "#~=¼&!"
+#define     YSTR_CALC_SPC "#=¼"
 /*---(mayan)--------------------------*/
 #define     YSTR_MAYANF   "dgnlswyqtkhzmcDGTQK"
 #define     YSTR_MAYANC   "dgnlswyqtkhzmc"
