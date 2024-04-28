@@ -652,6 +652,12 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
 }
 
 char
+ystrldur                (long a_dur, char a_fmt, char r_age [LEN_SHORT])
+{
+   return ystrl_age (a_dur + 1, 1, a_fmt, r_age);
+}
+
+char
 ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT])
 {
    return ystrl_age (time (NULL), a_epoch, a_fmt, r_age);
@@ -691,7 +697,9 @@ ystrlunage              (char a_age [LEN_SHORT], int *r_secs)
    default   : return rce;
    }
    x_age [l - 1] = '\0';
-   x_num = atoi (x_age);
+   if      (l == 2 && x_age [0] == '<')  x_num = 0;
+   else if (l == 3 && x_age [1] == '<')  x_num = 0;
+   else                                  x_num = atoi (x_age);
    --rce;  if (x_num == 0 && strcmp (x_age, "0") != 0)  return rce;
    x_num *= x_multi;
    if (r_secs != NULL)  *r_secs = x_num;

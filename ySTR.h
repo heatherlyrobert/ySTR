@@ -258,6 +258,7 @@ char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 
 char        ystrlexport             (int a_line, char *a_recd);
 char        ystrlimport             (int a_line, char *a_recd, int *a_len);
+char        ystrldur                (long a_dur, char a_fmt, char r_age [LEN_SHORT]);
 char        ystrlage                (long a_epoch, char a_fmt, char a_age [LEN_SHORT]);
 char        ystrlager               (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT]);
 char        ystrlunage              (char a_age [LEN_SHORT], int *r_secs);

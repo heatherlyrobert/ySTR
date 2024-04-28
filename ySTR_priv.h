@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0j"
-#define     P_VERTXT    "little fix to ystrlproj for if home has tailing '/'"
+#define     P_VERNUM    "2.0k"
+#define     P_VERTXT    "added limited, simplified functions for pre-ySTR unit testing"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

@@ -1,6 +1,19 @@
+/*===[[ HEADER GUARD ]]=======================================================*/
+#ifndef YSTR_solo_hguard
+#define YSTR_solo_hguard loaded
+
 
 /*---(shared clipboard)---------------*/
 #define     YSTR_CLIP     "/tmp/vi_clip.txt"
+
+
+/*---(simple functions)---------------*/
+typedef unsigned char uchar;
+char        ystrutrim               (uchar *b_src, int a_max);
+char        ystruencode             (uchar *b_src);
+char        ystrudecode             (uchar *b_src);
+char        ystrureplace            (uchar *a_src, uchar *a_old, uchar *a_new, int a_max);
+char        ystruundelay            (uchar *a_src, int a_max);
 
 
 /*---(standard lengths)---------------*/
@@ -262,3 +275,4 @@
 
 /*---(complete)-----------------------*/
 
+#endif
