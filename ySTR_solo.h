@@ -20,6 +20,8 @@ char        ystruundelay            (uchar *a_src, int a_max);
 #define     LEN_MASS       100000       /* special cases only                 */
 #define     LEN_HUGE        10000       /* special cases only                 */
 #define     LEN_RECD         2000       /* longer likely means hacker         */
+#define     LEN_THOU         1000       /* thousand long                      */
+#define     LEN_HALF          500       /* serious string length              */
 #define     LEN_PATH          300       /* large, but not crazy length        */
 #define     LEN_FULL          200       /* large string length                */
 #define     LEN_HUND          100       /* conservative field/arg length      */
@@ -31,14 +33,18 @@ char        ystruundelay            (uchar *a_src, int a_max);
 #define     LEN_TERSE          10       /* terse string                       */
 #define     LEN_SHORT           5       /* for small needs                    */
 
+/*---(alignment)----------------------*/
+#define     YSTR_TEXT_LEF     '<'       /* align text left                    */
+#define     YSTR_TEXT_RIG     '>'       /* align text right                   */
+#define     YSTR_TEXT_CEN     '|'       /* align text center                  */
 
 /*---(identifiers)--------------------*/
-#define     YSTR_INIT     'I'
-#define     YSTR_IUPPER   'A'
-#define     YSTR_ILOWER   'a'
-#define     YSTR_INUMBER  '0'
-#define     YSTR_IGREEK   'è'
-#define     YSTR_IFULL    '*'
+#define     YSTR_INIT         'I'
+#define     YSTR_IUPPER       'A'
+#define     YSTR_ILOWER       'a'
+#define     YSTR_INUMBER      '0'
+#define     YSTR_IGREEK       'è'
+#define     YSTR_IFULL        '*'
 /*---(sets)---------------------------*/
 #define     YSTR_FULL     "································ !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~½€‚ƒ„…†‡ˆ‰Š‹Œ‘’“”•–—˜™š›œŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ"
 #define     YSTR_UPPER    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -272,7 +278,6 @@ char        ystruundelay            (uchar *a_src, int a_max);
 #define     G_CHAR_BTICK         96   /*  `  */
 #define     G_CHAR_RFIELD       143   /*    */
 #define     G_CHAR_LOCAL        231   /*  ç  */
-
 /*---(complete)-----------------------*/
 
 #endif
