@@ -74,6 +74,7 @@ char        ystruundelay            (uchar *a_src, int a_max);
 #define     YSTR_UPLOW    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 #define     YSTR_LOWUP    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #define     YSTR_CHARS    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#define     YSTR_ALLCHAR  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZèéêëìíîïðñòóôõö÷øùúûüýþÿ"
 #define     YSTR_NUMDEV   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:/_-"
 #define     YSTR_ALPHA    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 #define     YSTR_ALNUM    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
@@ -97,6 +98,7 @@ char        ystruundelay            (uchar *a_src, int a_max);
 /*---(numeric)------------------------*/
 #define     YSTR_TICK     "'+"
 #define     YSTR_BINARY   "01"
+#define     YSTR_BINPLUS  "01'+-Ï"
 #define     YSTR_NUMERIC  "0123456789.-+"
 #define     YSTR_HEX      "0123456789abcdef"
 #define     YSTR_HEXUP    "0123456789abcdefABCDEF"
