@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0n"
-#define     P_VERTXT    "small catch-up to verify up-to-date"
+#define     P_VERNUM    "2.0o"
+#define     P_VERTXT    "ystrltrim every made to compress internal to one space"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

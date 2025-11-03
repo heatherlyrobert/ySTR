@@ -179,7 +179,7 @@ ystrltrim           (char *b_src, char a_mode, int a_max)
     *   t = tail   (all ending spaces gone)
     *   b = both   (head and tail)
     *   s = single (both plus internal not-in-strings compressed to one space)
-    *   e = every  (both plus internal not-in-strings taken out)
+    *   e = every  (both plus all internal compressed to one space)
     *   m = max    (both plus all internal taken fully out)
     *
     */
@@ -241,8 +241,9 @@ ystrltrim           (char *b_src, char a_mode, int a_max)
       x_lim = 0;
       l     = 'y';
       if (a_mode == ySTR_SINGLE) x_lim = 1;
+      if (a_mode == ySTR_EVERY)  x_lim = 1;
       while (*s != '\0') {
-         if (a_mode != ySTR_MAX && *s == '"') {
+         if (strchr ("me", a_mode) == NULL && *s == '"') {
             if (x_str == 'y') x_str = '-';
             else              x_str = 'y';
          }

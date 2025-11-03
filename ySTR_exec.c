@@ -332,7 +332,7 @@ ystrlbase               (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r
 }
 
 char
-ystrlproj                (char *a_home, char *a_name)
+ystrlproj                (char a_home [LEN_HUND], char r_name [LEN_LABEL])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -343,12 +343,12 @@ ystrlproj                (char *a_home, char *a_name)
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
    /*---(check return)-------------------*/
-   DEBUG_YSTR   yLOG_spoint  (a_name);
-   --rce;  if (a_name == NULL) {
+   DEBUG_YSTR   yLOG_spoint  (r_name);
+   --rce;  if (r_name == NULL) {
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   ystrlcpy (a_name, ""    , LEN_LABEL);
+   ystrlcpy (r_name, ""    , LEN_LABEL);
    DEBUG_YSTR   yLOG_spoint  (a_home);
    --rce;  if (a_home == NULL) {
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -376,15 +376,15 @@ ystrlproj                (char *a_home, char *a_name)
    if (l > LEN_LABEL)  l = LEN_LABEL;
    DEBUG_YSTR   yLOG_sint    (l);
    /*---(save back)----------------------*/
-   ystrlcpy (a_name, p, l);
-   DEBUG_YSTR   yLOG_snote   (a_name);
+   ystrlcpy (r_name, p, l);
+   DEBUG_YSTR   yLOG_snote   (r_name);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
 char
-ystrlhere                 (char *a_home, char *a_name)
+ystrlhere                 (char r_home [LEN_HUND], char r_name [LEN_LABEL])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -394,8 +394,8 @@ ystrlhere                 (char *a_home, char *a_name)
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defaults)-----------------------*/
-   if (a_home != NULL)    ystrlcpy (a_home, "", LEN_HUND);
-   if (a_name != NULL)    ystrlcpy (a_name, "", LEN_LABEL);
+   if (r_home != NULL)    ystrlcpy (r_home, "", LEN_HUND);
+   if (r_name != NULL)    ystrlcpy (r_name, "", LEN_LABEL);
    /*---(get directory)------------------*/
    rc = ystrlhome (x_home);
    DEBUG_YSTR   yLOG_value   ("get_home"   , rc);
@@ -411,8 +411,8 @@ ystrlhere                 (char *a_home, char *a_name)
       return rce;
    }
    /*---(save results)-------------------*/
-   ystrlcpy (a_home, x_home, LEN_HUND);
-   ystrlcpy (a_name, x_name, LEN_LABEL);
+   ystrlcpy (r_home, x_home, LEN_HUND);
+   ystrlcpy (r_name, x_name, LEN_LABEL);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;

@@ -1803,7 +1803,7 @@ ystrl4time          (double a_val, char *a_out, int a_decs, char a_fmt, int a_ma
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-ystrl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, char a_unit, int a_max)
+ystrl4main          (double a_val, char *r_out, int a_bytes, char a_fmt, char a_unit, int a_max)
 {
    char        rc          = 0;
    DEBUG_YSTR   yLOG_value   ("a_bytes"   , a_bytes);
@@ -1811,46 +1811,57 @@ ystrl4main          (double a_val, char *a_out, int a_bytes, char a_fmt, char a_
    DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_unit);
    DEBUG_YSTR   yLOG_value   ("a_max"     , a_max);
    if (ystr9format (a_fmt) < 0) {
-      ystrlcpy (a_out, "#p/fmt", a_max);
+      ystrlcpy (r_out, "#p/fmt", a_max);
       DEBUG_YSTR   yLOG_snote   ("filler bad");
       return -1;
    }
    if (ystr9decs (a_bytes) < 0) {
-      ystrlcpy (a_out, "#p/dec", a_max);
+      ystrlcpy (r_out, "#p/dec", a_max);
       DEBUG_YSTR   yLOG_snote   ("filler bad");
       return -2;
    }
    switch (a_fmt) {
    case 'y' : case 'Y' :
-      rc = strl4bool  (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = strl4bool  (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'b' : case 'B' :
-      rc = ystrl4bin   (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4bin   (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'o' : case 'O' :
-      rc = ystrl4oct   (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4oct   (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'x' : case 'X' :
-      rc = ystrl4hex   (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4hex   (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'e' : case 'E' :
-      rc = ystrl4sci   (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4sci   (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'r' : case 'R' :
-      rc = ystrl4roman (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4roman (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'z' : case 'Z' :
-      rc = ystrl4mongo (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4mongo (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    case 'd' : case 't' : case 'D' : case 'T' :
-      rc = ystrl4time  (a_val, a_out, a_bytes, a_fmt, a_max);
+      rc = ystrl4time  (a_val, r_out, a_bytes, a_fmt, a_max);
       break;
    default :
-      rc = ystrl4comma (a_val, a_out, a_bytes, a_fmt, a_unit, a_max);
+      rc = ystrl4comma (a_val, r_out, a_bytes, a_fmt, a_unit, a_max);
       break;
    }
    /*---(complete)-----------------------*/
    return rc;
+}
+
+char*
+ystrl4quick             (double a_val, char a_ali, char a_fmt, int a_cnt, char a_uom, char a_fil, int a_max)
+{
+   char        rc          =    0;
+   char        t           [LEN_HUND]  = "";
+   char        x_print     [LEN_HUND]  = "";
+   rc = ystrl4main (a_val, t, a_cnt, a_fmt, a_uom, a_max);
+   rc = ystrlpad   (t, x_print, a_fil, a_ali, a_max);
+   return x_print;
 }
 
 char
