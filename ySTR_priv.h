@@ -34,8 +34,8 @@
 
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0o"
-#define     P_VERTXT    "ystrltrim every made to compress internal to one space"
+#define     P_VERNUM    "2.0p"
+#define     P_VERTXT    "field audit functions ported from yTSAE and unit tested"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -92,10 +92,19 @@ extern  tLOCAL mySTR;
 extern char   unit_answer [LEN_RECD];
 
 
-char        ySTR_testquiet     (void);
-char        ySTR_testloud      (void);
-char        ySTR_testend       (void);
 char*       ySTR_unit          (char *a_question, int a_num);
+
+
+
+/*===[[ ySTR_delim.c ]]=======================================================*/
+/*········´ ´·····················´ ´·········································*/
+int         ystrld_cnt              (char *b_src, char a_del, char a_dup, int a_max);
+int         ystrld_pos              (char *b_src, char  a_del, int a_cnt, char a_dup, int a_max);
+int         ystrld_chk              (char a_type, char *b_source, char *a_allowed, char a_compress, int a_max);
+/*········´ ´················DONE·´ ´·········································*/
+
+
+
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 char        ystr__prefix            (cchar *a_str, char *a_out);

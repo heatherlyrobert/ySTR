@@ -20,7 +20,7 @@ SCRP          (EXEC) verify parsing of strings into pointer arrays             
    local    create working variable              - - - - - - - - - - - - -   char *p        [LEN_LABEL];                                                                                                                                                                                                
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       verify parse on simple, no option line                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     parse pointers from string           ystrlparse                   "/bin/true"                                                  , d   , t   , 20, &c  , p   , LEN_RECD   i_equal     0                                                                                                    
@@ -154,7 +154,7 @@ SCRP          (EXEC) verify parsing of strings into pointer arrays             
      echo     ... check arg                        - - - - - - - - - - - - -   p [ 6]                                                                                                p_equal     0                                                                                                    
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.016))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -164,7 +164,7 @@ SCRP          (EXEC) verify setting of configuration file names                
    local    create working variable              - - - - - - - - - - - - -   char  x_file    [LEN_RECD]  = "";                                                                                                                                                                                          
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       quick success                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     check a file name                    ystrlfile                    NULL           , x_file         , "testing"                       , NULL           , LEN_RECD         i_equal     0                                                                                                    
@@ -199,7 +199,7 @@ SCRP          (EXEC) verify setting of configuration file names                
      echo     ... check saved result               - - - - - - - - - - - - -   x_file                                                                                                s_equal     /tmp/TEST.conf                                                                                       
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -212,7 +212,7 @@ SCRP          (EXEC) verify getting base name of file                          
    local    create working variable              - - - - - - - - - - - - -   char  c        = 0;                                                                                                                                                                                                        
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       verify quick success                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     call base                            ystrlbase                   "/home/member/.vimrc"                                      , x_path, x_base, x_proj, &c               i_equal     3                                                                                                    
@@ -264,7 +264,7 @@ SCRP          (EXEC) verify getting base name of file                          
      echo     ... check level                      - - - - - - - - - - - - -   c                                                                                                     i_equal     2                                                                                                    
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -275,7 +275,7 @@ SCRP          (EXEC) verify getting current homedir and project name           
    local    create working variable              - - - - - - - - - - - - -   char      x_name     [LEN_TITLE] = "";                                                                                                                                                                                     
 
    COND       verify program setup                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       quick success                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     get working directory                ystrlhome                    x_home                                                                                                i_equal     0                                                                                                    
@@ -357,7 +357,7 @@ SCRP          (EXEC) verify getting current homedir and project name           
      echo     ... verify name                      - - - - - - - - - - - - -   x_name                                                                                                s_equal     assembler                                                                                            
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -368,7 +368,7 @@ SCRP          (EXEC) verify calculating age                                    
    local    create working variable              - - - - - - - - - - - - -   long      x_now      = time (NULL);                                                                                                                                                                                        
 
    COND       verify program setup                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       quick success                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     get age                              ystrlage                     x_now - 0                                      , '-'   , x_age                                        i_equal     0                                                                                                    
@@ -478,7 +478,7 @@ SCRP          (EXEC) verify calculating age                                    
      echo     ... verify age                       - - - - - - - - - - - - -   x_age                                                                                                 s_equal     #/f                                                                                                  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -488,7 +488,7 @@ SCRP          (EXEC) verify calculating size                                   
    local    create working variable              - - - - - - - - - - - - -   char      x_size     [LEN_SHORT] = "";                                                                                                                                                                                     
 
    COND       verify program setup                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       quick success                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     get size                             ystrlsize                    (llong) 1024 * 500                                     , '-'   , x_size                                       i_equal     0                                                                                                    
@@ -565,7 +565,7 @@ SCRP          (EXEC) verify calculating size                                   
      echo     ... verify size                      - - - - - - - - - - - - -   x_size                                                                                                s_equal     ·39´                                                                                                 
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 

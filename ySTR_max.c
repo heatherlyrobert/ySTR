@@ -589,6 +589,7 @@ ystrlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_m
    case '=' : x_fore = x_back = YSTR_EQUAL;                  break;
    case '_' : x_fore = x_back = YSTR_UNDER;                  break;
    case '.' : x_fore = x_back = YSTR_EDOTS;                  break;
+   case '·' : x_fore = x_back = YSTR_EDOTS;                  break;
    case '+' : x_fore = x_back = YSTR_PLUS;                   break;
    case '@' : x_fore = x_back = YSTR_BIGDOT;                 break;
    case '~' : x_fore = x_back = YSTR_RULER;                  break;
@@ -640,6 +641,15 @@ ystrlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int 
    char        t           [LEN_LABEL] = "";
    sprintf (t, "%d", a_src);
    return ystrlpad (t, a_out, a_fil, a_ali, a_max);
+}
+
+char*
+ystrlpadquick           (char *a_src, char a_ali, char a_fil, int a_max)
+{
+   static char x_print     [LEN_HUND]  = "";
+   if (a_src != NULL)   ystrlpad (a_src   , x_print, a_fil, a_ali, a_max);
+   else                 ystrlpad ("(null)", x_print, a_fil, a_ali, a_max);
+   return x_print;
 }
 
 

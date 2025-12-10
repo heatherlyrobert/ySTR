@@ -76,7 +76,7 @@ typedef     unsigned long long      ullong;
 #define     ySTR_WRITE     'w'
 #define     ySTR_EXTEN     'e'
 #define     ySTR_PRINT     'p'
-#define     ySTR_HEATHERLY 'h'
+#define     ySTR_HEATH     'h'
 #define     ySTR_SEVEN     '7'
 
 #define     ySTR_NORM      '-'
@@ -147,8 +147,9 @@ int         ystrltrim               (char *b_src, char a_mode, int  a_max);
 int         ystrlrepl               (char *b_src, char *a_old, char *a_new, int a_cnt, int a_max);
 /*---(configuration)-----------*/
 char        ystrlfile               (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
+char        ystrlsplit              (char a_full [LEN_PATH], char *r_style, char r_dir [LEN_PATH], char r_file [LEN_FULL], char r_proj [LEN_LABEL], char r_base [LEN_HUND], char r_ext [LEN_TERSE], char *r_level);
 char        ystrlhome               (char *a_home);
-char        ystrlbase               (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL], char *r_level);
+char        ystrlbase               (char a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL], char *r_level);
 char        ystrlproj               (char *a_home, char *a_name);
 char        ystrlhere               (char r_home [LEN_HUND], char r_name [LEN_LABEL]);
 char*       ystrlrecd               (cchar *a_name, int n, int *c, char *a_recd, int a_max);
@@ -160,17 +161,26 @@ char        ystrldequote            (uchar *a_src, int a_max);
 char        ystrlrequote            (uchar *a_src, int a_max);
 char        ystrlunall              (uchar *a_src, int a_max);
 
-char        ystrlgood               (uchar *a_src, char a_set, int a_max);
-short       ystrlcheck              (uchar *a_src, char a_set, int a_max);
-short       ystrlmark               (uchar *a_src, char a_set, int a_max);
-short       ystrlclean              (uchar *a_src, char a_set, int a_max);
 
-short       ystrlchr                (char *b_src, char a_chr, int a_max);
-short       ystrldcnt               (char *b_src, char a_del, int a_max);
-short       ystrlddcnt              (char *b_src, char a_del, int a_max);
-short       ystrldpos               (char *b_src, char a_del, int a_cnt, int a_max);
-short       ystrldchg               (char *b_src, char a_del, char a_new, int a_max);
-short       ystrlddel               (char *b_src, char a_del, int a_max);
+
+
+/*===[[ ySTR_delim.c ]]=======================================================*/
+/*········´ ´···············count·´ ´·········································*/
+int         ystrldcnt               (char *b_source, char a_del, int a_max);
+int         ystrlddcnt              (char *b_source, char a_del, int a_max);
+/*········´ ´·············postion·´ ´·········································*/
+int         ystrldpos               (char *b_source, char a_del, int a_cnt, int a_max);
+int         ystrlchr                (char *b_source, char a_chr, int a_max);
+/*········´ ´··············change·´ ´·········································*/
+int         ystrldchg               (char *b_source, char a_del, char a_new, int a_max);
+int         ystrlddel               (char *b_source, char a_del, int a_max);
+/*········´ ´··············verify·´ ´·········································*/
+char        ystrlgood               (char *b_source, char *a_allowed, int a_max);
+int         ystrlcheck              (char *b_source, char *a_allowed, int a_max);
+int         ystrlmark               (char *b_source, char *a_allowed, int a_max);
+int         ystrlclean              (char *b_source, char *a_allowed, int a_max);
+/*········´ ´················DONE·´ ´·········································*/
+
 
 char        ystrlstore              (char *a_src, int a_max);
 char        ystrlunstore            (char *a_src, int a_max);
@@ -211,8 +221,7 @@ char        ystrl4mongo             (double a_val, char *r_out, int a_cnt, char 
 char        ystrl4mongor            (ullong a_val, char *r_out, int a_cnt, char a_fmt, int a_max);
 char        ystrl4time              (double a_val, char *r_out, int a_cnt, char a_fmt, int a_max);
 char        ystrl4main              (double a_val, char *r_out, int a_cnt, char a_fmt, char a_unit, int a_max);
-char*       ystrl4full              (double a_val, char *r_out, char a_fmt, int a_cnt, char a_unit, int a_max);
-char*       ystrl4quick             (double a_val, char a_ali, char a_fmt, int a_cnt, char a_unit, char a_fill, int a_max);
+char*       ystrl4quick             (double a_val, char a_ali, char a_fmt, int a_cnt, char a_uom, char a_fil, char a_zer, char a_neg, int a_max);
 
 char        ystrlbit2bin            (char  *a_src, char a_len, char *r_out, char a_fmt, int a_max);
 char        ystrlbin2bit            (char  *a_src, int a_max, char *r_bits, char a_blen);
@@ -220,6 +229,7 @@ char        ystrlbin2val            (char  *a_src, double *r_val, int a_max);
 
 char        ystrlpad                (char *a_src, char *a_out, char a_fil, char a_ali, int a_max);
 char        ystrlpadn               (int   a_src, char *a_out, char a_fil, char a_ali, int a_max);
+char*       ystrlpadquick           (char *a_src, char a_ali, char a_fil, int a_max);
 
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
@@ -268,6 +278,17 @@ char        ystrlsize               (llong a_bytes, char a_fmt, char a_size [LEN
 char        ystrlcount              (llong a_value, char a_fmt, char a_count [LEN_SHORT]);
 char        ystr2mongo              (long a_epoch, char *a_mongo);
 char        ystr4mongo              (char *a_mongo, long *a_epoch);
+
+
+
+/*===[[ ySTR_audit.c ]]=======================================================*/
+/*········´ ´·····················´ ´·········································*/
+char        ystr_audit_record       (int a_len, char a_recd [LEN_RECD]);
+char        ystr_audit_column       (char n, char a_field [LEN_LABEL], int a_pos, char a_recd [LEN_RECD]);
+char        ystr_audit_string       (char n, char a_field [LEN_LABEL], char *a_string, char *a_dataset, int a_min, int a_max);
+char        ystr_audit_number       (char n, char a_field [LEN_LABEL], int a_value, int a_min, int a_max);
+char        ystr_audit_char         (char n, char a_field [LEN_LABEL], char a_char, char *a_dataset);
+/*········´ ´················DONE·´ ´·········································*/
 
 
 

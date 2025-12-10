@@ -260,7 +260,7 @@ ystrlhome                (char *a_home)
 }
 
 char
-ystrlbase               (cchar a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL], char *r_level)
+ystrlbase               (char a_name [LEN_PATH], char r_path [LEN_PATH], char r_base [LEN_HUND], char r_proj [LEN_LABEL], char *r_level)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -872,15 +872,15 @@ ystrlcount               (llong a_value, char a_fmt, char a_count [LEN_SHORT])
  *>       strcpy (a_size, "  <k");                                                    <* 
  *>    } else {                                                                       <* 
  *>       sprintf (a_size, "%3d%c", x_size, x_unit);                                  <* 
- *>    }                                                                              <* 
- *>    /+---(check for fill)-----------------+/                                       <* 
- *>    if (a_fmt != 0 && strchr ("NTU", a_fmt) != NULL) {                             <* 
- *>       if (a_size [0] == ' ')  a_size [0] = '·';                                   <* 
- *>       if (a_size [1] == ' ')  a_size [1] = '·';                                   <* 
- *>    }                                                                              <* 
- *>    /+---(complete)-----------------------+/                                       <* 
- *>    return 0;                                                                      <* 
- *> }                                                                                 <*/
+*>    }                                                                              <* 
+*>    /+---(check for fill)-----------------+/                                       <* 
+*>    if (a_fmt != 0 && strchr ("NTU", a_fmt) != NULL) {                             <* 
+   *>       if (a_size [0] == ' ')  a_size [0] = '·';                                   <* 
+      *>       if (a_size [1] == ' ')  a_size [1] = '·';                                   <* 
+      *>    }                                                                              <* 
+      *>    /+---(complete)-----------------------+/                                       <* 
+      *>    return 0;                                                                      <* 
+      *> }                                                                                 <*/
 
 char
 ystr2mongo               (long a_epoch, char *a_mongo)

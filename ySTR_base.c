@@ -129,31 +129,5 @@ ySTR_unit          (char *a_question, int a_num)
    return unit_answer;
 }
 
-char       /*----: set up program urgents/debugging --------------------------*/
-ySTR_testquiet     (void)
-{
-   ySTR_debug ('-');
-   return 0;
-}
-
-char       /*----: set up program urgents/debugging --------------------------*/
-ySTR_testloud      (void)
-{
-   ySTR_debug ('y');
-   mySTR.logger = yLOGS_begin ("ySTR" , YLOG_SYS, YLOG_NOISE);
-   yURG_by_name  ("kitchen"      , YURG_ON);
-   yURG_by_name  ("ystr"         , YURG_ON);
-   DEBUG_YSTR   yLOG_info     ("ySTR"    , ySTR_version   ());
-   return 0;
-}
-
-char       /*----: stop logging ----------------------------------------------*/
-ySTR_testend       (void)
-{
-   DEBUG_YSTR  yLOGS_end     ();
-   return 0;
-}
-
-
 
 /*===[[ END ]]================================================================*/

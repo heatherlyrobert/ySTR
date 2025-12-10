@@ -1854,12 +1854,14 @@ ystrl4main          (double a_val, char *r_out, int a_bytes, char a_fmt, char a_
 }
 
 char*
-ystrl4quick             (double a_val, char a_ali, char a_fmt, int a_cnt, char a_uom, char a_fil, int a_max)
+ystrl4quick             (double a_val, char a_ali, char a_fmt, int a_cnt, char a_uom, char a_fil, char a_zer, char a_neg, int a_max)
 {
    char        rc          =    0;
    char        t           [LEN_HUND]  = "";
-   char        x_print     [LEN_HUND]  = "";
-   rc = ystrl4main (a_val, t, a_cnt, a_fmt, a_uom, a_max);
+   static char x_print     [LEN_HUND]  = "";
+   if      (a_zer != ' ' && a_val == 0.0)  sprintf (t, "%c", a_zer);
+   else if (a_neg != ' ' && a_val <  0.0)  sprintf (t, "%c", a_neg);
+   else    rc = ystrl4main (a_val, t, a_cnt, a_fmt, a_uom, a_max + 1);
    rc = ystrlpad   (t, x_print, a_fil, a_ali, a_max);
    return x_print;
 }

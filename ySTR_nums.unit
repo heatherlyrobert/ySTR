@@ -17,7 +17,7 @@ SCRP          verify octal as string conversion to value                       
    local    create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                                                    
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       input an octal zero                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change the source string             ystrl2oct                    "00"                 , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -104,7 +104,7 @@ SCRP          verify octal as string conversion to value                       
      echo     check value                          - - - - - - - - - - - - -   x_value                                                                                               r_equal     16168359.0                                                                                           
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.023))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -114,7 +114,7 @@ SCRP          verify binary as string conversion to value                      
    local    create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                                                    
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       input an binary zero                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change the source string             ystrl2bin                    "0b0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -173,7 +173,7 @@ SCRP          verify binary as string conversion to value                      
      echo     check value                          - - - - - - - - - - - - -   x_value                                                                                               r_equal     0.0                                                                                                  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.016))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -183,7 +183,7 @@ SCRP          verify hexadecimal as string conversion to value                 
    local    create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                                                    
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       input an hex zero                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change the source string             ystrl2hex                    "0x0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -282,7 +282,7 @@ SCRP          verify hexadecimal as string conversion to value                 
      echo     check value                          - - - - - - - - - - - - -   x_value                                                                                               r_equal     0.0                                                                                                  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -296,7 +296,7 @@ SCRP          verify mongo as string conversion to value                       
    local    create a value holder                - - - - - - - - - - - - -   ullong  x_save   = 0;                                                                                                                                                                                                      
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       verify with a zero                                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change the source string             ystrl2mongo                  "ÿ0000"              , &x_value         , LEN_LABEL                                                   i_pass      0                                                                                                    
@@ -354,7 +354,7 @@ SCRP          verify mongo as string conversion to value                       
      echo     check string version                 - - - - - - - - - - - - -   x_print                                                                                               s_equal     [[ t ]]                                                                                                              
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -364,7 +364,7 @@ SCRP          verify scientific notation as string conversion to value         
    local    create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                                                    
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       verify a zero                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change the source string             ystrl2sci                    "0Ë0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -419,7 +419,7 @@ SCRP          verify scientific notation as string conversion to value         
      echo     check value                          - - - - - - - - - - - - -   x_value                                                                                               r_equal     0.0                                                                                                   
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.026))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -430,7 +430,7 @@ SCRP          verify comma format as string conversion to value                
    local    create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                                                    
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start by testing integer component                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -614,7 +614,7 @@ SCRP          verify comma format as string conversion to value                
      echo     check value                          - - - - - - - - - - - - -   x_value                                                                                               r_equal     0.0                                                                                                  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.025))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -624,7 +624,7 @@ SCRP          verify real/float as string conversion to value                  
    local    create a value holder                - - - - - - - - - - - - -   double  x_value  = 0.0;                                                                                                                                                                                                    
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((05.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       input an zero                                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((05.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change the source string             ystrl2real                   "0.0"                , &x_value         , 40                                                          i_pass      0                                                                                                    
@@ -671,7 +671,7 @@ SCRP          verify real/float as string conversion to value                  
      echo     check value                          - - - - - - - - - - - - -   x_value                                                                                               r_equal     0.0                                                                                                  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((05.029))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -681,7 +681,7 @@ SCRP          verify hex conversion to string                                  
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((06.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1083,7 +1083,7 @@ SCRP          verify hex conversion to string                                  
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((06.094))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -1093,7 +1093,7 @@ SCRP          verify octal conversion to string                                
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((07.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with zero and no padding              (PUBLIC)               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1379,7 +1379,7 @@ SCRP          verify octal conversion to string                                
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((07.066))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -1389,7 +1389,7 @@ SCRP          verify binary conversion to string                               
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((08.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1615,7 +1615,7 @@ SCRP          verify binary conversion to string                               
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((08.048))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -1625,7 +1625,7 @@ SCRP          verify base-64 (mongo) conversion to string                      
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((09.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -1860,7 +1860,7 @@ SCRP          verify base-64 (mongo) conversion to string                      
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((09.054))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -1870,7 +1870,7 @@ SCRP          verify comma conversion to string                                
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((10.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2382,7 +2382,7 @@ SCRP          verify comma conversion to string                                
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((10.122))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -2392,7 +2392,7 @@ SCRP          verify scientific notation numbers to string                     
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((11.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with zero and no padding                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2550,7 +2550,7 @@ SCRP          verify scientific notation numbers to string                     
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((11.033))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -2560,7 +2560,7 @@ SCRP          verify roman conversion to string                                
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((12.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start small                                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2806,7 +2806,7 @@ SCRP          verify roman conversion to string                                
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((12.058))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -2816,7 +2816,7 @@ SCRP          verify time representations to string                            
    local    create a string holder               - - - - - - - - - - - - -   char    x_print  [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((13.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start basic                                                        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -2978,7 +2978,7 @@ SCRP          verify time representations to string                            
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((13.036))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 

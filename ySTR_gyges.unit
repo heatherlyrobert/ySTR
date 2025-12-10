@@ -16,7 +16,7 @@ PREP          include the prototype headers                                    
 SCRP          (GYGES ) verify tab validity functions                             0s   tab             VALID_tab, LEGAL_tab, LABEL_tab, INDEX_tab                                   ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      validity checking                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -114,7 +114,7 @@ SCRP          (GYGES ) verify tab validity functions                           
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.016))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -123,7 +123,7 @@ SCRP          (GYGES ) verify tab validity functions                           
 SCRP          (GYGES ) verify col validity functions                             0s   col             VALID_col, LEGAL_col, LABEL_col, INDEX_col                                   ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      validity checking                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -229,7 +229,7 @@ SCRP          (GYGES ) verify col validity functions                           
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.014))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -238,7 +238,7 @@ SCRP          (GYGES ) verify col validity functions                           
 SCRP          (GYGES ) verify row validity functions                             0s   row             VALID_row, LEGAL_row, LABEL_row, INDEX_row                                   ((03.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      validity checking                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -345,7 +345,7 @@ SCRP          (GYGES ) verify row validity functions                           
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.014))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -357,7 +357,7 @@ SCRP          (GYGES ) convert labels to tabs                                  
    local    create a absolute indicator          - - - - - - - - - - - - -   char   x_abs   = 0;                                                                                                                                                                                                        
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       establish host checking for str4gyges                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     ystr unit checking                   ystr0gyges                   ystr_gyges__unit_check                                                                                i_equal     0                                                                                                    
@@ -506,7 +506,7 @@ SCRP          (GYGES ) convert labels to tabs                                  
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((04.019))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -518,7 +518,7 @@ SCRP          (GYGES ) convert labels to columns                               
    local    create a absolute indicator          - - - - - - - - - - - - -   char   x_abs   = 0;                                                                                                                                                                                                        
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((05.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       establish host checking for str4gyges                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((05.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     ystr unit checking                   ystr0gyges                   ystr_gyges__unit_check                                                                                i_equal     0                                                                                                    
@@ -658,7 +658,7 @@ SCRP          (GYGES ) convert labels to columns                               
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((05.018))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -670,7 +670,7 @@ SCRP          (GYGES ) convert labels to rows                                  
    local    create a absolute indicator          - - - - - - - - - - - - -   char   x_abs   = 0;                                                                                                                                                                                                        
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((06.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       establish host checking for str4gyges                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((06.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     ystr unit checking                   ystr0gyges                   ystr_gyges__unit_check                                                                                i_equal     0                                                                                                    
@@ -810,7 +810,7 @@ SCRP          (GYGES ) convert labels to rows                                  
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((06.018))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -825,7 +825,7 @@ SCRP          (GYGES ) create and parse ggyes labels                           
    local    create a absolute indicator          - - - - - - - - - - - - -   char   x_abs   = 0;                                                                                                                                                                                                        
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((07.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       establish host checking for str4gyges                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((07.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     ystr unit checking                   ystr0gyges                   ystr_gyges__unit_check                                                                                i_equal     0                                                                                                    
@@ -1583,7 +1583,7 @@ SCRP          (GYGES ) create and parse ggyes labels                           
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((07.066))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -1594,7 +1594,7 @@ SCRP          (GYGES ) clean up gyges labels to standard                       
    local    create a custom expect string        - - - - - - - - - - - - -   char   x_out   [2000];                                                                                                                                                                                                     
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((08.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       establish host checking                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((08.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     ystr unit checking                   ystr0gyges                   ystr_gyges__unit_check                                                                                i_equal     0                                                                                                    
@@ -1895,7 +1895,7 @@ SCRP          (GYGES ) clean up gyges labels to standard                       
      echo     ...check the pretty label            - - - - - - - - - - - - -   x_out                                                                                                 s_equal     Zbk999                                                                                               
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((08.035))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -1906,7 +1906,7 @@ SCRP          (GYGES ) update gyges labels to new offset                       
    local    create a custom expect string        - - - - - - - - - - - - -   char   x_out   [2000];                                                                                                                                                                                                     
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((09.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       establish host checking                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((09.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     ystr unit checking                   ystr0gyges                   ystr_gyges__unit_check                                                                                i_equal     0                                                                                                    
@@ -2587,7 +2587,7 @@ SCRP          (GYGES ) update gyges labels to new offset                       
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((09.044))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 

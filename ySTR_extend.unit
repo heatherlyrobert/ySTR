@@ -17,7 +17,7 @@ SCRP          verify single character encoding and decoding                    
    local    create a string holder               - - - - - - - - - - - - -   char    x_string [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       check successes                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change space                         ychrvisible                  G_KEY_SPACE                                                                                           i_equal     G_CHAR_SPACE                                                                                         
@@ -36,7 +36,7 @@ SCRP          verify single character encoding and decoding                    
      exec     dont change visible return           ychrvisible                  G_CHAR_RETURN                                                                                         i_equal     G_CHAR_RETURN                                                                                        
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -46,7 +46,7 @@ SCRP          verify single character encoding and decoding                    
    local    create a string holder               - - - - - - - - - - - - -   char    x_string [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       check successes                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.005))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change space                         ychrworking                  G_CHAR_SPACE                                                                                          i_equal     G_KEY_SPACE                                                                                          
@@ -65,7 +65,7 @@ SCRP          verify single character encoding and decoding                    
      exec     dont change normal return            ychrworking                  G_KEY_RETURN                                                                                          i_equal     G_KEY_RETURN                                                                                         
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -74,7 +74,7 @@ SCRP          verify single character encoding and decoding                    
 SCRP          verify single character encoding and decoding                      0s   slashed         ychrvisible, ychrworking, ychrslashed                                          ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       check controls from shortcuts                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.008))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     change space                         ychrslashed                  's'                                                                                                   i_equal     G_CHAR_SPACE                                                                                         
@@ -101,7 +101,7 @@ SCRP          verify single character encoding and decoding                    
      exec     change proves                        ychrslashed_more             's'                                                                                                   i_equal     G_CHAR_SUFFIX                                                                                        
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -111,7 +111,7 @@ SCRP          verify backward translation of escaped charaters                 
    local    create a string holder               - - - - - - - - - - - - -   char    x_slash, x_base;                                                                                                                                                                                                   
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       verify simple success (ascii field separator)                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.008))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     call backward                        ychrbackward                '§'         , &x_slash    , &x_base                                                                   i_equal     1                                                                                                    
@@ -183,7 +183,7 @@ SCRP          verify backward translation of escaped charaters                 
      echo     ... verify base                      - - - - - - - - - - - - -   x_base                                                                                                i_equal     'Z'                                                                                                  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -193,7 +193,7 @@ SCRP          verify single character encoding and decoding                    
    local    create a string holder               - - - - - - - - - - - - -   char    x_string [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    GROUP      start with decoding                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
@@ -242,7 +242,7 @@ SCRP          verify single character encoding and decoding                    
    GROUP      complete                                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
@@ -252,7 +252,7 @@ SCRP          (EXTEND) verify translating to and from leet                     
    local    create a string holder               - - - - - - - - - - - - -   char    x_string [100] = "";                                                                                                                                                                                               
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  ySTR_testquiet                                                                                                                    i_equal     0                                                                                                    
+     exec     prepare for testing                  ySTR_unit_quiet                                                                                                                   i_equal     0                                                                                                    
 
    COND       simple success                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      code     set starting point                   - - - - - - - - - - - - -   ystrlcpy (x_string, "leet"                                 , LEN_RECD);                                                                                                                                                     
@@ -285,7 +285,7 @@ SCRP          (EXTEND) verify translating to and from leet                     
      echo     ... verify return                    - - - - - - - - - - - - -   x_string                                                                                              s_equal     hockystick                                                                                           
 
    COND       verify program teardown                                            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.004))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap-up the program                  ySTR_testend                                                                                                                      i_equal     0                                                                                                    
+     exec     wrap-up the program                  ySTR_unit_end                                                                                                                     i_equal     0                                                                                                    
 
 
 
