@@ -573,7 +573,7 @@ ystrlimport              (int a_line, char *a_recd, int *a_len)
 static void      o___DATES___________________o (void) {;}
 
 char
-ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT])
+ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_recent)
 {  /*---(notes)--------------------------*/
    /*
     *  age is almost always more important to me than date, and
@@ -633,6 +633,13 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
          }
       }
    }
+   /*---(save recent)--------------------*/
+   if (r_recent != NULL) {
+      if      (strchr ("sm", x_unit) != NULL)  *r_recent = 'Ï';
+      else if (strchr ("h" , x_unit) != NULL)  *r_recent = ' ';
+      else if (strchr ("d" , x_unit) != NULL)  *r_recent = '´';
+      else                                     *r_recent = '·';
+   }
    /*---(adjust for format)--------------*/
    if (a_fmt != 0 && strchr ("uU", a_fmt) != NULL) {
       switch (x_unit) {
@@ -654,19 +661,19 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
 char
 ystrldur                (long a_dur, char a_fmt, char r_age [LEN_SHORT])
 {
-   return ystrl_age (a_dur + 1, 1, a_fmt, r_age);
+   return ystrl_age (a_dur + 1, 1, a_fmt, r_age, NULL);
 }
 
 char
-ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT])
+ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_recent)
 {
-   return ystrl_age (time (NULL), a_epoch, a_fmt, r_age);
+   return ystrl_age (time (NULL), a_epoch, a_fmt, r_age, r_recent);
 }
 
 char
 ystrlager               (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT])
 {
-   return ystrl_age (a_now, a_epoch, a_fmt, r_age);
+   return ystrl_age (a_now, a_epoch, a_fmt, r_age, NULL);
 }
 
 char
@@ -790,9 +797,32 @@ ystr_size                (llong a_bytes, char a_base, char a_fmt, char a_size [L
 }
 
 char
-ystrlsize                (llong a_bytes, char a_fmt, char a_size [LEN_SHORT])
+ystrlsize                (llong a_bytes, char a_fmt, char r_used [LEN_SHORT], char *r_large, llong a_alloc, char r_size [LEN_SHORT], short *r_pct, char *r_dense)
 {
-   return ystr_size (a_bytes, 'b', a_fmt, a_size);
+   int         x_pct       =    0;
+   ystr_size (a_bytes, 'b', a_fmt, r_used);
+   if (r_used != NULL && r_large != NULL) {
+      if      (strchr ("´" , r_used [3]) != NULL)  *r_large  = '·';
+      else if (strchr ("k" , r_used [3]) != NULL) {
+         if (strchr ("54769", r_used [0]) == NULL) *r_large  = '·';
+         else                                      *r_large  = '´';
+      }
+      else if (strchr ("mM", r_size [3]) != NULL)  *r_large  = ' ';
+      else                                         *r_large  = 'Ï';
+   }
+   ystr_size (a_alloc, 'b', a_fmt, r_size);
+   if (a_bytes > 0 &&  a_alloc > 0) {
+      x_pct  = (int) (((float) a_bytes / (float) a_alloc) * 100);
+      if (r_pct != NULL)  *r_pct = x_pct;
+   }
+   if (r_dense != NULL) {
+      if      (x_pct ==  0)  *r_dense = '-';
+      else if (x_pct >= 80)  *r_dense = 'Ï';
+      else if (x_pct >= 50)  *r_dense = ' ';
+      else if (x_pct >= 30)  *r_dense = '´';
+      else                   *r_dense = '·';
+   }
+   /*---(display))-----------------------*/
 }
 
 char
