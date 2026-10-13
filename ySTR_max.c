@@ -4,6 +4,37 @@
 
 
 
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2013 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*---(static variables)---------------*/
 /*> static char s_empty       [200] = "                                                                                                                                                                                                       ";   <*/
 /*> static char s_dashes      [200] = "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------";   <*/
@@ -585,6 +616,8 @@ ystrlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_m
    }
    /*---(set filler)---------------------*/
    switch (a_fil) {
+   case '?' : x_fore = x_back = YSTR_EMPTY;                  break;
+   case '²' : x_fore = x_back = YSTR_EMPTY;                  break;
    case '-' : x_fore = x_back = YSTR_DASH;                   break;
    case '=' : x_fore = x_back = YSTR_EQUAL;                  break;
    case '_' : x_fore = x_back = YSTR_UNDER;                  break;
@@ -647,8 +680,9 @@ char*
 ystrlpadquick           (char *a_src, char a_ali, char a_fil, int a_max)
 {
    static char x_print     [LEN_HUND]  = "";
-   if (a_src != NULL)   ystrlpad (a_src   , x_print, a_fil, a_ali, a_max);
-   else                 ystrlpad ("(null)", x_print, a_fil, a_ali, a_max);
+   if      (a_src [0] == '\0')  ystrlpad ("´"     , x_print, a_fil, a_ali, a_max);
+   else if (a_src != NULL)      ystrlpad (a_src   , x_print, a_fil, a_ali, a_max);
+   else                         ystrlpad ("(null)", x_print, a_fil, a_ali, a_max);
    return x_print;
 }
 

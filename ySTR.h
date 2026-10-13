@@ -1,3 +1,40 @@
+/*===[[ HEADER GUARD ]]=======================================================*/
+#ifndef    YSTR_guard
+#define    YSTR_guard        loaded
+
+
+
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2013 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*===[[ START HDOC ]]=========================================================*/
 /*===[[ HEADER ]]==================================================#
 
@@ -46,17 +83,7 @@
  *   seek what they sought ~ Matsuo Basho
  */
 
-/*===[[ HEADER GUARD ]]=======================================================*/
-#ifndef YSTR_HGUARD
-#define YSTR_HGUARD loaded
-
 #include    "ySTR_solo.h"
-
-typedef     unsigned char  uchar;
-typedef     const char     cchar;
-typedef     long long      llong;
-typedef     unsigned long long      ullong;
-
 
 #define     ySTR_NOTRUNC   -1
 #define     ySTR_NONE      'n'
@@ -271,7 +298,7 @@ char        ySTR_gyges_checker_small(int b, int x, int y, int z, char a_check);
 char        ystrlexport             (int a_line, char *a_recd);
 char        ystrlimport             (int a_line, char *a_recd, int *a_len);
 char        ystrldur                (long a_dur, char a_fmt, char r_age [LEN_SHORT]);
-char        ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_recent);
+char        ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_flag);
 char        ystrlager               (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT]);
 char        ystrlunage              (char a_age [LEN_SHORT], int *r_secs);
 char        ystrlsize               (llong a_bytes, char a_fmt, char r_used [LEN_SHORT], char *r_large, llong a_alloc, char r_size [LEN_SHORT], short *r_pct, char *r_dense);

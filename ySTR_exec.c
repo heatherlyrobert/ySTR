@@ -4,6 +4,37 @@
 
 
 
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2013 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*====================------------------------------------====================*/
 /*===----                           arguments                          ----===*/
 /*====================------------------------------------====================*/
@@ -573,7 +604,7 @@ ystrlimport              (int a_line, char *a_recd, int *a_len)
 static void      o___DATES___________________o (void) {;}
 
 char
-ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_recent)
+ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_flag)
 {  /*---(notes)--------------------------*/
    /*
     *  age is almost always more important to me than date, and
@@ -591,7 +622,8 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
    long        x_age       =    0;
    char        x_unit      =  '-';
    /*---(default)------------------------*/
-   if (r_age != NULL)  strcpy (r_age, "  ·");
+   if (r_age  != NULL)  strcpy (r_age, "  ·");
+   if (r_flag != NULL)  *r_flag = '?';
    /*---(defense)------------------------*/
    --rce;  if (r_age == NULL)  return rce;
    /*---(weird epoch)--------------------*/
@@ -609,6 +641,7 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
    x_unit = 's';
    if (x_age == 0) {
       strcpy (r_age, " <s");
+      if (r_flag != NULL)  *r_flag = 'Ï';
       return 0;
    }
    --rce;  if (x_age >= 60) {
@@ -634,11 +667,11 @@ ystrl_age                (long a_now, long a_epoch, char a_fmt, char r_age [LEN_
       }
    }
    /*---(save recent)--------------------*/
-   if (r_recent != NULL) {
-      if      (strchr ("sm", x_unit) != NULL)  *r_recent = 'Ï';
-      else if (strchr ("h" , x_unit) != NULL)  *r_recent = ' ';
-      else if (strchr ("d" , x_unit) != NULL)  *r_recent = '´';
-      else                                     *r_recent = '·';
+   if (r_flag != NULL) {
+      if      (strchr ("sm", x_unit) != NULL)  *r_flag = 'Ï';
+      else if (strchr ("h" , x_unit) != NULL)  *r_flag = ' ';
+      else if (strchr ("d" , x_unit) != NULL)  *r_flag = '´';
+      else                                     *r_flag = '·';
    }
    /*---(adjust for format)--------------*/
    if (a_fmt != 0 && strchr ("uU", a_fmt) != NULL) {
@@ -665,9 +698,9 @@ ystrldur                (long a_dur, char a_fmt, char r_age [LEN_SHORT])
 }
 
 char
-ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_recent)
+ystrlage                (long a_epoch, char a_fmt, char r_age [LEN_SHORT], char *r_flag)
 {
-   return ystrl_age (time (NULL), a_epoch, a_fmt, r_age, r_recent);
+   return ystrl_age (time (NULL), a_epoch, a_fmt, r_age, r_flag);
 }
 
 char
