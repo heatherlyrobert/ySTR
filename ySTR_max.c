@@ -531,6 +531,24 @@ ystrlunall               (uchar *a_src, int a_max)
    return rc;
 }
 
+char 
+ystrldisplay            (char *a_text, int a_width, char *r_field)
+{
+   int         l           =    0;
+   if (a_text == NULL) {
+      snprintf (unit_answer, a_width + 1, "%s%s", "(null)", YSTR_EDOTS);
+   } else if (a_text [0] == '\0') {
+      snprintf (unit_answer, a_width + 1, "%s%s", "´", YSTR_EDOTS);
+   } else {
+      l = strlen (a_text);
+      snprintf (unit_answer, a_width + 1, "%s%s", a_text, YSTR_EDOTS);
+   }
+   ystrldchg (unit_answer, ' ', '·', a_width);
+   if (l >= a_width)  unit_answer [a_width - 1] = '>';
+   if (r_field != NULL)  strcpy (r_field, unit_answer);
+   return 0;
+}
+
 
 
 /*====================------------------------------------====================*/

@@ -858,6 +858,8 @@ ystrlsize                (llong a_bytes, char a_fmt, char r_used [LEN_SHORT], ch
    /*---(display))-----------------------*/
 }
 
+char ystrlusize  (llong a_bytes, char a_fmt, char r_used [LEN_SHORT]) { return ystrlsize (a_bytes, a_fmt, r_used, NULL, 0, NULL, NULL, NULL); }
+
 char
 ystrlcount               (llong a_value, char a_fmt, char a_count [LEN_SHORT])
 {
@@ -946,7 +948,7 @@ ystrlcount               (llong a_value, char a_fmt, char a_count [LEN_SHORT])
       *> }                                                                                 <*/
 
 char
-ystr2mongo               (long a_epoch, char *a_mongo)
+ystrtime2mongo               (long a_epoch, char *a_mongo)
 {
    /*---(locals)-----------+-----+-----+-*/
    long        x_now       =    0;
@@ -969,7 +971,7 @@ ystr2mongo               (long a_epoch, char *a_mongo)
 }
 
 char
-ystr4mongo               (char *a_mongo, long *a_epoch)
+ystrtime4mongo               (char *a_mongo, long *a_epoch)
 {
    /*---(locals)-----------+-----+-----+-*/
    tTIME       x_broke;

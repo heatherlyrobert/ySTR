@@ -64,9 +64,9 @@
 #define     P_DEPENDS   "yLOG,yURG"
 
 #define     P_VERMAJOR  "2.--, simplified production"
-#define     P_VERMINOR  "2.0-, simplify, tighten, and harden"
-#define     P_VERNUM    "2.0r"
-#define     P_VERTXT    "little fixes to ySTR_exec unit testing and clean up on unit-tests"
+#define     P_VERMINOR  "2.1-, cleaning up campaign"
+#define     P_VERNUM    "2.1a"
+#define     P_VERTXT    "massive cleanup underway in ySTR_nums, started rework of unit-testing too"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -136,10 +136,50 @@ int         ystrld_chk              (char a_type, char *b_source, char *a_allowe
 
 
 
+/*===[[ ySTR_nums.c ]]========================================================*/
+/*········´ ´······string2support·´ ´·········································*/
+char        ystr2_defense           (char a_src [LEN_TITLE], char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
+char        ystr2_prefix            (char a_src [LEN_TITLE], char r_out [LEN_TITLE]);
+char        ystr2_suffix            (char a_src [LEN_TITLE], char r_out [LEN_TITLE]);
+/*········´ ´·······string2number·´ ´·········································*/
+char        ystr2bin                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2oct                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2hex                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2mongo              (char a_src [LEN_TITLE], double *r_val);
+char        ystr2mongor             (char a_src [LEN_TITLE], ullong *r_val);
+char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
+char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
+/*········´ ´·······string2driver·´ ´·········································*/
+char        ystr2num                (char a_src [LEN_TITLE], double *r_val);
+/*········´ ´······string4support·´ ´·········································*/
+char        ystr4_units             (char a_unit, double *b_value);
+char        ystr4_space_ints        (char a_every, char a_char, char b_out [LEN_TITLE]);
+char        ystr4_space_decs        (char a_every, char a_char, char b_out [LEN_TITLE]);
+/*········´ ´·······string4number·´ ´·········································*/
+char        ystrl4bool              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4bin               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4oct               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4hex               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4comma             (double a_val, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4sci               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4roman             (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4mongo             (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4mongor            (ullong a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4time              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+/*········´ ´·······string4driver·´ ´·········································*/
+char        ystrl4main              (double a_val, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
+char*       ystrl4quick             (double a_val, char a_ali, char a_fmt, char a_cnt, char a_uom, char a_fil, char a_zer, char a_neg, char a_max);
+/*········´ ´·········specialized·´ ´·········································*/
+char        ystrlbit2bin            (char *a_bits, char a_blen, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrbin2bit             (char  a_src [LEN_TITLE], char *r_bits, char a_blen);
+char        ystrbin2val             (char  a_src [LEN_TITLE], double *r_val);
+/*········´ ´················DONE·´ ´·········································*/
+
+
+
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-char        ystr__prefix            (cchar *a_str, char *a_out);
-char        ystr__suffix            (cchar *a_str, char *a_out);
 /*> char        strl__home              (char *a_home);                               <*/
 /*> char        strl__name              (char *a_home, char *a_name);                 <*/
 
