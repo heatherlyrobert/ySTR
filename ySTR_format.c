@@ -520,7 +520,8 @@ ystr2_part              (char a_part, char a_src [LEN_TITLE], double *r_val)
    }
    /*---(strip signs)--------------------*/
    DEBUG_YSTR   yLOG_schar   (a_part);
-   if      (a_src [x_beg] == '(' && a_part == 'i')   { ++x_beg; x_sign = -1; }
+   if      (a_src [x_beg] == '$' && a_part == 'i')   { ++x_beg;   }
+   else if (a_src [x_beg] == '(' && a_part == 'i')   { ++x_beg; x_sign = -1; }
    else if (a_src [x_beg] == '+' && a_part != 'd')   { ++x_beg;   }
    else if (a_src [x_beg] == '-' && a_part != 'd')   { ++x_beg; x_sign = -1; }
    DEBUG_YSTR   yLOG_sint    (x_sign);
@@ -533,8 +534,8 @@ ystr2_part              (char a_part, char a_src [LEN_TITLE], double *r_val)
    /*---(leading zero)-------------------*/
    DEBUG_YSTR   yLOG_schar   (a_src [x_beg]);
    --rce;  if (a_part == 'i' && x_beg + 1 < x_len && a_src [x_beg] == '0') {
-         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
-         return rce;
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
    }
    /*---(handle decimals)----------------*/
    if (a_part == 'd') { strcpy (x_out, "0."); n = 2; }
@@ -545,8 +546,8 @@ ystr2_part              (char a_part, char a_src [LEN_TITLE], double *r_val)
       x_ch = a_src [i];
       DEBUG_YSTR   yLOG_schar   (x_ch);
       /*---(filter)----------------------*/
-      if (a_type == 'i' && x_ch == ',' )  continue;
-      if (a_type == 'd' && x_ch == '\'')  continue;
+      if (a_part == 'i' && x_ch == ',' )  continue;
+      if (a_part == 'd' && x_ch == '\'')  continue;
       if (strchr (x_valid, x_ch) == NULL) {
          DEBUG_YSTR   yLOG_snote   ("BAD CHAR");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -556,6 +557,12 @@ ystr2_part              (char a_part, char a_src [LEN_TITLE], double *r_val)
       x_out [n]   = x_ch;
       x_out [++n] = '\0';
       /*---(done)------------------------*/
+   }
+   /*---(exponent exception)-------------*/
+   --rce;  if (a_part == 'e' && n > 2) {
+      DEBUG_YSTR   yLOG_snote   ("EXP TOO LONG");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
    }
    /*---(save-back)----------------------*/
    DEBUG_YSTR   yLOG_snote   ("assigning");

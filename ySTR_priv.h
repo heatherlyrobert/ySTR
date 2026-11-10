@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1b"
-#define     P_VERTXT    "new ystr2_defense and ystr2bin, ystr2oct, ystr2hex are great and unit-tested"
+#define     P_VERNUM    "2.1c"
+#define     P_VERTXT    "new ystr2_part foundation for ystr2real, ystr2comma, ystr2sci unit-tested"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
