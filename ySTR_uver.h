@@ -1,10 +1,12 @@
 /*===[[ HEADER GUARD ]]=======================================================*/
+/*········´ ´···············guard·´ ´·········································*/
 #ifndef    YSTR_uver_guard
 #define    YSTR_uver_guard   loaded
+/*········´ ´·····················´ ´·········································*/
 
 
 
-/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*===[[ BEG GNU GENERAL PUBLIC LICENSE (GPL) WARNING ]]=======================*/
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 
 #define  P_COPYRIGHT   \
@@ -31,7 +33,9 @@
    "find any number of freedom-minded hackers may take it quite personally ;)"
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
-/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*===[[ END GNU GENERAL PUBLIC LICENSE (GPL) WARNING ]]=======================*/
+
+
 
 #include    "ySTR_solo.h"
 

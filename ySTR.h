@@ -1,10 +1,12 @@
 /*===[[ HEADER GUARD ]]=======================================================*/
+/*········´ ´···············guard·´ ´·········································*/
 #ifndef    YSTR_guard
 #define    YSTR_guard        loaded
+/*········´ ´·····················´ ´·········································*/
 
 
 
-/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*===[[ BEG GNU GENERAL PUBLIC LICENSE (GPL) WARNING ]]=======================*/
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 
 #define  P_COPYRIGHT   \
@@ -31,7 +33,7 @@
    "find any number of freedom-minded hackers may take it quite personally ;)"
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
-/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*===[[ END GNU GENERAL PUBLIC LICENSE (GPL) WARNING ]]=======================*/
 
 
 
@@ -237,11 +239,11 @@ char        ystrlparse              (char *a_src, char *a_disp, char *a_final, c
 char        ystr2bin                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2oct                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2hex                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
+char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
+char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2mongo              (char a_src [LEN_TITLE], double *r_val);
 char        ystr2mongor             (char a_src [LEN_TITLE], ullong *r_val);
-char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
-char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
 /*········´ ´·······string2driver·´ ´·········································*/
 char        ystr2num                (char a_src [LEN_TITLE], double *r_val);
 /*········´ ´·······string4number·´ ´·········································*/

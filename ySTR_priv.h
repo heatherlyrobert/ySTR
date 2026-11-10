@@ -1,10 +1,12 @@
 /*===[[ HEADER GUARD ]]=======================================================*/
+/*········´ ´···············guard·´ ´·········································*/
 #ifndef    YSTR_priv_guard
 #define    YSTR_priv_guard   loaded
+/*········´ ´·····················´ ´·········································*/
 
 
 
-/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*===[[ BEG GNU GENERAL PUBLIC LICENSE (GPL) WARNING ]]=======================*/
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
 
 #define  P_COPYRIGHT   \
@@ -31,46 +33,66 @@
    "find any number of freedom-minded hackers may take it quite personally ;)"
 
 /*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
-/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*===[[ END GNU GENERAL PUBLIC LICENSE (GPL) WARNING ]]=======================*/
 
 
 
-/*===[[ HEADER ]]=============================================================*/
-/*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
-
+/*===[[ BEG ONE_LINERS ]]=====================================================*/
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*········· ··········· ´·····························´········································*/
 #define     P_FOCUS     "PS (programming support)"
 #define     P_NICHE     "st (string handling)"
 #define     P_SUBJECT   "useful, safe string handling"
 #define     P_PURPOSE   "provide secure and useful string handling capabilities"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_NAMESAKE  "astrea-kori (star-maiden)"
+#define     P_PRONOUNCE "·"
 #define     P_HERITAGE  "virgin goddess of justice, purity, and precision"
+#define     P_BRIEFLY   "goddess of purity and precision"
 #define     P_IMAGERY   "elegant woman with shinning wings, angel light, and flamming torch"
 #define     P_REASON    "greek goddess of precision keeps my strings safe"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
-
+#define     P_FORMAL    P_NAMESAKE " " P_BRIEFLY
+/*········· ··········· ´·····························´········································*/
 #define     P_BASENAME  "libySTR.so"
+#define     P_HOMEDIR   "/home/system/yPARSE.record_parsing"
 #define     P_FULLPATH  "/usr/local/lib64/libySTR.so"
-#define     P_SUFFIX    "n/a"
-#define     P_CONTENT   "n/a"
-
+#define     P_SUFFIX    "´"
+#define     P_CONTENT   "´"
+/*········· ··········· ´·····························´········································*/
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
+#define     P_COMPILER  "gcc 5.3.0"
 #define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
-
+/*········· ··········· ´·····························´········································*/
+#define     P_DEPSTDC   "stdio,stdlib,string,unistd,math,time"
+#define     P_DEPPOSIX  ""
+#define     P_DEPSECURE ""
+#define     P_DEPEXTEND ""
+#define     P_DEPCORE   "yLOG,yURG"
+#define     P_DEPVIKEY  ""
+#define     P_DEPGRAPH  ""
+#define     P_DEPOTHER  ""
+#define     P_DEPSOLO   ""
+#define     P_DEPALIEN  ""
+/*········· ··········· ´·····························´········································*/
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2013-09"
-#define     P_DEPENDS   "yLOG,yURG"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1a"
-#define     P_VERTXT    "massive cleanup underway in ySTR_nums, started rework of unit-testing too"
-
+#define     P_VERNUM    "2.1b"
+#define     P_VERTXT    "new ystr2_defense and ystr2bin, ystr2oct, ystr2hex are great and unit-tested"
+/*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
+/*········· ··········· ´·····························´········································*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
+/*===[[ END ONE_LINERS ]]=====================================================*/
 
 
 
@@ -145,11 +167,12 @@ char        ystr2_suffix            (char a_src [LEN_TITLE], char r_out [LEN_TIT
 char        ystr2bin                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2oct                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2hex                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2_part              (char a_part, char a_src [LEN_TITLE], double *a_val);
+char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
+char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
+char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2mongo              (char a_src [LEN_TITLE], double *r_val);
 char        ystr2mongor             (char a_src [LEN_TITLE], ullong *r_val);
-char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
-char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
 /*········´ ´·······string2driver·´ ´·········································*/
 char        ystr2num                (char a_src [LEN_TITLE], double *r_val);
 /*········´ ´······string4support·´ ´·········································*/
