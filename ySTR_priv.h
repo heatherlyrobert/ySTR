@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1c"
-#define     P_VERTXT    "new ystr2_part foundation for ystr2real, ystr2comma, ystr2sci unit-tested"
+#define     P_VERNUM    "2.1d"
+#define     P_VERTXT    "unit-tested ystr2real, ystr2comma, ystr2sci, and built ystr2roman ;)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -158,19 +158,19 @@ int         ystrld_chk              (char a_type, char *b_source, char *a_allowe
 
 
 
-/*===[[ ySTR_nums.c ]]========================================================*/
+/*===[[ ySTR_format.c ]]======================================================*/
 /*········´ ´······string2support·´ ´·········································*/
 char        ystr2_defense           (char a_src [LEN_TITLE], char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
-char        ystr2_prefix            (char a_src [LEN_TITLE], char r_out [LEN_TITLE]);
-char        ystr2_suffix            (char a_src [LEN_TITLE], char r_out [LEN_TITLE]);
 /*········´ ´·······string2number·´ ´·········································*/
 char        ystr2bin                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2oct                (char a_src [LEN_TITLE], double *r_val);
 char        ystr2hex                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2_divide            (char a_src [LEN_TITLE], char r_int [LEN_TITLE], char r_dec [LEN_TITLE], char r_exp [LEN_TITLE]);
 char        ystr2_part              (char a_part, char a_src [LEN_TITLE], double *a_val);
 char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
 char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
 char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2roman              (char a_src [LEN_TITLE], double *r_val);
 char        ystr2mongo              (char a_src [LEN_TITLE], double *r_val);
 char        ystr2mongor             (char a_src [LEN_TITLE], ullong *r_val);
 /*········´ ´·······string2driver·´ ´·········································*/
