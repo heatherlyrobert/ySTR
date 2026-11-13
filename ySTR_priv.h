@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1d"
-#define     P_VERTXT    "unit-tested ystr2real, ystr2comma, ystr2sci, and built ystr2roman ;)"
+#define     P_VERNUM    "2.1e"
+#define     P_VERTXT    "converted ystr2bin to handle double AND ullong for 8-byte option (unit-tested)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -160,29 +160,28 @@ int         ystrld_chk              (char a_type, char *b_source, char *a_allowe
 
 /*===[[ ySTR_format.c ]]======================================================*/
 /*········´ ´······string2support·´ ´·········································*/
-char        ystr2_defense           (char a_src [LEN_TITLE], char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
+char        ystr2_defense           (char a_src [LEN_HUND] , ullong *a_ullong, double *a_double, char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
 /*········´ ´·······string2number·´ ´·········································*/
-char        ystr2bin                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2oct                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2hex                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);
+char        ystr2oct                (char a_src [LEN_DESC] , double *r_double);
+char        ystr2hex                (char a_src [LEN_TITLE], double *r_double);
 char        ystr2_divide            (char a_src [LEN_TITLE], char r_int [LEN_TITLE], char r_dec [LEN_TITLE], char r_exp [LEN_TITLE]);
 char        ystr2_part              (char a_part, char a_src [LEN_TITLE], double *a_val);
-char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
-char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
-char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2roman              (char a_src [LEN_TITLE], double *r_val);
-char        ystr2mongo              (char a_src [LEN_TITLE], double *r_val);
-char        ystr2mongor             (char a_src [LEN_TITLE], ullong *r_val);
+char        ystr2real               (char a_src [LEN_TITLE], double *r_double);
+char        ystr2comma              (char a_src [LEN_TITLE], double *r_double);
+char        ystr2sci                (char a_src [LEN_TITLE], double *r_double);
+char        ystr2roman              (char a_src [LEN_TITLE], double *r_double);
+char        ystr2mongo              (char a_src [LEN_TITLE], double *r_double);
 /*········´ ´·······string2driver·´ ´·········································*/
-char        ystr2num                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2num                (char a_src [LEN_TITLE], double *r_double);
 /*········´ ´······string4support·´ ´·········································*/
 char        ystr4_units             (char a_unit, double *b_value);
 char        ystr4_space_ints        (char a_every, char a_char, char b_out [LEN_TITLE]);
 char        ystr4_space_decs        (char a_every, char a_char, char b_out [LEN_TITLE]);
 /*········´ ´·······string4number·´ ´·········································*/
 char        ystrl4bool              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4bin               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4oct               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
+char        ystrl4oct               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);
 char        ystrl4hex               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4comma             (double a_val, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4sci               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);

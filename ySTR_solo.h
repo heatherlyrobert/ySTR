@@ -150,7 +150,7 @@ char        ystruundelay            (uchar *a_src, int a_max);
 #define     YSTR_HEXUP    "0123456789abcdefABCDEF"
 #define     YSTR_OCTAL    "01234567"
 #define     YSTR_ROMAN    "oivxlcdmOIVXLCDM"
-#define     YSTR_MONGO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+#define     YSTR_MONGO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@"
 #define     YSTR_MUCHO    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzĞÑÒÓÔÕÖ×ØÙÜİŞßèéêëìíîïğñòóôõö÷øùúûüışÿ"
 #define     YSTR_MUCHO2   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz€’“”•–—Ÿœèéêëìíîïğñòóôõö÷øùúûüışÿ"
 #define     YSTR_COUNT    "·123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ°"

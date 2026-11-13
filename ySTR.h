@@ -236,20 +236,19 @@ char        ystrlparse              (char *a_src, char *a_disp, char *a_final, c
 
 /*===[[ ySTR_nums.c ]]========================================================*/
 /*········´ ´·······string2number·´ ´·········································*/
-char        ystr2bin                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2oct                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2hex                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2real               (char a_src [LEN_TITLE], double *r_val);
-char        ystr2comma              (char a_src [LEN_TITLE], double *r_val);
-char        ystr2sci                (char a_src [LEN_TITLE], double *r_val);
-char        ystr2mongo              (char a_src [LEN_TITLE], double *r_val);
-char        ystr2mongor             (char a_src [LEN_TITLE], ullong *r_val);
+char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);
+char        ystr2oct                (char a_src [LEN_DESC] , double *r_double);
+char        ystr2hex                (char a_src [LEN_TITLE], double *r_double);
+char        ystr2real               (char a_src [LEN_TITLE], double *r_double);
+char        ystr2comma              (char a_src [LEN_TITLE], double *r_double);
+char        ystr2sci                (char a_src [LEN_TITLE], double *r_double);
+char        ystr2mongo              (char a_src [LEN_TITLE], double *r_double);
 /*········´ ´·······string2driver·´ ´·········································*/
-char        ystr2num                (char a_src [LEN_TITLE], double *r_val);
+char        ystr2num                (char a_src [LEN_TITLE], double *r_double);
 /*········´ ´·······string4number·´ ´·········································*/
 char        ystrl4bool              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4bin               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4oct               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
+char        ystrl4oct               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);
 char        ystrl4hex               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4comma             (double a_val, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4sci               (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
