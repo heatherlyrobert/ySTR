@@ -160,21 +160,27 @@
 
 
 
+/*===[[ ySTR_base.c ]]========================================================*/
+/*········´ ´···············basic·´ ´·········································*/
 char*       ySTR_version            (void);
 char        ySTR_debug              (char a_flag);
+/*········´ ´················DONE·´ ´·········································*/
 
-/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
-/*---(normal)------------------*/
-char        ystrlcpy                (char *r_dst, char *a_src, int a_max);
-char        ystrlcat                (char *r_dst, char *a_src, int a_max);
-char        ystrlrev                (char *r_dst, char *a_src, int a_max);
-int         ystrllen                (char *a_src, int a_max);
-char        ystrltrunc              (char *b_src, int a_max);
-int         ystrlupper              (char *b_src, int a_max);
-int         ystrllower              (char *b_src, int a_max);
-int         ystrltrim               (char *b_src, char a_mode, int  a_max);
-int         ystrlrepl               (char *b_src, char *a_old, char *a_new, int a_cnt, int a_max);
-/*---(configuration)-----------*/
+
+
+/*===[[ ySTR_max.c ]]=========================================================*/
+/*········´ ´···············basic·´ ´·········································*/
+char        ystrlcpy                (char r_dst [LEN_ANY], char a_src [LEN_ANY], int a_max);
+char        ystrlcat                (char r_dst [LEN_ANY], char a_src [LEN_ANY], int a_max);
+char        ystrlins                (char a_pos, char a_insert [LEN_ANY], int a_max, char b_out [LEN_ANY], int *b_len);
+char        ystrlrev                (char r_dst [LEN_ANY], char a_src [LEN_ANY], int a_max);
+int         ystrllen                (char a_src [LEN_ANY], int a_max);
+char        ystrltrunc              (char b_src [LEN_ANY], int a_max);
+int         ystrlupper              (char b_src [LEN_ANY], int a_max);
+int         ystrllower              (char b_src [LEN_ANY], int a_max);
+int         ystrltrim               (char b_src [LEN_ANY], char a_mode, int  a_max);
+int         ystrlrepl               (char b_src [LEN_ANY], char *a_old, char *a_new, int a_cnt, int a_max);
+/*········´ ´·······configuration·´ ´·········································*/
 char        ystrlfile               (char *a_option, char *a_holder, char *a_value, char *a_ext, int a_max);
 char        ystrlsplit              (char a_full [LEN_PATH], char *r_style, char r_dir [LEN_PATH], char r_file [LEN_FULL], char r_proj [LEN_LABEL], char r_base [LEN_HUND], char r_ext [LEN_TERSE], char *r_level);
 char        ystrlhome               (char *a_home);
@@ -183,13 +189,14 @@ char        ystrlproj               (char *a_home, char *a_name);
 char        ystrlhere               (char r_home [LEN_HUND], char r_name [LEN_LABEL]);
 char*       ystrlrecd               (cchar *a_name, int n, int *c, char *a_recd, int a_max);
 char*       ystrlread               (cchar *a_name, int n, int *c);
-/*---(un)----------------------*/
-char        ystrlundoc              (uchar *a_src, int a_max);
-char        ystrlunquote            (uchar *a_src, int a_max);
-char        ystrldequote            (uchar *a_src, int a_max);
-char        ystrlrequote            (uchar *a_src, int a_max);
-char        ystrlunall              (uchar *a_src, int a_max);
+/*········´ ´··············modify·´ ´·········································*/
+char        ystrlundoc              (uchar a_src [LEN_ANY], int a_max);
+char        ystrlunquote            (uchar a_src [LEN_ANY], int a_max);
+char        ystrldequote            (uchar a_src [LEN_ANY], int a_max);
+char        ystrlrequote            (uchar a_src [LEN_ANY], int a_max);
+char        ystrlunall              (uchar a_src [LEN_ANY], int a_max);
 char        ystrldisplay            (char *a_text, int a_width, char *r_field);
+/*········´ ´················DONE·´ ´·········································*/
 
 
 
@@ -237,7 +244,7 @@ char        ystrlparse              (char *a_src, char *a_disp, char *a_final, c
 /*===[[ ySTR_nums.c ]]========================================================*/
 /*········´ ´·······string2number·´ ´·········································*/
 char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);
-char        ystr2oct                (char a_src [LEN_DESC] , double *r_double);
+char        ystr2oct                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 char        ystr2hex                (char a_src [LEN_TITLE], double *r_double);
 char        ystr2real               (char a_src [LEN_TITLE], double *r_double);
 char        ystr2comma              (char a_src [LEN_TITLE], double *r_double);

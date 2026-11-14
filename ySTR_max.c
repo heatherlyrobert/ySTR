@@ -66,7 +66,7 @@
 static void      o___STRINGS_________________o (void) {;}
 
 char         /*--> secure version of strcpy --------------[ leaf   [ ------ ]-*/
-ystrlcpy            (char *r_dst, char *a_src, int a_max)
+ystrlcpy            (char r_dst [LEN_ANY], char a_src [LEN_ANY], int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -98,7 +98,7 @@ ystrlcpy            (char *r_dst, char *a_src, int a_max)
 }
 
 char             /* ---- : secure version of strcat --------------------------*/
-ystrlcat            (char *r_dst, char *a_src, int a_max)
+ystrlcat            (char r_dst [LEN_ANY], char a_src [LEN_ANY], int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -138,8 +138,30 @@ ystrlcat            (char *r_dst, char *a_src, int a_max)
    return  0;
 }
 
+char
+ystrlins                (char a_pos, char a_insert [LEN_ANY], int a_max, char b_out [LEN_ANY], int *b_len)
+{
+   char        rce         =  -10;
+   int         l           =    0;
+   int         w           =    0;
+   int         i           =    0;
+   --rce;  if (b_out    == NULL)  return rce;
+   l = strlen (b_out);
+   --rce;  if (l     <= 0)        return rce;
+   --rce;  if (a_insert == NULL)  return rce;
+   w = strlen (a_insert);
+   --rce;  if (w     <= 0)        return rce;
+   --rce;  if (a_pos <  0)        return rce;
+   --rce;  if (a_pos >  l)        return rce;
+   --rce;  if (l + w >= a_max)    return rce;
+   for (i = l; i >= a_pos; --i)  b_out [i + w] = b_out [i];
+   for (i = 0; i <  w;     ++i)  b_out [a_pos + i] = a_insert [i];
+   if (b_len  != NULL)  *b_len = l + w;
+   return 0;
+}
+
 char             /* ---- : secure version of strcat --------------------------*/
-ystrlrev            (char *r_dst, char *a_src, int a_max)
+ystrlrev            (char r_dst [LEN_ANY], char a_src [LEN_ANY], int a_max)
 {
    /*---(design notes)-------------------*/
    /*
@@ -178,14 +200,14 @@ ystrlrev            (char *r_dst, char *a_src, int a_max)
 }
 
 char             /* ---- : secure version of truncate ------------------------*/
-ystrltrunc          (char *a_src, int a_max)
+ystrltrunc          (char a_src [LEN_ANY], int a_max)
 {
    if (a_max > 0) *(a_src + a_max) = '\0';
    return 0;
 }
 
 int              /* ---- : secure version of strlen --------------------------*/
-ystrllen            (char *a_src, int a_max)
+ystrllen            (char a_src [LEN_ANY], int a_max)
 {  /*---(locals)-----------+-----------+-*/
    register char *s        = a_src;         /* source pointer                 */
    register int   n        = a_max;
@@ -204,7 +226,7 @@ ystrllen            (char *a_src, int a_max)
 }
 
 int              /* ---- : count contiguous spaces ---------------------------*/
-ystrltrim           (char *b_src, char a_mode, int a_max)
+ystrltrim           (char b_src [LEN_ANY], char a_mode, int a_max)
 {  /*---(design notes)-------------------*/
    /*
     *   n = none   (string untouched)
@@ -307,7 +329,7 @@ ystrltrim           (char *b_src, char a_mode, int a_max)
 }
 
 int              /* ---- : replace substrings --------------------------------*/
-ystrlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max)
+ystrlrepl           (char a_src [LEN_ANY], char *a_old, char *a_new, int a_cnt, int a_max)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         = -10;
@@ -349,7 +371,7 @@ ystrlrepl           (char *a_src, char *a_old, char *a_new, int a_cnt, int a_max
 
 
 int          /*--> clean string characters ---------------[--------[--------]-*/
-ystrlupper          (char *a_src, int a_max)
+ystrlupper          (char a_src [LEN_ANY], int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
@@ -370,7 +392,7 @@ ystrlupper          (char *a_src, int a_max)
 }
 
 int          /*--> clean string characters ---------------[--------[--------]-*/
-ystrllower          (char *a_src, int a_max)
+ystrllower          (char a_src [LEN_ANY], int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;
@@ -391,7 +413,7 @@ ystrllower          (char *a_src, int a_max)
 }
 
 char
-ystrlundoc               (uchar *a_src, int a_max)
+ystrlundoc               (uchar a_src [LEN_ANY], int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;          /* original string position       */
@@ -438,7 +460,7 @@ ystrlundoc               (uchar *a_src, int a_max)
    return 0;
 }
 
-ystr__quote             (uchar a_type, uchar *a_src, int a_max)
+ystr__quote             (uchar a_type, uchar a_src [LEN_ANY], int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    int         i           =    0;          /* original string position       */
@@ -507,25 +529,25 @@ ystr__quote             (uchar a_type, uchar *a_src, int a_max)
 }
 
 char
-ystrldequote             (uchar *a_src, int a_max)
+ystrldequote             (uchar a_src [LEN_ANY], int a_max)
 {
    return ystr__quote ('d', a_src, a_max);
 }
 
 char
-ystrlrequote             (uchar *a_src, int a_max)
+ystrlrequote             (uchar a_src [LEN_ANY], int a_max)
 {
    return ystr__quote ('r', a_src, a_max);
 }
 
 char
-ystrlunquote             (uchar *a_src, int a_max)
+ystrlunquote             (uchar a_src [LEN_ANY], int a_max)
 {
    return ystr__quote ('u', a_src, a_max);
 }
 
 char
-ystrlunall               (uchar *a_src, int a_max)
+ystrlunall               (uchar a_src [LEN_ANY], int a_max)
 {
    char        rc          =    0;
    rc = ystrlundoc   (a_src, a_max);
@@ -559,7 +581,7 @@ ystrldisplay            (char *a_text, int a_width, char *r_field)
 static void      o___PADDING_________________o (void) {;}
 
 char
-ystrlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_max)
+ystrlpad              (char a_src [LEN_ANY], char a_out [LEN_ANY], char a_fil, char a_ali, int a_max)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -689,7 +711,7 @@ ystrlpad              (char *a_src, char *a_out, char a_fil, char a_ali, int a_m
 }
 
 char
-ystrlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int a_max)
+ystrlpadn                (int   a_src, char a_out [LEN_ANY], char a_fil, char a_ali, int a_max)
 {
    char        t           [LEN_LABEL] = "";
    sprintf (t, "%d", a_src);
@@ -697,7 +719,7 @@ ystrlpadn                (int   a_src, char *a_out, char a_fil, char a_ali, int 
 }
 
 char*
-ystrlpadquick           (char *a_src, char a_ali, char a_fil, int a_max)
+ystrlpadquick           (char a_src [LEN_ANY], char a_ali, char a_fil, int a_max)
 {
    static char x_print     [LEN_HUND]  = "";
    if      (a_src [0] == '\0')  ystrlpad ("´"     , x_print, a_fil, a_ali, a_max);
@@ -775,7 +797,7 @@ ystrlhint                (int n, char a_spec [LEN_SHORT], char r_label [LEN_SHOR
 }
 
 char*
-ystrldisp                (char a_txt [LEN_HUND], char a_len, char *a_out, char a_max)
+ystrldisp                (char a_txt [LEN_HUND], char a_len, char a_out [LEN_ANY], char a_max)
 {
    char        rce         =  -10;
    int         l           =    0;

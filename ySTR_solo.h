@@ -57,6 +57,7 @@ char        ystruundelay            (uchar *a_src, int a_max);
 
 
 /*---(standard lengths)---------------*/
+#define     LEN_ANY          2000       /* longer likely means hacker         */
 #define     LEN_MASS       100000       /* special cases only                 */
 #define     LEN_HUGE        10000       /* special cases only                 */
 #define     LEN_RECD         2000       /* longer likely means hacker         */
