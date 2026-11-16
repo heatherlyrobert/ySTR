@@ -6,4 +6,13 @@
 PREP          include the prototype headers                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
    incl       include ySTR header                  ySTR.h                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
    incl       include ySTR private header          ySTR_priv.h                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   - - - - -   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-   global     create working variable              - - - - - - - - - - - - -   char    u_error        [LEN_FULL]  = "";
+   global     create global/shared variable        - - - - - - - - - - - - -   char        u_error   [LEN_RECD]  = "";                                                                                                                                                                                          
+   global     create working variable              - - - - - - - - - - - - -   double      U_NIBBLE  = 12.0;                  /*  x'c                       */
+   global     create working variable              - - - - - - - - - - - - -   double      U_1BYTE   = 181.0;                 /*  x'97                      */
+   global     create working variable              - - - - - - - - - - - - -   double      U_2BYTE   = 15438.0;               /*  x'3c'5e                   */
+   global     create working variable              - - - - - - - - - - - - -   double      U_3BYTE   = 10854074.0;            /*  x'a5'9e'ba                */
+   global     create working variable              - - - - - - - - - - - - -   double      U_4BYTE   = 3020907978.0;          /*  x'b4'0f'65'ca             */
+   global     create working variable              - - - - - - - - - - - - -   double      U_6BYTE   = 62499999999999.0;      /*  x'38'd7'ea'4c'67'ff       */
+   global     create working variable              - - - - - - - - - - - - -   ullong      U_8BYTE   = 2601424097350343077;   /*  x'24'1a'1d'6f'00'b5'59'a5 */
+
+

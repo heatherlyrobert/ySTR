@@ -196,3 +196,6 @@ ystruundelay            (uchar *a_src, int a_max)
    /*---(complete)-----------------------*/
    return 0;
 }
+
+
+#endif

@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1f"
-#define     P_VERTXT    "converted ystr2oct to handle double AND ullong for 8-byte option (unit-tested)"
+#define     P_VERNUM    "2.1g"
+#define     P_VERTXT    "created and unit-tested number to arbitrary base translation (need for oct/hex)"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -142,6 +142,17 @@ extern  tLOCAL mySTR;
 #define     FONT_MAYANC    'm'       /* [0-1]      */
 
 
+
+/*===[[ unit testing helpers ]]===============================================*/
+/*········´ ´············numerics·´ ´·········································*/
+#define     MAX_ROMAN               3999.0                   /* classic roman range                  */
+#define     MAX_DOUBLE              999999999999999.0        /* clean, precise 15 significant digits */
+#define     MAX_LLONG               9223372036854775807ULL
+#define     MAX_ULLONG              18446744073709551615ULL
+/*········´ ´················DONE·´ ´·········································*/
+
+
+
 extern char   unit_answer [LEN_RECD];
 
 
@@ -159,39 +170,43 @@ int         ystrld_chk              (char a_type, char *b_source, char *a_allowe
 
 
 /*===[[ ySTR_format.c ]]======================================================*/
-/*········´ ´······string2support·´ ´·········································*/
+/*········´ ´············2support·´ ´·········································*/
 char        ystr2_defense           (char a_src [LEN_HUND] , ullong *a_ullong, double *a_double, char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
-/*········´ ´·······string2number·´ ´·········································*/
+/*········´ ´··············2bases·´ ´·········································*/
 char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);
-char        ystr2oct                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
-char        ystr2hex                (char a_src [LEN_TITLE], double *r_double);
-char        ystr2_divide            (char a_src [LEN_TITLE], char r_int [LEN_TITLE], char r_dec [LEN_TITLE], char r_exp [LEN_TITLE]);
-char        ystr2_part              (char a_part, char a_src [LEN_TITLE], double *a_val);
-char        ystr2real               (char a_src [LEN_TITLE], double *r_double);
-char        ystr2comma              (char a_src [LEN_TITLE], double *r_double);
-char        ystr2sci                (char a_src [LEN_TITLE], double *r_double);
+char        ystr2oct                (char a_src [LEN_DESC] , ullong *r_ullong, double *r_double);
+char        ystr2hex                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
+char        ystr2mongo              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
+/*········´ ´············2special·´ ´·········································*/
 char        ystr2roman              (char a_src [LEN_TITLE], double *r_double);
-char        ystr2mongo              (char a_src [LEN_TITLE], double *r_double);
-/*········´ ´·······string2driver·´ ´·········································*/
+/*········´ ´··············2reals·´ ´·········································*/
+char        ystr2_divide            (char a_src [LEN_TITLE], char r_int [LEN_TITLE], char r_dec [LEN_TITLE], char r_exp [LEN_TITLE]);
+char        ystr2_part              (char a_part, char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
+char        ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
+char        ystr2real               (char a_src [LEN_TITLE], double *r_double);
+char        ystr2sci                (char a_src [LEN_TITLE], double *r_double);
+/*········´ ´·············2driver·´ ´·········································*/
 char        ystr2num                (char a_src [LEN_TITLE], double *r_double);
-/*········´ ´······string4support·´ ´·········································*/
-char        ystr4_defense           (char a_type, ullong a_ullong, double a_double, char a_fmt, char a_max, char *r_source, char r_out [LEN_TITLE]);
+/*········´ ´············4support·´ ´·········································*/
+char        ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_double, char a_fmt, char a_max, char *r_source, char r_prefix [LEN_SHORT], char r_out [LEN_TITLE]);
+char        ystr4_translate         (ullong a_source, char a_charset [LEN_HUND], char a_spacing, char a_cnt, char r_ready [LEN_HUND]);
 char        ystr4_units             (char a_unit, double *b_value);
 char        ystr4_space_open        (char a_pos, char a_insert [LEN_SHORT], char b_out [LEN_HUND], char *b_len);
 char        ystr4_space_ints        (char a_every, char a_char, char b_out [LEN_HUND]);
 char        ystr4_space_decs        (char a_every, char a_char, char b_out [LEN_HUND]);
-/*········´ ´·······string4number·´ ´·········································*/
+/*········´ ´··············4bases·´ ´·········································*/
 char        ystrl4bool              (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
-char        ystrl4oct               (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);
-char        ystrl4hex               (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);
+char        ystrl4hex               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4mongo             (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+/*········´ ´············4special·´ ´·········································*/
+char        ystrl4roman             (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
+/*········´ ´··············4reals·´ ´·········································*/
 char        ystrl4comma             (double a_double, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4sci               (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4roman             (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4mongo             (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-char        ystrl4mongor            (ullong a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4time              (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
-/*········´ ´·······string4driver·´ ´·········································*/
+/*········´ ´·············4driver·´ ´·········································*/
 char        ystrl4main              (double a_double, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char*       ystrl4quick             (double a_double, char a_ali, char a_fmt, char a_cnt, char a_uom, char a_fil, char a_zer, char a_neg, char a_max);
 /*········´ ´·········specialized·´ ´·········································*/
@@ -199,7 +214,6 @@ char        ystrlbit2bin            (char *a_bits, char a_blen, char a_fmt, char
 char        ystrbin2bit             (char  a_src [LEN_TITLE], char *r_bits, char a_blen);
 char        ystrbin2val             (char  a_src [LEN_TITLE], double *r_val);
 /*········´ ´················DONE·´ ´·········································*/
-
 
 
 
