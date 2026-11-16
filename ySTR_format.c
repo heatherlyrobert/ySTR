@@ -407,7 +407,7 @@ ystr2oct                (char a_src [LEN_DESC] , ullong *r_ullong, double *r_dou
       return rce;
    }
    /*---(prepare)------------------------*/
-   if (r_double == NULL)  { x_type = 'l'; x_maxsig = 19; }
+   if (r_double == NULL)  { x_type = 'l'; x_maxsig = 22; }
    DEBUG_YSTR   yLOG_complex ("type"      , "%c, %d", x_type, x_maxsig);
    DEBUG_YSTR   yLOG_value   ("x_base"    , x_base);
    DEBUG_YSTR   yLOG_info    ("OCTAL"     , YSTR_OCTAL);
@@ -1252,12 +1252,12 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    /*---(save-back)----------------------*/
    if (r_source != NULL)   *r_source = x_source;
    /*---(complete)-----------------------*/
-   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
 char
-ystr4_translate         (ullong a_ullong, char a_charset [LEN_HUND], char a_spacing, char a_cnt, char r_ready [LEN_HUND])
+ystr4_translate         (ullong a_ullong, char a_charset [LEN_HUND], char a_spacing, char a_cnt, char a_fmt, char r_ready [LEN_HUND])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -1326,6 +1326,14 @@ ystr4_translate         (ullong a_ullong, char a_charset [LEN_HUND], char a_spac
    x_len = strlen (x_revs) - 1;
    DEBUG_YSTR   yLOG_sint    (x_len);
    for (i = x_len; i >= 0; --i) x_flip [x_len - i] = x_revs[i];
+   DEBUG_YSTR   yLOG_snote   (x_flip);
+   /*---(add separators)-------*/
+   DEBUG_YSTR   yLOG_schar   (a_fmt);
+   switch (a_fmt) {
+   case 'd' :  case 'c' :  case 'g' : ystr4_space_ints (a_spacing, '\'', x_flip); break;
+   case ':' :                         ystr4_space_ints (a_spacing, ':' , x_flip); break;
+   case 't' :  case '#' :             ystr4_space_ints (a_spacing, 'á' , x_flip); break;
+   }
    DEBUG_YSTR   yLOG_snote   (x_flip);
    /*---(save-back)------------*/
    if (r_ready != NULL)  ystrlcpy (r_ready, x_flip, LEN_HUND);
@@ -1522,10 +1530,7 @@ ystrl4bin           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    char        rc          =    0;
    char        x_prefix    [LEN_SHORT] = "";
    ullong      x_num       =    0;
-   int         x_len       =    0;
-   int         i           =    0;
-   char        x_revs      [LEN_HUND]  = "";
-   char        x_flip      [LEN_HUND]  = "";
+   char        x_temp      [LEN_HUND]  = "";
    char        x_final     [LEN_HUND]  = "";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
@@ -1537,57 +1542,22 @@ ystrl4bin           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
       return rce;
    }
    DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
-   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
    /*---(prepare)------------------------*/
    if (a_ullong != 0)  x_num = a_ullong;
    else                x_num = (ullong) a_double;
-   DEBUG_YSTR   yLOG_value   ("x_num"     , x_num);
-   /*---(handle zero)--------------------*/
-   if (x_num == 0) {
-      DEBUG_YSTR   yLOG_note    ("found a zero");
-      strcpy (x_revs, "0000");
-   }
-   /*---(build up content)---------------*/
-   while (x_num > 0) {
-      if (x_num % 2 == 0)   strcat (x_revs, "0");
-      else                  strcat (x_revs, "1");
-      x_num /= 2;
-   }
-   DEBUG_YSTR   yLOG_info    ("x_revs"    , x_revs);
-   /*---(fill as necessary)--------------*/
-   x_len = strlen (x_revs);
-   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
-   switch (x_len % 4) {
-   case 1 : strcat (x_revs, "0");
-   case 2 : strcat (x_revs, "0");
-   case 3 : strcat (x_revs, "0");
-   }
-   DEBUG_YSTR   yLOG_info    ("x_revs"    , x_revs);
-   /*---(pad front)----------------------*/
-   x_len = strlen (x_revs);
-   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
-   for (i = x_len / 4; i < a_cnt; ++i) strcat (x_revs, "0000");
-   DEBUG_YSTR   yLOG_info    ("x_revs"    , x_revs);
-   /*---(flip)---------------------------*/
-   x_len = strlen (x_revs) - 1;
-   for (i = x_len; i >= 0; --i) x_flip [x_len - i] = x_revs [i];
-   DEBUG_YSTR   yLOG_info    ("x_flip"    , x_flip);
-   /*---(delimit)------------------------*/
-   switch (a_fmt) {
-   case 'd' :  case 'c' :  case 'g' : ystr4_space_ints (4, '\'', x_flip); break;
-   case ':' :                         ystr4_space_ints (4, ':' , x_flip); break;
-   case 't' :  case '#' :             ystr4_space_ints (4, 'á' , x_flip); break;
-   }
-   DEBUG_YSTR   yLOG_info    ("x_flip"    , x_flip);
+   DEBUG_YSTR   yLOG_complex ("x_num"     , "%llu", x_num);
+   rc = ystr4_translate (x_num, YSTR_BINARY, 4, a_cnt, a_fmt, x_temp);
+   DEBUG_YSTR   yLOG_value   ("translate" , rc);
+   DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);
    /*---(check length trouble)-----------*/
-   --rce;  if (strlen (x_prefix) + strlen (x_flip) > a_max) {
+   --rce;  if (strlen (x_prefix) + strlen (x_temp) > a_max) {
       DEBUG_YSTR   yLOG_note    ("too long to fit");
       ystrlcpy (r_out, "#p/max", a_max);
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(merge)----------------*/
-   sprintf (x_final, "%s%s"  , x_prefix, x_flip);
+   sprintf (x_final, "%s%s"  , x_prefix, x_temp);
    DEBUG_YSTR   yLOG_info    ("x_final"   , x_final);
    /*---(save-back)------------*/
    ystrlcpy (r_out, x_final, LEN_HUND);
@@ -1604,11 +1574,8 @@ ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fm
    char        rce         =  -10;               /* return code for errors    */
    char        rc          =    0;
    char        x_prefix    [LEN_SHORT] = "";
-   char        x_orig      [LEN_HUND]  = "";
-   char        x_padding   [LEN_HUND]  = "";
+   ullong      x_num       =    0;
    char        x_temp      [LEN_HUND]  = "";
-   int         x_len       =    0;
-   int         i           =    0;               /* iterator -- character     */
    char        x_final     [LEN_HUND]  = "";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
@@ -1620,28 +1587,20 @@ ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fm
       return rce;
    }
    DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
-   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
    /*---(translate base)-------*/
-   if (a_ullong != 0)  sprintf  (x_orig, "%o", a_ullong);
-   else                sprintf  (x_orig, "%o", (ullong)  a_double);
-   DEBUG_YSTR   yLOG_info    ("x_orig"    , x_orig);
-   /*---(make prefix)----------*/
-   x_len = strlen (x_orig);
-   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
-   if (x_len % 3 == 1) { strcat  (x_padding, "00"); x_len += 2; }
-   if (x_len % 3 == 2) { strcat  (x_padding,  "0"); x_len += 1; }
-   for (i = x_len / 3; i < a_cnt; ++i)  strcat (x_padding, "000");
-   DEBUG_YSTR   yLOG_info    ("x_padding" , x_padding);
-   /*---(merge)----------------*/
-   sprintf (x_temp, "%s%s"  , x_padding, x_orig);
+   if (a_ullong != 0)  x_num  = a_ullong;
+   else                x_num  = (ullong)  a_double;
+   DEBUG_YSTR   yLOG_complex ("x_num"     , "%llu", x_num);
+   rc = ystr4_translate (x_num, YSTR_OCTAL, 3, a_cnt, a_fmt, x_temp);
+   DEBUG_YSTR   yLOG_value   ("translate" , rc);
    DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);
-   /*---(delimit)--------------*/
-   switch (a_fmt) {
-   case 'd' :  case 'c' :  case 'g' :  ystr4_space_ints (3, '\'', x_temp);   break;
-   case ':' :                          ystr4_space_ints (3, ':' , x_temp);   break;
-   case 't' :                          ystr4_space_ints (3, 'á' , x_temp);   break;
+   /*---(check length trouble)-----------*/
+   --rce;  if (strlen (x_prefix) + strlen (x_temp) > a_max) {
+      DEBUG_YSTR   yLOG_note    ("too long to fit");
+      ystrlcpy (r_out, "#p/max", a_max);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
    }
-   DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);
    /*---(merge)----------------*/
    sprintf (x_final, "%s%s"  , x_prefix, x_temp);
    DEBUG_YSTR   yLOG_info    ("x_final"   , x_final);
@@ -1661,9 +1620,6 @@ ystrl4hex           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    char        rc          =    0;
    char        x_prefix    [LEN_SHORT] = "";
    ullong      x_num       =    0;
-   int         x_len       =    0;
-   char        x_padding   [LEN_HUND]  = "";
-   int         i           =    0;               /* iterator -- character     */
    char        x_temp      [LEN_HUND]  = "";
    char        x_final     [LEN_HUND]  = "";
    /*---(header)-------------------------*/
@@ -1675,33 +1631,20 @@ ystrl4hex           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
-   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
    /*---(translate base)-------*/
    if (a_ullong != 0)  x_num  = a_ullong;
    else                x_num  = (ullong)  a_double;
-   DEBUG_YSTR   yLOG_value   ("x_num"     , x_num);
-   rc = ystr4_translate (x_num, YSTR_HEX, 4, a_cnt, x_temp);
+   DEBUG_YSTR   yLOG_complex ("x_num"     , "%llu", x_num);
+   rc = ystr4_translate (x_num, YSTR_HEX, 4, a_cnt, a_fmt, x_temp);
    DEBUG_YSTR   yLOG_value   ("translate" , rc);
-   /*---(make prefix)----------*/
-   /*> x_len = strlen (x_orig);                                                       <* 
-    *> DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);                               <* 
-    *> if (x_len % 2 == 1) {                                                          <* 
-    *>    strcpy  (x_padding, "0");                                                   <* 
-    *>    ++x_len;                                                                    <* 
-    *> }                                                                              <* 
-    *> for (i = x_len / 2; i < a_cnt; ++i)  strcat  (x_padding, "00");                <* 
-    *> DEBUG_YSTR   yLOG_info    ("x_padding" , x_padding);                           <* 
-    *> /+---(merge)----------------+/                                                 <* 
-    *> sprintf (x_temp, "%s%s"  , x_padding, x_orig);                                 <*/
-   /*> DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);                              <*/
-   /*---(delimit)--------------*/
-   switch (a_fmt) {
-   case 'd' :  case 'c' :  case 'g' :  ystr4_space_ints (4, '\'', x_temp);   break;
-   case ':' :                          ystr4_space_ints (4, ':' , x_temp);   break;
-   case 't' :                          ystr4_space_ints (4, 'á' , x_temp);   break;
-   }
    DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);
+   /*---(check length trouble)-----------*/
+   --rce;  if (strlen (x_prefix) + strlen (x_temp) > a_max) {
+      DEBUG_YSTR   yLOG_note    ("too long to fit");
+      ystrlcpy (r_out, "#p/max", a_max);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
    /*---(check)----------------*/
    sprintf (x_final, "%s%s"  , x_prefix, x_temp);
    DEBUG_YSTR   yLOG_info    ("x_final"   , x_final);
@@ -1713,23 +1656,16 @@ ystrl4hex           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    return 0;
 }
 
-char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
+char
 ystrl4mongo         (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
-   int         x_len       =    0;
-   int         i           =    0;
    char        x_prefix    [LEN_SHORT] = "";
-   char        x_temp      [LEN_HUND]  = "";
-   char        x_revs      [LEN_HUND]  = "";
-   char        x_flip      [LEN_HUND]  = "";
-   char        x_final     [LEN_HUND]  = "";
    ullong      x_num       =    0;
-   char        x_digit     =    0;
-   ullong      x_place     =    0;
-   char        x_base      =    0;
+   char        x_temp      [LEN_HUND]  = "";
+   char        x_final     [LEN_HUND]  = "";
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
@@ -1742,43 +1678,19 @@ ystrl4mongo         (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    /*---(prepare)------------------------*/
    if (a_ullong != 0)  x_num = a_ullong;
    else                x_num = (ullong) a_double;
-   DEBUG_YSTR   yLOG_value   ("x_num"     , x_num);
-   /*---(handle zero)----------*/
-   if (x_num == 0)  strcat (x_revs, "0000");
-   /*---(translate base)-------*/
-   x_base  = strlen (YSTR_MONGO);
-   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
-   while (x_num > 0) {
-      x_digit = x_num % x_base;
-      x_revs [x_place++] = YSTR_MONGO [x_digit];
-      x_revs [x_place  ] = '\0';
-      x_num /= x_base;
+   DEBUG_YSTR   yLOG_complex ("x_num"     , "%llu", x_num);
+   rc = ystr4_translate (x_num, YSTR_MONGO, 4, a_cnt, a_fmt, x_temp);
+   DEBUG_YSTR   yLOG_value   ("translate" , rc);
+   DEBUG_YSTR   yLOG_info    ("x_temp"    , x_temp);
+   /*---(check length trouble)-----------*/
+   --rce;  if (strlen (x_prefix) + strlen (x_temp) > a_max) {
+      DEBUG_YSTR   yLOG_note    ("too long to fit");
+      ystrlcpy (r_out, "#p/max", a_max);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
    }
-   DEBUG_YSTR   yLOG_info    ("x_revs"    , x_revs);
-   /*---(make prefix)----------*/
-   x_len = strlen (x_revs);
-   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
-   switch (x_len % 4) {
-   case 1 : strcat (x_revs, "0");
-   case 2 : strcat (x_revs, "0");
-   case 3 : strcat (x_revs, "0");
-   }
-   for (i = x_len / 4; i < a_cnt; ++i)  strcat (x_revs, "0000");
-   DEBUG_YSTR   yLOG_info    ("x_revs"    , x_revs);
-   /*---(flip)-----------------*/
-   x_len = strlen (x_revs) - 1;
-   DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
-   for (i = x_len; i >= 0; --i) x_flip [x_len - i] = x_revs[i];
-   DEBUG_YSTR   yLOG_info    ("x_flip"    , x_flip);
-   /*---(delimit)--------------*/
-   switch (a_fmt) {
-   case 'd' :  case 'c' :  case 'g' :  ystr4_space_ints (4, '\'', x_flip);   break;
-   case ':' :                          ystr4_space_ints (4, ':' , x_flip);   break;
-   case 't' :                          ystr4_space_ints (4, 'á' , x_flip);   break;
-   }
-   DEBUG_YSTR   yLOG_info    ("x_flip"    , x_flip);
    /*---(merge)----------------*/
-   sprintf (x_final, "%s%s"  , x_prefix, x_flip);
+   sprintf (x_final, "%s%s"  , x_prefix, x_temp);
    DEBUG_YSTR   yLOG_info    ("x_final"   , x_final);
    /*---(save-back)------------*/
    ystrlcpy  (r_out, x_final, a_max);

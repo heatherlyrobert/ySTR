@@ -181,6 +181,7 @@ main                    (int a_argc, char *a_argv[])
    char        x_smgo      [LEN_HUND]  = "";
    ullong      x_vbin, x_voct, x_vhex, x_vmgo;
    char        x_good      =  '°';
+   char       *p           = NULL;
    /*---(initialize)---------------------*/
    rc = PROG_debugging (a_argc, a_argv);
    DEBUG_PROG    yLOG_value   ("urgents"   , rc);
@@ -209,11 +210,11 @@ main                    (int a_argc, char *a_argv[])
    DEBUG_PROG    yLOG_info    ("x_input"   , x_input);
    printf ("x_input  %s\n", x_input);
    switch (x_input [0]) {
-   case 'b' :  rc = ystr2bin   (x_input, &x_ullong, NULL);  break;
-   case 'o' :  rc = ystr2oct   (x_input, &x_ullong, NULL);  break;
-   case 'x' :  rc = ystr2hex   (x_input, &x_ullong, NULL);  break;
-   case 'z' :  rc = ystr2mongo (x_input, &x_ullong, NULL);  break;
-   default  :  x_ullong = (ullong) atoll (x_input);         break;
+   case 'b' :  case 'é' :  rc = ystr2bin   (x_input, &x_ullong, NULL);  break;
+   case 'o' :  case 'ö' :  rc = ystr2oct   (x_input, &x_ullong, NULL);  break;
+   case 'x' :  case 'õ' :  rc = ystr2hex   (x_input, &x_ullong, NULL);  break;
+   case 'z' :  case 'ÿ' :  rc = ystr2mongo (x_input, &x_ullong, NULL);  break;
+   default  :  x_ullong = (ullong) strtoull (x_input, &p, 10);  break;
    }
    DEBUG_PROG    yLOG_value   ("convert"   , rc);
    printf ("x_ullong %llu\n", x_ullong);
