@@ -43,6 +43,20 @@
    "various human-consumable formats, such as, bin, oct, hex, comma, and sci¦"   \
    "to allow quicker and better communication, as well as data maintenance."
 
+/*
+ * if you want a number translated correctly, add a greek prefix.  if you
+ * can not, add a zero-prefixed letter one.  for reals, make sure a  sign,
+ * plus or minus, appears first to make it obvious.
+ *
+ *    ---best----- ---good----- ---decent--- --pedantic-- ---chance---
+ *    é'11010110   é11010110    b11010110    0b11010110   11010110
+ *    ö'755        ö755         o755         0o755        0755
+ *    õ'af86       õaf86        xaf86        0xaf86       af86
+ *    í'Fmu5       íFmu5        zFmu5        0zFmu5       Fmu5
+ *    +1234                                               1234
+ *
+ *
+ */
 
 /*
  *   ySTR_format is all about human-consumable numbers for use on displays,
@@ -121,6 +135,15 @@
  *  doubles can only reliably, precisely handle 15 digits,
  *  so i limit my integer formats to 15 digits as well
  */
+
+#define    TYPE_BIN    'b'
+#define    TYPE_OCT    'o'
+#define    TYPE_HEX    'x'
+#define    TYPE_MONGO  'z'
+#define    TYPE_COMMA  ','
+#define    TYPE_ROMAN  'r'
+#define    TYPE_BASES  "boxz"
+
 
 
 struct {  /* roman numerals classically only went 1 - 3999 */
@@ -214,13 +237,13 @@ ystr2_defense           (char a_src [LEN_HUND], ullong *r_ullong, double *r_doub
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   --rce;  if (a_pre == 'b') {
+   --rce;  if (a_pre == TYPE_BIN) {
       if (x_len >= LEN_HUND) {
          DEBUG_YSTR   yLOG_snote   ("a_src binary too long");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
-   } else if (a_pre == 'o') {
+   } else if (a_pre == TYPE_OCT) {
       if (x_len >= LEN_DESC) {
          DEBUG_YSTR   yLOG_snote   ("a_src octal too long");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -246,7 +269,7 @@ ystr2_defense           (char a_src [LEN_HUND], ullong *r_ullong, double *r_doub
    x_2nd = tolower (a_src [1]);
    DEBUG_YSTR   yLOG_schar   (x_2nd);
    /*---(octal exception)----------------*/
-   if (a_pre == 'o' && x_1st == '0') {
+   if (a_pre == TYPE_OCT && x_1st == '0') {
       DEBUG_YSTR   yLOG_snote   ("octal zero prefix");
       if (strchr ("oOö", x_2nd) == NULL) x_min  =  1;
       else                               x_min  =  2;
@@ -271,7 +294,7 @@ ystr2_defense           (char a_src [LEN_HUND], ullong *r_ullong, double *r_doub
    /*---(check for value)----------------*/
    x_beg = tolower (a_src [x_min]);
    --rce; if (x_beg == '\0') {
-      if (a_pre == 'o' && x_1st == '0' && x_len == 1) {
+      if (a_pre == TYPE_OCT && x_1st == '0' && x_len == 1) {
          x_min = 0;
       } else {
          DEBUG_YSTR   yLOG_snote   ("prefix without value");
@@ -294,6 +317,90 @@ ystr2_defense           (char a_src [LEN_HUND], ullong *r_ullong, double *r_doub
 /*====================------------------------------------====================*/
 static void      o___2BASES__________________o (void) {;}
 
+char
+ystr2base               (char a_src [LEN_HUND], char a_charset [LEN_HUND], ullong *r_ullong)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   int         x_base      =    0;
+   char        x_len       =    0;
+   int         i           =    0;
+   char        x_ch        =  '-';
+   char       *p           = NULL;
+   int         x_digit     =    0;               /* digit value               */
+   char        x_beg       =   -1;               /* first translatable char   */
+   ullong      x_place     =    1;               /* base position             */
+   ullong      x_final     =    0;               /* final value               */
+   char        c           =    0;               /* digits included           */
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   /*---(default)------------------------*/
+   if (r_ullong != NULL)  *r_ullong =   0;
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_spoint  (a_src);
+   --rce; if (a_src == NULL || a_src [0] == '\0') {
+      DEBUG_YSTR   yLOG_snote   ("a_src null/empty");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_snote   (a_src);
+   DEBUG_YSTR   yLOG_spoint  (a_charset);
+   --rce; if (a_charset  == NULL || a_charset [0] == '\0') {
+      DEBUG_YSTR   yLOG_snote   ("charset null/empty");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_YSTR   yLOG_snote   (a_charset);
+   /*---(prepare)------------------------*/
+   x_len = strlen (a_src);
+   DEBUG_YSTR   yLOG_sint    (x_len);
+   x_base = strlen (a_charset);
+   DEBUG_YSTR   yLOG_sint    (x_base);
+   --rce;  if (x_base < 2) {
+      DEBUG_YSTR   yLOG_snote   ("base too small");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   --rce;  if (x_base >= LEN_HUND) {
+      DEBUG_YSTR   yLOG_snote   ("base too large");
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(walk string)--------------------*/
+   --rce;  for (i = x_len - 1; i >= x_beg; --i) {
+      /*---(select)----------------------*/
+      x_ch = a_src [i];
+      DEBUG_YSTR   yLOG_schar   (x_ch);
+      /*---(filter)----------------------*/
+      if (strchr (",':á", x_ch) != NULL) {
+         /*> DEBUG_YSTR   yLOG_note    ("skipping separator");                        <*/
+         continue;
+      }
+      p = strchr (a_charset, x_ch);
+      if (p == NULL) {
+         DEBUG_YSTR   yLOG_snote   ("BAD CHARACTER");
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+      /*---(process)---------------------*/
+      x_digit = p - a_charset;
+      DEBUG_YSTR   yLOG_sint    (x_digit);
+      x_final += x_digit * x_place;
+      ++c;
+      /*> DEBUG_YSTR   yLOG_complex ("update"    , "%2dd, %2dc, %llup, %llu", x_digit, c, x_place, x_final);   <*/
+      /*---(next)------------------------*/
+      x_place *= x_base;
+      /*---(done)------------------------*/
+   }
+   DEBUG_YSTR   yLOG_sullong (x_final);
+   /*---(save-back)----------------------*/
+   if (r_ullong != NULL)  *r_ullong = x_final;
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   return 0;
+}
+
 char         /*-> interpret binary numbers ----------------[ petal  [ 2f---- ]*/
 ystr2bin                (char a_src [LEN_HUND], ullong *r_ullong, double *r_double)
 {
@@ -313,11 +420,8 @@ ystr2bin                (char a_src [LEN_HUND], ullong *r_ullong, double *r_doub
    char        c           =    0;               /* digits included           */
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
-   /*---(default)------------------------*/
-   if (r_ullong != NULL)  *r_ullong =   0;
-   if (r_double != NULL)  *r_double = 0.0;
    /*---(defense)------------------------*/
-   rc = ystr2_defense (a_src,  r_ullong, r_double, 2 , 'b', 'é', &x_len, &x_beg);
+   rc = ystr2_defense (a_src,  r_ullong, r_double, 2 , TYPE_BIN, 'é', &x_len, &x_beg);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -400,7 +504,7 @@ ystr2oct                (char a_src [LEN_DESC] , ullong *r_ullong, double *r_dou
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr2_defense (a_src, r_ullong, r_double,  1 , 'o', 'ö', &x_len, &x_beg);
+   rc = ystr2_defense (a_src, r_ullong, r_double,  1 , TYPE_OCT, 'ö', &x_len, &x_beg);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -485,7 +589,7 @@ ystr2hex                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr2_defense (a_src, r_ullong, r_double,  2 , 'x', 'õ', &x_len, &x_beg);
+   rc = ystr2_defense (a_src, r_ullong, r_double,  2 , TYPE_HEX, 'õ', &x_len, &x_beg);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -503,7 +607,7 @@ ystr2hex                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
       DEBUG_YSTR   yLOG_char    ("x_ch"      , x_ch);
       /*---(filter)----------------------*/
       if (strchr ("':á", x_ch) != NULL)  continue;
-      if (strchr (YSTR_HEXUP, x_ch    )  == 0) {
+      if (strchr (YSTR_HEX, x_ch    )  == 0) {
          DEBUG_YSTR   yLOG_snote   ("BAD CHAR");
          DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
@@ -574,7 +678,7 @@ ystr2mongo              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr2_defense (a_src, r_ullong, r_double,  2 , 'z', 'ÿ', &x_len, &x_beg);
+   rc = ystr2_defense (a_src, r_ullong, r_double,  2 , TYPE_MONGO, 'í', &x_len, &x_beg);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -649,7 +753,7 @@ ystr2mongo              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
 static void      o___2SPECIAL________________o (void) {;}
 
 char
-ystr2roman              (char a_src [LEN_TITLE], double *r_double)
+ystr2roman              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;
@@ -662,7 +766,7 @@ ystr2roman              (char a_src [LEN_TITLE], double *r_double)
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr2_defense (a_src, NULL    , r_double,  1 ,  0 ,  0 , &l, NULL);
+   rc = ystr2_defense (a_src, r_ullong, r_double,  1 ,  0 ,  0 , &l, NULL);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -881,51 +985,54 @@ ystr2_part              (char a_part, char a_src [LEN_TITLE], ullong *r_ullong, 
    char        x_ch        =  '-';
    char        x_out       [LEN_TITLE] = "";
    char        n           =    0;
+   char       *p           = NULL;
+   ullong      x_ullong    =    0;
    /*---(header)-------------------------*/
-   DEBUG_YSTR   yLOG_senter  (__FUNCTION__);
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
    if (r_ullong != NULL)  *r_ullong = 0.0;
    if (r_double != NULL)  *r_double = 0.0;
    /*---(defense)------------------------*/
    rc = ystr2_defense (a_src, NULL    , r_double,  1 ,  0 ,  0 , &x_len, NULL);
-   DEBUG_YSTR   yLOG_sint    (rc);
+   DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
-      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(strip signs)--------------------*/
-   DEBUG_YSTR   yLOG_schar   (a_part);
+   DEBUG_YSTR   yLOG_char    ("a_part"    , a_part);
    if      (a_src [x_beg] == '$' && a_part == 'i')   { ++x_beg;   }
    else if (a_src [x_beg] == '(' && a_part == 'i')   { ++x_beg; x_sign = -1; }
    else if (a_src [x_beg] == '+' && a_part != 'd')   { ++x_beg;   }
    else if (a_src [x_beg] == '-' && a_part != 'd')   { ++x_beg; x_sign = -1; }
-   DEBUG_YSTR   yLOG_sint    (x_sign);
+   DEBUG_YSTR   yLOG_value   ("x_sign"    , x_sign);
    /*---(check for no payload)-----------*/
-   DEBUG_YSTR   yLOG_sint    (x_beg);
+   DEBUG_YSTR   yLOG_value   ("x_beg"     , x_beg);
    --rce;  if (x_beg == x_len) {
-      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(leading zero)-------------------*/
-   DEBUG_YSTR   yLOG_schar   (a_src [x_beg]);
+   DEBUG_YSTR   yLOG_char    ("beg"       , a_src [x_beg]);
    --rce;  if (a_part == 'i' && x_beg + 1 < x_len && a_src [x_beg] == '0') {
-      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(handle decimals)----------------*/
    if (a_part == 'd') { strcpy (x_out, "0."); n = 2; }
    /*---(run digits)---------------------*/
-   DEBUG_YSTR   yLOG_snote   (YSTR_NUMBER);
+   DEBUG_YSTR   yLOG_note    (YSTR_NUMBER);
+   /*> for (i = 0; i < LEN_TITLE; ++i)   x_out [i] = '\0';                            <*/
    --rce;  for (i = x_beg; i < x_len; ++i) {
       /*---(select)----------------------*/
       x_ch = a_src [i];
-      DEBUG_YSTR   yLOG_schar   (x_ch);
+      DEBUG_YSTR   yLOG_char    ("x_ch"      , x_ch);
       /*---(filter)----------------------*/
       if (a_part == 'i' && x_ch == ',' )  continue;
       if (a_part == 'd' && x_ch == '\'')  continue;
       if (strchr (YSTR_NUMBER, x_ch) == NULL) {
-         DEBUG_YSTR   yLOG_snote   ("BAD CHAR");
-         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+         DEBUG_YSTR   yLOG_note    ("BAD CHAR");
+         DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       /*---(process)---------------------*/
@@ -933,18 +1040,40 @@ ystr2_part              (char a_part, char a_src [LEN_TITLE], ullong *r_ullong, 
       x_out [++n] = '\0';
       /*---(done)------------------------*/
    }
+   DEBUG_YSTR   yLOG_delim   ("x_out"    , x_out);
+   x_len = strlen (x_out);
+   DEBUG_YSTR   yLOG_value   ("x_len"    , x_len);
    /*---(exponent exception)-------------*/
    --rce;  if (a_part == 'e' && n > 2) {
       DEBUG_YSTR   yLOG_snote   ("EXP TOO LONG");
-      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(save-back)----------------------*/
-   DEBUG_YSTR   yLOG_snote   ("assigning");
-   if (r_ullong != NULL)  *r_ullong = (ullong) atoll (x_out);
-   if (r_double != NULL)  *r_double = atof (x_out) * x_sign;
+   if (r_ullong != NULL) {
+      DEBUG_YSTR   yLOG_note    ("handle as ullong");
+      errno = 0;
+      x_ullong = strtoull (x_out, &p, 10);
+      DEBUG_YSTR   yLOG_ullong  ("x_ullong"  , x_ullong);
+      errno = 0;
+      DEBUG_YSTR   yLOG_ullong  ("trans"     , strtoull (x_out, &p, 10));
+      DEBUG_YSTR   yLOG_value   ("errno"     , errno);
+      errno = 0;
+      *r_ullong = (ullong) strtoull (x_out, &p, 10);
+      DEBUG_YSTR   yLOG_value   ("errno"     , errno);
+      DEBUG_YSTR   yLOG_point   ("x_out"     , x_out);
+      DEBUG_YSTR   yLOG_point   ("p"         , p);
+      DEBUG_YSTR   yLOG_value   ("end"       , p - x_out);
+      if (p != NULL) DEBUG_YSTR   yLOG_info    ("p"         , p);
+      DEBUG_YSTR   yLOG_ullong  ("r_ullong"  , *r_ullong);
+   }
+   if (r_double != NULL) {
+      DEBUG_YSTR   yLOG_note    ("handle as double");
+      *r_double = atof (x_out) * x_sign;
+      DEBUG_YSTR   yLOG_double  ("r_double"  , *r_double);
+   }
    /*---(complete)-----------------------*/
-   DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -965,6 +1094,13 @@ ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
    if (r_double != NULL)  *r_double = 0.0;
+   /*---(defense)------------------------*/
+   rc = ystr2_defense (a_src, r_ullong, r_double,  1 ,  0 ,  0 , NULL, NULL);
+   DEBUG_YSTR   yLOG_value   ("defense"   , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
    /*---(parttion)-----------------------*/
    rc = ystr2_divide (a_src, x_int, x_dec, x_exp);
    DEBUG_YSTR   yLOG_value   ("divide"    , rc);
@@ -987,6 +1123,7 @@ ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
          DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
+      DEBUG_YSTR   yLOG_ullong  ("x_uint"    , x_uint);
       DEBUG_YSTR   yLOG_double  ("x_vint"    , x_vint);
    }
    /*---(decimal part)-------------------*/
@@ -1012,8 +1149,9 @@ ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
       DEBUG_YSTR   yLOG_double  ("x_vexp"    , x_vexp);
    }
    /*---(save-back)----------------------*/
-   DEBUG_YSTR   yLOG_snote   ("assigning");
+   DEBUG_YSTR   yLOG_point   ("r_double"  , r_double);
    if (r_double != NULL) {
+      DEBUG_YSTR   yLOG_note    ("handle as double");
       if (x_vint >= 0.0)  *r_double = x_vint + x_vdec;
       else                *r_double = x_vint - x_vdec;
       if (x_vexp != 0.0) {
@@ -1021,17 +1159,18 @@ ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_dou
          if  (x_vexp >= 0)  *r_double = *r_double * x_vexp;
          else               *r_double = *r_double / (-x_vexp);
       }
-   }
-   if (r_ullong != NULL) {
+   } else {
+      DEBUG_YSTR   yLOG_note    ("handle as ullong");
       *r_ullong = x_uint;
+      DEBUG_YSTR   yLOG_ullong  ("r_ullong"  , *r_ullong);
    }
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
-char ystr2real  (char a_src [LEN_TITLE], double *r_double) { return ystr2comma (a_src, NULL, r_double); }
-char ystr2sci   (char a_src [LEN_TITLE], double *r_double) { return ystr2comma (a_src, NULL, r_double); }
+char ystr2real  (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double) { return ystr2comma (a_src, r_ullong, r_double); }
+char ystr2sci   (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double) { return ystr2comma (a_src, r_ullong, r_double); }
 
 
 
@@ -1040,8 +1179,113 @@ char ystr2sci   (char a_src [LEN_TITLE], double *r_double) { return ystr2comma (
 /*====================------------------------------------====================*/
 static void      o___2DRIVER_________________o (void) {;}
 
+char
+ystr2_type              (char a_src [LEN_HUND])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        l           =    0;
+   char        x_1st       =  '-';
+   char        x_2nd       =  '-';
+   int         i           =    0;
+   char       *p           = NULL;
+   char        x_type      =  '-';
+   char       *x_bases     = "boxz";
+   char       *x_greek     = "éöõí";
+   char        n           =    0;
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_YSTR   yLOG_point   ("a_src"     , a_src);
+   --rce;  if (a_src == NULL || a_src [0] == '\0') {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return '°';
+   }
+   DEBUG_YSTR   yLOG_info    ("a_src"     , a_src);
+   /*---(prepare)------------------------*/
+   l = strlen (a_src);
+   DEBUG_YSTR   yLOG_value   ("l"         , l);
+   x_1st = a_src [0];
+   DEBUG_YSTR   yLOG_char    ("x_1st"     , x_1st);
+   /*---(handle single)------------------*/
+   --rce;  if (l == 1) {
+      if (strchr (YSTR_NUMBER, x_1st) != NULL) {
+         DEBUG_YSTR   yLOG_note    ("single digit number");
+         DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+         return TYPE_COMMA;
+      }
+      if (strchr (YSTR_ROMAN, tolower (x_1st)) != NULL) {
+         DEBUG_YSTR   yLOG_note    ("single roman digit");
+         DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+         return TYPE_ROMAN;
+      }
+      DEBUG_YSTR   yLOG_note    ("single non-number");
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return '°';
+   }
+   /*---(normal prefixes)----------------*/
+   DEBUG_YSTR   yLOG_info    ("x_bases"   , x_bases);
+   p = strchr (x_bases, tolower (x_1st));
+   DEBUG_YSTR   yLOG_point   ("p"         , p);
+   if (p != NULL) {
+      DEBUG_YSTR   yLOG_note    ("single letter prefix");
+      DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+      return tolower (x_1st);
+   }
+   /*---(normal greek)-------------------*/
+   DEBUG_YSTR   yLOG_info    ("x_greek"   , x_greek);
+   p = strchr (x_greek, x_1st);
+   DEBUG_YSTR   yLOG_point   ("p"         , p);
+   if (p != NULL) {
+      DEBUG_YSTR   yLOG_note    ("greek letter prefix");
+      n = (char) (p - x_greek);
+      DEBUG_YSTR   yLOG_value   ("n"         , n);
+      DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+      return x_bases [n];
+   }
+   /*---(zero-led prefixes)--------------*/
+   x_2nd = a_src [1];
+   DEBUG_YSTR   yLOG_char    ("x_2nd"     , x_2nd);
+   if (x_1st == '0') {
+      if (strchr (TYPE_BASES, tolower (x_2nd)) != NULL) {
+         DEBUG_YSTR   yLOG_note    ("zero-led prefix");
+         DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+         return tolower (x_2nd);
+      } else if (strchr (YSTR_NUMBER, x_2nd) != NULL) {
+         DEBUG_YSTR   yLOG_note    ("zero led octal");
+         DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+         return TYPE_OCT;
+      } else if (x_2nd == '.') {
+         DEBUG_YSTR   yLOG_note    ("zero plus decimal real");
+         DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+         return TYPE_COMMA;
+      }
+   }
+   /*---(complicated)--------------------*/
+   --rce;  for (i = 0; i < l; ++i) {
+      /*---(filter everywhere sperators)-*/
+      if (strchr ("':á"  , a_src [i]) != NULL)  continue;
+      /*---(check bases)-----------------*/
+      if (strchr (",rzxo", x_type) == NULL && strchr (YSTR_BINARY, a_src [i]) != NULL)  { x_type = TYPE_BIN;   continue; }
+      if (strchr (",rzx" , x_type) == NULL && strchr (YSTR_OCTAL , a_src [i]) != NULL)  { x_type = TYPE_OCT;   continue; }
+      if (strchr (",rz"  , x_type) == NULL && strchr (YSTR_HEXUP , a_src [i]) != NULL)  { x_type = TYPE_HEX;   continue; }
+      if (strchr (",z"   , x_type) == NULL && strchr (YSTR_ROMAN , a_src [i]) != NULL)  { x_type = TYPE_ROMAN; continue; }
+      if (strchr (","    , x_type) == NULL && strchr (YSTR_MONGO , a_src [i]) != NULL)  { x_type = TYPE_MONGO; continue; }
+      /*---(check commas)----------------*/
+      if (strchr (YSTR_NUMPLUS, a_src [i]) != NULL)  { x_type = TYPE_COMMA; continue; }
+      /*---(trouble)---------------------*/
+      DEBUG_YSTR   yLOG_note    ("found entirely illegal character");
+      yLOG_exitr   (__FUNCTION__, rce);
+      return '°';
+      /*---(done)------------------------*/
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   return x_type;
+}
+
 char         /*-> check string for numeric value ----------[ petal  [ 2g---- ]*/
-ystr2num                (char a_src [LEN_TITLE], double *r_double)
+ystr2num                (char a_src [LEN_HUND] , double *r_double)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -1094,7 +1338,7 @@ ystr2num                (char a_src [LEN_TITLE], double *r_double)
    /*---(scientific)---------------------*/
    if (rc < 0 && strchr (a_src, 'Ë') != NULL) {
       DEBUG_YSTR   yLOG_note    ("scientific notation");
-      rc = ystr2sci (a_src, &x_double);
+      rc = ystr2sci (a_src, NULL, &x_double);
       DEBUG_YSTR   yLOG_value   ("ystr2sci"  , rc);
    }
    /*---(commma)-------------------------*/
@@ -1106,13 +1350,13 @@ ystr2num                (char a_src [LEN_TITLE], double *r_double)
    /*---(roman)--------------------------*/
    if (rc < 0) {
       DEBUG_YSTR   yLOG_note    ("roman");
-      rc = ystr2roman (a_src, &x_double);
+      rc = ystr2roman (a_src, NULL, &x_double);
       DEBUG_YSTR   yLOG_value   ("ystr2roman", rc);
    }
    /*---(float, int)---------------------*/
    if (rc < 0) {
       DEBUG_YSTR   yLOG_note    ("float/int");
-      rc = ystr2real (a_src, &x_double);
+      rc = ystr2real (a_src, NULL, &x_double);
       DEBUG_YSTR   yLOG_value   ("real"      , rc);
    }
    /*---(save-back)----------------------*/
@@ -1160,13 +1404,13 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    }
    /*---(check max length)---------------*/
    DEBUG_YSTR   yLOG_sint    (a_max);
-   --rce; if (a_type == 'b') {
+   --rce; if (a_type == TYPE_BIN) {
       if (a_max > LEN_HUND) {
          DEBUG_YSTR   yLOG_snote   ("a_max binary too large");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
-   } else if (a_type == 'o') {
+   } else if (a_type == TYPE_OCT) {
       if (a_max > LEN_DESC) {
          DEBUG_YSTR   yLOG_snote   ("a_max octal too large");
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -1211,7 +1455,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
          return rce;
       }
       /*---(roman)-----------------------*/
-      if (a_type == 'r' && a_double > MAX_ROMAN) {
+      if (a_type == TYPE_ROMAN && a_double > MAX_ROMAN) {
          DEBUG_YSTR   yLOG_snote   ("roman overflow");
          ystrlcpy (r_out, "#p/big", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -1220,7 +1464,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    }
    /*---(check ullong ranges)------------*/
    else {
-      if (a_type == 'r' && a_ullong > MAX_ROMAN) {
+      if (a_type == TYPE_ROMAN && a_ullong > MAX_ROMAN) {
          DEBUG_YSTR   yLOG_snote   ("roman overflow");
          ystrlcpy (r_out, "#p/big", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -1229,7 +1473,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    }
    /*---(check format)-------------------*/
    DEBUG_YSTR   yLOG_schar   (a_fmt);
-   --rce;  if (strchr ("boxz", a_type) != NULL) {
+   --rce;  if (strchr (TYPE_BASES, a_type) != NULL) {
       if (a_fmt  == NULL || strchr ("-dsfcg:t#", a_fmt ) == NULL) {
          DEBUG_YSTR   yLOG_snote   ("illegal format");
          ystrlcpy (r_out, "#p/fmt", a_max);
@@ -1238,7 +1482,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
       }
    }
    /*---(assign prefix)------------------*/
-   if (r_prefix != NULL && strchr ("boxz", a_type) != NULL) {
+   if (r_prefix != NULL && strchr (TYPE_BASES, a_type) != NULL) {
       switch (a_fmt) {
       case '-' : case 'd' :                            break;
       case 's' :  sprintf (r_prefix, "0%c", a_type);   break;
@@ -1535,7 +1779,7 @@ ystrl4bin           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr4_defense  ('b', 'é', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
+   rc = ystr4_defense  (TYPE_BIN, 'é', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -1580,7 +1824,7 @@ ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fm
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr4_defense  ('o', 'ö', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
+   rc = ystr4_defense  (TYPE_OCT, 'ö', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -1625,7 +1869,7 @@ ystrl4hex           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr4_defense  ('x', 'õ', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
+   rc = ystr4_defense  (TYPE_HEX, 'õ', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -1669,7 +1913,7 @@ ystrl4mongo         (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr4_defense  ('z', 'ÿ', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
+   rc = ystr4_defense  (TYPE_MONGO, 'í', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -2113,25 +2357,26 @@ ystrl4main          (double a_double, char a_bytes, char a_fmt, char a_unit, cha
       DEBUG_YSTR   yLOG_snote   ("filler bad");
       return -2;
    }
-   switch (a_fmt) {
+   switch (tolower (a_fmt)) {
    case 'y' : case 'Y' :
       rc = ystrl4bool  (a_double, a_bytes, a_fmt, a_max, r_out);
       break;
-   case 'b' : case 'B' :
+   case TYPE_BIN :
       rc = ystrl4bin   (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
-   case 'o' : case 'O' :
+   case TYPE_OCT :
       rc = ystrl4oct   (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
-   case 'x' : case 'X' :
+   case TYPE_HEX :
       rc = ystrl4hex   (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
-   case 'z' : case 'Z' :
+   case TYPE_MONGO :
       rc = ystrl4mongo (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
+      break;
    case 'e' : case 'E' :
       rc = ystrl4sci   (a_double, a_bytes, a_fmt, a_max, r_out);
       break;
-   case 'r' : case 'R' :
+   case TYPE_ROMAN :
       rc = ystrl4roman (a_double, a_bytes, a_fmt, a_max, r_out);
       break;
       break;

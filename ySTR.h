@@ -243,18 +243,19 @@ char        ystrlparse              (char *a_src, char *a_disp, char *a_final, c
 
 /*===[[ ySTR_nums.c ]]========================================================*/
 /*········´ ´··············2bases·´ ´·········································*/
+char        ystr2base               (char a_src [LEN_HUND], char a_charset [LEN_HUND], ullong *r_ullong);
 char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);
 char        ystr2oct                (char a_src [LEN_DESC] , ullong *r_ullong, double *r_double);
 char        ystr2hex                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 char        ystr2mongo              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 /*········´ ´············2special·´ ´·········································*/
-char        ystr2roman              (char a_src [LEN_TITLE], double *r_double);
+char        ystr2roman              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 /*········´ ´··············2reals·´ ´·········································*/
 char        ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
-char        ystr2real               (char a_src [LEN_TITLE], double *r_double);
-char        ystr2sci                (char a_src [LEN_TITLE], double *r_double);
+char        ystr2real               (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
+char        ystr2sci                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 /*········´ ´·············2driver·´ ´·········································*/
-char        ystr2num                (char a_src [LEN_TITLE], double *r_double);
+char        ystr2num                (char a_src [LEN_HUND] , double *r_double);
 /*········´ ´··············4bases·´ ´·········································*/
 char        ystrl4bool              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
