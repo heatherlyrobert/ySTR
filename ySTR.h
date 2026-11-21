@@ -257,6 +257,7 @@ char        ystr2sci                (char a_src [LEN_TITLE], ullong *r_ullong, d
 /*········´ ´·············2driver·´ ´·········································*/
 char        ystr2num                (char a_src [LEN_HUND] , double *r_double);
 /*········´ ´··············4bases·´ ´·········································*/
+char        ystrl4base              (ullong a_ullong, double a_double, char a_prefix [LEN_SHORT], char a_charset [LEN_HUND], char a_spacing, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
 char        ystrl4bool              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
 char        ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);

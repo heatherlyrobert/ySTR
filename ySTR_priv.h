@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1i"
-#define     P_VERTXT    "decided to hate strtoull ;)  built simple base translator, ystr2base"
+#define     P_VERNUM    "2.1j"
+#define     P_VERTXT    "ystr2base replaced guts of all base ystr2 functions and unit-tested"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -183,7 +183,7 @@ char        ystr2mongo              (char a_src [LEN_TITLE], ullong *r_ullong, d
 char        ystr2roman              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 /*········´ ´··············2reals·´ ´·········································*/
 char        ystr2_divide            (char a_src [LEN_TITLE], char r_int [LEN_TITLE], char r_dec [LEN_TITLE], char r_exp [LEN_TITLE]);
-char        ystr2_part              (char a_part, char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
+char        ystr2_part              (char a_part, char a_src [LEN_TITLE], llong *r_llong);
 char        ystr2comma              (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 char        ystr2real               (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
 char        ystr2sci                (char a_src [LEN_TITLE], ullong *r_ullong, double *r_double);
@@ -192,12 +192,12 @@ char        ystr2_type              (char a_src [LEN_HUND]);
 char        ystr2num                (char a_src [LEN_HUND] , double *r_double);
 /*········´ ´············4support·´ ´·········································*/
 char        ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_double, char a_fmt, char a_max, char *r_source, char r_prefix [LEN_SHORT], char r_out [LEN_TITLE]);
-char        ystr4_translate         (ullong a_ullong, char a_charset [LEN_HUND], char a_spacing, char a_cnt, char a_fmt, char r_ready [LEN_HUND]);
 char        ystr4_units             (char a_unit, double *b_value);
 char        ystr4_space_open        (char a_pos, char a_insert [LEN_SHORT], char b_out [LEN_HUND], char *b_len);
 char        ystr4_space_ints        (char a_every, char a_char, char b_out [LEN_HUND]);
 char        ystr4_space_decs        (char a_every, char a_char, char b_out [LEN_HUND]);
 /*········´ ´··············4bases·´ ´·········································*/
+char        ystrl4base              (ullong a_ullong, double a_double, char a_prefix [LEN_SHORT], char a_charset [LEN_HUND], char a_spacing, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
 char        ystrl4bool              (double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
 char        ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);
