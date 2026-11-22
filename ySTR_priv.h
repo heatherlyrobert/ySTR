@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1k"
-#define     P_VERTXT    "added ystr2int to allow integers of full ullong size (vs ystr2comma)"
+#define     P_VERNUM    "2.1l"
+#define     P_VERTXT    "ySTR_format, added better sign recognition and padding elimination"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -173,6 +173,7 @@ int         ystrld_chk              (char a_type, char *b_source, char *a_allowe
 /*===[[ ySTR_format.c ]]======================================================*/
 /*········´ ´············2support·´ ´·········································*/
 char        ystr2_defense           (char a_src [LEN_HUND] , ullong *a_ullong, double *a_double, char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
+char        ystr2_sign              (char b_src [LEN_TITLE], char *r_sign);
 /*········´ ´··············2bases·´ ´·········································*/
 char        ystr2base               (char a_src [LEN_HUND] , char a_charset [LEN_HUND], ullong *r_ullong);
 char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);

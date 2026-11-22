@@ -37,27 +37,25 @@
 
 
 
-/*===[[ START HDOC ]]=========================================================*/
-/*===[[ HEADER ]]==================================================#
-
- *   focus         : (PS) programming support
- *   niche         : (st) string handling
- *   heritage      : astraea (virgin goddess of justice, purity, and precision)
- *   purpose       : provide secure and useful string handling capabilities
+/*
+ *  the key to numbers and their interpretation is prefixing to make
+ *  them unambiguous.
  *
- *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
- *   lang_name     : gnu/ansi-c  (right, just, best, standard, and everlasting)
- *   dependencies  : none
- *   size goal     : small (less than 1,000 slocL)
+ *    b  0b  é   binary
+ *    o  0o  ö   octal
+ *    x  0x  õ   hexadecimal
+ *    z  0z  í   base64/mongo
+ *    + - ( $    integer/float
+ *    .  Ë       float/scientific
  *
- *   author        : the_heatherlys
- *   created       : 2013_09
- *   priorities    : direct, simple, brief, vigorous, and lucid (h.w. fowler)
- *   end goal      : loosely coupled, strict interface, maintainable, portable
+ *    0110       binary, octal, hex?    use é0110, ö0110, õ0110
+ *    a4         hex or mongo?          use õa4  , ía4
+ *    1024       integer, hex, octal?   use õ1024, ö1024, +1024
  *
  */
-/*===[[ PURPOSE ]]=================================================#
 
+
+/*
  *   ySTR is a set of shared functions for string handling and manipulation
  *   services for use by the calling program.  it was designed to take a
  *   repeditive, tedious, haphazard, and neglected set of functions and make
