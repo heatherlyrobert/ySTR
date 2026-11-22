@@ -108,9 +108,37 @@
  *   ····456,789·+
  *   ··3,456,789
  *   ······6,789
+ */
+
+/*
  *
  *
+ *   a_max       5           15                       20
+ *             ·····   ···············       ····················       ····················
+ *   plain         5              1275                123,456,789               123,456,789 
+ *   signed       -5             -1275               -123,456,789              (123,456,789)
+ *   signed       +5             +1275               +123,456,789               123,456,789 
+ *             ·····   ···············       ····················
+ *   commas        5             1,275                123,456,789
+ *                -5            -1,275               -123,456,789
+ *                +5            +1,275               +123,456,789
+ *             ·····   ···············       ····················
+ *   tech +      5·+           1,275·+              123,456,789·+
+ *   tech -      5·-           1,275·-              123,456,789·-
  *
+ *   - simple          123456789
+ *   b  del
+ *
+ *
+ */
+
+
+/*
+ *     ------a_max=20------
+ *     +··13,279631'452··
+ *     ···13,279631'452·+
+ *
+ *     ------a_max=21------
  *     ·3,145,27963······+
  *     ·····3,145279'63··-
  *     ·········3145'279·+
@@ -128,16 +156,30 @@
  */
 
 /*
- * --format-code- --binary----  --octal-----  --hex-------  --mongo-----
- *   -    none    11010011      131366        a59eba        k3VLqsLtn
- *   d    dels    1101'0011     131'366       a5'9e'ba      k3VL'qsLtn
- *   s    simple  0b11010011    0o131366      0xa59eba      0zk3VL'qsLtn
- *   f    formal  é11010011     ö131366       õa59eba       ÿk3VL'qsLtn
- *   c    clear   b'1101'0011   o'131'366     x'a5'9e'ba    z'k3VL'qsLtn
- *   g    greek   é'1101'0011   ö'131'366     õ'a5'9e'ba    ÿ'k3VL'qsLtn
- *   :    colon   é:1101:0011   ö:131:366     õ:a5:9e:ba    ÿ:k3VL:qsLtn
- *   t    tick    éá1101á0011   öá131á366     õáa5á9eába    ÿák3VLáqsLtn
+ * --format-code- --binary----  --octal-----  --hex-------  --mongo-----   ----integer-----
+ *   -    none    11010011      131366        a59eba51      k3VLqsLtn      123456789
+ *   d    dels    1101'0011     131'366       a59e'ba51     k3VL'qsLtn     123,456,789
+ *   s    simple  0b11010011    0o131366      0xa59eba51    0zk3VLqsLtn    +123456789   
+ *   f    formal  é11010011     ö131366       õa59eba51     ÿk3VLqsLtn     +123,456,789
+ *   c    clear   b'1101'0011   o'131'366     x'a59e'ba51   z'k3VL'qsLtn   +123,456,789
+ *   g    greek   é'1101'0011   ö'131'366     õ'a59e'ba51   ÿ'k3VL'qsLtn   (123,456,789)
+ *   :    colon   é:1101:0011   ö:131:366     õ:a59e:ba51   ÿ:k3VL:qsLtn   +123,456,789
+ *   t    tick    éá1101á0011   öá131á366     õáa59eába51   ÿák3VLáqsLtn   +123,456,789
+ *   #    tech    éá11·1á··11   öá131á366     õáa59eába51   ÿák3VLáqsLtn   123,456,789·+
  * 
+ *
+ * ystrl4comma         (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE])
+ *
+ *                                                                      123456789-123456789-123456789
+ *                                                            none      ·········18446744073709551615
+ *                                                            dels      ···18,446,744,073,709,551,615
+ *                                                            simple    ··+18,446,744,073,709,551,615
+ *                                                            formal    ········+18446744073709551615
+ *                                                            greek     ·(18,446,744,073,709,551,615)
+ *                                                 colon,tick,clear     +··18,446,744,073,709,551,615
+ *                                                            tech      ·18,446,744,073,709,551,615·+
+ *
+ *
  *
  *        1001110110001010
  *        1··111·11···1·1·
@@ -1497,17 +1539,20 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    --rce; if (a_type == TYPE_BIN) {
       if (a_max > LEN_HUND) {
          DEBUG_YSTR   yLOG_snote   ("a_max binary too large");
+         ystrlcpy (r_out, "#p/too", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
    } else if (a_type == TYPE_OCT) {
       if (a_max > LEN_DESC) {
          DEBUG_YSTR   yLOG_snote   ("a_max octal too large");
+         ystrlcpy (r_out, "#p/too", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
    } else if (a_max > LEN_TITLE) {
       DEBUG_YSTR   yLOG_snote   ("a_max too large");
+      ystrlcpy (r_out, "#p/too", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -1516,6 +1561,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    DEBUG_YSTR   yLOG_sdouble (a_double);
    --rce; if (a_ullong != 0 && a_double != 0) {
       DEBUG_YSTR   yLOG_snote   ("a_ullong and a_double can not both be used");
+      ystrlcpy (r_out, "#p/inp", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -1525,6 +1571,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    DEBUG_YSTR   yLOG_schar   (a_type);
    --rce; if (a_type == NULL || strchr ("box,ezrt", a_type) == NULL) {
       DEBUG_YSTR   yLOG_snote   ("illegal type");
+      ystrlcpy (r_out, "#p/typ", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -1540,14 +1587,14 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
       /*---(range)-----------------------*/
       if (a_type != 'e' && (a_double > MAX_DOUBLE || a_double < -MAX_DOUBLE)) {
          DEBUG_YSTR   yLOG_snote   ("general overflow");
-         ystrlcpy (r_out, "#p/big", a_max);
+         ystrlcpy (r_out, "#p/ovr", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
       /*---(roman)-----------------------*/
       if (a_type == TYPE_ROMAN && a_double > MAX_ROMAN) {
          DEBUG_YSTR   yLOG_snote   ("roman overflow");
-         ystrlcpy (r_out, "#p/big", a_max);
+         ystrlcpy (r_out, "#p/ovr", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
@@ -1556,7 +1603,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    else {
       if (a_type == TYPE_ROMAN && a_ullong > MAX_ROMAN) {
          DEBUG_YSTR   yLOG_snote   ("roman overflow");
-         ystrlcpy (r_out, "#p/big", a_max);
+         ystrlcpy (r_out, "#p/ovr", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
          return rce;
       }
@@ -1581,6 +1628,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
       case 'g' :  sprintf (r_prefix, "%c'", a_greek);  break;
       case ':' :  sprintf (r_prefix, "%c:", a_greek);  break;
       case 't' :  sprintf (r_prefix, "%cá", a_greek);  break;
+      case '#' :  sprintf (r_prefix, "%cá", a_greek);  break;
       }
    }
    /*---(save-back)----------------------*/
@@ -1939,6 +1987,18 @@ ystrl4base              (ullong a_ullong, double a_double, char a_prefix [LEN_SH
    case ','  :                           ystr4_space_ints (a_spacing, ',' , x_flip); break;
    case '.'  :                           ystr4_space_ints (a_spacing, '\'', x_flip); break;
    }
+   /*---(tech version)-------------------*/
+   if (a_fmt == '#') {
+      if      (x_base == 2)  ystrldchg (x_flip, '0', '·', LEN_HUND);
+      else if (x_base != 10) {
+         x_len = strlen (x_flip);
+         for (i = 0; i < x_len; ++i) {
+            if (strchr ("':á", x_flip [i]) != NULL)  continue;
+            if (x_flip [i] != '0')                   break;;
+            x_flip [i] = '·';
+         }
+      }
+   }
    /*---(add prefix)---------------------*/
    sprintf (x_final, "%s%s", a_prefix, x_flip);
    DEBUG_YSTR   yLOG_info    ("x_final"    , x_final);
@@ -1951,7 +2011,7 @@ ystrl4base              (ullong a_ullong, double a_double, char a_prefix [LEN_SH
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   /*---(save-back)------------*/
+   /*---(save-back)----------------------*/
    if (r_out   != NULL)  ystrlcpy (r_out, x_final, a_max);
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
@@ -1959,7 +2019,7 @@ ystrl4base              (ullong a_ullong, double a_double, char a_prefix [LEN_SH
 }
 
 char
-ystrl4bool              (double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE])
+ystrl4bool              (ullong a_ullong, double a_val, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE])
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -2016,6 +2076,8 @@ ystrl4bin           (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
    char        rce         =  -10;
    char        rc          =    0;
    char        x_prefix    [LEN_SHORT] = "";
+   int         l           =    0;
+   int         i           =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
@@ -2057,6 +2119,36 @@ ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fm
    }
    /*---(translate base)-------*/
    rc = ystrl4base (a_ullong, a_double, x_prefix, YSTR_OCTAL , 3, a_cnt, a_fmt, a_max, r_out);
+   DEBUG_YSTR   yLOG_value   ("ystr4base" , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(save-back)------------*/
+   DEBUG_YSTR   yLOG_info    ("r_out"     , r_out);
+   /*---(complete)-----------------------*/
+   DEBUG_YSTR   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+ystrl4int               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC])
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         =  -10;               /* return code for errors    */
+   char        rc          =    0;
+   char        x_prefix    [LEN_SHORT] = "";
+   /*---(header)-------------------------*/
+   DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   rc = ystr4_defense  (TYPE_INT, 'ð', a_ullong, a_double, a_fmt, a_max, NULL, x_prefix, r_out);
+   DEBUG_YSTR   yLOG_value   ("defense"   , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(translate base)-------*/
+   rc = ystrl4base (a_ullong, a_double, x_prefix, YSTR_NUMBER, 3, a_cnt, a_fmt, a_max, r_out);
    DEBUG_YSTR   yLOG_value   ("ystr4base" , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -2136,8 +2228,8 @@ ystrl4mongo         (ullong a_ullong, double a_double, char a_cnt, char a_fmt, c
 /*====================------------------------------------====================*/
 static void      o___4SPECIAL________________o (void) {;}
 
-char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-ystrl4roman         (double a_double, char a_decs, char a_fmt, char a_max, char r_out [LEN_TITLE])
+char
+ystrl4roman         (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_max, char r_out [LEN_TITLE])
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -2168,7 +2260,7 @@ ystrl4roman         (double a_double, char a_decs, char a_fmt, char a_max, char 
       return rce;
    }
    --rce;  if (a_double >= 4000) {
-      ystrlcpy (r_out, "#p/big", a_max);
+      ystrlcpy (r_out, "#p/ovr", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
@@ -2184,6 +2276,7 @@ ystrl4roman         (double a_double, char a_decs, char a_fmt, char a_max, char 
    }
    /*---(prepare)------------------------*/
    for (i = 0; i < LEN_DESC; ++i) {
+      if (S_roman [i].r_wide == 0)   break;
       DEBUG_YSTR   yLOG_value   ("x_int"     , x_int);
       if (x_int - S_roman [i].r_value >= 0) {
          DEBUG_YSTR   yLOG_info    ("found"     , S_roman [i].r_chars);
@@ -2225,7 +2318,7 @@ ystrl4roman         (double a_double, char a_decs, char a_fmt, char a_max, char 
 static void      o___4REALS__________________o (void) {;}
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-ystrl4comma         (double a_double, char a_decs, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE])
+ystrl4comma         (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE])
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -2340,7 +2433,7 @@ ystrl4comma         (double a_double, char a_decs, char a_fmt, char a_unit, char
 }
 
 char         /*-> format hexadecimal numbers to string ----[ petal  [ 2f---- ]*/
-ystrl4sci           (double a_double, char a_decs, char a_fmt, char a_max, char r_out [LEN_TITLE])
+ystrl4sci           (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_max, char r_out [LEN_TITLE])
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -2433,7 +2526,7 @@ ystrl4sci           (double a_double, char a_decs, char a_fmt, char a_max, char 
  */
 
 char         /*-> format times into strings ---------------[ petal  [ 2f---- ]*/
-ystrl4time          (double a_double, char a_decs, char a_fmt, char a_max, char r_out [LEN_TITLE])
+ystrl4time          (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_max, char r_out [LEN_TITLE])
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         =  -10;               /* return code for errors    */
@@ -2571,7 +2664,7 @@ ystrl4main          (double a_double, char a_bytes, char a_fmt, char a_unit, cha
    }
    switch (tolower (a_fmt)) {
    case 'y' : case 'Y' :
-      rc = ystrl4bool  (a_double, a_bytes, a_fmt, a_max, r_out);
+      rc = ystrl4bool  (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
    case TYPE_BIN :
       rc = ystrl4bin   (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
@@ -2586,17 +2679,17 @@ ystrl4main          (double a_double, char a_bytes, char a_fmt, char a_unit, cha
       rc = ystrl4mongo (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
    case 'e' : case 'E' :
-      rc = ystrl4sci   (a_double, a_bytes, a_fmt, a_max, r_out);
+      rc = ystrl4sci   (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
    case TYPE_ROMAN :
-      rc = ystrl4roman (a_double, a_bytes, a_fmt, a_max, r_out);
+      rc = ystrl4roman (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
       break;
    case 'd' : case 't' : case 'D' : case 'T' :
-      rc = ystrl4time  (a_double, a_bytes, a_fmt, a_max, r_out);
+      rc = ystrl4time  (NULL    , a_double, a_bytes, a_fmt, a_max, r_out);
       break;
    default :
-      rc = ystrl4comma (a_double, a_bytes, a_fmt, a_unit, a_max, r_out);
+      rc = ystrl4comma (NULL    , a_double, a_bytes, a_fmt, a_unit, a_max, r_out);
       break;
    }
    /*---(complete)-----------------------*/
