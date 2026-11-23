@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1n"
-#define     P_VERTXT    "ySTR_format, ystrl4hex and ystrl4mongo use ystrl4base, tech format, and unit-testing"
+#define     P_VERNUM    "2.1o"
+#define     P_VERTXT    "ySTR_format, ystr4_divide built and unit-tested, ystrl4float built"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -205,16 +205,19 @@ char        ystrl4base              (ullong a_ullong, double a_double, char a_pr
 char        ystrl4bool              (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4bin               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_HUND]);
 char        ystrl4oct               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_DESC]);
+char        ystrl4int               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4hex               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4mongo             (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 /*········´ ´············4special·´ ´·········································*/
 char        ystrl4roman             (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 /*········´ ´··············4reals·´ ´·········································*/
+char        ystr4_divide            (double a_source, char a_decs, char a_unit, char a_max, char *r_sign, llong *r_int, llong *r_dec, llong *r_exp, char r_unit [LEN_SHORT], char r_out [LEN_TITLE]);
+char        ystrl4float             (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4comma             (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4sci               (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 char        ystrl4time              (ullong a_ullong, double a_double, char a_cnt, char a_fmt, char a_max, char r_out [LEN_TITLE]);
 /*········´ ´·············4driver·´ ´·········································*/
-char        ystrl4main              (double a_double, char a_cnt, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
+char        ystrl4main              (ullong a_ullong, double a_double, char a_bytes, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE]);
 char*       ystrl4quick             (double a_double, char a_ali, char a_fmt, char a_cnt, char a_uom, char a_fil, char a_zer, char a_neg, char a_max);
 /*········´ ´·········specialized·´ ´·········································*/
 char        ystrlbit2bin            (char *a_bits, char a_blen, char a_fmt, char a_max, char r_out [LEN_TITLE]);
