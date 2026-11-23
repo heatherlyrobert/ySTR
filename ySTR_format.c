@@ -2003,7 +2003,7 @@ ystrl4base              (ullong a_ullong, double a_double, char a_prefix [LEN_SH
    sprintf (x_final, "%s%s", a_prefix, x_flip);
    DEBUG_YSTR   yLOG_info    ("x_final"    , x_final);
    /*---(check length)-------------------*/
-   x_len = strlen (x_flip) - 1;
+   x_len = strlen (x_final);
    DEBUG_YSTR   yLOG_value   ("x_len"     , x_len);
    --rce;  if (x_len >= a_max) {
       DEBUG_YSTR   yLOG_note    ("output longer than a_max");
