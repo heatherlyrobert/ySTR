@@ -156,16 +156,16 @@
  */
 
 /*
- * --format-code- --binary----  --octal-----  --hex-------  --mongo-----   ----integer-----
- *   -    none    11010011      131366        a59eba51      k3VLqsLtn      123456789
- *   d    dels    1101'0011     131'366       a59e'ba51     k3VL'qsLtn     123,456,789
- *   s    simple  0b11010011    0o131366      0xa59eba51    0zk3VLqsLtn    +123456789   
- *   f    formal  é11010011     ö131366       õa59eba51     ÿk3VLqsLtn     +123,456,789
- *   c    clear   b'1101'0011   o'131'366     x'a59e'ba51   z'k3VL'qsLtn   +123,456,789
- *   g    greek   é'1101'0011   ö'131'366     õ'a59e'ba51   ÿ'k3VL'qsLtn   (123,456,789)
- *   :    colon   é:1101:0011   ö:131:366     õ:a59e:ba51   ÿ:k3VL:qsLtn   +123,456,789
- *   t    tick    éá1101á0011   öá131á366     õáa59eába51   ÿák3VLáqsLtn   +123,456,789
- *   #    tech    éá11·1á··11   öá131á366     õáa59eába51   ÿák3VLáqsLtn   123,456,789·+
+ * --format-code- --binary----  --octal-----  --hex-------  --mongo-----   ----integer-----   ----float-------
+ *   -    none    11010011      131366        a59eba51      k3VLqsLtn      123456789          123456789.0     
+ *   d    dels    1101'0011     131'366       a59e'ba51     k3VL'qsLtn     123,456,789        123,456,789.0   
+ *   s    simple  0b11010011    0o131366      0xa59eba51    0zk3VLqsLtn    +123456789         +123456789.0    
+ *   f    formal  é11010011     ö131366       õa59eba51     ÿk3VLqsLtn     +123,456,789       +123,456,789.0  
+ *   c    clear   b'1101'0011   o'131'366     x'a59e'ba51   z'k3VL'qsLtn   +123,456,789       +123,456,789    
+ *   g    greek   é'1101'0011   ö'131'366     õ'a59e'ba51   ÿ'k3VL'qsLtn   (123,456,789)      (123,456,789.0) 
+ *   :    colon   é:1101:0011   ö:131:366     õ:a59e:ba51   ÿ:k3VL:qsLtn   +123,456,789       +123,456,789.0  
+ *   t    tick    éá1101á0011   öá131á366     õáa59eába51   ÿák3VLáqsLtn   +123,456,789       +123,456,789.0  
+ *   #    tech    éá11·1á··11   öá131á366     õáa59eába51   ÿák3VLáqsLtn   123,456,789·+      123,456,789.0·+   
  * 
  *
  * ystrl4comma         (ullong a_ullong, double a_double, char a_decs, char a_fmt, char a_unit, char a_max, char r_out [LEN_TITLE])
@@ -223,6 +223,9 @@
 #define    TYPE_MONGO  'z'
 #define    TYPE_ROMAN  'r'
 #define    TYPE_FLOAT  'f'
+#define    TYPE_SCI    'e'
+#define    TYPE_TIME   't'
+#define    TYPE_DATE   'd'
 #define    TYPE_FAIL   '°'
 
 #define    TYPE_BASES  "boxz"
@@ -230,11 +233,11 @@
 
 
 
-struct {  /* roman numerals classically only went 1 - 3999 */
+static struct {  /* roman numerals classically only went 1 - 3999 */
    char        r_chars     [LEN_SHORT];
    char        r_wide;
    int         r_value;
-} S_roman [LEN_DESC] = {
+} const S_roman [LEN_DESC] = {
    { "MMM"   , 3 ,  3000 },
    { "MM"    , 2 ,  2000 },
    { "M"     , 1 ,  1000 },
@@ -267,6 +270,124 @@ struct {  /* roman numerals classically only went 1 - 3999 */
    { "I"     , 1 ,     1 },
    { "end-of", 0 ,     0 },
 };
+
+
+/*
+ *  my symbols are almost exactly the international standard, but
+ *  all greater/positive scales are upper-case, adn all 
+ *  lesser/negative scales are lower-case.
+ */
+
+static struct {
+   char        u_char;                    /* symbol of unit       */
+   char        u_pow;                     /* power                */
+   double      u_scale;                   /* multiplier           */
+   char        u_name      [LEN_TERSE];   /* prefix               */
+   char        u_sci       [LEN_SHORT];   /* scientific notation  */
+   char        u_english   [LEN_LABEL];   /* scientific notation  */
+} const S_scale [LEN_TITLE] = {
+   /*---   pow   ---scale---------------------   --name--   -sci-   ----english---- */
+   { '-' ,   0 ,  1.0                          , "def"   , "----" , ""              },
+   /*---   pow   ---scale---------------------   --name--   -sci-   ----english---- */
+   { 'Y' , +24 ,  1000000000000000000000000.0  , "yotta" , "Ë+24" , "septillion"    },
+   { 'Z' , +21 ,  1000000000000000000000.0     , "zetta" , "Ë+21" , "sextillion"    },
+   { 'E' , +18 ,  1000000000000000000.0        , "exa"   , "Ë+18" , "quintillion"   },
+   { 'P' , +15 ,  1000000000000000.0           , "peta"  , "Ë+15" , "quadrillion"   },
+   { 'T' , +12 ,  1000000000000.0              , "tera"  , "Ë+12" , "trillion"      },
+   { 'G' ,  +9 ,  1000000000.0                 , "giga"  , "Ë+09" , "billion"       },
+   { 'M' ,  +6 ,  1000000.0                    , "mega"  , "Ë+06" , "million"       },
+   { 'K' ,  +3 ,  1000.0                       , "kilo"  , "Ë+03" , "thousand"      },
+   { 'H' ,  +2 ,  100.0                        , "hecto" , "Ë+02" , "hundred"       },
+   { 'D' ,  +1 ,  10.0                         , "deca"  , "Ë+01" , "ten"           },
+   /*---   pow   ---scale---------------------   --name--   -sci-   ----english---- */
+   { '.' ,   0 ,  1.0                          , ""      , "----" , ""              },
+   /*---   pow   ---scale---------------------   --name--   -sci-   ----english---- */
+   { 'd' ,  -1 ,  0.1                          , "deci"  , "Ë-01" , "tenth"         },
+   { 'c' ,  -2 ,  0.01                         , "centa" , "Ë-02" , "hundredth"     },
+   { 'm' ,  -3 ,  0.001                        , "milli" , "Ë-03" , "thousandth"    },
+   { 'u' ,  -6 ,  0.000001                     , "micro" , "Ë-06" , "millionth"     },
+   { 'n' ,  -9 ,  0.000000001                  , "nano"  , "Ë-09" , "billionth"     },
+   { 'p' , -12 ,  0.000000000001               , "pico"  , "Ë-12" , "trillionth"    },
+   { 'f' , -15 ,  0.000000000000001            , "femto" , "Ë-15" , "quadrillionth" },
+   { 'a' , -18 ,  0.000000000000000001         , "atto"  , "Ë-18" , "quintillionth" },
+   { 'z' , -21 ,  0.000000000000000000001      , "zepto" , "Ë-21" , "sextillionth"  },
+   { 'y' , -24 ,  0.000000000000000000000001   , "yocto" , "Ë-24" , "septillionth"  },
+   /*---   pow   ---scale---------------------   --name--   -sci-   ----english---- */
+   {  0  ,   0 ,  0.0                          , ""      , ""     , ""              },
+   /*---   pow   ---scale---------------------   --name--   -sci-   ----english---- */
+};
+
+
+
+/*====================------------------------------------====================*/
+/*===----                 support for units                            ----===*/
+/*====================------------------------------------====================*/
+static void      o___UNITS___________________o (void) {;}
+
+char
+ystr_units              (char a_dir, char a_unit, double *b_value, char *r_pow, double *r_scale, char r_name [LEN_TERSE], char r_sci [LEN_SHORT], char r_english [LEN_LABEL])
+{
+   /*---(locals)-----------+-----------+-*/
+   int         i           =    0;
+   char       *x_valid     = "-YZEPTGMKHD.dcmunpfazy";
+   /*---(default)------------------------*/
+   if (r_pow     != NULL)  *r_pow    = 0;
+   if (r_scale   != NULL)  *r_scale  = 0.0;
+   if (r_name    != NULL)  strcpy (r_name   , "");
+   if (r_sci     != NULL)  strcpy (r_sci    , "");
+   if (r_english != NULL)  strcpy (r_english, "");
+   /*---(units up)-----------------------*/
+   for (i = 0; i < LEN_TITLE; ++i) {
+      /*---(filter)----------------------*/
+      if (S_scale [i].u_char == 0)       break;
+      if (S_scale [i].u_char != a_unit)  continue;
+      /*---(handle)----------------------*/
+      if (b_value   != NULL) {
+         if (a_dir == '>')  *b_value /= S_scale [i].u_scale;
+         if (a_dir == '<')  *b_value *= S_scale [i].u_scale;
+      }
+      /*---(return data)-----------------*/
+      if (r_pow     != NULL)  *r_pow    = S_scale [i].u_pow;
+      if (r_scale   != NULL)  *r_scale  = S_scale [i].u_scale;
+      if (r_name    != NULL)  ystrlcpy (r_name   , S_scale [i].u_name   , LEN_TERSE);
+      if (r_sci     != NULL)  ystrlcpy (r_sci    , S_scale [i].u_sci    , LEN_SHORT);
+      if (r_english != NULL)  ystrlcpy (r_english, S_scale [i].u_english, LEN_LABEL);
+      return 0;
+      /*---(done)------------------------*/
+   }
+   /*> switch (a_unit) {                                                                    <* 
+    *> case 'Y' :  x_scale = 1000000000000000000000000.0;      break;  /+ yotta  Ë+24  +/   <* 
+    *> case 'Z' :  x_scale = 1000000000000000000000.0;         break;  /+ zetta  Ë+21  +/   <* 
+    *> case 'E' :  x_scale = 1000000000000000000.0;            break;  /+ exa    Ë+18  +/   <* 
+    *> case 'P' :  x_scale = 1000000000000000.0;               break;  /+ peta   Ë+15  +/   <* 
+    *> case 'T' :  x_scale = 1000000000000.0;                  break;  /+ tera   Ë+12  +/   <* 
+    *> case 'G' :  x_scale = 1000000000.0;                     break;  /+ giga   Ë+09  +/   <* 
+    *> case 'M' :  x_scale = 1000000.0;                        break;  /+ mega   Ë+06  +/   <* 
+    *> case 'K' :  x_scale = 1000.0;                           break;  /+ kilo   Ë+03  +/   <* 
+    *> case 'H' :  x_scale = 100.0;                            break;  /+ hecto  Ë+02  +/   <* 
+    *> case 'D' :  x_scale = 10.0;                             break;  /+ deca   Ë+01  +/   <* 
+    *> case '-' :  x_scale = 1.0;                              break;                       <* 
+    *> case '.' :  x_scale = 1.0;                              break;                       <* 
+    *> case 'd' :  x_scale = 0.1;                              break;  /+ deci   Ë-01  +/   <* 
+    *> case 'c' :  x_scale = 0.01;                             break;  /+ centa  Ë-02  +/   <* 
+    *> case 'm' :  x_scale = 0.001;                            break;  /+ milli  Ë-03  +/   <* 
+    *> case 'u' :  x_scale = 0.000001;                         break;  /+ micro  Ë-06  +/   <* 
+    *> case 'n' :  x_scale = 0.000000001;                      break;  /+ nano   Ë-09  +/   <* 
+    *> case 'p' :  x_scale = 0.000000000001;                   break;  /+ pico   Ë-12  +/   <* 
+    *> case 'f' :  x_scale = 0.000000000000001;                break;  /+ femto  Ë-15  +/   <* 
+    *> case 'a' :  x_scale = 0.000000000000000001;             break;  /+ atto   Ë-18  +/   <* 
+    *> case 'z' :  x_scale = 0.000000000000000000001;          break;  /+ zepto  Ë-21  +/   <* 
+    *> case 'y' :  x_scale = 0.000000000000000000000001;       break;  /+ yocto  Ë-24  +/   <* 
+    *> default  :  return -2;                                  break;                       <* 
+    *> }                                                                                    <*/
+   /*> *b_value /= x_scale;                                                           <*/
+   /*---(complete)-----------------------*/
+   return -1;
+}
+
+char ystrunits  (char a_unit, char *r_pow, double *r_scale, char r_name [LEN_TERSE], char r_sci [LEN_SHORT], char r_english [LEN_LABEL]) { return ystr_units ('.', a_unit, NULL, r_pow, r_scale, r_name, r_sci, r_english); }
+char ystr2unit  (char a_unit, double *b_value)   { return ystr_units ('>', a_unit, b_value, NULL, NULL, NULL, NULL, NULL); }
+char ystr4unit  (char a_unit, double *b_value)   { return ystr_units ('<', a_unit, b_value, NULL, NULL, NULL, NULL, NULL); }
 
 
 
@@ -1570,7 +1691,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    DEBUG_YSTR   yLOG_schar   (x_source);
    /*---(check type)---------------------*/
    DEBUG_YSTR   yLOG_schar   (a_type);
-   --rce; if (a_type == NULL || strchr ("boix,ezrt", a_type) == NULL) {
+   --rce; if (a_type == NULL || a_type == '·' || strchr ("boixz·rt·fe", a_type) == NULL) {
       DEBUG_YSTR   yLOG_snote   ("illegal type");
       ystrlcpy (r_out, "#p/typ", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -1579,7 +1700,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    /*---(check double ranges)------------*/
    --rce; if (x_source == 'd') {
       /*---(minimum)---------------------*/
-      if (strchr ("boixzrt", a_type) != NULL && a_double < 0) {
+      if (strchr ("boixz·rt", a_type) != NULL && a_double < 0) {
          DEBUG_YSTR   yLOG_snote   ("a_double can not be negative");
          ystrlcpy (r_out, "#p/neg", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -1611,7 +1732,14 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    }
    /*---(check format)-------------------*/
    DEBUG_YSTR   yLOG_schar   (a_fmt);
+   --rce;  if (a_fmt == NULL || a_fmt == '·' || a_fmt == ' ') {
+      DEBUG_YSTR   yLOG_snote   ("illegal format");
+      ystrlcpy (r_out, "#p/fmt", a_max);
+      DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+      return rce;
+   }
    --rce;  if (a_type == 'r') {
+      DEBUG_YSTR   yLOG_snote   ("roman");
       if (a_fmt  == NULL || strchr ("rR"       , a_fmt ) == NULL) {
          DEBUG_YSTR   yLOG_snote   ("illegal format");
          ystrlcpy (r_out, "#p/fmt", a_max);
@@ -1620,7 +1748,8 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
       }
    }
    --rce;  if (a_type == 't') {
-      if (a_fmt  == NULL || strchr ("tTdD"     , a_fmt ) == NULL) {
+      DEBUG_YSTR   yLOG_snote   ("time");
+      if (a_fmt  == NULL || strchr ("tT·dD"    , a_fmt ) == NULL) {
          DEBUG_YSTR   yLOG_snote   ("illegal format");
          ystrlcpy (r_out, "#p/fmt", a_max);
          DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -1628,6 +1757,7 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
       }
    }
    --rce;  if (strchr ("boixz", a_type) != NULL) {
+      DEBUG_YSTR   yLOG_snote   ("bases");
       if (a_fmt  == NULL || strchr ("-dsfcg:t#", a_fmt ) == NULL) {
          DEBUG_YSTR   yLOG_snote   ("illegal format");
          ystrlcpy (r_out, "#p/fmt", a_max);
@@ -1635,8 +1765,17 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
          return rce;
       }
    }
+   --rce;  if (strchr ("fe"   , a_type) != NULL) {
+      DEBUG_YSTR   yLOG_snote   ("reals");
+      if (strchr ("?·if·IF,·aA$·sS·cC#·pP·eE"   , a_type) == NULL) {
+         DEBUG_YSTR   yLOG_snote   ("illegal format");
+         ystrlcpy (r_out, "#p/fmt", a_max);
+         DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
+         return rce;
+      }
+   }
    /*---(assign prefix)------------------*/
-   if (r_prefix != NULL && strchr (TYPE_BASES, a_type) != NULL) {
+   if (r_prefix != NULL && strchr ("boxz", a_type) != NULL) {
       switch (a_fmt) {
       case '-' : case 'd' :                            break;
       case 's' :  sprintf (r_prefix, "0%c", a_type);   break;
@@ -1652,44 +1791,6 @@ ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_do
    if (r_source != NULL)   *r_source = x_source;
    /*---(complete)-----------------------*/
    DEBUG_YSTR   yLOG_sexit   (__FUNCTION__);
-   return 0;
-}
-
-char
-ystr4_units             (char a_unit, double *b_value)
-{
-   double      x_scale     =  0.0;
-   char       *x_valid     = "-YZEPTGMKHD.dcmunpfazy";
-   /*---(defense)------------------------*/
-   if (b_value == NULL)    return -1;
-   /*---(units up)-----------------------*/
-   switch (a_unit) {
-   case 'Y' :  x_scale = 1000000000000000000000000.0;      break;
-   case 'Z' :  x_scale = 1000000000000000000000.0;         break;
-   case 'E' :  x_scale = 1000000000000000000.0;            break;
-   case 'P' :  x_scale = 1000000000000000.0;               break;
-   case 'T' :  x_scale = 1000000000000.0;                  break;
-   case 'G' :  x_scale = 1000000000.0;                     break;
-   case 'M' :  x_scale = 1000000.0;                        break;
-   case 'K' :  x_scale = 1000.0;                           break;
-   case 'H' :  x_scale = 100.0;                            break;
-   case 'D' :  x_scale = 10.0;                             break;
-   case '-' :  x_scale = 1.0;                              break;
-   case '.' :  x_scale = 1.0;                              break;
-   case 'd' :  x_scale = 0.1;                              break;
-   case 'c' :  x_scale = 0.01;                             break;
-   case 'm' :  x_scale = 0.001;                            break;
-   case 'u' :  x_scale = 0.000001;                         break;
-   case 'n' :  x_scale = 0.000000001;                      break;
-   case 'p' :  x_scale = 0.000000000001;                   break;
-   case 'f' :  x_scale = 0.000000000000001;                break;
-   case 'a' :  x_scale = 0.000000000000000001;             break;
-   case 'z' :  x_scale = 0.000000000000000000001;          break;
-   case 'y' :  x_scale = 0.000000000000000000000001;       break;
-   default  :  return -2;                                  break;
-   }
-   *b_value /= x_scale;
-   /*---(complete)-----------------------*/
    return 0;
 }
 
@@ -2358,7 +2459,7 @@ ystr4_divide            (double a_source, char a_decs, char a_unit, char a_max, 
       return rce;
    }
    x_scaled = a_source;
-   rc = ystr4_units (a_unit, &x_scaled);
+   rc = ystr4unit (a_unit, &x_scaled);
    DEBUG_YSTR   yLOG_value   ("units"     , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_note    ("a_unit not understood");
@@ -2399,6 +2500,7 @@ ystrl4float             (ullong a_ullong, double a_double, char a_decs, char a_f
    char        rc          =    0;
    double      x_source    =  0.0;
    char        x_sign      =    0;
+   char        x_decs      =    0;
    llong       x_int       =    0;             /* integer part                   */
    llong       x_dec       =    0;             /* fractional part                */
    char        x_unit      [LEN_SHORT] = "";
@@ -2406,20 +2508,26 @@ ystrl4float             (ullong a_ullong, double a_double, char a_decs, char a_f
    char        x_right     [LEN_TITLE] = "";
    char        x_final     [LEN_TITLE] = "";
    int         i           =    0;
+   int         l           =    0;
+   char        x_sigs      =    0;
    /*---(header)-------------------------*/
    DEBUG_YSTR   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   rc = ystr4_defense  (TYPE_INT  ,  0 , a_ullong, a_double, a_fmt, a_max, NULL, NULL, r_out);
+   rc = ystr4_defense  (TYPE_FLOAT,  0 , a_ullong, a_double, a_fmt, a_max, NULL, NULL, r_out);
    DEBUG_YSTR   yLOG_value   ("defense"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
+   DEBUG_YSTR   yLOG_char    ("a_fmt"     , a_fmt);
    /*---(prepare)------------------------*/
    if (a_ullong > 0)  x_source = (double)  a_ullong;
    else               x_source = a_double;
+   if (strchr ("iI", a_fmt) != NULL)  x_decs = 0;
+   else                               x_decs = a_decs;
    /*---(divide)-------------------------*/
-   rc = ystr4_divide (x_source, a_decs, a_unit, a_max, &x_sign, &x_int, &x_dec, NULL, x_unit, r_out);
+   DEBUG_YSTR   yLOG_char    ("a_unit"    , a_unit);
+   rc = ystr4_divide (x_source, x_decs, a_unit, a_max, &x_sign, &x_int, &x_dec, NULL, x_unit, r_out);
    DEBUG_YSTR   yLOG_value   ("divide"    , rc);
    --rce;  if (rc < 0) {
       DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
@@ -2438,21 +2546,38 @@ ystrl4float             (ullong a_ullong, double a_double, char a_decs, char a_f
    DEBUG_YSTR   yLOG_info    ("pre-sign"  , x_final);
    /*---(create left/integer)------------*/
    sprintf (x_left , "%lld", x_int);
+   x_sigs += strlen (x_left);
+   DEBUG_YSTR   yLOG_value   ("x_sigs"    , x_sigs);
    if  (strchr ("if", a_fmt) == NULL)  ystr4_space_ints (3, ',' , x_left);
    ystrlcat (x_final, x_left, LEN_TITLE);
    DEBUG_YSTR   yLOG_info    ("left"      , x_final);
    /*---(add decimal)--------------------*/
-   if (strchr ("iI" , a_fmt) == NULL) {
-      if (strchr ("cC#", a_fmt) != NULL)  ystrlcat (x_final, "", LEN_TITLE);
+   if (strchr ("iI" , a_fmt) == NULL && a_decs > 0) {
+      if (strchr ("cC" , a_fmt) != NULL)  ystrlcat (x_final, "", LEN_TITLE);
       else                                ystrlcat (x_final, ".", LEN_TITLE);
       DEBUG_YSTR   yLOG_info    ("decimal"   , x_final);
    }
    /*---(create right/decimals)----------*/
-   if (strchr ("iI" , a_fmt) == NULL) {
+   DEBUG_YSTR   yLOG_value   ("a_decs"    , a_decs);
+   if (strchr ("iI" , a_fmt) == NULL && a_decs > 0) {
       sprintf (x_right, "%lld", x_dec);
+      x_sigs += strlen (x_right);
+      l      = strlen (x_right);
+      for (i = l - 1; i > 0; --i) {
+         if (strchr (YSTR_NUMBER, x_right [i]) != NULL)  break;
+         --x_sigs;
+      }
       if  (strchr ("if", a_fmt) == NULL)  ystr4_space_decs (3, '\'', x_right);
       ystrlcat (x_final, x_right, LEN_TITLE);
       DEBUG_YSTR   yLOG_info    ("right"     , x_final);
+   }
+   /*---(check on sigs)------------------*/
+   DEBUG_YSTR   yLOG_value   ("x_sigs"    , x_sigs);
+   --rce;  if (x_sigs > 15) {
+      DEBUG_YSTR   yLOG_note    ("double overflow");
+      if (r_out != NULL)  ystrlcpy (r_out, "#p/ovr", a_max);
+      DEBUG_YSTR   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
    }
    /*---(units)--------------------------*/
    ystrlcat (x_final, x_unit, LEN_TITLE);
@@ -2462,14 +2587,16 @@ ystrl4float             (ullong a_ullong, double a_double, char a_decs, char a_f
       if      (strchr ("aA$", a_fmt) != NULL)  ystrlcat (x_final, ")" , LEN_TITLE);
       else if (strchr ("cC#", a_fmt) != NULL)  ystrlcat (x_final, "·-", LEN_TITLE);
    } else {
-      if      (strchr ("cC#", a_fmt) != NULL)  ystrlcat (x_final, "·+", LEN_TITLE);
+      if      (strchr ("aA$", a_fmt) != NULL)  ystrlcat (x_final, "·" , LEN_TITLE);
+      else if (strchr ("cC#", a_fmt) != NULL)  ystrlcat (x_final, "·+", LEN_TITLE);
    }
    if      (a_fmt == 'p') ystrlcat (x_final, ")", LEN_TITLE);
    else if (a_fmt == 'P') ystrlcat (x_final, "´", LEN_TITLE);
    DEBUG_YSTR   yLOG_info    ("post-sign" , x_final);
    /*---(integer suffix padding)---------*/
    if (strchr ("iI" , a_fmt) != NULL) {
-      for (i = 0; i <= a_decs; ++i)    ystrlcat (x_final, "·", LEN_TITLE);
+      for (i = 0; i <  a_decs; ++i)    ystrlcat (x_final, "·", LEN_TITLE);
+      if (                a_decs > 0)  ystrlcat (x_final, "·", LEN_TITLE); /* for decimal point */
       if (a_fmt == 'I' && a_decs > 3)  ystrlcat (x_final, "·", LEN_TITLE);
       if (a_fmt == 'I' && a_decs > 6)  ystrlcat (x_final, "·", LEN_TITLE);
       DEBUG_YSTR   yLOG_info    ("padded"    , x_final);
@@ -2523,7 +2650,7 @@ ystrl4comma         (ullong a_ullong, double a_double, char a_decs, char a_fmt, 
    if (a_fmt == 'i')   a_decs  =  0;
    /*---(scale)--------------------------*/
    x_scaled = a_double;
-   rc = ystr4_units (a_unit, &x_scaled);
+   rc = ystr4unit (a_unit, &x_scaled);
    --rce;  if (rc < 0) {
       ystrlcpy (r_out, "#p/uni", a_max);
       DEBUG_YSTR   yLOG_sexitr  (__FUNCTION__, rce);
@@ -2880,6 +3007,36 @@ ystrl4quick             (double a_double, char a_ali, char a_fmt, char a_cnt, ch
 /*===----                       bit related                            ----===*/
 /*====================------------------------------------====================*/
 static void      o___SPECIALIZED_____________o (void) {;}
+
+char
+ystrlsigs               (char a_charset [LEN_HUND], char a_dels [LEN_TERSE], char a_sigs, char a_mask, char a_max, char b_out [LEN_HUND])
+{
+   char        rce         =  -10;
+   int         l           =    0;
+   int         i           =    0;
+   char        x_sigs      =    0;
+   /*---(desfense)-----------------------*/
+   --rce;  if (a_charset == NULL)  return rce;
+   --rce;  if (a_dels    == NULL)  return rce;
+   --rce;  if ((uchar) a_mask    <  32)    return rce;
+   --rce;  if ((uchar) a_mask    == 127)   return rce;
+   --rce;  if (b_out     == NULL)  return rce;
+   /*---(range limits)-------------------*/
+   if      (a_sigs <  0)  a_sigs = 100;
+   /*---(prepare)------------------------*/
+   l = strlen (b_out);
+   /*> if (l > a_max)  l = a_max;                                                     <*/
+   /*---(walk string)--------------------*/
+   for (i = 0; i < l; ++i) {
+      if (strchr (a_charset, b_out [i]) != NULL) {
+         if (i < a_max && x_sigs >= a_sigs)  b_out [i] = a_mask;
+         ++x_sigs;
+      }
+      if (i < a_max && x_sigs >= a_sigs && strchr (a_dels, b_out [i]) != NULL)  b_out [i] = a_mask;
+   }
+   /*---(complete)-----------------------*/
+   return x_sigs;
+}
 
 char
 ystrlbit2bin            (char *a_bits, char a_blen, char a_fmt, char a_max, char r_out [LEN_TITLE])

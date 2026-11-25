@@ -240,6 +240,12 @@ char        ystrlparse              (char *a_src, char *a_disp, char *a_final, c
 
 
 /*===[[ ySTR_nums.c ]]========================================================*/
+/*········´ ´···············units·´ ´·········································*/
+char        ystrunits               (char a_unit, char *r_pow, double *r_scale, char r_name [LEN_TERSE], char r_sci [LEN_SHORT], char r_english [LEN_LABEL]);
+char        ystr2unit               (char a_unit, double *b_value);
+char        ystr4unit               (char a_unit, double *b_value);
+/*········´ ´················sigs·´ ´·········································*/
+char        ystrlsigs               (char a_charset [LEN_HUND], char a_dels [LEN_TERSE], char a_sigs, char a_mask, char a_max, char b_out [LEN_HUND]);
 /*········´ ´··············2bases·´ ´·········································*/
 char        ystr2base               (char a_src [LEN_HUND] , char a_charset [LEN_HUND], ullong *r_ullong);
 char        ystr2bin                (char a_src [LEN_HUND] , ullong *r_ullong, double *r_double);

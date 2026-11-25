@@ -83,8 +83,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "2.--, simplified production"
 #define     P_VERMINOR  "2.1-, cleaning up campaign"
-#define     P_VERNUM    "2.1o"
-#define     P_VERTXT    "ySTR_format, ystr4_divide built and unit-tested, ystrl4float built"
+#define     P_VERNUM    "2.1p"
+#define     P_VERTXT    "ySTR_format, created ystrunits (yotta to yocto) and ystrlsigs masking non-significant digits"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -171,6 +171,13 @@ int         ystrld_chk              (char a_type, char *b_source, char *a_allowe
 
 
 /*===[[ ySTR_format.c ]]======================================================*/
+/*········´ ´···············units·´ ´·········································*/
+char        ystr_units              (char a_dir, char a_unit, double *b_value, char *r_pow, double *r_scale, char r_name [LEN_TERSE], char r_sci [LEN_SHORT], char r_english [LEN_LABEL]);
+char        ystrunits               (char a_unit, char *r_pow, double *r_scale, char r_name [LEN_TERSE], char r_sci [LEN_SHORT], char r_english [LEN_LABEL]);
+char        ystr2unit               (char a_unit, double *b_value);
+char        ystr4unit               (char a_unit, double *b_value);
+/*········´ ´················sigs·´ ´·········································*/
+char        ystrlsigs               (char a_charset [LEN_HUND], char a_dels [LEN_TERSE], char a_sigs, char a_mask, char a_max, char b_out [LEN_HUND]);
 /*········´ ´············2support·´ ´·········································*/
 char        ystr2_defense           (char a_src [LEN_HUND] , ullong *a_ullong, double *a_double, char a_under, char a_pre, char a_greek, char *r_len, char *r_beg);
 char        ystr2_sign              (char b_src [LEN_TITLE], char *r_sign);
@@ -196,7 +203,6 @@ char        ystr2main               (char a_src [LEN_HUND] , char *r_type, ullon
 char        ystr2num                (char a_src [LEN_HUND] , double *r_double);
 /*········´ ´············4support·´ ´·········································*/
 char        ystr4_defense           (char a_type, char a_greek, ullong a_ullong, double a_double, char a_fmt, char a_max, char *r_source, char r_prefix [LEN_SHORT], char r_out [LEN_TITLE]);
-char        ystr4_units             (char a_unit, double *b_value);
 char        ystr4_space_open        (char a_pos, char a_insert [LEN_SHORT], char b_out [LEN_HUND], char *b_len);
 char        ystr4_space_ints        (char a_every, char a_char, char b_out [LEN_HUND]);
 char        ystr4_space_decs        (char a_every, char a_char, char b_out [LEN_HUND]);
